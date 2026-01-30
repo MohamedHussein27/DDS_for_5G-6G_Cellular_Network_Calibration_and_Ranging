@@ -1,0 +1,3097 @@
+\documentclass[12pt,a4paper]{report}
+
+% ================== Packages ==================
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{framed}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{titlesec}
+\usepackage{xcolor}
+
+% Custom section formatting
+\titleformat{\chapter}[display]{\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titleformat{\section}{\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{0.5em}{}
+\titleformat{\subsubsection}{\bfseries}{\thesubsubsection}{0.5em}{}
+
+% === ADD THIS LINE TO REMOVE WHITE SPACE ===
+% {left spacing}{vertical space before title}{vertical space after title}
+% The -50pt pulls the title up. Adjust this number if you need it higher or lower.
+\titlespacing*{\chapter}{10pt}{0pt}{20pt} 
+
+\onehalfspacing
+\setlength{\parskip}{0.5em}
+
+% ================== Header ==================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{DDS for 5G/6G Cellular Network Calibration and Ranging}
+\fancyhead[R]{\thepage}
+
+% ================== Document ==================
+\begin{document}
+% ... rest of your document
+
+% ================== Header ==================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{DDS for 5G/6G Cellular Network Calibration and Ranging}
+\fancyhead[R]{\thepage}
+
+% ================== Document ==================
+\begin{document}
+
+% ================== Title Page ==================
+\begin{titlepage}
+    \centering
+    
+    % --- Header: Logos and University Info ---
+    % Left Logo
+    \begin{minipage}[c]{0.3\textwidth}
+        \includegraphics[width=\linewidth]{fac fig.png}
+    \end{minipage}
+    \hfill
+    % Right Logo
+    \begin{minipage}[c]{0.5\textwidth}
+        \includegraphics[width=\linewidth]{Adi logo.png}
+    \end{minipage}
+    
+    % --- Project Title ---
+    {\Huge \textbf{DDS for 5G/6G Cellular Network Calibration and Ranging}}\\[0.8cm]
+    
+    % --- Submitted By ---
+    \textbf{\Large Submitted by:}\\[0.5cm]
+    {\large
+    \textbf{Ahmed Hossam Rafik}\\
+    \textbf{Ahmed Haitham Othman}\\
+    \textbf{Mohamed Ahmed Mohamed Hussein}\\
+    \textbf{Mohamed Adel Abdelrahem}\\
+    \textbf{Abdelrhman Khaled Fouad}\\
+    \textbf{Youssef Mohamed Mamdouh}\\
+    \textbf{Moustafa Saad Dawood}
+    }
+    
+    \vspace{1.5cm}
+    
+    % --- Supervisors ---
+    \textbf{\Large Supervised by:}\\[0.3cm]
+    {\large Dr. Maged Ghoneima \hspace{2cm} Dr. Ahmed Mehana}\\[0.2cm]
+    {\large ADI Team}
+    
+    \vspace{0.8cm}
+    
+    % --- Sponsorship ---
+    \textbf{\Large Sponsorship:}\\[0.2cm]
+    {\large Analog Devices, Inc}
+    
+    \vfill
+    
+    % --- Footer Paragraph ---
+    \begin{center}
+        \small
+        A Graduation Project submitted to the Faculty of Engineering at Ain Shams University \\
+        in partial fulfillment of the requirements for the degree of B.Sc. in \\
+        Electronics and Electrical Communications Engineering
+    \end{center}
+    
+    \vspace{0.5cm}
+    
+    % --- Date/Location ---
+    {\large \textbf{\today}} % Uses current date, or replace with specific text like "June 2026"
+    
+\end{titlepage}
+
+% ================== Abstract ==================
+\chapter*{Abstract}
+This graduation project explores the design and implementation of a Direct Digital Synthesis (DDS)-based waveform generation and correlation system for 5G/6G cellular network calibration and ranging within an Integrated Sensing and Communication (ISAC) framework. The project bridges high-level ISAC concepts with practical digital hardware realization, focusing on waveform design, system architecture, and implementation strategies. Through comprehensive analysis and simulation, we demonstrate the feasibility of using programmable DDS architectures to support joint communication and sensing functionalities in next-generation wireless networks.
+
+\tableofcontents
+\newpage
+
+% =========================================================
+% CHAPTER 1: Introduction
+% =========================================================
+\chapter{Introduction}
+
+\section{Background and Motivation}
+
+Wireless cellular communication systems have undergone continuous and rapid evolution over the past decades, driven by the ever-increasing demand for higher data rates, lower latency, improved reliability, and seamless connectivity. While early generations of cellular networks were primarily designed to support voice communication, modern systems such as 4G LTE and 5G New Radio (NR) have expanded their scope to include high-speed data services, multimedia streaming, and massive device connectivity. The upcoming sixth generation (6G) of wireless networks is expected to further extend these capabilities by integrating communication with sensing, localization, and environmental awareness.
+
+One of the most significant challenges in modern and future cellular networks is the efficient utilization of available spectrum and hardware resources while meeting stringent performance requirements. To address this challenge, next-generation systems operate across a wide range of frequency bands, including sub-6 GHz, mid-band frequencies between 7--15 GHz, millimeter-wave bands from 24--43 GHz, and even frequencies beyond 60 GHz. In parallel, the number of antenna elements deployed at base stations has increased dramatically, ranging from a few elements in legacy systems to hundreds or even thousands of elements in massive multiple-input multiple-output (MIMO) configurations. These advancements enable high spectral efficiency and beamforming gains but also significantly increase system complexity.
+
+In addition to communication performance, future networks are expected to provide spatial awareness capabilities such as ranging, localization, and environmental mapping. These features are essential for emerging applications including autonomous vehicles, intelligent transportation systems, smart cities, industrial automation, and augmented or virtual reality. As a result, sensing is no longer viewed as a separate function but rather as an integral component of the wireless network itself.
+
+\section{Evolution of Wireless Networks Toward ISAC}
+
+Traditional cellular networks were designed with a clear separation between communication and sensing functionalities. Communication systems focused on delivering data reliably between users and base stations, while sensing and radar systems operated independently using dedicated hardware, spectrum, and signal processing techniques. This separation led to inefficient use of resources and increased deployment costs.
+
+Integrated Sensing and Communication (ISAC) has emerged as a promising paradigm to overcome these limitations. ISAC aims to use a unified wireless infrastructure to simultaneously support data communication and sensing tasks. By sharing spectrum, hardware components, and signal processing algorithms, ISAC improves spectral efficiency, reduces hardware redundancy, and enables new intelligent network services.
+
+In 5G and especially 6G networks, ISAC plays a critical role in enabling ultra-reliable low-latency communication (URLLC) and high-precision localization. Accurate ranging information can be used to optimize beamforming, manage handovers, enhance interference mitigation, and support context-aware network control. Consequently, ISAC is considered a key enabler for future wireless systems rather than an optional feature.
+
+\section{ISAC Waveform Design Considerations}
+
+A fundamental aspect of ISAC system design is the selection of suitable waveforms that can efficiently support both communication and sensing requirements. Communication systems typically prioritize high spectral efficiency, robustness to interference, and compatibility with existing standards, while sensing systems emphasize high range resolution, accurate time delay estimation, and good autocorrelation properties.
+
+Several waveform options have been proposed for ISAC, including orthogonal frequency-division multiplexing (OFDM)-based waveforms, linear frequency modulated (LFM) or chirp-based waveforms, and hybrid waveform designs. OFDM is widely used in 4G and 5G systems due to its robustness against multipath fading and efficient implementation. However, its sensing performance may be limited without additional processing. LFM-based waveforms, on the other hand, offer excellent ranging and resolution characteristics but may require more complex integration with communication payloads.
+
+Hybrid and jointly designed waveforms attempt to combine the advantages of both approaches by embedding sensing information within communication signals or superimposing sensing and communication waveforms in the time or frequency domain. Each option presents trade-offs in terms of performance, implementation complexity, and hardware requirements. Therefore, a flexible waveform generation mechanism is essential to explore and evaluate different ISAC signaling strategies.
+
+\section{Role of Direct Digital Synthesis (DDS)}
+
+Direct Digital Synthesis (DDS) is a digital technique used to generate precise and programmable waveforms from a reference clock source. A typical DDS architecture consists of a phase accumulator, a phase-to-amplitude converter, and a digital-to-analog converter (DAC). By digitally controlling the phase increment, DDS can generate a wide range of frequencies with fine resolution and fast switching capability.
+
+DDS offers several advantages that make it particularly suitable for ISAC applications. First, it provides excellent frequency agility and phase coherence, which are critical for calibration, synchronization, and ranging. Second, DDS-based systems are highly programmable, allowing dynamic reconfiguration of waveform parameters such as frequency, bandwidth, and modulation type. Third, DDS can be efficiently implemented in digital hardware platforms such as field-programmable gate arrays (FPGAs) and application-specific integrated circuits (ASICs).
+
+In the context of 5G and 6G networks, DDS can be used to generate calibration signals, communication payloads, and sensing waveforms using a unified digital engine. This makes DDS a powerful building block for low-physical-layer and digital front-end (DFE) architectures that support ISAC functionality.
+
+\section{Project Objectives}
+
+The primary objective of this graduation project is to design and implement a \textbf{DDS-based waveform generation and correlation system} for 5G/6G cellular network calibration and ranging within an ISAC framework. The project aims to bridge the gap between high-level ISAC concepts and practical digital hardware realization.
+
+The specific objectives of the project include:
+
+\begin{itemize}[leftmargin=*]
+\item Understanding the fundamental principles and application scenarios of integrated sensing and communication in modern and future cellular networks.
+\item Studying and comparing different ISAC waveform options in terms of sensing performance, communication efficiency, and implementation complexity.
+\item Designing a DDS-based waveform generator capable of producing wideband signals suitable for 5G/6G ISAC applications.
+\item Implementing correlation and processing blocks required for ranging and sensing functionality.
+\item Verifying system-level performance using MATLAB simulations.
+\item Implementing and validating the proposed design using Verilog and/or SystemVerilog on an FPGA platform, with consideration for ASIC prototyping.
+\end{itemize}
+
+\section{System Architecture Overview}
+
+The proposed system follows a functional architecture that integrates waveform generation, transmission, reception, and signal processing within an ISAC-enabled transceiver. At the transmitter side, the DDS engine generates programmable waveforms occupying bandwidths ranging from 100 MHz up to 1600 MHz or higher. These waveforms can be configured for communication, sensing, or joint operation.
+
+At the receiver side, the incoming signals are processed using correlation and detection algorithms to extract both communication data and sensing information such as time delay and range estimates. The use of a common DDS-based architecture ensures phase coherence and timing accuracy between transmitted and received signals, which is essential for precise ranging.
+
+The system architecture is evaluated at the algorithmic level using high-level simulation tools and then mapped to digital hardware blocks suitable for FPGA implementation. This approach allows early validation of performance while ensuring hardware feasibility.
+
+\section{Methodology and Implementation Approach}
+
+The project adopts a structured design methodology that combines theoretical analysis, system-level simulation, and hardware implementation. Initially, mathematical models and algorithms for DDS waveform generation and correlation are developed and verified using MATLAB Simulations. These simulations provide insight into key performance metrics such as bandwidth, resolution, and ranging accuracy.
+
+Following system-level verification, the design is translated into hardware description language (HDL) code using Verilog. The implementation targets FPGA platforms, enabling real-time operation and hardware validation. Special attention is given to resource utilization, timing constraints, and scalability to support future extensions.
+
+\section{Significance and Expected Contributions}
+
+This project contributes to the growing research and development efforts in integrated sensing and communication for 5G and 6G networks. By demonstrating a DDS-based ISAC waveform generation and processing system, the project highlights the feasibility of using programmable digital architectures to support joint communication and sensing functionalities.
+
+The outcomes of this work are expected to provide valuable insights into ISAC waveform design, DDS-based implementation strategies, and FPGA realization of wideband digital front-end systems. These contributions are relevant to both academic research and practical development of next-generation wireless communication systems.
+
+\section{ISAC Transceiver Functional Diagram}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{ISAC TX RX Functional diagram.png}
+    \caption{ISAC Transmitter and Receiver Functional Diagram}
+    \label{fig:isac_diagram}
+\end{figure}
+
+\subsection{TX Path Components}
+
+\begin{itemize}[leftmargin=*]
+\item \textbf{LFM/NLFM Generator (for sensing):} The provided DDS block is the core component of the LFM/NLFM generator. A control logic generates a linear ramp which is fed as the input to the phase accumulator. This ramp is the "Tuning Word" that makes the output frequency sweep over time.
+\item \textbf{Communication Signal Generator:} This block generates the payload data. It encodes and modulates this data onto the subcarriers of an OFDM symbol in the frequency domain.
+\item \textbf{IFFT:} Converts frequency domain signals to time domain.
+\item \textbf{Guard Interval (CP/ZP):} A guard interval is added to the beginning of each time-domain symbol.
+\item \textbf{DAC:} Digital-to-Analog Converter converts the digital signal to an analog signal which is then up-converted to radio frequency (RF) and transmitted through the antenna.
+\end{itemize}
+
+\subsection{RX Path Components}
+
+\begin{itemize}[leftmargin=*]
+\item \textbf{Analog-to-Digital Conversion (ADC):} Converts the received analog signal back to digital format.
+\item \textbf{Remove Guard Interval (CP Removal):} Removes the cyclic prefix or zero padding added at the transmitter.
+\item \textbf{Fast Fourier Transform (FFT):} Transforms the signal from time domain to frequency domain.
+\item \textbf{De-Mux:} Used for:
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{Signal Detection:} This block analyzes the correlator's output. For communication, it decides which bits were sent based on the demodulated signal.
+    \item \textbf{Sensing Signal (Echo):} It is sent to the Correlator. The correlator acts as a matched filter. It compares the received signal with a pristine, locally stored copy of the original transmitted chirp. The precise time delay ($\Delta t$) of the peak corresponds to the total travel time of the signal. Since the signal traveled to the target and back, the distance ($d$) to the target is calculated as: 
+    \[
+    d = \frac{c \cdot \Delta t}{2}
+    \]
+    where $c$ is the speed of light.
+\end{enumerate}
+\end{itemize}
+
+% =========================================================
+% CHAPTER 2: Wireless Channels
+% =========================================================
+\chapter{Wireless Channels}
+
+The technical challenges of wireless communications systems:
+
+\begin{itemize}
+\item Multipath propagation: the transmit signal reaches the receiver via different paths.
+\item Spectrum limitations – Frequency reuse.
+\item Energy limitations.
+\item User mobility $\Rightarrow$ Handover and the need for HLR / VLR.
+\end{itemize}
+
+Let's take a dive in the problems.
+
+\section{Multipath Propagation}
+
+Each multipath component has a distinct amplitude, delay, direction of departure, direction of arrival, and phase shift.
+
+ISI adds extra samples equal to the number of channel paths minus one, causing overlap with the next symbol. This is handled in OFDM using the cyclic prefix.
+
+\begin{figure}[H]
+\centering
+    \includegraphics[width=0.8\linewidth]{multi.png}
+    \label{fig:placeholder}
+\end{figure}
+
+\section{Fading}
+
+\textbf{Small-scale fading:} Caused by multipath interference resulting in rapid signal fluctuations.
+
+\textbf{Large-scale fading:} Caused by shadowing from large obstacles, leading to slow signal variations.
+
+\section{Doppler Effect}
+
+Occurs due to transmitter or receiver motion causing a frequency shift:
+
+\begin{equation}
+f_d = \frac{v}{\lambda}
+\end{equation}
+
+The maximum Doppler shift typically ranges from 1 Hz to 1 kHz.
+
+\section{Parameters of Mobile Multipath Channels}
+
+\begin{enumerate}
+\item RMS delay spread $S_\tau$
+\item Coherence bandwidth $B_{coh}$
+\item Doppler spread $B_D$
+\item Coherence time $T_{coh}$
+\end{enumerate}
+
+\section{Summary}
+
+\begin{itemize}
+\item Delay spread causes frequency-selective fading.
+\item Doppler spread causes time-selective fading.
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.1\textwidth]{sumary.png}
+\label{fig:figure_label}
+\end{figure}
+\end{itemize}
+
+% =========================================================
+% CHAPTER 3: OFDM
+% =========================================================
+\chapter{Orthogonal Frequency Division Multiplexing (OFDM)}
+
+\section{Motivation for OFDM}
+
+Modern wireless systems require very high data rates, which necessitate the use of wide transmission bandwidths.  
+As bandwidth increases, the symbol duration becomes very small compared to the channel delay spread:
+
+\[
+T_{sym} \ll T_{delay}
+\]
+
+This causes severe Inter-Symbol Interference (ISI), especially in multipath channels.
+
+To overcome this problem, OFDM divides the high-rate data stream into multiple low-rate parallel streams, each transmitted over a narrowband subcarrier.
+
+\section{Basic Principle of OFDM}
+
+OFDM is a multi-carrier modulation technique where the available bandwidth is divided into $N$ closely spaced orthogonal subcarriers.
+
+\[
+BW_{sub} = \frac{B}{N}
+\]
+
+As a result, the symbol duration of each subcarrier becomes:
+
+\[
+T_{sym} \gg T_{delay}
+\]
+
+This significantly reduces ISI and simplifies equalization.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\linewidth]{sub.png}
+\caption{Division of bandwidth into orthogonal subcarriers}
+\end{figure}
+
+\section{Orthogonality of Subcarriers}
+
+The key feature of OFDM is the orthogonality between subcarriers.  
+Even though subcarriers overlap in frequency, they do not interfere with each other.
+
+Mathematically, orthogonality is achieved when:
+
+\[
+\int_{0}^{T} e^{j2\pi f_k t} e^{-j2\pi f_m t} dt = 0 \quad \text{for } k \neq m
+\]
+
+This allows efficient spectrum utilization without inter-carrier interference (ICI).
+
+\section{Transmission in Multi-Carrier Modulation (MCM)}
+
+\begin{itemize}
+\item The serial data stream is converted into parallel streams.
+\item Each stream modulates a different subcarrier.
+\item Subcarrier spacing is chosen as $\Delta f = \frac{1}{T}$.
+\item The $k$th subcarrier is centered at frequency $k\Delta f$.
+\item $X_k$ represents the complex data symbol modulating the $k$th subcarrier.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\linewidth]{msm.png}
+\end{figure}
+\end{itemize}
+
+\section{IFFT and FFT Implementation}
+
+Instead of using multiple oscillators and modulators, OFDM uses IFFT and FFT blocks.
+
+The discrete-time OFDM signal is given by:
+
+\begin{equation}
+x[n] = \frac{1}{N} \sum_{k=0}^{N-1} X_k e^{j2\pi kn/N}
+\end{equation}
+
+\begin{itemize}
+\item IFFT converts frequency-domain symbols into time-domain signal.
+\item FFT at the receiver recovers the transmitted symbols.
+\item This reduces system complexity and ensures orthogonality.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+ \includegraphics[width=1\linewidth]{fft.png}
+\caption{FFT/IFFT processing in OFDM}
+\end{figure}
+
+\section{Cyclic Prefix (CP)}
+
+Multipath propagation causes delayed replicas of the transmitted signal, leading to ISI.
+
+To eliminate ISI, a cyclic prefix is added by copying the last part of the OFDM symbol and appending it to the beginning.
+
+\begin{itemize}
+\item CP length is chosen longer than the maximum channel delay spread.
+\item Converts linear convolution into circular convolution.
+\item Preserves subcarrier orthogonality.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+ \includegraphics[width=0.8\linewidth]{cp.png}
+\caption{Cyclic prefix insertion}
+\end{figure}
+
+\subsection{Cyclic Prefix Overhead}
+
+Although CP improves performance, it introduces overhead:
+
+\begin{itemize}
+\item Reduces spectral efficiency.
+\item Longer CP provides better ISI protection but wastes bandwidth.
+\end{itemize}
+
+\section{Symbol and Slot Durations}
+
+In OFDM-based systems, the symbol duration is inversely proportional to the subcarrier spacing (SCS).  
+Increasing the SCS reduces the symbol duration, which improves robustness against phase noise and Doppler effects, especially in high-frequency bands such as FR2.
+
+The useful OFDM symbol duration is given by:
+\[
+T_u = \frac{1}{\Delta f}
+\]
+
+where $\Delta f$ is the subcarrier spacing.
+
+The total OFDM symbol duration includes the cyclic prefix:
+\[
+T_{sym} = T_u + T_{CP}
+\]
+
+In 5G NR, different numerologies are defined by scaling the subcarrier spacing as:
+\[
+\Delta f = 15 \times 2^{\mu} \ \text{kHz}
+\]
+
+where $\mu$ is the numerology index.
+
+\begin{itemize}
+\item Larger SCS $\Rightarrow$ shorter symbol duration.
+\item Smaller SCS $\Rightarrow$ longer symbol duration and better frequency resolution.
+\end{itemize}
+
+A slot consists of multiple OFDM symbols:
+\begin{itemize}
+\item 14 OFDM symbols for normal cyclic prefix.
+\item 12 OFDM symbols for extended cyclic prefix.
+\end{itemize}
+
+The slot duration decreases as the subcarrier spacing increases, allowing flexible latency configurations in 5G systems.
+
+\begin{table}[H]
+    \centering
+    \caption{Comparison between Symbol Duration and Slot Duration}
+    \label{tab:symbol_slot_comparison}
+    \begin{tabular}{|>{\bfseries}l|p{0.35\textwidth}|p{0.35\textwidth}|}
+        \hline
+        \textbf{Feature} & \textbf{Symbol Duration} & \textbf{Slot Duration} \\
+        \hline
+        Definition & The time it takes to transmit a single unit of data (a single point in a modulation constellation like QPSK or 256QAM). & A scheduling unit in the time domain that contains a fixed number of symbols. \\
+        \hline
+        What it Carries & The actual data bits (after modulation). & Multiple symbols, which together can carry user data, control information, and reference signals. \\
+        \hline
+        Duration \& Flexibility & Fixed by SCS. It is directly inverse to the Subcarrier Spacing. Formula: \(1 / \text{SCS}\) & Fixed by SCS. It is derived from the symbol duration. Formula: Number of Symbols per Slot \(\times\) (Symbol Duration + CP Duration) \\
+        \hline
+        Primary Purpose & To carry the modulated data across the channel. & To be the fundamental unit for resource scheduling and assignment from the base station to users. \\
+        \hline
+        Dependency & Depends only on the Subcarrier Spacing (SCS). & Depends on the SCS and the Cyclic Prefix (CP) type (which determines the number of symbols per slot). \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\section{Pilot Tones and Preambles}
+
+Pilot tones and preambles are essential components in OFDM systems for synchronization, channel estimation, and equalization.
+
+\subsection{Pilot Tones}
+
+Pilot tones are known reference symbols inserted at predefined time and frequency locations within the OFDM time--frequency grid.
+
+Their main purposes include:
+\begin{itemize}
+\item Channel estimation.
+\item Tracking time-varying channels.
+\item Frequency and phase offset correction.
+\end{itemize}
+
+In 5G NR, pilot tones are commonly implemented as:
+\begin{itemize}
+\item Demodulation Reference Signals (DMRS).
+\item Phase Tracking Reference Signals (PTRS).
+\item Sounding Reference Signals (SRS) for uplink measurements.
+\end{itemize}
+
+Pilots enable per-subcarrier channel estimation, which allows simple one-tap equalization in the frequency domain.
+
+\begin{figure}[H]
+\centering
+ \includegraphics[width=0.8\linewidth]{pilot.png}
+\caption{Pilot Tones insertion}
+\end{figure}
+
+\subsection{Preambles}
+
+Preambles are special OFDM symbols transmitted at the beginning of a frame or burst.
+
+They are used for:
+\begin{itemize}
+\item Time synchronization.
+\item Frequency synchronization.
+\item Initial channel estimation.
+\end{itemize}
+
+In 5G systems, preambles are particularly important in the Random Access Channel (RACH), where the user equipment transmits a predefined sequence to establish initial access with the base station.
+
+Preambles are designed to have good autocorrelation properties to enable accurate detection even under low SNR conditions.
+
+\begin{table}[h]
+    \centering
+    \caption{Comparison between Pilot Tones and Preambles}
+    \label{tab:pilot_preamble_comparison}
+    \begin{tabular}{|>{\bfseries}l|p{0.35\textwidth}|p{0.35\textwidth}|}
+        \hline
+        \textbf{Feature} & \textbf{Pilot Tones} & \textbf{Preamble} \\
+        \hline
+        Position & Scattered throughout data frame & At the start of frame or packet \\
+        \hline
+        Purpose & Channel estimation, phase correction & Synchronization (time, frequency, cell ID) \\
+        \hline
+        Frequency of use & Continuous (per symbol or few symbols) & Only once per burst/frame \\
+        \hline
+        Example (LTE) & DMRS, CSI-RS & PSS, SSS \\
+        \hline
+        In OFDM & Inserted among subcarriers & Used before first OFDM symbol \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\section{Receiver Operation}
+
+At the receiver:
+
+\begin{itemize}
+\item Cyclic prefix is removed.
+\item FFT is applied to convert signal back to frequency domain.
+\item Channel equalization is performed per subcarrier.
+\item Data symbols are demodulated to recover the bit stream.
+\end{itemize}
+
+\section{Advantages of OFDM}
+
+\begin{itemize}
+\item Robust against multipath fading.
+\item Efficient spectrum utilization.
+\item Simple equalization.
+\item Suitable for high data rate systems.
+\end{itemize}
+
+\section{Disadvantages of OFDM}
+
+\begin{itemize}
+\item High Peak-to-Average Power Ratio (PAPR).
+\item Sensitive to frequency offset and phase noise.
+\item CP overhead reduces efficiency.
+\end{itemize}
+
+% =========================================================
+% CHAPTER 4: Reference Parameters
+% =========================================================
+\chapter{Reference Parameters}
+
+\subsection*{ Radiated transmitter characteristics}
+
+BS type 2-O: NR base station operating at FR2 with a requirement set consisting only of OTA requirements defined at the RIB.
+
+\noindent Tested and specified using \textbf{Over-the-Air (OTA)} methods instead of direct conducted measurements.
+
+\vspace{0.2cm}
+
+\noindent \textbf{RIB = Radiated Interface Boundary}. It's a \textbf{virtual boundary} around the antenna system where OTA performance is evaluated.
+
+\subsubsection*{Radiated transmit power:}
+Radiated power is described by its EIRP (in dBm or dBW) measured in the direction where that beam is strongest — the beam peak direction.
+
+\vspace{0.2cm}
+\noindent For \textbf{each declared beam} and \textbf{each tested direction (beam peak direction)} within the OTA peak direction set:
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.5} % Increases row height for readability
+    \begin{tabular}{@{}l l p{8cm}@{}} % p{8cm} wraps long text in the 3rd column
+        \toprule
+        \textbf{Test condition} & \textbf{Accuracy tolerance} & \textbf{What it means} \\ \midrule
+        Normal & $\pm$ 3.4 dB & The measured EIRP must be within 3.4 dB of the manufacturer's claimed EIRP \\ 
+        Extreme & $\pm$ 4.5 dB & Under harsh environmental limits, the measured EIRP can deviate up to 4.5 dB \\ \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsubsection*{OTA base station output power:}
+\textbf{TRP = Total Radiated Power} — it's the \textbf{sum of power radiated in all directions} by the base station's antennas. Mathematically, it's the \textbf{integral of radiated power over the whole sphere} around the antenna.
+\subsection*{OTA occupied bandwidth:}
+
+\noindent
+\begin{minipage}{0.6\textwidth}
+    The OTA occupied bandwidth is the width of a frequency band such that, below the lower and above the upper frequency limits, the mean powers emitted are each equal to a specified percentage $\beta/2$ (0.5 \%) of the total mean transmitted power.
+
+    \vspace{0.2cm}
+    So, 1\% only of the total mean transmitted power lies outside the specified bandwidth.
+
+    \begin{itemize}
+        \item Test applies per carrier (per signal), not across multiple aggregated carriers or MIMO layers.
+    \end{itemize}
+\end{minipage}%
+\hfill
+\begin{minipage}{0.35\textwidth}
+    \centering
+    % Replace 'ota_bandwidth.png' with your actual image filename
+    \includegraphics[width=\linewidth]{ota.png}
+    \captionof{figure}{OTA Occupied Bandwidth}
+\end{minipage}
+
+\vspace{0.5cm}
+
+\subsection*{OTA Adjacent Channel Leakage Power Ratio (ACLR):}
+
+It is the ratio of the filtered mean power (Power after applying a measurement filter (like: BPF) that isolates one channel) centered on the assigned channel frequency to the filtered mean power centered on an adjacent channel frequency.
+
+\noindent The measured power is \textbf{TRP}. The requirement shall be applied per RIB during the transmitter ON period.
+
+\begin{itemize}
+    \item It measures how much of your transmitted signal's power leaks into neighboring frequency channels.
+    \item The ACLR requirement must be met in all radiated directions (per RIB) where the base station is transmitting.
+\end{itemize}
+
+\[
+    \text{ACLR (dB)} = 10 \log_{10} \left( \frac{P_{\text{in-channel}}}{P_{\text{adjacent-channel}}} \right)
+\]
+
+\noindent \textbf{Higher} = better spectral containment.
+\subsection*{OTA Adjacent Channel Leakage Power Ratio (ACLR):}
+
+\noindent
+\begin{minipage}{0.55\textwidth}
+    The OTA ACLR defines how effectively a base station confines its transmitted power within its assigned channel. It is the ratio between the mean transmitted power in the assigned channel and that leaked into an adjacent channel, measured as \textbf{Total Radiated Power (TRP)} over the air at the \textbf{Reference Integration Boundary (RIB)}.
+\end{minipage}%
+\hfill
+\begin{minipage}{0.4\textwidth}
+    \centering
+    % Replace 'aclr_graph.png' with your actual graph filename
+    \includegraphics[width=\linewidth]{aclr.png}
+    \captionof{figure}{Assigned vs Adjacent Channel Power}
+\end{minipage}
+
+\vspace{0.3cm}
+
+\[
+    \text{ACLR (dB)} = 10 \log_{10} \left( \frac{P_{\text{assigned channel}}}{P_{\text{adjacent channel}}} \right)
+\]
+
+\subsubsection*{Minimum Requirement for type 2-O}
+
+\begin{table}[H]
+    \centering
+    \caption*{Table 9.7.3.3-1: \textbf{BS type 2-O} ACLR limit}
+    \renewcommand{\arraystretch}{1.3}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|p{2.5cm}|p{4cm}|p{3cm}|p{3cm}|p{2.5cm}|}
+        \hline
+        \textbf{BS channel bandwidth of lowest/highest carrier transmitted $BW_{Channel}$ (MHz)} & 
+        \textbf{BS adjacent channel centre frequency offset below the lowest or above the highest carrier centre frequency transmitted} & 
+        \textbf{Assumed adjacent channel carrier} & 
+        \textbf{Filter on the adjacent channel frequency and corresponding filter bandwidth} & 
+        \textbf{ACLR limit (dB)} \\ \hline
+        
+        50, 100, 200, 400 & 
+        $BW_{Channel}$ & 
+        NR of same BW (Note 2) & 
+        Square ($BW_{Config}$) & 
+        28 (Note 3) \newline 26 (Note 4) \\ \hline
+    \end{tabular}%
+    }
+    \vspace{0.2cm}
+    \footnotesize
+    \begin{flushleft}
+    \textbf{NOTE 1:} $BW_{Channel}$ and $BW_{Config}$ are the BS channel bandwidth and transmission bandwidth configuration of the lowest/highest carrier transmitted on the assigned channel frequency.\\
+    \textbf{NOTE 2:} With SCS that provides largest transmission bandwidth configuration ($BW_{Config}$).\\
+    \textbf{NOTE 3:} Applicable to bands defined within the frequency spectrum range of 24.25 – 33.4 GHz.\\
+    \textbf{NOTE 4:} Applicable to bands defined within the frequency spectrum range of 37 – 52.6 GHz.
+    \end{flushleft}
+\end{table}
+
+\noindent In case of gaps between \underline{subcarrier} (ACLR):
+
+\begin{table}[H]
+    \centering
+    \caption*{Table 9.7.3.3-4a: \textbf{BS type 2-O} ACLR absolute limit}
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{BS class} & \textbf{ACLR absolute limit} \\ \hline
+        Wide area BS & -13 dBm/MHz \\ \hline
+        Medium range BS & -20 dBm/MHz \\ \hline
+        Local area BS & -20 dBm/MHz \\ \hline
+    \end{tabular}
+\end{table}
+\section*{Radiated receiver characteristics}
+
+This section defines how well a base station (BS) can receive signals over the air (OTA).
+
+\begin{itemize}
+    \item RIB = Radiated Interface Boundary (the point where OTA measurements are defined).
+    \item BS Type 2-O RIB $\rightarrow$ integrated Active Antenna Systems (AAS). It must meet receiver performance requirements in radiated (OTA) conditions.
+\end{itemize}
+
+\subsection*{Minimum requirement for BS type 2-O}
+
+\textbf{The Requirement --- Throughput $\ge$ 95 \%}
+
+\noindent The throughput shall be $\ge$ 95 \% of the maximum throughput of the reference measurement channel when the OTA test signal is at the EISREFSENS level.
+
+\subsection*{``OTA in-band blocking''}
+
+\textbf{OTA In-Band Blocking} evaluates the base station receiver's resilience against very strong, out-of-channel interferers within the same operating band. This test is \textbf{significantly more stringent} than the Adjacent Channel Selectivity (ACS) test, using an interfering signal that is both more powerful and located further away from the desired channel.
+
+\vspace{0.3cm}
+\noindent \textbf{Two types of interferers are defined:}
+
+\begin{enumerate}
+    \item \textbf{General Blocking:} A wideband interferer simulating a powerful transmitter from a nearby system.
+    \item \textbf{Narrowband Blocking:} A focused, high-power signal concentrated into a single resource block, testing the receiver's ability to reject intense, localized interference.
+\end{enumerate}
+\subsection*{Minimum requirement for BS type 2-O}
+
+\begin{table}[H]
+    \centering
+    \caption*{Table 10.5.2.3-1: General OTA blocking requirement for \textbf{BS type 2-O}}
+    \renewcommand{\arraystretch}{1.5} % More space between rows
+    \resizebox{\textwidth}{!}{% Fit table to page width
+    \begin{tabular}{|c|p{3.5cm}|c|c|p{3.5cm}|p{4cm}|}
+        \hline
+        \textbf{Frequency Range} & 
+        \textbf{BS channel bandwidth of the lowest/highest carrier received (MHz)} & 
+        \textbf{OTA wanted signal mean power (dBm)} & 
+        \textbf{OTA interfering signal mean power (dBm)} & 
+        \textbf{OTA interfering signal centre frequency offset from the lower/upper Base Station RF Bandwidth edge or sub-block gap (MHz)} & 
+        \textbf{Type of OTA interfering signal} \\ \hline
+        
+        FR2-1 & 
+        50, 100, 200, 400 & 
+        $\text{EIS}_{\text{REFSENS}} + 6$ dB & 
+        $\text{EIS}_{\text{REFSENS\_50M}} + 33 + \Delta_{\text{FR2\_REFSENS}}$ & 
+        $\pm 75$ & 
+        50 MHz DFT-s-OFDM NR signal, 60 kHz SCS, 64 RBs \\ \hline
+        
+        FR2-2 & 
+        100, 400, 800, 1600, 2000 & 
+        $\text{EIS}_{\text{REFSENS}} + 6$ dB & 
+        $\text{EIS}_{\text{REFSENS\_50M}} + 36 + \Delta_{\text{FR2\_REFSENS}}$ & 
+        $\pm 150$ & 
+        100 MHz DFT-s-OFDM NR signal, 120 kHz SCS, 64 RBs \\ \hline
+        
+        \multicolumn{6}{|l|}{\textbf{NOTE:} $\text{EIS}_{\text{REFSENS}}$ and $\text{EIS}_{\text{REFSENS\_50M}}$ are given in clause 10.3.3.} \\ \hline
+    \end{tabular}%
+    }
+\end{table}
+
+\section*{OTA out-of-band blocking}
+
+Answers the question: \textbf{Is your receiver so sensitive that it can be deafened by literally any powerful radio transmitter in the environment, regardless of what frequency it's using?}
+
+\subsection*{Summary:}
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.4}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{3cm}|p{3cm}|}
+        \hline
+        \textbf{Test Type} & \textbf{Interferer Location} & \textbf{Interferer Examples} & \textbf{Interferer Power} & \textbf{Real-World Scenario} \\ \hline
+        \hline
+        
+        \textbf{In-Band/Adjacent} & 
+        Inside or immediately next to your band & 
+        Another 5G operator & 
+        Strong & 
+        Normal cellular operation \\ \hline
+        
+        \textbf{Out-of-Band (General)} & 
+        \textbf{Any other frequency} (30 MHz - 12.75 GHz) & 
+        Military Radar, TV Broadcast, Wi-Fi & 
+        0.36 V/m (Very Strong Field) & 
+        General EM environment \\ \hline
+        
+        \textbf{Out-of-Band (Co-location)} & 
+        \textbf{Another cellular downlink band} & 
+        2G, 3G, 4G base station on same tower & 
+        \textbf{+46 dBm} (Extremely Powerful) & 
+        Shared cell site \\ \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% =========================================================
+% CHAPTER 5: 5G NR Standards
+% =========================================================
+\chapter{5G Frame Structure and Numerology}
+
+\section{Frequency Range of FR2}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{@{}llc@{}}
+        \toprule
+        \textbf{Frequency range designation} & \textbf{Band} & \textbf{Corresponding frequency range} \\ \midrule
+        FR1 & & 410 MHz – 7125 MHz \\
+        FR2 & FR2-1 & 24250 MHz – 52600 MHz \\
+            & FR2-2 & 52600 MHz – 71000 MHz \\
+        FR3 & & 7100 – 24000 MHz \\ \bottomrule
+    \end{tabular}
+    \caption{Frequency Ranges}
+\end{table}
+
+\section{Time – Frequency Grid in OFDM}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Freq_Time_1.png}
+    \caption{Time – Frequency Grid in OFDM}
+\end{figure}
+
+The OFDM Grid maps all QAM states in a 2D plane. Each cell represents a single QAM state. By selecting all states at a specific frequency, we obtain the set of QAM states that modulate a single subcarrier. Taking all subcarrier states at a specific time index forms an OFDM symbol.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{OFDM_2.png}
+    \caption{QAM modulation using IFFT}
+\end{figure}
+
+\textbf{QAM modulation using IFFT:}
+\begin{itemize}
+    \item IFFT transforms frequency domain data into time domain signal using a matrix of sinusoidal waves.
+    \item Each QAM state is multiplied by its corresponding carrier and all subcarriers are summed to produce a final signal vector.
+    \item So, OFDM processes the signal symbol by symbol using IFFT to assign QAM states to each subcarrier then outputs of each IFFT operation are concatenated to form the transmitted signal.
+    \item At the RX the inverse operation is executed (FFT).
+\end{itemize}
+
+\section{5G Frame Structure}
+
+\begin{itemize}
+    \item Frames are 10ms long.
+    \item Each frame is divided into ten subframes that are each 1ms long.
+    \item Each subframe is split up into a number of slots, depending upon the SCS (Subcarrier Spacing):
+    \begin{itemize}
+        \item 15kHz = 1 slot
+        \item 30kHz = 2 slots
+        \item 60kHz = 4 slots
+        \item 120kHz = 8 slots
+    \end{itemize}
+    \item All slots within a subframe are not necessarily the same size; some symbols have a longer cyclic prefix than others, which impacts the slot duration.
+    \item Each slot contains:
+    \begin{itemize}
+        \item 14 OFDM symbols (if using normal cyclic prefix).
+        \item 12 OFDM symbols (if using extended cyclic prefix).
+    \end{itemize}
+    \item Each symbol is uplink, downlink or a guard period.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{5G_grid_3.png}
+    \caption{5G NR Slot Structure}
+\end{figure}
+
+The slots are carried on the subcarriers using resource blocks. A resource block is defined as 12 consecutive subcarriers in the frequency domain. The slot format determines whether each symbol in a slot is uplink, downlink or a guard period.
+
+\begin{table}[H]
+    \centering
+    \caption{SCS Configuration (FR1 and FR2)}
+    \begin{tabular}{@{}lccccc@{}}
+        \toprule
+        \textbf{SCS (kHz)} & \textbf{50 MHz} & \textbf{100 MHz} & \textbf{200 MHz} & \textbf{400 MHz} \\ \midrule
+        \textbf{60} & 66 ($N_{RB}$) & 132 ($N_{RB}$) & 264 ($N_{RB}$) & N/A \\
+        \textbf{120} & 32 ($N_{RB}$) & 66 ($N_{RB}$) & 132 ($N_{RB}$) & 264 ($N_{RB}$) \\ \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{Extended SCS Configuration}
+    \begin{tabular}{@{}lccccc@{}}
+        \toprule
+        \textbf{SCS (kHz)} & \textbf{100 MHz} & \textbf{400 MHz} & \textbf{800 MHz} & \textbf{1600 MHz} & \textbf{2000 MHz} \\ \midrule
+        \textbf{120} & 66 & 264 & N/A & N/A & N/A \\
+        \textbf{480} & N/A & 66 & 124 & 248 & N/A \\
+        \textbf{960} & N/A & 33 & 62 & 124 & 148 \\ \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{5G_grid_4.png}
+    \caption{5G Frame Structure Details}
+\end{figure}
+
+\begin{itemize}
+    \item Left side of the white region is for Downlink \& the right side is for Uplink (TDD structure) so, we have 4 downlink slots and 1 uplink slot, each slot is 14 symbols.
+    \item \textbf{Primary Sync Signal (PSS):} used for sync. As it gives the frequency of the block after it and part of the PCI (Physical Cell Identifier).
+    \item \textbf{Secondary Sync Signal (SSS):} by reading this channel we can know whether the 5G coverage is good or not as it measures the channel power and gives the remaining part of the PCI for complete synchronization.
+    \item \textbf{PBCH:} Carries the master information block (MIB) which carries the frame number and the configuration of some other channels.
+    \item \textbf{Sync Signal Block (SSB):} It contains PSS, SSS and PBCH. If the user can't decode SSB successfully then he can't access the 5G cell.
+    \item \textbf{Physical Downlink Control Channel (PDCCH):} usually in the first symbol and tells where the Data is allocated.
+    \item \textbf{Physical Downlink Shared Channel (PDSCH):} Carries the actual data. The more channels we have the more capacity and Data rate 5G can support.
+    \item \textbf{Demodulation Reference Signal (DMRS):} The pilot signals used to demodulate the PDSCH.
+    \item \textbf{GAP:} Nothing is transmitted during the gap to switch from downlink to uplink.
+    \item \textbf{Sounding Reference Signals (SRS):} symbols put after the GAP for uplink \& downlink quality estimation.
+    \item \textbf{Physical uplink Shared Channel (PUSCH):} Carries the uplink data.
+    \item \textbf{Random Access Channel (RACH):} Preamble used for uplink Synchronization.
+    \item \textbf{Physical Uplink Control Channel (PUCCH):} It carries the acknowledgements for the data sent during downlink or the requests for the data sent during uplink.
+\end{itemize}
+
+% =========================================================
+% CHAPTER 6: MATLAB Simulation
+% =========================================================
+\chapter{MATLAB Simulation}
+
+\section{Rayleigh Only Channel}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{MATLAB_5.png}
+    \caption{Rayleigh Only - Time Domain Transmitted Signal \& PSD}
+\end{figure}
+
+First plot shows the transmitted OFDM waveform (time-domain samples). The PSD is flat over the used subcarriers (-200 MHz to +200 MHz), showing that OFDM evenly distributes power across all subcarriers (notice how it drops before 200 MHz due to guardband usage as the used bandwidth is equivalent to 12 x $N_{RB}$ x SCS (380 MHz)).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{MATLAB_6.png}
+    \caption{Rayleigh Only - BER Performance}
+\end{figure}
+
+\textbf{Performance Plateau at High SNR:} The curve shows that the Bit Error Rate (BER) improves significantly as SNR increases from 0 to approximately 40 dB. However, beyond this point, the BER saturates and fails to improve further, forming an "error floor."
+
+\textbf{Saturation Cause: Dominant Imperfect CSI:} This saturation occurs because, in a Rayleigh fading channel, the limiting factor at high SNR is no longer background noise but residual errors in the channel estimation.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{MATLAB_8.png}
+    \caption{Rayleigh Only - Constellation Diagrams (No Equalization, Pilot MMSE, Preamble MMSE)}
+\end{figure}
+
+The difference between simulated and predicted SNR is less than 0.2 dB, indicating precise normalization and correct noise modeling.
+
+\textbf{Pilot Efficiency:} For 256-QAM, typical pilot overhead is around 5–10 \%, depending on pilot spacing and modulation bandwidth.
+\[ \text{Pilot efficiency} = (\text{Data Subcarriers} / \text{Total Subcarriers}) \]
+e.g., if 8 out of 72 subcarriers are pilots $\rightarrow$ efficiency $\approx (64 / 72) = 88.9 \%$.
+Higher pilot efficiency improves throughput but slightly reduces channel estimation accuracy; a trade-off must be maintained.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{MATLAB_7.png}
+    \caption{Rayleigh Only - Power Delay Profile \& Channel Frequency Response}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{MATLAB_9.png}
+    \caption{Rayleigh Only - EVM Performance}
+\end{figure}
+
+As SNR increases, EVM decreases exponentially, showing improved constellation accuracy and tighter symbol clustering.
+
+\textbf{Plot Purpose:} Shows the Power Spectral Density (PSD) of the signal before passing through the channel.
+\textbf{Flat Spectrum:} The "No Equalization" curve represents the ideal OFDM signal with a flat spectrum, indicating efficient bandwidth use.
+
+\textbf{Equalization Methods Compared:}
+\begin{itemize}
+    \item \textbf{Preamble MMSE + CPE:} Uses a preamble for MMSE channel estimation and corrects Common Phase Error; effectively restores the flat spectrum.
+    \item \textbf{Pilot MMSE + CPE:} Uses pilot symbols for MMSE estimation and CPE correction; also closely matches the ideal spectrum.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{MATLAB_10.png}
+    \caption{Rayleigh Only - PAPR Comparison}
+\end{figure}
+
+\textbf{PAPR Reduction:} The figure demonstrates a clear decrease in Peak-to-Average Power Ratio (PAPR) from approximately 34.27 dB for the transmitted signal to a lower value for the received signal, visually highlighting that the channel itself acts to reduce the peak power of the OFDM signal.
+\textbf{Channel-Induced Peak Limiting:} This reduction occurs because the Rayleigh fading channel, which causes multipath propagation, introduces amplitude variations and destructive interference that effectively "clip" or attenuate the highest signal peaks, thereby lowering the overall PAPR by the time the signal is received.
+
+\section{AWGN (thermal noise) Only Channel}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{MATLAB_12.png}
+    \caption{AWGN Only - Time Domain Transmitted Signal \& PSD}
+\end{figure}
+
+First plot shows the transmitted OFDM waveform (time-domain samples). The PSD is flat over the used subcarriers (-200 MHz to +200 MHz), showing that OFDM evenly distributes power across all subcarriers.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{MATLAB_11.png}
+    \caption{AWGN Only - BER Performance}
+\end{figure}
+
+\textbf{Performance Plateau at High SNR:} The curve shows that the BER improves significantly as SNR increases from 0 to approximately 40 dB. However, beyond this point, the BER saturates.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{MATLAB_13.png}
+    \caption{AWGN Only - Constellation Diagrams}
+\end{figure}
+
+\textbf{Comparison of Equalization Techniques:} This figure compares the performance of different channel equalization methods, specifically contrasting a Preamble-based MMSE approach with a Pilot-based MMSE approach, both combined with Common Phase Error (CPE) correction. In a pure AWGN channel, the optimal "equalizer" is effectively no equalizer at all.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{MATLAB_14.png}
+    \caption{AWGN Only - Channel Frequency Response}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{MATLAB_15.png}
+    \caption{AWGN Only - EVM Performance}
+\end{figure}
+
+\textbf{Plot Description:}
+\begin{itemize}
+    \item The figure shows the Error Vector Magnitude (EVM) performance versus Signal-to-Noise Ratio (SNR) under Additive White Gaussian Noise (AWGN) conditions.
+    \item EVM (\%) is plotted on a logarithmic scale (y-axis), while SNR (dB) is on the x-axis.
+\end{itemize}
+
+\textbf{Performance Insights:}
+\begin{itemize}
+    \item At low SNR, all methods perform similarly, as noise dominates the performance.
+    \item As SNR increases, the Preamble MMSE + CPE (red) and No Equalization (green) curves continue improving, showing lower EVM.
+    \item The Pilot MMSE + CPE (blue) curve flattens out beyond ~25 dB, indicating a performance floor—likely due to imperfect pilot estimation or limited pilot density.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{MATLAB_16.png}
+    \caption{AWGN Only - PAPR Comparison}
+\end{figure}
+
+\textbf{Minimal PAPR Change:} The figure shows that the PAPR remains virtually unchanged between the transmitted signal (~34.27 dB) and the received signal, with only a negligible difference (e.g., 34.26 dB).
+\textbf{AWGN Preserves Signal Structure:} This occurs because the AWGN channel only adds random noise and does not cause the amplitude fading or multipath interference that would distort the signal's peaks. As a result, the high-power peaks that characterize the OFDM signal are preserved.
+
+\section{Comparison and Combined Results}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{MATLAB_17.png}
+    \caption{Combined: EVM vs SNR - All Channel Types}
+\end{figure}
+
+Performance in AWGN is better with preamble; EVM saturates in all environments using pilot MMSE.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{MATLAB_18.png}
+    \caption{Combined: BER vs SNR - All Channel Types}
+\end{figure}
+
+\textbf{AWGN Only (Intermediate Performance):}
+\begin{itemize}
+    \item Performs worse than Rayleigh Only but better than Rayleigh + AWGN.
+    \item Impairment comes mainly from random noise.
+    \item Channel is flat, so Pilot MMSE equalizer adds little benefit.
+    \item Noise corrupts pilot estimates, slowing BER improvement.
+\end{itemize}
+
+\textbf{Rayleigh Only (Best Performance):}
+\begin{itemize}
+    \item Fastest BER drop, reaching near zero around 35 dB.
+    \item Rayleigh fading applied with very high SNR, so noise is negligible.
+    \item Pilot MMSE equalizer effectively tracks fading, giving excellent performance.
+\end{itemize}
+
+\textbf{Rayleigh + AWGN (Worst Performance):}
+\begin{itemize}
+    \item Slowest BER improvement and highest BER overall.
+    \item Affected by both fading and noise simultaneously.
+    \item Noise corrupts pilot-based channel estimates, leading to imperfect equalization.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{MATLAB_20.png}
+    \caption{PAPR Comparison: Transmitted vs Received Signals}
+\end{figure}
+
+\begin{enumerate}
+    \item \textbf{AWGN Only (34.27 dB) - Highest Received PAPR:}
+    \begin{itemize}
+        \item What the channel does: Adds random noise but preserves the signal's fundamental shape.
+        \item Why the PAPR is highest: The signal's original peaks remain largely intact.
+    \end{itemize}
+    \item \textbf{Rayleigh + AWGN (32.14 dB) - Middle PAPR:}
+    \begin{itemize}
+        \item What the channel does: Combines multipath fading with additive noise.
+        \item Why the PAPR is in the middle: The Rayleigh fading reduces the peaks, but the AWGN adds noise that can slightly increase the average power.
+    \end{itemize}
+    \item \textbf{Rayleigh Only (30.44 dB) - Lowest PAPR:}
+    \begin{itemize}
+        \item What the channel does: Creates deep fades through multipath interference without adding significant background noise.
+        \item Why the PAPR is lowest: The fading dramatically reduces peak amplitudes while the average power isn't boosted by noise. This creates the most "flattened" signal.
+    \end{itemize}
+\end{enumerate}
+
+\begin{table}[H]
+    \centering
+    \caption{PAPR Comparison Summary}
+    \begin{tabular}{@{}p{3cm}p{4cm}p{4cm}p{4cm}@{}}
+        \toprule
+        \textbf{Channel Condition} & \textbf{Effect on Signal} & \textbf{Impact on PAPR} & \textbf{Reason} \\ \midrule
+        AWGN Only & Adds noise, preserves signal shape. & Highest Received PAPR (34 dB) & Signal structure (including peaks) is largely intact. \\
+        Rayleigh + AWGN & Fades peaks AND adds noise. & Middle PAPR (32.14 dB) & Combined effect of peak attenuation and noise masking. \\
+        Rayleigh Only & Causes multipath fading, smearing peaks. & Lowest PAPR (30.44 dB) & Fading aggressively attenuates the highest signal peaks without noise filling in the valleys. \\ \bottomrule
+    \end{tabular}
+\end{table}
+
+\section{Theoretical Verification}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{MATLAB_21.png}
+        \caption{EVM vs SNR for 256-QAM OFDM}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{MATLAB_22.png}
+        \caption{BER vs SNR for 256-QAM OFDM}
+    \end{subfigure}
+    \caption{EVM and BER vs SNR for AWGN Channel}
+\end{figure}
+
+Mathematical formula for EVM vs SNR (linear region):
+
+\[ \text{SNR}_{\text{lin}} = \frac{1}{\text{EVM}_{\text{lin}}^2} \quad \text{or} \quad \text{SNR}_{\text{dB}} = -20 \log_{10}(\text{EVM}_{\text{lin}}) \]
+
+\[ \text{SNR}_{\text{dB}} = 40 - 20 \log_{10}(\text{EVM}_{\%}) \]
+
+% =========================================================
+% CHAPTER 7: Direct Digital Synthesis (DDS)
+% =========================================================
+\chapter{Direct Digital Synthesis (DDS)}
+
+\section{Fundamentals of DDS Technology}
+
+Direct Digital Synthesis (DDS) is a digital technique used to generate analog waveforms—most commonly sine waves—whose frequency and phase can be precisely controlled using digital inputs. A DDS system has a reference clock (a very stable, fixed-frequency oscillator, e.g. 100 MHz), and it produces a new frequency (say 5 MHz) by dividing or scaling that reference using a digital tuning word.
+
+\begin{equation}
+f_{out} = \frac{\text{Tuning Word}}{2^N} \times f_{clock}
+\end{equation}
+
+where:
+\begin{itemize}
+    \item $f_{out}$ = generated output frequency
+    \item $f_{clock}$ = system clock frequency
+    \item $N$ = number of bits in the tuning word (e.g., 32 bits)
+    \item ``Tuning Word'' = binary value you program (24–48 bits)
+\end{itemize}
+
+\subsection*{Theory of Operation:}
+direct digital synthesizer can be implemented from a precision reference clock, an address counter, a programmable read only memory (PROM), and a D/A converter
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figure1-1.png}
+    \caption{Figure 1-1. Simple Direct Digital Synthesizer}
+\end{figure}
+
+The clock drives the system — every clock pulse advances the address counter by one step. So, the frequency of this clock determines how fast we go through the lookup table. The address counter produces a sequence of binary numbers (addresses): 0, 1, 2, 3, … These addresses point to memory locations inside the PROM where digital sine values are stored. When the counter reaches the end of the table (say after 1024 samples), it wraps around to 0 again — forming a repeating sine wave cycle.
+
+The PROM stores digital amplitude values representing one full cycle of a sine wave. For example, if the table has 1024 samples, each entry corresponds to:
+\begin{equation}
+\text{Amplitude} [n] = \sin\left(\frac{2\pi n}{1024}\right)
+\end{equation}
+
+The address counter fetches each sample sequentially. Thus, the PROM acts as a digital memory-based waveform generator. The register latches (temporarily holds) the digital sine sample so it can be sent cleanly to the DAC at the next clock edge. This ensures timing synchronization between digital and analog stages. The DAC converts each digital sample from the PROM into an analog voltage. The output becomes a staircase approximation of a sine wave, which can be smoothed with a low-pass filter to get a clean analog sine output $f_{OUT}$.
+
+The output frequency depends on:
+\begin{equation}
+f_{OUT} = \frac{f_C}{N}
+\end{equation}
+where:
+\begin{itemize}
+    \item $f_C$ = reference clock frequency
+    \item $N$ = number of samples per sine period stored in the PROM
+\end{itemize}
+
+This architecture works, but it has two limitations:
+\begin{enumerate}
+    \item \textbf{No fine frequency control:} Output frequency can only change by modifying the clock frequency or PROM contents. You can't just "dial in" any frequency easily.
+    \item \textbf{No fast frequency hopping:} Since frequency tuning depends on hardware changes (PROM reprogramming or clock adjustment), you can't switch frequencies quickly or digitally.
+\end{enumerate}
+
+To fix that, a phase accumulator is added. It replaces the simple address counter and adds: A phase register, and A variable-modulus counter. These allow the system to advance through the sine-wave table by variable step sizes. The output sine wave is imagined as a vector rotating around a circle — the phase wheel. Each position on the wheel corresponds to a phase of the sine wave (e.g. 0°, 90°, 180°, 270°). One full revolution $\to$ one full sine-wave cycle. The phase accumulator digitally performs this rotation: Each clock pulse adds a fixed value ("tuning word") to the accumulator. When it overflows, that means one full cycle has been completed. The number of discrete points around the phase wheel depends on the accumulator resolution $N$.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{phase_wheel.png}
+    \caption{Digital Phase Wheel}
+\end{figure}
+
+\begin{equation}
+f_{OUT} = \frac{M \times f_C}{2^N}
+\end{equation}
+where $f_{OUT}$ = output frequency, $f_C$ = reference-clock frequency, $M$ = tuning word (phase-step size), $N$ = phase-accumulator bit width. $\to$ Larger $M$ means bigger "jump" around the phase wheel $\to$ higher output frequency.
+
+The phase accumulator output by itself is just a ramp (linear phase increase). It must be converted into a waveform. A phase-to-amplitude lookup table (sine lookup) translates phase values into amplitude samples for the DAC. Usually, only ¼ of the sine table is stored; the rest of the cycle is generated by exploiting symmetry.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{dds_circuitry.png}
+\end{figure}
+
+Reference clock drives the system. Phase accumulator adds the tuning word every clock cycle. Phase-to-amplitude converter (lookup or algorithm) generates digital sine values. DAC converts them to an analog waveform. Optional low-pass filter smooths it.
+
+Changing the tuning word $M$ gives instant, phase-continuous frequency changes — key DDS advantage. When you change $M$, the phase accumulator is not reset — it just continues from its current phase value, but with a new step size. That means there's no phase discontinuity and no glitch in the output waveform. The frequency change is smooth and immediate — the new frequency starts from the current phase point of the sine wave. This is called phase-continuous tuning — a key advantage of DDS over analog PLL synthesizers, which need time to settle after a frequency change.
+
+In practical DDS chips: You don't write $M$ directly into the phase accumulator. Instead, you first load it into an internal register (called a buffer or serial/byte-loaded register). Then, that register's value is transferred (clocked) into the actual delta phase register that drives the accumulator. This two-step approach has benefits:
+\begin{itemize}
+    \item Minimizes pin count: you can use a serial or small parallel interface to send data to the chip.
+    \item Synchronizes changes: all bits of $M$ are updated together at a precise clock edge — ensuring clean, glitch-free frequency updates.
+\end{itemize}
+
+If the chip uses a parallel byte-load interface, it can receive data faster than a serial one. That's why high-speed DDS designs often use parallel interfaces — to support rapid frequency hopping in applications like radar.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{ad9854_arch.png}
+    \caption{Figure 1-5. Full-featured 12-bit/300 MHz DDS Architecture}
+\end{figure}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Block} & \textbf{Function} & \textbf{Advantage} \\ \midrule
+(A) REFCLK Multiplier & Multiplies external clock (e.g., $\times$4–$\times$20). & Slower external clocks, high internal speed. \\
+(B) Phase Offset Adder & Adds programmable phase offset. & Phase shifting and PSK modulation. \\
+(C) Inverse SINC Filter & Compensates for DAC's $sin(x)/x$ rolloff. & Keeps amplitude flat up to $\sim$45\% of Nyquist. \\
+(D) Digital Multiplier & Multiplies sine amplitude. & Amplitude modulation (AM) and gain control. \\
+(E) Dual DACs (I/Q) & Second DAC for quadrature output. & I and Q outputs for modulators, mixers. \\
+(F) Comparator & Squares the analog output. & DDS acts as a clock generator. \\
+(G) Frequency/Phase Registers & Store pre-programmed tuning words. & FSK or PSK by switching values quickly. \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Performance Example:}
+\begin{itemize}
+    \item 48-bit frequency tuning word: $\sim$1 µHz resolution.
+    \item 14-bit phase tuning word: 0.022° phase resolution.
+    \item REFCLK multiplier: 4$\times$–20$\times$ range.
+    \item Output bandwidth: $\approx$ 1/3 of clock (e.g., 100 MHz at 300 MHz clock).
+    \item Spurious-free dynamic range: 50 dB typical.
+    \item I/Q output matching: 0.01 °.
+    \item Amplitude flatness: $\pm$0.01 dB (DC–Nyquist)
+\end{itemize}
+
+\section{Understanding the Sampled Output of a DDS Device}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{spectral_sampled.png}
+    \caption{Figure 2-1. Spectral Analysis of Sampled Output}
+\end{figure}
+
+A DDS works by sending digital samples of a sine wave (from the lookup table) to a DAC. Each clock pulse produces one sample $\to$ that means the output is discrete in time, not continuous. So the DDS output is:
+\begin{equation}
+x(t) = \sum_{n=-\infty}^{\infty} x[n] \cdot \delta(t-nT_s)
+\end{equation}
+where $T_s=1/f_{CLK}$ is the sampling period.
+
+The DAC reconstructs this sampled waveform, but because of sampling, the spectrum repeats every clock frequency. The output spectrum of a DDS is periodic in frequency: The main desired tone appears at $f_{OUT}$, Mirror (image) signals appear at: $f=\pm f_{OUT} \pm kf_{CLK}, k=1,2,3,...$. So, the DDS creates many copies of the waveform across the spectrum — one in each Nyquist zone. To isolate the real sine wave, a low-pass filter (called a reconstruction filter) is used to remove all higher-frequency images.
+
+The Nyquist frequency is half the sampling rate: $f_N = \frac{f_{CLK}}{2}$. This is the maximum usable output frequency before aliasing occurs. If you go above this limit, frequencies "fold back" (alias) into the baseband. Therefore, practical DDS operation limits the output to roughly 0–40\% of $f_{CLK}$ to maintain low distortion and easier filtering.
+
+A DAC holds each output sample for one clock period — this is called a zero-order hold. The frequency response of such a hold circuit is:
+\begin{equation}
+H(f) = \frac{\sin(\pi f/f_{CLK})}{\pi f/f_{CLK}}
+\end{equation}
+That's the sinc() function (sin(x)/x). Effect: The output amplitude decreases as frequency increases. At 0 Hz: gain = 1 (no loss). At half the clock (Nyquist): gain = $\sim$0.64 ($\approx$ –3.9 dB loss). So the higher the output frequency, the smaller the amplitude due to this sinc-shape. To correct that amplitude droop, modern DDS chips include a digital inverse-sinc filter before the DAC.
+
+\textbf{Spectrum Folding (Aliasing) Example:}
+Imagine you generate 240 MHz from a 300 MHz clock: Desired tone: 240 MHz. But the DAC also produces an image at $f_{CLK}-f_{OUT}=60$ MHz. $\to$ This is the alias that "folds back" into the first Nyquist zone. That's why the DDS output is usually restricted to $\sim$100 MHz (one-third of the clock) — to make filtering practical and avoid alias overlap.
+
+\section{Frequency/phase-hopping Capability of DDS}
+
+Frequency hopping = quickly changing the output frequency between different values. Phase hopping = instantly changing the phase offset of the output waveform. Recall the DDS frequency equation:
+\begin{equation}
+f_{OUT} = \frac{M \times f_{CLK}}{2^N}
+\end{equation}
+Changing $M$ changes the output frequency instantly — the DDS simply starts stepping through the phase accumulator faster or slower. When $M$ changes, the phase accumulator's current value is preserved (not reset). So, the output waveform continues from its current phase position, avoiding glitches or discontinuities. This is called phase-continuous frequency hopping.
+
+Why DDS Hopping is Instantaneous? In a DDS, frequency and phase are digitally defined — there's no feedback loop, voltage tuning, or analog settling as in PLLs. Suppose the DDS control interface runs at 100 MHz. You can update the tuning word every 10 ns. DDS also allows instant phase changes. Each DDS typically has a phase offset register (e.g., 14 bits $\to$ 0.022° resolution). Use case: Phase-shift keying (PSK) modulation — e.g. BPSK, QPSK, or $\pi$//4-QPSK — where phase changes represent digital data bits. Internally, a DDS has: frequency tuning registers (for different frequencies), Phase registers (for different phase offsets), A multiplexer or control logic to select among them.
+
+\section{The Effect of DAC Resolution on Spurious Performance}
+
+\subsection{DAC Resolution and Quantization Distortion}
+Main Idea: The higher the number of bits (resolution) in a DAC, the lower the distortion in the output spectrum.
+
+Why: More bits mean smaller quantization steps $\rightarrow$ less quantization error $\rightarrow$ cleaner sine wave $\rightarrow$ fewer unwanted spurs in the frequency spectrum.
+
+Equation (Signal-to-Quantization-Noise Ratio):
+\begin{equation}
+SQR = 1.76 + 6.02B \quad (\text{dB})
+\end{equation}
+where $B$ = DAC resolution in bits.
+
+Example: An 8-bit DAC $\rightarrow$ SQR = $1.76 + 6.02 \times 8 = 49.92$ dB (Shows better noise performance than a 4-bit DAC.)
+
+\subsection{Effect of Output Level (Not Full-Scale Operation)}
+When the DAC does not operate at full scale (e.g., 70\% of max output), signal power decreases but quantization noise stays the same.
+
+The correction factor is:
+\begin{equation}
+A = 20 \log(FFS)
+\end{equation}
+where $FFS$ = fraction of full scale.
+
+The full equation becomes:
+\begin{equation}
+SQR = 1.76 + 6.02B + 20 \log(FFS)
+\end{equation}
+
+Example: If DAC = 8-bit and output = 70\% full scale $\rightarrow A = 20 \log(0.7) = -3.1$ dB $\rightarrow$ new SQR = 46.82 dB (a 3.1 dB drop).
+
+\subsection{Oversampling and Its Effect on SQR}
+Oversampling = sampling faster than the Nyquist rate (using a higher clock rate than strictly necessary).
+
+Quantization noise power stays constant, but when spread across a wider frequency range, the in-band noise (within the useful signal band) decreases. So oversampling improves SNR.
+
+The improvement factor is:
+\begin{equation}
+C = 10 \log \left( \frac{F_{sOS}}{F_s} \right)
+\end{equation}
+
+Combined equation:
+\begin{equation}
+SQR = 1.76 + 6.02B + 20 \log(FFS) + 10 \log \left( \frac{F_{sOS}}{F_s} \right)
+\end{equation}
+
+Example: If oversampling by 3$\times$ and operating at 70\% full scale $\rightarrow$ SQR = 51.6 dB, an improvement of 1.7 dB over full-scale, non-oversampled case.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{oversampling_sqr.png}
+    \caption{The Effect of Oversampling on SQR}
+\end{figure}
+
+\subsection{Phase Truncation and Spurious Performance (DDS-specific)}
+Problem: A full 32-bit phase accumulator would need $2^{32}$ lookup entries $\rightarrow$ impractical in memory.
+
+Solution: Use only the most significant bits (MSBs) for phase lookup and truncate the rest (e.g., use top 12 bits of a 32-bit accumulator).
+
+Result: Truncation introduces periodic phase errors because the ignored bits cause small phase mismatches between actual and truncated phase values.
+
+Consequence: These periodic errors $\rightarrow$ amplitude distortion $\rightarrow$ spurious tones (spurs) in frequency domain, known as phase truncation spurs.
+
+Spur characteristics depend on:
+\begin{itemize}
+    \item Accumulator size ($A$) — total bits in the accumulator
+    \item Phase word size ($P$) — number of bits after truncation
+    \item Tuning word ($T$) — the step size per clock cycle
+\end{itemize}
+
+\subsection{Phase Truncation Spur Magnitude}
+\textbf{Background}
+In a Direct Digital Synthesizer (DDS):
+\begin{itemize}
+    \item The phase accumulator generates a digital phase ramp each clock cycle.
+    \item Only the upper $P$ bits (out of the total $A$ bits) are used to select the sine amplitude from the lookup table.
+    \item The remaining $A - P$ bits are truncated (discarded).
+    \item This truncation causes periodic phase errors, which create spurious frequency components (spurs) in the output spectrum.
+\end{itemize}
+
+\textbf{How Spur Magnitude Depends on Truncation}
+The size (magnitude) of these truncation spurs depends mainly on:
+\begin{itemize}
+    \item The phase word size ($P$) — how many bits we keep for lookup.
+    \item The accumulator size ($A$) — how many total bits the phase accumulator has.
+    \item The tuning word ($T$) — the digital value added to the accumulator each clock (it sets the output frequency).
+\end{itemize}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Phase_Wheel_error.png}
+    \caption{Phase Truncation Error and the Phase Wheel}
+\end{figure}
+
+\textbf{Key Rule for Spur Magnitude}
+When the accumulator is large enough that $A - P \geq 4$ (which is almost always true in real DDS designs), then the maximum possible spur caused by phase truncation can be approximated as:
+\begin{equation}
+\text{Spur Level (dBc)} \approx -6.02P
+\end{equation}
+That means the worst-case spur is about 6.02 dB lower for every bit used in the phase word.
+
+Example:
+If we have:
+\begin{itemize}
+    \item $A = 32$ bits (accumulator)
+    \item $P = 12$ bits (phase word to lookup table)
+\end{itemize}
+Then the worst-case spur $\approx -6.02 \times 12 = -72$ dBc $\rightarrow$ The spurious tones are 72 dB below the main signal — quite low (good spectral purity). This holds regardless of the tuning word, unless it happens to produce a "worst-case" pattern described below.
+
+\subsection{Tuning Words and Spur Severity}
+Not all tuning words (frequency settings) produce the same spur behavior.
+Some tuning words:
+\begin{itemize}
+    \item Produce maximum spurs (worst spectral purity).
+    \item Others produce no spurs at all (best possible purity).
+    \item Most fall somewhere in between.
+\end{itemize}
+
+\textbf{Finding the Worst-Case Tuning Words}
+The worst-case spur happens when the tuning word $T$ satisfies:
+\begin{equation}
+GCD(T, 2^{(A-P)}) = 2^{(A-P-1)}
+\end{equation}
+where GCD = greatest common divisor.
+
+This mathematical condition means the tuning word pattern repeats with a periodic error that aligns perfectly with the truncation error pattern — causing maximum correlation (and therefore strong spurs).
+
+\textbf{Bit Pattern for Worst-Case Tuning Word}
+For these cases, the tuning word's binary form looks like this:
+\begin{itemize}
+    \item $A$-bit accumulator
+    \item MSB ... $P$ bits used ... $A-P$ truncated bits
+    \item $0xxxxxxx10000...0000$
+    \item The bit at position $2^{(A-P-1)}$ is 1
+    \item All less significant bits are 0
+    \item The MSB of the tuning word is 0 (to prevent aliasing)
+\end{itemize}
+This bit configuration causes the worst phase truncation spur, equal to roughly $-6.02P$ dBc.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{worst_case_tuning.png}
+    \caption{Tuning Word Patterns That Yield Maximum Spur Level}
+\end{figure}
+
+\textbf{Tuning Words That Produce No Spurs}
+At the other extreme, some tuning words produce no truncation spurs at all.
+These occur when:
+\begin{equation}
+GCD(T, 2^{(A-P)}) = 2^{(A-P)}
+\end{equation}
+
+\textbf{Bit Pattern for Spur-Free Case}
+\begin{itemize}
+    \item $A$-bit accumulator
+    \item MSB ... $P$ bits used ... $A-P$ truncated bits
+    \item $0xxxxxx010000...0000$
+    \item A 1 appears at bit position $2^{(A-P)}$
+    \item All less significant bits are 0
+\end{itemize}
+Such tuning words cause the accumulator and truncated phase word to line up perfectly each cycle — so no periodic phase mismatch occurs $\rightarrow$ no truncation spurs.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{no_spur_tuning.png}
+    \caption{Tuning Word Patterns That Yield No Phase Truncation Spurs}
+\end{figure}
+
+\textbf{All Other Cases}
+If a tuning word does not match either special pattern above:
+\begin{itemize}
+    \item The phase error partially correlates with the truncation pattern,
+    \item Producing intermediate-level spurs somewhere between:
+    \item 0 dBc (no spurs)
+    \item and $-6.02P$ dBc (worst case).
+\end{itemize}
+
+\textbf{Summary Table}
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\textbf{Case} & \textbf{Condition} & \textbf{GCD Equation} & \textbf{Bit Pattern} & \textbf{Spur Level} \\ \hline
+Worst-case spurs & Tuning word aligns with truncation pattern & $GCD(T, 2^{A-P}) = 2^{A-P-1}$ & 1 at bit $2^{A-P-1}$ & $\approx -6.02P$ dBc \\ \hline
+No spurs & Tuning word perfectly aligns & $GCD(T, 2^{A-P}) = 2^{A-P}$ & 1 at bit $2^{A-P}$ & 0 (no truncation spurs) \\ \hline
+Typical case & All other tuning words & — & — & Between 0 and $-6.02P$ dBc \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Detailed Summary: Phase Truncation and Truncation Word Behavior}
+In a Direct Digital Synthesizer (DDS), the phase accumulator produces a high-resolution digital phase value. This value ideally consists of $A$ bits. However, for practical reasons (such as reducing memory size in the lookup table), only the $P$ most significant bits (MSBs) are used to generate the output waveform through the phase-to-amplitude converter. The remaining lower bits, known as the $B$-bit truncation word (where $B = A - P$), are discarded. These truncated bits represent fine phase information that is lost in the output waveform. Because this truncation is not random but systematic, it introduces a periodic phase error, which in turn produces spurious frequency components (spurs) in the DDS output.
+
+\textbf{1. Concept of the Truncation Word}
+The $P$-bit phase word drives the waveform generator (lookup table and DAC). The $B$-bit truncation word is ignored—but this ignored portion still has an effect: it represents a residual phase error between the "true" high-resolution phase and the truncated (lower-resolution) phase that's used for output. This residual error behaves like a separate, periodic signal, and its characteristics depend on how the truncation bits change over time.
+
+Thus, the output signal can be thought of as:
+\begin{equation}
+\text{Output} = \text{Ideal Signal (no truncation)} + \text{Error Signal (from truncation bits)}
+\end{equation}
+The error signal is the main source of phase truncation spurs.
+
+\textbf{2. Analyzing the Truncation Word as Its Own Accumulator}
+If we focus only on the $B$ truncated bits, these can be modeled as a smaller $B$-bit accumulator on their own. The equivalent tuning behavior of this "mini-accumulator" is determined by the Equivalent Tuning Word (ETW):
+\begin{equation}
+ETW = T \pmod{2^B}
+\end{equation}
+Where:
+\begin{itemize}
+    \item $T$ = the main tuning word of the DDS
+    \item $2^B$ = the range of the truncation bits
+\end{itemize}
+So, the ETW represents the portion of the tuning word that directly affects the truncated bits.
+
+\textbf{3. Example}
+In the example given in the reference:
+\begin{itemize}
+    \item $A = 12$ (truncation bits being analyzed)
+    \item $B = 12$
+    \item $T = 2674$
+\end{itemize}
+Thus, $ETW = 2674$ (in decimal)
+
+\textbf{4. Determining the Truncation Word's Repetition and Overflow}
+(a) Grand Repetition Rate (GRR)
+The GRR represents how often the truncation word's pattern repeats over time. It depends on how the accumulator cycles through all possible states before repeating.
+For the given parameters:
+\begin{equation}
+GRR = 2048
+\end{equation}
+This means the truncation word sequence repeats every 2048 clock cycles.
+
+(b) Capacity and Overflow
+The capacity of the $B$-bit truncation accumulator is:
+\begin{equation}
+2^B = 4096
+\end{equation}
+Before finding how often it overflows, we must check if the MSB of the ETW is 1 (which indicates aliasing). In this example, it is 1, so we adjust the ETW by subtracting it from the capacity:
+\begin{equation}
+\text{Overflow Period} = \frac{2^B}{ETW_{adj}} = \frac{4096}{1422} = 2.88 \text{ cycles}
+\end{equation}
+Thus, the truncation accumulator overflows roughly every 2.88 clock cycles.
+
+(c) Number of Overflows within One GRR)
+\begin{equation}
+\text{Number of Overflows} = \frac{GRR}{\text{Overflow Period}} = \frac{2048}{2.88} \approx 711
+\end{equation}
+Hence, during each 2048-clock sequence, the truncation word overflows 711 times.
+
+\textbf{5. Sawtooth Behavior of the Truncation Word}
+When plotted over time, the truncation word follows a sawtooth-shaped waveform because it accumulates linearly and then resets upon overflow.
+\begin{itemize}
+    \item Period of the sawtooth $\approx$ 2.88 clock cycles
+    \item Complete pattern repeats every 2048 clock cycles
+\end{itemize}
+This periodic sawtooth error creates a repetitive pattern in the DDS output phase.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{sawtooth_truncation.png}
+    \caption{Behavior of the Truncation Word}
+\end{figure}
+
+\textbf{6. Frequency-Domain Implications}
+Because the truncation word's error pattern is periodic, its Fourier transform consists of discrete spectral lines — these are the truncation spurs. Since the truncation word sequence is real, the Fourier spectrum is symmetric, so there are half as many unique frequency components as time-domain samples. $\rightarrow$ For 2048 time samples, there are 1024 discrete spur frequencies.
+
+The fundamental frequency of this sawtooth is:
+\begin{equation}
+f_{fundamental} = F_s \times \frac{ETW_{adj}}{2^B} = F_s \times 0.3472
+\end{equation}
+The spectrum of a sawtooth wave contains harmonics of this fundamental frequency. These harmonics are evenly spaced at intervals of $0.3472 F_s$.
+
+\textbf{7. Aliasing and Spur Folding}
+Because these harmonics extend beyond the Nyquist frequency ($F_s/2$), they fold back (alias) into the Nyquist band.
+\begin{itemize}
+    \item Odd multiples of $F_s/2$ fold directly into the Nyquist band.
+    \item Even multiples fold as mirrored images.
+\end{itemize}
+This folding causes many closely spaced truncation spurs to appear across the DDS output spectrum, as illustrated in the reference's Figure 4.9.
+
+\textbf{8. Key Takeaways}
+\begin{itemize}
+    \item Truncation introduces a periodic phase error represented by the truncation word.
+    \item The ETW defines how this truncation word evolves over time.
+    \item The GRR defines how often the truncation sequence repeats.
+    \item The sawtooth nature of the truncation error leads to harmonics and spurious tones.
+    \item Aliasing folds these spurs into the Nyquist band, making them part of the observed output spectrum.
+\end{itemize}
+
+\subsection{What Are Spurs?}
+Spurs (short for spurious signals) are undesired spectral components that appear in the output of a DAC (Digital-to-Analog Converter) or DDS (Direct Digital Synthesizer). They result from nonlinearities, switching transients, or coupling effects in the DAC system. Spurs degrade the spectral purity of the output signal and can limit system performance (e.g., in communication systems, ADC testing, or waveform synthesis).
+
+\textbf{How Spurs Are Calculated (Aliased Frequency)}
+To find the aliased frequency of the $N$th harmonic spur:
+Compute remainder:
+\begin{equation}
+R = \text{remainder of } \frac{N f_o}{F_s}
+\end{equation}
+where:
+\begin{itemize}
+    \item $N$ = harmonic order (integer)
+    \item $f_o$ = fundamental output frequency
+    \item $F_s$ = DAC sampling frequency
+\end{itemize}
+
+Aliased Spur Frequency:
+\begin{equation}
+SPUR_N = \begin{cases} R, & R \leq \frac{F_s}{2} \\ F_s - R, & R > \frac{F_s}{2} \end{cases}
+\end{equation}
+This gives the location (frequency) of each spur in the output spectrum. Magnitude depends on DAC nonlinearity, so it's device dependent.
+
+\textbf{Types of Spurs and Their Origins}
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|p{4cm}|p{7cm}|}
+\hline
+\textbf{Type} & \textbf{Cause} & \textbf{Description / Effect} \\ \hline
+Harmonic Spurs & DAC nonlinearities & Arise from imperfect DAC transfer characteristics — harmonics of the fundamental frequency that fold (alias) into the output band. \\ \hline
+Switching Transient Spurs & Unequal rise/fall times, internal switching & Caused by non-symmetric or slow transitions in DAC elements; may cause ringing at the circuit's resonant frequency, visible as narrow spectral lines. \\ \hline
+Clock Feedthrough Spurs & Capacitive/inductive coupling from internal clocks & High-frequency clocks couple into DAC output or sample clock, producing spikes at clock frequencies or symmetrical sidebands around the output tone. \\ \hline
+\end{tabular}
+\end{table}
+
+\textbf{Prevention / Control}
+\begin{itemize}
+    \item Use proper PCB layout and grounding.
+    \item Isolate and shield high-frequency clock lines.
+    \item Ensure balanced switching in DAC design.
+    \item Maintain good power supply decoupling and clock integrity.
+\end{itemize}
+
+\textbf{In Short}
+\begin{itemize}
+    \item Spurs = unwanted tones in DAC output.
+    \item Equation: computed via aliasing of harmonics using $R = (N f_o) \pmod{F_s}$.
+    \item Sources: nonlinearities, switching transients, and clock coupling.
+    \item Impact: reduce spectral purity, create interference, and limit SFDR (Spurious-Free Dynamic Range).
+\end{itemize}
+
+\textbf{Wideband Spurs}
+Definition: Measure of spurious signals across the entire Nyquist band of the DDS output spectrum.
+Depending on:
+\begin{itemize}
+    \item DAC harmonics (main contributor).
+    \item DDS core architecture — mainly phase truncation spurs caused by limited phase bit resolution.
+\end{itemize}
+Notes: Phase truncation spurs are randomly distributed across the spectrum and add to overall wideband spur content.
+
+\textbf{Narrowband Spurs}
+Definition: Measure of spurious signals near the DDS output frequency (typically within 1\% of the clock frequency).
+Depending on:
+\begin{itemize}
+    \item System clock purity (jitter and noise) — main factor.
+    \item Phase truncation spurs (only significant if they fall close to the output tone).
+\end{itemize}
+
+\textbf{PLL Effect on Narrowband Spurs}
+PLL (Phase-Locked Loop) introduces phase noise because it continuously adjusts its output phase and frequency to track a reference. This causes spectral line spreading (broadening) around the output frequency, degrading narrowband spur performance.
+
+\textbf{Predicting and Exploiting Spur "Sweet Spots" in DDS}
+Concept: In DDS systems, if the exact output frequency is flexible, designers can choose a frequency within a band that minimizes spurious noise (spurs) in the desired passband.
+Key Idea: Since harmonic spurs (from DAC nonlinearity) appear at predictable frequencies, designers can tune the output frequency so that these spurs fall outside the band of interest.
+Result: By selecting a "spur sweet spot", the DDS output achieves cleaner spectral performance and lower in-band noise after filtering.
+
+\subsection{Jitter and Phase Noise Considerations in a DDS System}
+• \textbf{Jitter Sources:} The maximum achievable spectral purity in a synthesized sine wave is ultimately limited by the purity of the system clock used to drive the DDS.
+The ideal assumption of constant time intervals between samples is not perfectly met in practice due to variations known as timing jitter.
+The two primary causes of timing jitter are thermal noise (random motion of electrons in electric circuits, which sets the theoretical limit for minimizing jitter) and coupled noise (e.g., crosstalk, ground loops, or external EMI 'electromagnetic interference').
+
+\begin{equation}
+V_{\text{noise}} = \sqrt{4kTRB}
+\end{equation}
+
+Ex on thermal noise: So, in a 3000 Hz bandwidth at room temperature (300°K) a 50$\Omega$ resistor produces a noise voltage of 49.8 nVrms.
+The important thing to note is that it makes no difference where the center frequency of the 3kHz bandwidth is located.
+The noise voltage of the room temperature 50$\Omega$ resistor is 49.8 nVrms whether measured at 10kHz or 10MHz (as long as the bandwidth of the measurement is 3kHz).
+
+\textbf{Effects of Jitter on Spectrum:} The way jitter affects the spectrum depends on its nature:
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{clock_jitter.png}
+    \caption{Effect of System Clock Jitter}
+\end{figure}
+
+$\circ$ \textbf{Sinusoidal Jitter:} Causes modulation sidebands to appear symmetrically around the fundamental output frequency.
+The separation distance from the fundamental equals the jitter frequency.
+Figure 4.11(a) and (d) show the spectrum of a pure sinusoid at a frequency of 25Hz.
+Note the single spectral line at 25Hz. This is the spectral signature of a pure sinusoid.
+The widening of the spectral line in Figure 4.11 (d) is a result of the finite resolution of the FFT used in the simulation.
+Easily we can determine the jitter frequency by separations of the sidebands (in figure b) is 1 Hz.
+Also we can measure the amplitude of the jitter by this equation:
+
+\begin{equation}
+\text{Peak Jitter Magnitude} = \frac{10^{(\text{dBc}/20)}}{\pi}
+\end{equation}
+
+In our case (figure b):
+\begin{equation}
+\frac{10^{(-50/20)}}{\pi} = 0.001 \quad (\text{or } 0.1\%)
+\end{equation}
+
+This value is relative to the period of the fundamental.
+Thus, the absolute jitter magnitude is found by multiplying this result by the period of the fundamental (40ms).
+Thus, the peak jitter magnitude is 40$\mu$s (0.1\% of 40ms).
+
+$\circ$ \textbf{Random (Gaussian) Jitter:} Results in an increase in the noise floor level and a broadening of the fundamental spectral line, a phenomenon known as phase noise, Figure (c, e).
+
+• \textbf{Spectral Purity Limit:} Phase noise is important because it sets a limit on the maximum quality of the output signal.
+The overall DDS output phase noise is the sum of the phase noise contribution from the reference clock (which improves by due to frequency division) and the inherent residual phase noise of the DDS device and DAC.
+The output phase noise will never be better than the DDS device's inherent residual phase noise specification.
+
+\subsection{Output Filtering Considerations}
+This topic addresses the necessity and methods for conditioning the DDS output signal.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figure_4-12_Output_Spectrum.png}
+    \caption{DDS Output Spectrum}
+\end{figure}
+
+• \textbf{Sampled System Output:} The DDS is a sampled system, meaning its theoretical output spectrum is infinite.
+The output contains the desired fundamental frequency ($f_o$) plus numerous unwanted alias images at integer multiples of the sampling frequency ($F_s \pm f_o$, $2F_s \pm f_o$, etc.).
+
+• \textbf{Sinc Rolloff:} The amplitudes of these frequencies follow a sinc ($\sin(x)/x$) rolloff envelope due to the Digital-to-Analog Converter's (DAC's) zero-order-hold characteristic.
+
+• \textbf{Need for Anti-aliasing Filter:} To suppress these unwanted alias images in most applications, the DDS output must be followed by a lowpass "antialiasing" filter.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figure_4-13_Antialias_Filter.png}
+    \caption{Antialias Filter}
+\end{figure}
+
+\textbf{Filter Design Constraints:} Because an ideal anti-alias filter (unity response up to and zero elsewhere) is not physically possible, some output bandwidth must be sacrificed to allow the filter to provide sufficient attenuation of alias images beyond the Nyquist limit ($1/2F_s$).
+A common rule limits the output bandwidth to approximately 40\% of the clock frequency ($F_{\text{clock}}$) to allow for an economical lowpass filter implementation.
+
+• \textbf{Filter Types:} The selection of a specific filter depends on the application's priority regarding frequency domain sharpness versus time domain smoothness.
+
+$\circ$ \textbf{Chebyshev Family:} Offers sharp frequency domain characteristics (steep roll-off), but typically results in poor time domain characteristics (overshoot and ringing).
+Examples include Butterworth, Chebyshev, Inverse Chebyshev, and Cauer-Chebyshev (elliptical). Elliptical filters are often preferred for antialiasing due to their steep transition region.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figure_4-17_Chebyshev_Family.png}
+    \caption{The Chebyshev Family of Responses}
+\end{figure}
+
+$\circ$ \textbf{Gaussian Family:} Optimized for smooth time domain characteristics (minimal overshoot/ringing and constant group delay).
+Examples include Gaussian Magnitude, Bessel (optimized for maximally flat group delay), and Equiripple Group Delay responses.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figure_4-18_Gaussian_Family.png}
+    \caption{The Gaussian Family of Responses}
+\end{figure}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|p{5cm}|p{5cm}|}
+\hline
+\textbf{Characteristic} & \textbf{Chebyshev Family} & \textbf{Gaussian Family} \\ \hline
+Primary Optimization & Sharp frequency domain characteristics. & Smooth time domain characteristics. \\ \hline
+Frequency Response & Exhibits a sharp, well-defined passband and a steep transition to the stopband. & Features a completely monotonic frequency response, meaning the attenuation curve always maintains a negative slope with no peaking in the passband or stopband. \\ \hline
+Time Domain Response & Generally poor, characterized by significant overshoot and ringing and nonlinear group delay. & Well behaved, with little to no ringing or overshoot. Furthermore, the group delay is fairly constant. \\ \hline
+Trade-off & Achieves a sharp frequency response at the cost of poor time domain performance (ringing and overshoot). & Achieves a smooth time domain response at the cost of a non-sharp transition between the passband and stopband. \\ \hline
+Ideal Application & Applications where frequency domain characteristics are the dominant concern and where ringing/overshoot is not a major issue. & Applications where smooth time domain characteristics (minimal overshoot/ringing and constant group delay) are required. \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Reference Clock Considerations}
+\textbf{Why the Reference Clock Matters in DDS Systems:}
+In a Direct Digital Synthesizer (DDS), the reference clock defines the timing of every output sample. Any imperfection in the clock (jitter, phase noise, or frequency drift) directly affects the output waveform quality.
+The DDS output accuracy depends on:
+\begin{itemize}
+    \item Amplitude accuracy $\rightarrow$ (DAC performance)
+    \item Time accuracy $\rightarrow$ (reference clock purity)
+\end{itemize}
+
+\textbf{Phase-Noise Scaling Rule:} Phase noise at the DDS output is lower than the clock's by the following formula:
+\begin{equation}
+20 \log_{10} \left( \frac{F_{out}}{F_{clk}} \right)
+\end{equation}
+
+Reference clock edge uncertainty adversely affects DDS output signal quality.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figure_5-1_Phase_Noise_Reduction.png}
+    \caption{"Squared-up" Clock Output}
+\end{figure}
+
+while absolute edge jitter remains constant across frequencies, its percentage of the total period decreases as frequency decreases. Thus, dividing frequency reduces phase-noise percentage even though the actual time jitter is unchanged. This explains why frequency division improves phase-noise performance in DDS systems.
+
+In order for the digital phase step to be properly positioned in the analog domain two criteria must be met:
+\begin{itemize}
+    \item Appropriate amplitude (this is the DAC's job)
+    \item Appropriate time (the clock's job)
+\end{itemize}
+
+The phase noise improvement of the DDS output relative to the input clock becomes more apparent in the frequency domain.
+
+\begin{figure}[h!]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figure_5-2_Clock_Phase_Noise.png}
+        \caption{Good and poor clock phase noise}
+    \end{minipage}\hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figure_5-3_DDS_Output_Response.png}
+        \caption{DDS output Response}
+    \end{minipage}
+\end{figure}
+
+Figures 5-2 and 5-3 compare two DDS clock sources: the 100 MHz clock source 1 has higher phase noise than source 2, resulting in a noisier DDS output.
+At 10 MHz output, source 1 shows a 20 dB (10$\times$) phase-noise improvement relative to its input, while source 2's improvement is limited by the analyzer's noise floor. Low-level spurious signals appear on the skirts of output 2 due to phase-bit truncation and transformation algorithms, also present but masked in output 1. This demonstrates that low phase noise is essential for maintaining a high signal-to-noise ratio in radio and other noise-sensitive systems.
+Overall DDS output phase noise is the sum of the phase noise of the reference clock source (after it has been enhanced by the frequency division quality of the DDS) and the residual phase noise of the DDS.
+
+\textbf{Using an Internal Reference Clock Multiplier Circuit:}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Figure_Analog_PLL.png}
+    \caption{Analog PLL}
+\end{figure}
+
+Many Analog Devices DDS products include on-chip reference clock multipliers ($\times$4, $\times$20) that can be enabled or bypassed, allowing the use of lower-frequency oscillators while achieving high internal clock rates. This simplifies synchronization with system "master clocks" and reduces oscillator cost. However, using the REFCLK multiplier involves a tradeoff in output signal quality, since frequency multiplication degrades phase noise by a factor.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Figure_5-4_PLL_Phase_Noise.png}
+    \caption{Phase noise response to PLL loop filter "peaking" at cutoff}
+\end{figure}
+
+for example, a 6$\times$ multiplier worsens –110 dBc/Hz noise to –94.5 dBc/Hz. Additionally, the PLL loop filter may cause phase-noise peaking near its cutoff frequency. Figure 5-4 illustrates this degradation in the AD9851, where the entire loop filter is on-chip.
+
+\subsection{DDS SFDR Performance}
+Use of reference clock multiplication also has an impact on SFDR.
+
+Figure compares DDS outputs with and without a 6$\times$ clock multiplier. The multiplied output shows –68 dBc SFDR, while the directly clocked output achieves –78 dBc, indicating about 10 dB degradation. Output 1 also exhibits a slightly higher noise floor, confirming the phase-noise penalty of clock multiplication.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figure_5-5_SFDR_Comparision.png}
+    \caption{Spectral Plot of DDS Output With \& Without Reference Clock Multiplication}
+\end{figure}
+
+
+% =========================================================
+% CHAPTER 8: FFT Implementation for OFDM + Chirp Sensing
+% =========================================================
+\chapter{FFT Implementation for OFDM + Chirp Sensing}
+
+\section{FFT Introduction}
+In modern communication systems—especially OFDM (Orthogonal Frequency Division Multiplexing) and chirp-based sensing systems—the Fast Fourier Transform (FFT) is one of the most critical building blocks. The FFT performs efficient transformation between the time domain and the frequency domain, enabling modulation, demodulation, spectrum shaping, multi-carrier processing, and channel estimation.
+
+In our project, which combines OFDM signaling with chirp sensing, the FFT plays a dual role:
+\begin{itemize}
+    \item \textbf{OFDM Demodulation / Modulation:} IFFT at transmitter, FFT at receiver.
+    \item \textbf{Chirp Radar Sensing:} Spectral analysis of reflected chirp signals.
+\end{itemize}
+
+Because both functionalities rely heavily on frequency-domain operations, an optimized FFT architecture is essential.
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{Picture1.png}
+\end{figure}
+
+\section{FFT Overview}
+The Discrete Fourier Transform (DFT) is given by:
+\begin{equation}
+    X[k] = \sum_{n=0}^{N-1} x[n] W_N^{kn}
+\end{equation}
+where:
+\[ W_N = e^{-j\frac{2\pi}{N}} \]
+
+A direct DFT takes $O(N^2)$ operations, which is too slow for communication systems operating in real time.
+
+\subsection{Fast Fourier Transform (FFT)}
+FFT algorithms reduce complexity to:
+\[ O(N \log_2 N) \]
+This is achieved by:
+\begin{itemize}
+    \item Exploiting symmetry properties of complex exponentials.
+    \item Decomposing the input sequence into smaller sub-sequences.
+    \item Using butterfly operations repeatedly.
+\end{itemize}
+This computational efficiency is crucial in OFDM and radar, where FFT must run every symbol or frame.
+
+\section{The Butterfly Operation}
+A butterfly is the fundamental building block of the FFT. It performs two outputs using two inputs. For Decimation in Frequency (DIF), the operation is defined as:
+\begin{align*}
+    A &= x[n] + x[n + N/2] \\
+    B &= \left( x[n] - x[n + N/2] \right) \cdot W_N^k
+\end{align*}
+Where $W$ is a twiddle factor.
+
+\subsection{Types of Butterflies}
+Butterflies differ by:
+\begin{itemize}
+    \item Order of inputs.
+    \item Order of outputs.
+    \item How twiddle factors are applied.
+    \item Whether they are used in Decimation in Time (DIT) or Decimation in Frequency (DIF).
+\end{itemize}
+
+\noindent Most common types:
+\begin{itemize}
+    \item \textbf{Radix-2:} Simple, widely used, low area.
+    \item \textbf{Radix-4:} Faster, but more complex.
+    \item \textbf{Mixed-radix:} Flexible.
+    \item \textbf{Split-radix:} Optimal mathematically but complex to hardware-implement.
+\end{itemize}
+
+For OFDM hardware (like LTE/WiFi modems), \textbf{Radix-2 DIF} or \textbf{Radix-4 DIF} is the strongest candidate because it maps well to pipelined structures.
+
+\section{DIT vs. DIF FFT}
+
+\noindent % Prevents paragraph indentation
+\begin{minipage}{0.55\textwidth} % Left side (Text) - takes up 55% of width
+    \subsection{Decimation in Time (DIT)}
+    \begin{itemize}
+        \item Splits input sequence into even and odd indices.
+        \item Bit-reversal required at the input.
+        \item Twiddle factors multiply early.
+    \end{itemize}
+
+\end{minipage}%
+\hfill % Adds flexible space between the two boxes
+\begin{minipage}{0.4\textwidth} % Right side (Image) - takes up 40% of width
+    \centering
+    \includegraphics[width=\linewidth]{dit.png}
+\end{minipage}
+
+\begin{minipage}{0.55\textwidth} % Left side (Text) - takes up 55% of width
+    \subsection{Decimation in Frequency (DIF)}
+    \begin{itemize}
+        \item Splits the output spectrum into even- and odd-indexed parts
+        \item Bit-reversal applied at the output.
+        \item Twiddle factors multiply later.
+    \end{itemize}
+
+\end{minipage}%
+\hfill % Adds flexible space between the two boxes
+\begin{minipage}{0.4\textwidth} % Right side (Image) - takes up 40% of width
+    \centering
+    \includegraphics[width=\linewidth]{dif.png}
+\end{minipage}
+\vspace{0.4cm}
+
+\vspace{0.5cm} % Add some space after the diagram/previous text
+
+\noindent \textbf{Which is better for hardware?} \\
+\textbf{DIF} is generally preferred for hardware FFTs because:
+\begin{itemize}
+    \item Early stages require fewer twiddle multipliers
+    \item Easier pipeline mapping
+    \item Data flow is more regular
+\end{itemize}
+
+\noindent \textbf{Which do we use in OFDM?} \\
+Most OFDM FFT IP cores use \textbf{Radix-2 or Radix-4 DIF}.
+
+\subsection*{Summary: DIF vs DIT FFT}
+
+\textbf{Decimation-in-Time (DIT)} breaks the input sequence into even and odd samples, performs butterflies \textbf{after twiddle multiplication}, and produces output in \textbf{normal order} but requires the \textbf{input to be bit-reversed}.
+
+\vspace{0.3cm}
+
+\textbf{Decimation-in-Frequency (DIF)} breaks the frequency spectrum into even and odd bins, performs butterflies \textbf{before twiddle multiplication}, starts with only add/sub operations (no multipliers in stage 1), and produces \textbf{bit-reversed output} from \textbf{normal input}.
+
+\vspace{0.3cm}
+
+They compute the same FFT, but their internal data flow, twiddle placement, and memory ordering differ—leading to different performance and hardware cost.
+
+\subsection{Comparison Table}
+Below is a comparison to determine which is better for hardware. Most OFDM FFT IP cores use Radix-2 or Radix-4 DIF.
+
+\begin{table}[H]
+\centering
+\caption{Detailed Comparison: DIT vs. DIF Architecture}
+\renewcommand{\arraystretch}{1.3} % Adds vertical space to rows for readability
+\resizebox{\textwidth}{!}{% Scale the table to fit the page width
+\begin{tabular}{|p{5cm}|p{6cm}|p{7cm}|}
+\hline
+\textbf{Feature} & \textbf{DIT (Decimation-in-Time)} & \textbf{DIF (Decimation-in-Frequency)} \\ \hline
+\hline
+
+\textbf{Main Concept} & 
+Splits the input sequence in the {time domain} (even/odd samples) & 
+Splits the frequency domain output into {even/odd frequency bins} \\ \hline
+
+\textbf{Butterfly Structure} & 
+Twiddle factor multiplication happens \textbf{before} add/sub & 
+Add/sub happens {first}, twiddle multiplication applied \textbf{after} \\ \hline
+
+\textbf{First Stage Complexity} & 
+Multipliers required in stage 1 & 
+{No multipliers} in stage 1 (only adders/subtractors) \\ \hline
+
+\textbf{Last Stage Complexity} & 
+Last stage needs {no twiddle factors} & 
+Last stage uses twiddles \\ \hline
+
+\textbf{Input Order} & 
+{Requires bit-reversed input} & 
+Accepts {normal input order} \\ \hline
+
+\textbf{Output Order} & 
+Output in normal sequence & 
+{Produces bit-reversed output} \\ \hline
+
+\textbf{Memory Access Pattern} & 
+Complicated on input side & 
+Complicated on output side \\ \hline
+
+\textbf{Twiddle Factor Count} & 
+Uniform across stages & 
+More twiddles in later stages, none in first \\ \hline
+
+\textbf{Latency Characteristics} & 
+Higher early-stage latency due to multiplications & 
+Lower early-stage latency; multipliers appear later \\ \hline
+
+\textbf{Pipelining Suitability} & 
+Harder to pipeline early stages & 
+{Highly pipeline-friendly} (SDF, MDC architectures) \\ \hline
+
+\textbf{Hardware Area} & 
+Larger (multipliers active from stage 1) & 
+{Smaller area} (stage 1 = adder-only) \\ \hline
+
+\textbf{Power Consumption} & 
+Higher due to multipliers in more stages & 
+Lower power, especially in first half of pipeline \\ \hline
+
+\textbf{Best Use Case in Comm. Systems} & 
+{Often preferred for IFFT (OFDM transmitter)} & 
+{Dominant choice for FFT (OFDM receiver)} \\ \hline
+
+\textbf{Data Reordering Needed} & 
+Input needs reordering & 
+Output needs reordering \\ \hline
+
+\textbf{Numerical Accuracy} & 
+Slightly higher rounding noise early & 
+More balanced noise over stages \\ \hline
+
+\textbf{Industry Use (LTE/5G/WiFi)} & 
+Used mostly in TX IFFT cores & 
+{Widely used in RX FFT cores} \\ \hline
+
+\end{tabular}%
+}
+\end{table}
+
+\begin{itemize}
+    \item \textbf{DIT FFT:} Bit-reversed input $\to$ Multiply by Twiddles $\to$ Butterfly $\to$ Normal Output.
+    \item \textbf{DIF FFT:} Normal Input $\to$ Butterfly $\to$ Multiply by Twiddles $\to$ Bit-reversed Output.
+\end{itemize}
+
+\section{FFT Hardware Architecture Types}
+Modern FFT hardware generally falls into three major architectural families depending on how they handle scaling, dynamic range, and FFT size flexibility. These are:
+\begin{itemize}
+    \item Fixed Data Point FFT (Fixed-Length FFT)
+    \item Variable Data Point FFT (Reconfigurable FFT)
+\end{itemize}
+
+\subsection{Fixed Data Point FFT (Fixed-Length)}
+\textbf{Definition:} Hardware designed for one fixed FFT size (e.g., 64 or 4096 points). \\
+\textbf{Pros:} Simple, low power. \\
+\textbf{Cons:} Completely inflexible. If the size changes, hardware must be redesigned.
+
+\subsection{Variable Data Point FFT (Reconfigurable)}
+\textbf{Definition:} Flexible architecture supporting multiple sizes (e.g., 128/256/512) using the same hardware. \\
+\textbf{Pros:} One design supports many bandwidths (ideal for LTE, 5G, Wi-Fi). \\
+\textbf{Mechanism:} Dynamically changes stages, memory addressing, and twiddle selection.
+
+\section{Radix-2 vs. Radix-4 FFT}
+
+\subsection{Radix-2 FFT}
+\begin{itemize}
+    \item \textbf{Structure:} Each butterfly processes 2 inputs. Number of stages = $\log_2(N)$.
+    \item \textbf{Pros:} Simple hardware, easy to pipeline, small twiddle ROM.
+    \item \textbf{Cons:} More stages, more total multiplications, higher latency for large N.
+\end{itemize}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\linewidth]{radix_2.png}
+    \label{fig:placeholder}
+\end{figure}
+
+\subsection{Radix-4 FFT}
+\begin{itemize}
+    \item \textbf{Structure:} Groups 4 samples. Number of stages = $\frac{1}{2} \log_2(N)$.
+    \item \textbf{Pros:} Fewer stages (lower latency), lower power for high N.
+    \item \textbf{Cons:} Complex butterfly, harder to pipeline.
+\end{itemize}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\linewidth]{radix_4.png}
+    \label{fig:placeholder}
+\end{figure}
+
+\section{Serial vs. Parallel Architectures}
+
+\subsection{Parallel FFT}
+All butterfly stages operate simultaneously.
+
+\subsubsection*{Advantages}
+\begin{itemize}
+    \item Very high throughput
+    \item One FFT per clock (if fully parallel)
+    \item Suitable for high-bandwidth systems (5G NR, WiFi 6, radar processing)
+\end{itemize}
+
+\subsubsection*{Disadvantages}
+\begin{itemize}
+    \item \textbf{Large area}
+    \item Higher power consumption
+    \item Requires many multipliers + adders
+    \end{itemize}
+
+\vspace{0.2cm}
+\textbf{Summary:} Parallel FFT = high performance, high area.
+
+% The image follows the text
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{parallel.png}
+    \caption{4 points FFT circuit block diagram}
+\end{figure}
+\subsection{Serial FFT (Pipeline FFT)}
+
+\subsubsection*{Single-path Delay Feedback (SDF)}
+\begin{itemize}
+    \item Data flows in serially.
+    \item Buffers (delay lines) store intermediate results.
+    \item Only one butterfly unit is reused across all stages.
+\end{itemize}
+
+\subsubsection*{Multi-path Delay Commutator (MDC)}
+\begin{itemize}
+    \item Multiple data paths
+    \item Higher throughput than SDF
+    \item Still much smaller than full parallel
+\end{itemize}
+
+\subsubsection*{Advantages}
+\begin{itemize}
+    \item \textbf{Huge area reduction} because only one butterfly is reused
+    \item Very efficient for ASIC and FPGA
+    \item Fits low-power or resource-constrained systems
+\end{itemize}
+
+\subsubsection*{Disadvantages}
+\begin{itemize}
+    \item Higher latency
+    \item Throughput limited to "one output every clock" after pipeline fill
+\end{itemize}
+
+\section{FFT in OFDM and Chirp Sensing}
+OFDM uses FFT/IFFT for modulation and demodulation:
+\subsection{FFT in OFDM}
+\subsection*{Transmitter}
+\begin{itemize}
+    \item IFFT maps frequency-domain QAM symbols onto subcarriers
+    \item Output is the composite OFDM waveform
+\end{itemize}
+
+\subsection*{Receiver}
+\begin{itemize}
+    \item FFT converts received signal to frequency-domain
+    \item Subcarriers are separated
+    \item QAM symbols recovered
+\end{itemize}
+
+\subsection*{Why FFT is essential for OFDM}
+Because OFDM uses \textbf{orthogonal} subcarriers spaced by:
+\[
+    \Delta f = \frac{1}{T_{\text{symbol}}}
+\]
+The FFT perfectly reconstructs these subcarriers due to its orthogonality property.
+\subsection{FFT for Chirp Sensing}
+
+Chirp-based sensing uses FMCW signals:
+\begin{itemize}
+    \item A chirp sweeps frequency linearly.
+    \item Reflected signal mixes with transmitted.
+    \item FFT converts beat signal to "range spectrum".
+\end{itemize}
+
+\noindent Thus:
+\begin{itemize}
+    \item \textbf{Range = FFT of beat frequency}
+    \item \textbf{Velocity = FFT across chirps (Doppler FFT)}
+\end{itemize}
+
+\vspace{0.3cm}
+
+Our project blends OFDM communications with chirp sensing, so FFT appears in \textbf{both communication and sensing pipelines}.
+
+\section{IFFT for OFDM System}
+
+\subsection*{IFFT Rule in OFDM system}
+\noindent
+\begin{minipage}{0.45\textwidth}
+    The IFFT's job is to transform digital data into a transmittable waveform – it takes parallel frequency-domain QAM symbols and converts them into a serial time-domain signal that can be modulated and sent over the air.
+\end{minipage}%
+\hfill
+\begin{minipage}{0.5\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{ifft.png}
+    \captionof{figure}{OFDM Transmitter Block Diagram}
+\end{minipage}
+
+\vspace{0.5cm}
+
+\subsection*{Mathematical approach}
+So far we have considered algorithms to compute the DFT in a fast and efficient way using different FFT Architectures.
+
+\noindent \textbf{What about the inverse DFT?}
+
+\noindent There are two approaches we can use. Consider the equation of the inverse DFT:
+
+\vspace{0.5cm}
+
+\noindent
+\begin{minipage}{0.48\textwidth}
+    % Left side: The derivation
+    \begin{align*}
+        x[n] &= \frac{1}{N} \sum_{k=0}^{N-1} X[k] W_N^{-kn} \\
+             &= \frac{1}{N} \left( \sum_{k=0}^{N-1} X^*[k] W_N^{kn} \right)^* \\
+             &= \frac{1}{N} (\text{DFT}\{X^*[k]\})^* \\
+             &= \frac{1}{N} \text{Conj}(\text{DFT}\{\text{Conj}(X[k])\})
+    \end{align*}
+\end{minipage}%
+\hfill\vline\hfill % Adds a vertical line between the two derivations
+\begin{minipage}{0.48\textwidth}
+    % Right side: Matrix form
+    The DFT equation can be written as follows:
+    \[ \mathbf{X} = \mathbf{W} \cdot \mathbf{x} \]
+    
+    Thus we can write the inverse DFT equation in the matrix form as follows:
+    \[ \mathbf{x} = \frac{1}{N} \mathbf{W}^* \cdot \mathbf{X} \]
+    
+    That is:
+    \[ x = \frac{1}{N} \sum_{k=0}^{N-1} X[k] w_k^* \]
+\end{minipage}
+\subsection*{Hardware Implementation Steps}
+
+\noindent Circularly fold input $X[k]$, feed folded sequence to FFT block, and scale output by $1/N$.
+
+\vspace{0.3cm}
+
+\noindent We need a \textbf{Reorder Block} that converts the FFT's negative exponent into the positive exponent of the IDFT by applying the index transformation:
+\[ k \rightarrow -k \]
+before the FFT.
+
+\subsubsection*{Advantages}
+\begin{itemize}
+    \item Reuses FFT hardware
+    \item No complex conjugators are needed
+\end{itemize}
+
+\subsubsection*{Disadvantages}
+\begin{itemize}
+    \item Needs Reorder buffer (N memory elements)
+    \item Extra latency from Reordering
+    \item Complex address generation for folding
+\end{itemize}
+
+\section{Summary for Our Project}
+
+Here is the final tailored summary that ties everything back to our OFDM + chirp sensing system:
+
+\begin{itemize}
+    \item We use \textbf{FFT/IFFT} as the backbone of both OFDM communication and chirp sensing.
+    \item The \textbf{butterfly} is the core computation unit (Radix-2 DIF recommended).
+    \item \textbf{DIF FFT} is preferable for hardware due to better pipeline structure.
+    \item Since our OFDM system processes data \textbf{per symbol}, we do \textbf{not need} fully parallel FFT.
+    \begin{itemize}
+        \item[$\rightarrow$] \textbf{Serial SDF FFT} gives huge area savings while meeting throughput.
+    \end{itemize}
+    \item In MATLAB, we use FFT as a golden model and verify:
+    \begin{itemize}
+        \item OFDM symbol recovery
+        \item Range-Doppler maps for chirp sensing
+        \item Correctness of FFT architecture
+    \end{itemize}
+\end{itemize}
+\subsection{Architecture Comparison}
+\begin{table}[H]
+\centering
+\caption{Detailed Comparison of FFT Architectures}
+\renewcommand{\arraystretch}{1.4} % Adds breathing room between rows
+\resizebox{\textwidth}{!}{% Scales the table to fit the page width
+\begin{tabular}{|p{4.5cm}|p{2.5cm}|p{2.5cm}|p{3.5cm}|p{2cm}|p{2.5cm}|p{4.5cm}|}
+\hline
+\textbf{Architecture} & \textbf{Hardware Complexity} & \textbf{Memory Requirement} & \textbf{Throughput} & \textbf{Latency} & \textbf{Area Efficiency} & \textbf{Notes} \\ \hline
+\hline
+
+\textbf{Radix-2 DIF/DIT} \newline (Fully Parallel / Single-Stage) & 
+Very High \newline (many butterflies) & 
+Very High & 
+Very High \newline (one FFT per clock) & 
+Very Low & 
+Very Low & 
+Used only in high-performance ASIC; hardware-heavy and expensive. \\ \hline
+
+\textbf{Radix-2 Multi-Path Delay Commutator (MDC)} & 
+Medium--High & 
+Medium & 
+High \newline (streaming: 1 sample/clock) & 
+Medium & 
+Medium & 
+Good for real-time systems; pipelined; requires several delay lines. \\ \hline
+
+\textbf{Radix-2 Single-Path Delay Feedback (SDF)} & 
+Low & 
+Very Low & 
+High \newline (1 sample/clock) & 
+Higher than MDC & 
+High & 
+{Most area-efficient streaming architecture, widely used in FPGA/ASIC.} \\ \hline
+
+\textbf{Radix-2 Memory-Based / Iterative (In-place)} & 
+Very Low & 
+Medium (full RAM for N points) & 
+Low (N log N clocks per transform) & 
+Very High & 
+Excellent & 
+Best for low-power systems where time is not critical. \\ \hline
+
+\textbf{Radix-2 Folded Architecture} & 
+Low--Medium & 
+Very Low & 
+Moderate & 
+High & 
+Very High & 
+Reduces hardware by time-multiplexing butterflies; good for ASIC with moderate throughput. \\ \hline
+
+\end{tabular}%
+}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Comparison of FFT Architectures for Project Selection}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}l l l l l l@{}}
+\toprule
+\textbf{Architecture} & \textbf{Complexity} & \textbf{Memory} & \textbf{Throughput} & \textbf{Latency} & \textbf{Area} \\ \midrule
+Fully Parallel & Very High & Low & Max & Min & Worst \\
+MDC & High & Medium & High & Medium & Medium-High \\
+SDF & Low & Lowest & 1 sample/clk & Highest & Best \\
+Folded & Low-Medium & Low & Moderate & High & Very High \\ \bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\textbf{Selected Architecture: SDF (Single-Path Delay Feedback)}
+\begin{itemize}
+    \item \textbf{Best choice for a production-quality 4,096-point FFT (streaming, balanced area \& throughput, good for FPGA/ASIC RTL): SDF (Single-Path Delay Feedback).} \\
+    Reason: very area-efficient, 1 sample/clock streaming, mature control patterns, widely used in RTL implementations.
+
+    \item \textbf{Easiest choice (fast to model and verify; minimal RTL complexity): Iterative / Memory-Based In-Place FFT (single butterfly reused).} \\
+    Reason: very simple control and dataflow, simplest RTL FSM and memory addressing — great to get a correct, fixed-point FFT working quickly.
+
+    \item \textbf{Recommended project approach:} Start with \textbf{Iterative (memory-based)} in MATLAB to verify numerics and fixed-point choices, then move to \textbf{SDF RTL} for the final implementation.
+\end{itemize}
+
+\section{MATLAB Reference Model Results}
+
+A floating-point FFT and IFFT model was created for one OFDM symbol with Cyclic Prefix (CP).
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{parameters.png}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{channel.png}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    % Left Image (Figure 3)
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{ofdm.png} 
+        \caption{Ofdm symbol(Ifft)}
+    \end{minipage}%
+    \hfill % Adds space between the images
+    % Right Image (Figure 4)
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{ofdm_cp.png}
+        \caption{Ofdm after adding cyclic prefix}
+    \end{minipage}
+\end{figure}
+The cyclic prefix (CP) is formed by copying the first $N_{\text{cp}}$ samples of the OFDM symbol and appending them to the end of the symbol. 
+In this case, the original symbol length is $4096$ samples. After adding a cyclic prefix of length $N_{\text{cp}} = 288$, the total symbol length becomes
+\[
+4096 + 288 = 4384 \text{ samples}.
+\]
+
+The two highlighted points in the graph verify that the cyclic prefix is an exact copy of the first $N_{\text{cp}}$ samples of the symbol. 
+For example, sample number $283$ in the cyclic prefix corresponds to sample number
+\[
+4096 + (288 - 5) = 4079
+\]
+in the original symbol. Both samples have the same amplitude, confirming the cyclic prefix construction.
+
+By extension, this relationship holds for all samples in the cyclic prefix; that is, the first $288$ samples of the symbol are identical to the last $288$ samples after the cyclic prefix is added.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Received_OFDM_CP_FFT.png}  % path to your image
+    \caption{Received OFDM Before removing CP (after FFT).}
+    \label{fig:received_ofdm_cp}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    % Left Image (Figure 3)
+    \begin{minipage}{0.46\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Received_OFDM_NoCP_FFT.png} 
+        \caption{Received OFDM after removing CP.}
+    \end{minipage}%
+    \hfill % Adds space between the images
+    % Right Image (Figure 4)
+    \begin{minipage}{0.46\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Magnitude_Spectrum.png}
+        \caption{Magnitude Spectrum of OFDM.}
+    \end{minipage}
+\end{figure}
+
+\subsection{Performance Metrics}
+
+\begin{itemize}
+
+    \item \textbf{SNR = 30 dB with 16-QAM randomized symbols:}\\
+    The received constellation shows noticeable noise effects.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\linewidth]{30db_PerformanceMetrics.png}
+        \caption{Performance metrics at SNR = 30 dB}
+        \label{fig:snr30db_metrics}
+    \end{figure}
+
+    \textbf{Observation:}\\
+    Significant clustering is observed around the ideal 16-QAM coordinates.
+
+    \item \textbf{SNR = 60 dB:}\\
+    The constellation of the received symbols is approximately identical to the transmitted symbols.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\linewidth]{60db_PerformanceMetrics.png}
+        \caption{Performance metrics at SNR = 60 dB}
+        \label{fig:60db_performance}
+    \end{figure}
+
+    \item \textbf{MSE:}\\
+    The comparison of the mean square error at different SNR levels is shown below.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{MSE30db_PerformanceMetrics.png}
+    \caption{MSE at SNR = 30 dB}
+\end{figure}
+    
+        \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{MSE100db_PerformanceMetrics.png}
+    \caption{Mean Square Error comparison at different SNR levels}
+\end{figure}
+\end{itemize}
+
+% =========================================================
+% CHAPTER 9: Signal Processing Simulations
+% =========================================================
+\chapter{Signal Processing Simulations}
+
+\section{Signal Placement Strategies}
+
+The following table summarizes the different strategies for placing radar and communication signals:
+
+\begin{table}[H]
+\centering
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|p{3cm}|p{3cm}|p{3.5cm}|p{2.5cm}|p{3cm}|}
+\hline
+\textbf{Case} & \textbf{Description} & \textbf{How Signals are Placed} & \textbf{Pros} & \textbf{Cons} \\
+\hline
+Separate Bandwidth (Non-overlapping) & Chirp and OFDM occupy different frequency bands. & - Chirp centered at one carrier \newline - OFDM centered at a different carrier & - No mutual interference \newline - Easy to separate at receiver (filters) \newline - Lower EVM & - Wastes spectrum \newline - Larger total bandwidth needed \newline - Higher Cost \\
+\hline
+Same Bandwidth (Overlapping) & Chirp and OFDM occupy overlapping frequencies. & Both signals occupy the same band & - Efficient use of spectrum \newline - Single band for TX/RX \newline - Lower Cost & - Interference between radar and communication \newline - More complex separation \newline - Higher EVM \\
+\hline
+Time-Division Multiplexing (TDM) & Transmit chirp and OFDM in different time slots. & - First transmit chirp $\rightarrow$ sense $\rightarrow$ then transmit OFDM $\rightarrow$ communicate & - No spectral interference \newline - Uses same hardware & - Reduced real-time data throughput \newline - Latency introduced \\
+\hline
+\end{tabular}%
+}
+\caption{Comparison of Signal Placement Strategies}
+\end{table}
+
+\section{DDS TOOL}
+
+\subsection{Single Tone Generation}
+We were able to verify theoretical information in the reference through the simulation results.
+
+Different Target output frequencies:
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{DDS_Tool_1.png}
+        \caption{Target Output Frequency 1.7G Hz}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{DDS_Tool_2.png}
+        \caption{Target Output Frequency 1.1G Hz}
+    \end{subfigure}
+    \caption{DDS Selection and Operation}
+\end{figure}
+
+Signal is less distorted when following the criterion of $F_{out} <$ a third of the system clock frequency as the number of images and harmonics included in the passband are less.
+
+Testing the example from the reference:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{DDS_Tool_3.png}
+    \caption{Testing reference example with $F_{clk}=300$ MHz}
+\end{figure}
+
+An understanding of sampling theory is necessary when analyzing the sampled output of a DDS-based signal synthesis solution. The spectrum of a sampled output is illustrated below. In this example, the sampling clock ($f_{CLOCK}$) is 300 MHz and the fundamental output frequency ($f_{OUT}$) is 80 MHz.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{DDS_Tool_4.png}
+    \caption{Sampling Theory Illustration}
+\end{figure}
+
+We can see that the results match where:
+With $F_{clk} = 300$ MHz and $f_0 = 80$ MHz, the first few images are:
+\begin{itemize}
+    \item $1 \cdot F_{clk} - f_0 = 300 - 80 = 220$ MHz
+    \item $1 \cdot F_{clk} + f_0 = 380$ MHz
+    \item $2 \cdot F_{clk} - f_0 = 600 - 80 = 520$ MHz
+    \item $2 \cdot F_{clk} + f_0 = 680$ MHz
+\end{itemize}
+
+Harmonics (integer multiples of the fundamental) occur at $2 \cdot f_0, 3 \cdot f_0, 4 \cdot f_0, \dots$:
+\begin{itemize}
+    \item 2nd harmonic: occur at distances $F_0$ from images = 80 MHz
+    \item 3rd harmonic: occur at distances $2 \cdot F_0$ from images = 160 MHz
+\end{itemize}
+
+\subsection{Different Filter Responses}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{DDS_Tool_5.png}
+        \caption{Bessel Filter}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{DDS_Tool_6.png}
+        \caption{Inverse Chebyshev}
+    \end{subfigure}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{DDS_Tool_7.png}
+        \caption{Chebyshev}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{DDS_Tool_8.png}
+        \caption{Butterworth}
+    \end{subfigure}
+    \caption{Comparison of different filter types}
+\end{figure}
+
+When trying different filter responses we see that they match with their known characteristics and in this case the Chebyshev filter provided the best response.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Filter Type} & \textbf{Passband Ripple} & \textbf{Stopband Ripple} & \textbf{Transition Sharpness} \\
+\hline
+Butterworth & None (flat) & None & Gentle (slow) \\
+Chebyshev Type I & Ripple in passband & Flat stopband & Sharper \\
+Chebyshev Type II & Flat passband & Ripple in stopband & Sharper \\
+Elliptic & Ripple in passband & Ripple in stopband & Sharpest for given order \\
+\hline
+\end{tabular}
+\caption{Filter Characteristics}
+\end{table}
+
+\section{LFM Signal "Chirp"}
+
+\subsection{1. Theory: Why LFM Radar Can Measure Distance}
+When a radar transmits a signal $s(t)$, it travels to a target at distance $R$, reflects, and returns back.
+The round-trip propagation delay is:
+\begin{equation}
+\tau = \frac{2R}{c}
+\end{equation}
+where:
+\begin{itemize}
+    \item $R$: distance to target
+    \item $c = 3 \times 10^8$ m/s: speed of light
+\end{itemize}
+
+When this delayed echo returns, the radar correlates it with a \textbf{reference copy} of the transmitted signal. The correlation (matched filter output) produces a \textbf{sharp peak} at the location that matches the delay.
+Thus:
+\begin{equation}
+R = \frac{c \times \tau_{est}}{2}
+\end{equation}
+where $\tau_{est}$ is the time where the correlation peak occurs.
+
+\subsection{2. Why LFM (Linear Frequency Modulated) Signals Are Used}
+An LFM chirp is:
+\begin{equation}
+s(t) = A \cos(2\pi(f_0 t + \frac{K}{2}t^2) + \theta)
+\end{equation}
+with:
+\begin{itemize}
+    \item $f_0$: start frequency
+    \item $K = B/T$: chirp rate
+    \item $B$: bandwidth
+    \item $T$: pulse duration
+\end{itemize}
+Its instantaneous frequency is: $f_{inst}(t) = f_0 + Kt$.
+The \textbf{linearly increasing frequency} gives LFM excellent matched filter gain, a very sharp correlation peak, high SNR improvement, and very good range resolution.
+
+\textbf{Range resolution:}
+\begin{equation}
+\Delta R = \frac{c}{2B}
+\end{equation}
+Higher bandwidth $\rightarrow$ better resolution.
+
+\subsection{Signal Model Used in Simulation}
+\begin{itemize}
+    \item Transmitted signal: Real LFM chirp $s(t)$
+    \item Received echo: $r(t) = \alpha s(t - \tau) + n(t)$
+    \item Matched filter output: $z(t) = (r * s\sim)(t)$ where $s\sim(t) = s(-t)$
+\end{itemize}
+At the correct delay $\rightarrow$ a strong correlation peak.
+
+\textbf{Simulation Parameters:}
+\begin{verbatim}
+c = 3e8;                 % speed of light (m/s)
+A = 1;                   % amplitude
+f0 = 0;                  % start frequency
+B = 1e6;                 % bandwidth (Hz)
+T = 100e-6;              % pulse duration
+K = B / T;               % chirp rate
+Fs = 5e7;                % sampling frequency
+SNR_dB = 10;             % desired SNR
+R_true = 300;            % true range
+alpha = 0.3;             % attenuation
+\end{verbatim}
+
+\subsection{Figure-by-Figure Explanation}
+
+\textbf{FIGURE 1 — LFM Signal Analysis}
+This figure has 6 subplots.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{LFM_9.png}
+    \caption{LFM Signal Analysis Overview}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Plot 1 (Transmitted LFM Chirp - Time Domain):} Shows the real LFM signal $s(t)$. It looks like a sinusoid whose frequency increases gradually along the pulse (up-chirp).
+    \item \textbf{Plot 2 (Frequency Domain):} Shows $|S(f)|$. The spectrum spreads across the bandwidth $B$, occupying $[f_0, f_0+B]$.
+    \item \textbf{Plot 3 (Instantaneous Frequency):} A straight line from $f_0$ to $f_0+B$. This confirms $f_{inst}(t) = f_0 + Kt$.
+    \item \textbf{Plot 4 (Received Signal - Time Domain):} The received echo appears \textbf{later} than the transmitted pulse due to propagation delay. It is attenuated and contains noise.
+    \item \textbf{Plot 5 (Received Signal - Frequency Domain):} The FFT of the received echo. The spectrum is essentially the same as transmitted, confirming delay causes phase shift, not frequency shift.
+    \item \textbf{Plot 6 (Matched Filter Output $|z(t)|$):} Shows the magnitude of correlation. A large, sharp peak occurs at the estimated delay. $\tau_{est} = (\text{peak time index}) / Fs$.
+\end{itemize}
+
+\textbf{FIGURE 2 — Detailed Frequency Analysis}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{LFM_15.png}
+    \caption{Spectrogram of Transmitted LFM Chirp}
+\end{figure}
+\textbf{Plot 1 — Spectrogram:} Visually confirms the chirp's instantaneous frequency sweep linearly.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{LFM_16.png}
+    \caption{Normalized Frequency Spectrum Comparison}
+\end{figure}
+\textbf{Plot 2 — Spectrum Comparison:} Overlays transmitted and received spectra. The echo preserves chirp structure; noise slightly distorts it.
+
+\textbf{Explanation for the 4 PSD Subplots:}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{LFM_17.png}
+    \caption{PSD Comparison – Linear Scale}
+\end{figure}
+(1) \textbf{PSD Comparison – Linear Scale:} Shows transmitted chirp has nearly flat PSD over 80 MHz. Received echo appears attenuated. Noise PSD is flat and low (AWGN).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{LFM_18.png}
+    \caption{PSD Comparison – dB Scale}
+\end{figure}
+(2) \textbf{PSD Comparison – dB Scale:} Transmitted chirp forms a clean, flat plateau. Noise floor appears as a horizontal flat line.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{LFM_19.png}
+    \caption{Transmitted LFM Chirp PSD (Zoomed)}
+\end{figure}
+(3) \textbf{Transmitted LFM Chirp PSD (Zoomed):} Focuses on the transmitted signal, showing the precise sweep bandwidth ($\sim$80 MHz) and sharp roll-offs.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{LFM_20.png}
+    \caption{Noise PSD (White Gaussian Noise)}
+\end{figure}
+(4) \textbf{Noise PSD:} Exhibits expected flat spectral density of ideal AWGN with small random fluctuations.
+
+\textbf{FIGURE 3 — Matched Filter Peak (Zoom)}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{LFM_21.png}
+    \caption{Matched Filter Peak (Zoom)}
+\end{figure}
+The matched filter output is extremely sharp. The location of the peak corresponds exactly to the echo delay.
+
+\textbf{Result (AWGN only):}
+\begin{verbatim}
+True round-trip delay = 2.000e-06 s -> delay samples = 100
+Requested SNR = 0.0 dB, Actual SNR = 0.3 dB
+Received echo power (approx) = 4.612e-02 ; noise sigma = 2.082e-01
+Estimated delay samples = 100 -> est_tau = 2.000e-06 s -> R_est = 300.000 m
+Theoretical range resolution (c / (2B)) = 150.000 m
+Range estimate error (R_est - R_true) = 0.000 m
+\end{verbatim}
+
+\textbf{Results (AWGN + Multipath Components + Doppler Effect):}
+\begin{verbatim}
+Main delay (s) = 1.000e-06  -> main delay samples = 50
+MP 1 extra range = 30.0 m -> extra delay (samples) = 10
+MP 2 extra range = 25.0 m -> extra delay (samples) = 8
+...
+Doppler shift = 37.50 Hz
+Estimated (strongest) delay samples = 53 -> est_tau = 1.060e-06 s -> R_est = 159.000 m
+Range estimate error (R_est - R_true) = 9.000 m
+\end{verbatim}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{LFM_24.png}
+    \caption{Multipath and Doppler Simulation Results}
+\end{figure}
+
+\subsection{Results with RF-2 related parameters}
+Parameters: $B = 80$ MHz, $T = 50\mu s$, $Fs = 500$ MHz.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{LFM_25.png}
+    \caption{Console Output RF-2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{LFM_26.png}
+    \caption{Signal Analysis RF-2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{LFM_27.png}
+    \caption{PSD RF-2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{LFM_28.png}
+    \caption{Spectrogram and Phase RF-2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{LFM_29.png}
+    \caption{Matched Filter Peak RF-2}
+\end{figure}
+
+\textbf{Conclusion from Simulation Results:}
+\begin{itemize}
+    \item \textbf{AWGN only:} Matched filter correctly identifies the main peak. Range error is 0 m.
+    \item \textbf{AWGN + Multipath + Doppler:} Multiple peaks appear. Strongest peak is shifted, leading to range errors. SNR decreases.
+    \item \textbf{Bandwidth vs. Range Estimation Error:}
+    \begin{itemize}
+        \item Low BW (0.1 MHz) $\rightarrow$ Wide peak $\rightarrow$ High error ($\approx 30$ m).
+        \item High BW (1 MHz) $\rightarrow$ Sharp peak $\rightarrow$ Low error ($\approx 0$ m).
+        \item Theoretical relationship: $\Delta R = c/2B$.
+    \end{itemize}
+\end{itemize}
+
+\section{OFDM + Chirp (Different Timeslots) Simulation}
+\textbf{Fixed Parameters:} NFFT = 4096, SCS = 120e3 Hz, NRBs = 264, 256-QAM, AWGN channel.
+
+\textbf{1st Test Case: All slots are OFDM}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{TDM_30.png}
+    \caption{ISAC TDM System with Alternating Slots (Baseline)}
+\end{figure}
+EVM: 2.78\%.
+
+\textbf{2nd Test Case: Slots are alternating between OFDM and Chirp}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{TDM_31.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{TDM_32.png}
+    \end{subfigure}
+    \caption{Time allocation distribution between alternating signals}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{TDM_33.png}
+        \caption{Communication Slot 1 Example}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{TDM_34.png}
+        \caption{Communication Performance (Odd Slots)}
+    \end{subfigure}
+    \caption{OFDM Signal and EVM per slot}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{TDM_35.png}
+        \caption{Sensing Slot 2 Example}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{TDM_36.png}
+        \caption{Sensing Performance (Even Slots)}
+    \end{subfigure}
+    \caption{Chirp signal and Range Error (Bandwidth 20 MHz)}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{TDM_37.png}
+        \caption{TDM Frame Spectrum}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{TDM_38.png}
+        \caption{Performance Summary}
+    \end{subfigure}
+    \caption{Spectrum of OFDM and Chirp signals}
+\end{figure}
+
+In the spectrum graph, we see normally we have limited bandwidth to allocate for both and have to study the tradeoffs:
+\begin{itemize}
+    \item High Comm BW $\rightarrow$ High data rate + Poor sensing resolution.
+    \item Low Comm BW $\rightarrow$ Low data rate + Excellent sensing resolution.
+\end{itemize}
+EVM is approximately the same as signals are in different timeslots.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{TDM_39.png}
+    \caption{Matched Filter Analysis for FMCW Radar Sensing}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{TDM_40.png}
+    \caption{Matched Filter Performance Metrics}
+\end{figure}
+Correlation is done between the original and received signal where the delay is used to calculate the distance with an error depending on the radar resolution.
+
+\section{FDM Technique: OFDM + LFM (No-overlapping)}
+
+\subsection{1. Objective}
+Implementation of Frequency-Division Multiplexing (FDM) to transmit OFDM communication signals and LFM radar chirp simultaneously in the same time slot.
+
+\subsection{2. System Design}
+\begin{itemize}
+    \item \textbf{OFDM Signal:} BW = 380 MHz (Communication). Metric: EVM.
+    \item \textbf{LFM Radar Signal:} BW = 80 MHz (Sensing). Resolution $\Delta R \approx 1.88$ m.
+    \item \textbf{Arrangement:} Total Spectrum = OFDM BW + Guard Band + LFM BW.
+\end{itemize}
+
+\subsection{3. Guard Band Analysis}
+\begin{itemize}
+    \item \textbf{Small Guard Band:} EVM increased; slight spectral leakage; Radar performance unaffected.
+    \item \textbf{Large Guard Band:} EVM decreased; Radar performance unaffected.
+\end{itemize}
+\textbf{Conclusion:} EVM is sensitive to guard band size; Radar sensing is robust.
+
+\subsection{Results and Visualization}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{FDM_Over_41.png}
+    \caption{Simulation Parameters and EVM results}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{FDM_Over_42.png}
+    \caption{Preamble-only MMSE + CPE EVM vs SNR}
+\end{figure}
+EVM decreases with increasing SNR.
+
+\textbf{Effect of decreasing guard band (SNR = 30 dB):}
+\begin{itemize}
+    \item Guard band 20 MHz $\rightarrow$ EVM $\approx 3.589\%$
+    \item Guard band 2 MHz $\rightarrow$ EVM $\approx 3.406\%$
+\end{itemize}
+Note: By decreasing the guard band, interference increases.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{FDM_Over_43.png}
+    \caption{Transmitted Signal Spectrum (0-250 MHz)}
+\end{figure}
+OFDM BW = 380 MHz (baseband). Guard band is visible between OFDM and LFM (200-240 MHz).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{FDM_Over_44.png}
+    \caption{LFM Correlation Output (Zoomed Around Peak)}
+\end{figure}
+Peak at $t=2.0142 \mu s$ corresponds to the target distance.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{FDM_Over_45.png}
+    \caption{Spectrum of Received Radar Signal after Low-Pass Filter (OFDM)}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{FDM_Over_46.png}
+    \caption{Spectrum of Received Radar Signal after High-Pass Filter (LFM)}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{FDM_No_Over_47.png}
+    \caption{Signal Time-Domain Zooms}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{FDM_No_Over_48.png}
+    \caption{Combined Signal (OFDM + LFM)}
+\end{figure}
+The 3rd graph shows the superposition. Amplitude variations are more extreme.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{FDM_No_Over_49.png}
+    \caption{Power Spectral Density: LFM and Combined}
+\end{figure}
+\begin{itemize}
+    \item \textbf{Blue dashed (OFDM):} Flat across $\pm$ 190 MHz.
+    \item \textbf{Red dashed (LFM):} Concentrated 0 to 80 MHz.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{FDM_No_Over_50.png}
+    \caption{Received Constellations and EVM}
+\end{figure}
+
+\textbf{Factors affecting EVM:}
+\begin{enumerate}
+    \item \textbf{SNR:} EVM decreases as SNR increases (saturates around 19\% in the table provided).
+    \item \textbf{Relative Power (LFM vs OFDM):} If LFM power is high, interference increases, worsening EVM.
+\end{enumerate}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{LFM relative power (dB)} & \textbf{EVM} \\
+\hline
+-10 & 4.17\% \\
+-5 & 6.26\% \\
+0 & 10.33\% \\
+5 & 17.76\% \\
+10 & 31.62\% \\
+15 & 56.66\% \\
+20 & 101.26\% \\
+\hline
+\end{tabular}
+\caption{Effect of LFM Relative Power on EVM}
+\end{table}
+
+\textbf{Multipath Effect on Distance:}
+Distance error increases with the number of multipath components.
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Multipath Components} & \textbf{Distance Error (m)} \\
+\hline
+0 & 0.1363 \\
+1 & 7.5 \\
+2 & 15 \\
+3 & 67.5 \\
+\hline
+\end{tabular}
+\end{table}
+
+% =========================================================
+% CHAPTER 10: Conclusion
+% =========================================================
+\chapter{Conclusion}
+
+This graduation project has successfully explored the design and implementation of a DDS-based waveform generation and correlation system for 5G/6G cellular network calibration and ranging within an Integrated Sensing and Communication (ISAC) framework. The comprehensive analysis covers:
+
+\begin{itemize}
+    \item \textbf{Introduction to ISAC:} Understanding the evolution of wireless networks toward integrated sensing and communication, and the role of DDS in this paradigm.
+    
+    \item \textbf{Wireless Channel Fundamentals:} Analysis of multipath propagation, fading, Doppler effects, and channel parameters that affect both communication and sensing systems.
+    
+    \item \textbf{OFDM System Design:} Detailed implementation of OFDM with cyclic prefix, pilot tones, and synchronization mechanisms for reliable communication.
+    
+    \item \textbf{5G NR Standards:} Examination of frame structures and numerology for modern wireless systems operating in FR2 frequency bands.
+    
+    \item \textbf{DDS Technology:} Comprehensive study of Direct Digital Synthesis for precise waveform generation, essential for both communication and sensing applications.
+    
+    \item \textbf{FFT Hardware Implementation:} Analysis of various FFT architectures suitable for OFDM and chirp processing, with recommendations for hardware implementation.
+    
+    \item \textbf{Signal Processing Simulations:} Demonstration of multiple signal placement strategies including TDM and FDM approaches for combined communication and sensing.
+\end{itemize}
+
+The project demonstrates that integrated sensing and communication (ISAC) systems are feasible with careful design considerations. Key trade-offs between communication performance (EVM) and sensing accuracy (range resolution) have been quantified through extensive MATLAB simulations.
+
+\section{Key Achievements}
+
+\begin{itemize}
+    \item Successfully designed and simulated a DDS-based waveform generation system capable of producing signals suitable for 5G/6G ISAC applications.
+    \item Implemented and verified correlation algorithms for precise ranging and distance estimation.
+    \item Compared different ISAC waveform strategies and quantified their performance trade-offs.
+    \item Developed MATLAB reference models for system-level validation.
+    \item Analyzed FFT architectures and selected optimal implementations for hardware realization.
+\end{itemize}
+
+\section{Future Work}
+
+Future work could focus on:
+\begin{itemize}
+    \item Hardware implementation of the optimized FFT and DDS architectures on FPGA platforms.
+    \item Real-time implementation and testing with hardware-in-the-loop simulations.
+    \item Advanced interference cancellation techniques for overlapping communication and sensing signals.
+    \item Integration with MIMO systems for improved spatial resolution and beamforming.
+    \item Development of adaptive waveform strategies that dynamically adjust based on channel conditions and sensing requirements.
+    \item ASIC prototyping of the most critical digital signal processing blocks.
+\end{itemize}
+
+This work provides a solid foundation for the development of next-generation wireless systems that seamlessly integrate communication and sensing capabilities, paving the way for more intelligent, efficient, and context-aware wireless networks.
+
+\end{document}
