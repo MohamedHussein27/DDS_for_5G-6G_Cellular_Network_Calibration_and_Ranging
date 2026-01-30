@@ -7,8 +7,6 @@ package alu_seq_item_pkg;
         logic [3:0] out;
         logic c;
 
-        logic [7:0] temp_address; // will be used is equal address constraint
-
         // constraints
         constraint a_con {
             a dist {[0:12] := 70, [13:15] := 30}; // higher values has less prop.
