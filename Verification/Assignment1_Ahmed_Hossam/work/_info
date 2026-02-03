@@ -1,0 +1,198 @@
+m255
+K4
+z2
+!s99 nomlopt
+!s11f vlog 2021.1 2021.01, Jan 19 2021
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/lenovo/Documents/ADI project/Ahmed_hossam_task1_verification
+T_opt
+!s11d C:/Users/lenovo/Documents/ADI project/Ahmed_hossam_task1_verification/work 0 
+!s11d alu_if 1 0 
+!s11d project/Ahmed_hossam_task1_verification/work 1 0 
+!s11d tb_top_sv_unit C:/Users/lenovo/Documents/ADI 0 
+!s110 1770130708
+V8[FC7`MW3XL4jQLk_Bh4F1
+04 6 4 work tb_top fast 0
+=1-84a93848eb88-69820d14-4b-290c
+!s124 OEM100
+o-quiet -auto_acc_if_foreign -work work +acc
+Z1 tCvgOpt 0
+n@_opt
+OL;O;2021.1;73
+vALU
+Z2 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
+Z3 !s110 1770130707
+!i10b 1
+!s100 aGf[14R7zKOBR^_4KX=T^0
+IV0`<H<_`DROjl7FX==Ke?3
+S1
+R0
+w1770130379
+8DUT.sv
+FDUT.sv
+!i122 2
+L0 3 1040
+Z4 VDg1SIo80bB@j0V0VzS_@n1
+Z5 OL;L;2021.1;73
+r1
+!s85 0
+31
+Z6 !s108 1770130707.000000
+Z7 !s107 alu_pack.sv|DUT.sv|
+Z8 !s90 -reportprogress|300|-sv|+cover|DUT.sv|
+!i113 0
+Z9 !s102 +cover
+Z10 o-sv +cover -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R1
+n@a@l@u
+Xalu_env_sv_unit
+Z11 !s115 alu_if
+R2
+Z12 DXx4 work 8 alu_pack 0 22 o4]08PmZMo:igM87IPfUU1
+R3
+Vn5ZfTh_UTV:=?N=WJ3U6A3
+r1
+!s85 0
+!i10b 1
+!s100 2MZkZ;91hJ?H1^?Ri[@Sc1
+In5ZfTh_UTV:=?N=WJ3U6A3
+!i103 1
+S1
+R0
+w1770130350
+8alu_env.sv
+Z13 Falu_env.sv
+Z14 Falu_scoreboard.sv
+Z15 Falu_item.sv
+Z16 Fagent.sv
+Z17 Falu_generator.sv
+Z18 Falu_driver.sv
+Z19 Falu_monitor.sv
+Z20 Falu_coverage.sv
+!i122 3
+Z21 L0 3 0
+R5
+31
+R6
+!s107 alu_coverage.sv|alu_monitor.sv|alu_driver.sv|alu_generator.sv|agent.sv|alu_item.sv|alu_scoreboard.sv|alu_env.sv|
+!s90 -reportprogress|300|-sv|alu_env.sv|
+!i113 0
+Z22 o-sv -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R1
+Yalu_if
+R2
+R3
+!i10b 1
+!s100 _cB2YV^iEgGG2g<c;4@[L3
+IY@YXn@C=R2P4G?^kM::Ya1
+S1
+R0
+w1770111798
+8alu_if.sv
+Falu_if.sv
+!i122 1
+Z23 L0 1 0
+R4
+R5
+r1
+!s85 0
+31
+R6
+!s107 alu_if.sv|
+!s90 -reportprogress|300|-sv|+cover|alu_if.sv|
+!i113 0
+R9
+R10
+R1
+Xalu_pack
+R2
+R3
+!i10b 1
+!s100 IQQl;[h9FOLY@k2iMKMGE3
+Io4]08PmZMo:igM87IPfUU1
+S1
+R0
+w1769986817
+8alu_pack.sv
+Falu_pack.sv
+!i122 2
+R23
+Vo4]08PmZMo:igM87IPfUU1
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 0
+R9
+R10
+R1
+vtb_top
+R2
+R12
+DXx4 work 14 tb_top_sv_unit 0 22 ?Z[Nj:Y<`VP3lQ2FLL=Wa2
+R3
+R4
+r1
+!s85 0
+!i10b 1
+!s100 :jg^XK9HP9_8V`fc1adTQ3
+I62J7ILKS@SS9N^CF9kUKm0
+!s105 tb_top_sv_unit
+S1
+R0
+Z24 w1770130368
+Z25 8tb_top.sv
+Z26 Ftb_top.sv
+!i122 4
+L0 3 28
+R5
+31
+R6
+Z27 !s107 alu_coverage.sv|alu_monitor.sv|alu_driver.sv|alu_generator.sv|agent.sv|alu_item.sv|alu_scoreboard.sv|alu_env.sv|tb_top.sv|
+Z28 !s90 -reportprogress|300|-sv|tb_top.sv|
+!i113 0
+R22
+R1
+Xtb_top_sv_unit
+R11
+R2
+R12
+R3
+V?Z[Nj:Y<`VP3lQ2FLL=Wa2
+r1
+!s85 0
+!i10b 1
+!s100 =c3ZUBL3d]EFBaoPRO89<1
+I?Z[Nj:Y<`VP3lQ2FLL=Wa2
+!i103 1
+S1
+R0
+R24
+R25
+R26
+R13
+R14
+R15
+R16
+R17
+R18
+R19
+R20
+!i122 4
+R21
+R5
+31
+R6
+R27
+R28
+!i113 0
+R22
+R1
