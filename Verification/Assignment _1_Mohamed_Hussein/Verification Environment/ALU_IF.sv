@@ -1,5 +1,8 @@
-interface alu_if();
+interface alu_if(clk);
 
+    input clk;
+
+    logic rst_n;
     logic [3:0] a;
     logic [3:0] b;
     logic [1:0] op;
@@ -7,17 +10,17 @@ interface alu_if();
     logic [3:0] out;
 
     modport DUT (
-        input  a, b, op, c,
+        input clk, rst_n, a, b, op, c,
         output out
     );
 
     modport TEST (
-        output a, b, op, c,
-        input  out
+        output rst_n, a, b, op, c,
+        input clk, out
     );
 
     modport MONITOR (
-        input a, b, op, c, out
+        input clk, rst_n, a, b, op, c, out
     );
 
 endinterface
