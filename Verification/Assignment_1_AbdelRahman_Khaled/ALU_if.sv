@@ -1,6 +1,6 @@
 // Interface definition for ALU signals
-// Used to connect DUT, testbench, and monitor
-interface ALU_if ();
+// Used to connect DUT, driver, and monitor
+interface ALU_if (input bit clk);
 
   // ALU operation selector
   logic [1:0] op;
@@ -16,13 +16,15 @@ interface ALU_if ();
   // Modport for the Design Under Test (DUT)
   // DUT reads inputs and drives outputs
   modport DUT (
+    input  clk,
     input  op, a, b,
     output c, out
   );
 
   // Modport for the testbench driver
-  // Testbench drives inputs and reads outputs
+  // Driver drives inputs only
   modport tb (
+    input  clk,
     output op, a, b,
     input  c, out
   );
@@ -30,6 +32,7 @@ interface ALU_if ();
   // Modport for the monitor
   // Monitor passively observes all signals
   modport monitor (
+    input clk,
     input op, a, b, c, out
   );
 

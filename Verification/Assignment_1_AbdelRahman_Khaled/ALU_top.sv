@@ -1,36 +1,40 @@
-import ALU_tb_pkg::*;
-import ALU_monitor_pkg::*;
+import ALU_env_pkg::*; 
 
-module ALU_top();
+module ALU_top;
 
-  // Instantiate the ALU interface
-  ALU_if ALUif();
+  // Clock signal
+  bit clk;
 
-  // Instantiate the ALU DUT, connecting it to the interface via the DUT modport
-    ALU DUT (
-        .a(ALUif.a),
-        .b(ALUif.b),
-        .op(ALUif.op),
-        .out(ALUif.out),
-        .c(ALUif.c)
-    );
+  // 2. Instantiate Interface (This holds the actual signals a, b, op, etc.)
+  ALU_if alu_if(clk);
 
-  // Instantiate the ALU testbench, connecting it to the interface via the TB modport
-  ALU_tb tb;
+  // 3. Instantiate DUT
+  // CONNECT DIRECTLY TO THE INTERFACE SIGNALS
+  ALU dut (
+    .a   (alu_if.a),    
+    .b   (alu_if.b),
+    .op  (alu_if.op),
+    .out (alu_if.out),
+    .c   (alu_if.c)
+  );
 
+  // Environment handle
+  ALU_env env;
+
+  // Clock generation
   initial begin
-    tb = new(ALUif.tb);  // pass virtual interface
-    tb.run();
+    clk = 0;
+    forever #1 clk = ~clk;  // 100MHz clock
   end
 
-
-  // Instantiate the ALU monitor, connecting it to the interface via the monitor modport
-  ALU_monitor mon;
-
+  // Test Flow
   initial begin
-    mon = new(ALUif.monitor); // pass virtual interface
-    mon.run();
+    // Create environment and pass virtual interfaces
+    env = new(alu_if.tb, alu_if.monitor);
+    
+    env.build();   // Build hierarchy
+    env.run();     // Start simulation
+    $stop;
   end
 
-
-endmodule : ALU_top
+endmodule
