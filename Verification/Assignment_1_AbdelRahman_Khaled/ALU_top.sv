@@ -11,6 +11,7 @@ module ALU_top;
   // 3. Instantiate DUT
   // CONNECT DIRECTLY TO THE INTERFACE SIGNALS
   ALU dut (
+    .clk  (alu_if.clk),
     .a   (alu_if.a),    
     .b   (alu_if.b),
     .op  (alu_if.op),

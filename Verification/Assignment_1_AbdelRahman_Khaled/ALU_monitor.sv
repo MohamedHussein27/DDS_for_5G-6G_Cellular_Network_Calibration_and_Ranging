@@ -30,9 +30,10 @@ package ALU_monitor_pkg;
       ALU_transaction tr_mon; // local transaction (new each cycle)
 
       forever begin
-
+          
         // Synchronize sampling
         @(posedge vif.clk);
+        #1;
 
         // Create a fresh transaction for this sample
         tr_mon = new();

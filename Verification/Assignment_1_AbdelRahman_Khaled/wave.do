@@ -1,14 +1,15 @@
 onerror {resume}
 quietly WaveActivateNextPane {} 0
-add wave -noupdate -expand -group {DUT signals} /ALU_top/dut/a
-add wave -noupdate -expand -group {DUT signals} /ALU_top/dut/b
-add wave -noupdate -expand -group {DUT signals} /ALU_top/dut/op
-add wave -noupdate -expand -group {DUT signals} /ALU_top/dut/c
-add wave -noupdate -expand -group {DUT signals} /ALU_top/dut/out
-add wave -noupdate -expand -group {DUT signals} /ALU_top/dut/out_data
+add wave -noupdate -expand -group {DUT signals} -radix unsigned /ALU_top/dut/clk
+add wave -noupdate -expand -group {DUT signals} -radix unsigned /ALU_top/dut/a
+add wave -noupdate -expand -group {DUT signals} -radix unsigned /ALU_top/dut/b
+add wave -noupdate -expand -group {DUT signals} -radix unsigned /ALU_top/dut/op
+add wave -noupdate -expand -group {DUT signals} -radix unsigned /ALU_top/dut/c
+add wave -noupdate -expand -group {DUT signals} -radix unsigned /ALU_top/dut/out
+add wave -noupdate -expand -group {DUT signals} -radix unsigned /ALU_top/dut/out_data
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {0 ns} 0}
-quietly wave cursor active 0
+WaveRestoreCursors {{Cursor 1} {2 ns} 0}
+quietly wave cursor active 1
 configure wave -namecolwidth 150
 configure wave -valuecolwidth 100
 configure wave -justifyvalue left
@@ -23,4 +24,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {0 ns} {3134 ns}
+WaveRestoreZoom {2082 ns} {2101 ns}
