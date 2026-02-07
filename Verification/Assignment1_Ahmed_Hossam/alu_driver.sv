@@ -2,8 +2,10 @@
 class alu_driver;
     virtual alu_if vif;
     mailbox #(alu_item) gen2driv;
-
-    function new(virtual alu_if vif, mailbox gen2driv);
+    function new();
+        endfunction
+        
+    function void connecting (virtual alu_if vif, mailbox gen2driv);
         this.vif = vif;
         this.gen2driv = gen2driv;
     endfunction

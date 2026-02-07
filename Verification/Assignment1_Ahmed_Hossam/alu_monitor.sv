@@ -4,7 +4,10 @@ class alu_monitor;
     virtual alu_if vif;
     mailbox #(alu_item) mon2scb;
     alu_coverage cov;
-    function new(virtual alu_if vif, mailbox mon2scb,alu_coverage cov);
+    function new();
+        endfunction
+
+    function void connecting (virtual alu_if vif, mailbox mon2scb,alu_coverage cov);
         this.vif = vif;
         this.mon2scb = mon2scb;
         this.cov = cov; // Store the handle

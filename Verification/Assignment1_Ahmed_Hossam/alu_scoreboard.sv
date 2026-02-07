@@ -3,8 +3,10 @@ class alu_scoreboard;
     mailbox #(alu_item) mon2scb;
     int error_count = 0;
     int pass_count = 0;
+    function new();      
+    endfunction
 
-    function new(mailbox mon2scb);
+    function void connecting (mailbox mon2scb);
         this.mon2scb = mon2scb;
     endfunction
 

@@ -10,14 +10,18 @@ class alu_env;
   virtual alu_if vif;
   
   // Constructor
-  function new(virtual alu_if vif);
+  function new();   
+  endfunction
+  function void connecting(virtual alu_if vif);
     this.vif = vif;
     mon2scb  = new();
     
     // 2. Create Coverage FIRST (So we can pass it to Monitor)
     
-    agent_ = new(vif);   
-    scb  = new(agent_.mon2scb);
+    agent_ = new();
+    agent_.connecting(vif); // Connect Agent's components   
+    scb  = new();
+    scb.connecting(agent_.mon2scb); // Connect Scoreboard to Monitor's mailbox
   endfunction
   
   // Run Task

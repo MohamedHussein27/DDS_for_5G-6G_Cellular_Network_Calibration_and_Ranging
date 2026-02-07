@@ -11,18 +11,22 @@ class agent;
   mailbox #(alu_item) gen2driv;
   mailbox #(alu_item) mon2scb;
   virtual alu_if vif;
-  
+  function new();   
+  endfunction
 
-    function new(virtual alu_if vif);
+    function void connecting(virtual alu_if vif);
         this.vif = vif;
          // 1. Create Mailboxes
     gen2driv = new();
     mon2scb  = new();
      // 3. Create Components
-    gen  = new(gen2driv);
-    driv = new(vif, gen2driv);
+    gen  = new();
+    gen.connecting(gen2driv); // Connect Generator to Driver's mailbox
+    driv = new();
+    driv.connecting(vif, gen2driv); // Connect Driver to Generator's mailbox
     cov = new(); 
-    mon  = new(vif, mon2scb, cov); 
+    mon  = new();
+    mon.connecting(vif, mon2scb, cov); // Connect Monitor to Interface & Scoreboard's mailbox 
     endfunction //new()
 
     task run();

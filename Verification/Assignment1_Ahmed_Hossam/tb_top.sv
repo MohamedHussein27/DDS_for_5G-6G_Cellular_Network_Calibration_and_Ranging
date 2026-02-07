@@ -19,7 +19,8 @@ module tb_top;
     alu_env env;
 
     initial begin
-        env = new(intf);
+        env = new();
+            env.connecting(intf); // Connect env to interface
         
         $display("Starting Simulation...");
         env.run(); // Run 3000 tests

@@ -1,7 +1,9 @@
 `include "alu_item.sv"
 class alu_generator;
   mailbox #(alu_item) gen2driv;
-  function new(mailbox gen2driv);
+  function new();
+    endfunction
+  function void connecting (mailbox gen2driv);
     this.gen2driv = gen2driv;
   endfunction
 
