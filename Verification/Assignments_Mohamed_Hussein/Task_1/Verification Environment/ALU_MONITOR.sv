@@ -5,7 +5,6 @@ class alu_monitor;
     mailbox #(alu_seq_item) mon2sb;
     mailbox #(alu_seq_item) mon2cov;
 
-    event mon_start; // monitor start event to synchronize with driver
 
     function new();
     endfunction
@@ -26,8 +25,7 @@ class alu_monitor;
         alu_seq_item item;
         forever begin
             item = new();
-            @(posedge vif.clk);
-            @(mon_start); // synchronize with driver
+            @(vif.mon_cb); // wait for monitor clocking block to sample data
 
             
             item.rst_n = vif.rst_n;

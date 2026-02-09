@@ -38,7 +38,6 @@ class alu_agent;
         drv.connect_mail(gen2drv);
         gen.connect_mail(gen2drv);
         gen.gen_ack = drv.drv_rqt; // connect acknowledgment event (TLM (port, export) in UVM)
-        mon.mon_start = drv.mon_start; // connect monitor start event to synchronize with driver
     endfunction
 
     task run();

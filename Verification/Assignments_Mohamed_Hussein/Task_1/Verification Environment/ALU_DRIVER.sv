@@ -5,7 +5,6 @@ class alu_driver;
     mailbox #(alu_seq_item) gen2drv;
 
     event drv_rqt; // driver request event to acknowledge generator
-    event mon_start; // monitor start event to synchronize with monitor
 
     function new();
     endfunction
@@ -24,7 +23,6 @@ class alu_driver;
             item = new();
             gen2drv.get(item);
             @(negedge vif.clk);
-            -> mon_start; // notify monitor to sample data
 
             vif.rst_n = item.rst_n;
             vif.a     = item.a;
