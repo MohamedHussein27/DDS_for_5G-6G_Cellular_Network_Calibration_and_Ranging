@@ -5,7 +5,11 @@ module tb_top;
 
     // Clock Generation
     bit clk;
-    always #5 clk = ~clk;
+    // clock generation
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk;
+    end
 
     // Instantiate Interface
     seq_intf intf(clk);
@@ -46,7 +50,18 @@ module tb_top;
         // Sequence: 1 (Overlap Detect) 
         @(negedge clk) intf.data_in = 1; // Expect "Match: OK" for S1 (from overlap)
         @(negedge clk) intf.data_in = 0; 
+        //@(negedge clk) intf.data_in = 0; 
+
+        intf.rst_n = 0;
+        intf.data_in = 0;
+        #20;
+        intf.rst_n = 1;
+        $display("--- Reset Released again ---");
+
+        // Sequence: 1 -> 0 -> 1 (Detect)
+        @(negedge clk) intf.data_in = 1; 
         @(negedge clk) intf.data_in = 0; 
+        @(negedge clk) intf.data_in = 1; // Expect "Match: OK" for S101
 
         // Wait a bit and finish
         #50;

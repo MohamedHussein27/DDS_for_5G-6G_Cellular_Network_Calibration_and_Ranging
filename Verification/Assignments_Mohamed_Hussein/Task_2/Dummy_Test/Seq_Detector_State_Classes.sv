@@ -7,7 +7,7 @@ typedef class S101State;
 
 class State;
     // Transition Logic (Next State)
-    virtual function State transition(logic data_in);
+    virtual function State transition(logic rst_n, logic data_in);
         return this; 
     endfunction
     
@@ -28,10 +28,14 @@ class IdleState extends State;
         return "IDLE"; 
     endfunction
     
-    function State transition(logic data_in);
+    function State transition(logic rst_n, logic data_in);
         State next_state; 
         
-        if (data_in) begin
+        if (rst_n == 0) begin
+            IdleState idel = new ();
+            next_state = idel;
+            ns = IDLE; // defined in shared package
+        end else if (data_in) begin
             S1State s1 = new(); 
             next_state = s1;
             ns = S1; // defined in shared package     
@@ -49,10 +53,14 @@ class S1State extends State;
         return "S1"; 
     endfunction
     
-    function State transition(logic data_in);
+    function State transition(logic rst_n, logic data_in);
         State next_state;
         
-        if (data_in) begin
+        if (rst_n == 0) begin
+            IdleState idel = new ();
+            next_state = idel;
+            ns = IDLE;
+        end else if (data_in) begin
             ns = S1;
             next_state = this;      // Stay in S1
         end else begin
@@ -70,10 +78,14 @@ class S10State extends State;
         return "S10"; 
     endfunction
     
-    function State transition(logic data_in);
+    function State transition(logic rst_n, logic data_in);
         State next_state;
         
-        if (data_in) begin
+        if (rst_n == 0) begin
+            IdleState idle = new();
+            next_state = idle;
+            ns = IDLE;
+        end else if (data_in) begin
             S101State s101 = new();
             next_state = s101;
             ns = S101;
@@ -97,10 +109,14 @@ class S101State extends State;
         return 1; 
     endfunction
 
-    function State transition(logic data_in);
+    function State transition(logic rst_n, logic data_in);
         State next_state;
         
-        if (data_in) begin
+        if (rst_n == 0) begin
+            IdleState idle = new();
+            next_state = idle;
+            ns = IDLE;
+        end else if (data_in) begin
             S1State s1 = new();
             next_state = s1;
             ns = S1;
