@@ -20,11 +20,11 @@ class alu_agent;
         mon = new();
     endfunction
 
-    function void set_vif_drv(virtual alu_if.TEST vif);
+    function void set_vif_drv(virtual alu_if vif);
         drv.set_vif(vif);
     endfunction
 
-    function void set_vif_mon(virtual alu_if.MONITOR vif);
+    function void set_vif_mon(virtual alu_if vif);
         mon.set_vif(vif);
     endfunction
 
@@ -37,6 +37,8 @@ class alu_agent;
         mon.connect_mails(mon2sb, mon2cov);
         drv.connect_mail(gen2drv);
         gen.connect_mail(gen2drv);
+        gen.gen_ack = drv.drv_rqt; // connect acknowledgment event (TLM (port, export) in UVM)
+        mon.mon_start = drv.mon_start; // connect monitor start event to synchronize with driver
     endfunction
 
     task run();
@@ -44,7 +46,7 @@ class alu_agent;
             gen.run();
             drv.run();
             mon.run();
-        join_none
+        join_any
     endtask
 
 endclass

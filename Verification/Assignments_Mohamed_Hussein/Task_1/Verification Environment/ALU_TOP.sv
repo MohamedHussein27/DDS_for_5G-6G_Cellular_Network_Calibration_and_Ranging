@@ -29,7 +29,6 @@ module alu_top;
         env.set_vif(aluif); // pass the real interface to env
         env.connect_mails(); // connect mailboxes
         env.run();
-        #300000;
         $display("error count = %0d, correct count = %0d", error_count_out, correct_count_out);
         $stop;
     end

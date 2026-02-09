@@ -26,8 +26,8 @@ class alu_env;
 
     function void set_vif(virtual alu_if alu_vif);
         this.alu_vif = alu_vif;
-        agt.set_vif_drv(alu_vif.TEST);
-        agt.set_vif_mon(alu_vif.MONITOR);
+        agt.set_vif_drv(alu_vif);
+        agt.set_vif_mon(alu_vif);
     endfunction
 
     // function to connect seq_item to scoreboard and coverage
@@ -42,7 +42,7 @@ class alu_env;
             agt.run();
             sb.run();
             cov.run();
-        join_none
+        join_any
     endtask
 
 endclass
