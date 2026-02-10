@@ -2,6 +2,7 @@
 `include "counter_driver.sv"
 `include "counter_monitor.sv"
 
+
 class counter_agent;
 counter_monitor mon;
 counter_driver driv;
