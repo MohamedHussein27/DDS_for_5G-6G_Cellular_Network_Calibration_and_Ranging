@@ -1,0 +1,11 @@
+count_transaction.sv
+count_if.sv
+count_driver.sv
+count_monitor.sv
+count_scoreboard.sv
+count_coverage.sv
+count_generator.sv      
+count_agent.sv
+count_env.sv
+count_fsm.svp
+count_top.sv
