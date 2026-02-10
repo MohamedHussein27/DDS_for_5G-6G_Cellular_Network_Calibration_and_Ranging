@@ -1,0 +1,211 @@
+Coverage Report by instance with details
+
+=================================================================================
+=== Instance: /counter_top_sv_unit
+=== Design Unit: work.counter_top_sv_unit
+=================================================================================
+
+Assertion Coverage:
+    Assertions                       1         1         0   100.00%
+--------------------------------------------------------------------
+Name                 File(Line)                   Failure      Pass 
+                                                  Count        Count
+--------------------------------------------------------------------
+/counter_top_sv_unit/counter_generator/run/#ublk#79824324#17/immed__19
+                     counter_generator.sv(19)           0          1
+
+Covergroup Coverage:
+    Covergroups                      1        na        na    67.18%
+        Coverpoints/Crosses          3        na        na        na
+            Covergroup Bins         68         5        63     7.35%
+----------------------------------------------------------------------------------------------------------
+Covergroup                                             Metric       Goal       Bins    Status               
+                                                                                                         
+----------------------------------------------------------------------------------------------------------
+ TYPE /counter_top_sv_unit/counter_coverage/cg         67.18%        100          -    Uncovered            
+    covered/total bins:                                     5         68          -                      
+    missing/total bins:                                    63         68          -                      
+    % Hit:                                              7.35%        100          -                      
+    Coverpoint cp_start                               100.00%        100          -    Covered              
+        covered/total bins:                                 2          2          -                      
+        missing/total bins:                                 0          2          -                      
+        % Hit:                                        100.00%        100          -                      
+        bin auto[0]                                       110          1          -    Covered              
+        bin auto[1]                                       190          1          -    Covered              
+    Coverpoint cp_flag                                100.00%        100          -    Covered              
+        covered/total bins:                                 2          2          -                      
+        missing/total bins:                                 0          2          -                      
+        % Hit:                                        100.00%        100          -                      
+        bin auto[0]                                       151          1          -    Covered              
+        bin auto[1]                                       149          1          -    Covered              
+    Coverpoint cp_wait_timer                            1.56%        100          -    Uncovered            
+        covered/total bins:                                 1         64          -                      
+        missing/total bins:                                63         64          -                      
+        % Hit:                                          1.56%        100          -                      
+        bin auto[0:1023]                                  300          1          -    Covered              
+        bin auto[1024:2047]                                 0          1          -    ZERO                 
+        bin auto[2048:3071]                                 0          1          -    ZERO                 
+        bin auto[3072:4095]                                 0          1          -    ZERO                 
+        bin auto[4096:5119]                                 0          1          -    ZERO                 
+        bin auto[5120:6143]                                 0          1          -    ZERO                 
+        bin auto[6144:7167]                                 0          1          -    ZERO                 
+        bin auto[7168:8191]                                 0          1          -    ZERO                 
+        bin auto[8192:9215]                                 0          1          -    ZERO                 
+        bin auto[9216:10239]                                0          1          -    ZERO                 
+        bin auto[10240:11263]                               0          1          -    ZERO                 
+        bin auto[11264:12287]                               0          1          -    ZERO                 
+        bin auto[12288:13311]                               0          1          -    ZERO                 
+        bin auto[13312:14335]                               0          1          -    ZERO                 
+        bin auto[14336:15359]                               0          1          -    ZERO                 
+        bin auto[15360:16383]                               0          1          -    ZERO                 
+        bin auto[16384:17407]                               0          1          -    ZERO                 
+        bin auto[17408:18431]                               0          1          -    ZERO                 
+        bin auto[18432:19455]                               0          1          -    ZERO                 
+        bin auto[19456:20479]                               0          1          -    ZERO                 
+        bin auto[20480:21503]                               0          1          -    ZERO                 
+        bin auto[21504:22527]                               0          1          -    ZERO                 
+        bin auto[22528:23551]                               0          1          -    ZERO                 
+        bin auto[23552:24575]                               0          1          -    ZERO                 
+        bin auto[24576:25599]                               0          1          -    ZERO                 
+        bin auto[25600:26623]                               0          1          -    ZERO                 
+        bin auto[26624:27647]                               0          1          -    ZERO                 
+        bin auto[27648:28671]                               0          1          -    ZERO                 
+        bin auto[28672:29695]                               0          1          -    ZERO                 
+        bin auto[29696:30719]                               0          1          -    ZERO                 
+        bin auto[30720:31743]                               0          1          -    ZERO                 
+        bin auto[31744:32767]                               0          1          -    ZERO                 
+        bin auto[32768:33791]                               0          1          -    ZERO                 
+        bin auto[33792:34815]                               0          1          -    ZERO                 
+        bin auto[34816:35839]                               0          1          -    ZERO                 
+        bin auto[35840:36863]                               0          1          -    ZERO                 
+        bin auto[36864:37887]                               0          1          -    ZERO                 
+        bin auto[37888:38911]                               0          1          -    ZERO                 
+        bin auto[38912:39935]                               0          1          -    ZERO                 
+        bin auto[39936:40959]                               0          1          -    ZERO                 
+        bin auto[40960:41983]                               0          1          -    ZERO                 
+        bin auto[41984:43007]                               0          1          -    ZERO                 
+        bin auto[43008:44031]                               0          1          -    ZERO                 
+        bin auto[44032:45055]                               0          1          -    ZERO                 
+        bin auto[45056:46079]                               0          1          -    ZERO                 
+        bin auto[46080:47103]                               0          1          -    ZERO                 
+        bin auto[47104:48127]                               0          1          -    ZERO                 
+        bin auto[48128:49151]                               0          1          -    ZERO                 
+        bin auto[49152:50175]                               0          1          -    ZERO                 
+        bin auto[50176:51199]                               0          1          -    ZERO                 
+        bin auto[51200:52223]                               0          1          -    ZERO                 
+        bin auto[52224:53247]                               0          1          -    ZERO                 
+        bin auto[53248:54271]                               0          1          -    ZERO                 
+        bin auto[54272:55295]                               0          1          -    ZERO                 
+        bin auto[55296:56319]                               0          1          -    ZERO                 
+        bin auto[56320:57343]                               0          1          -    ZERO                 
+        bin auto[57344:58367]                               0          1          -    ZERO                 
+        bin auto[58368:59391]                               0          1          -    ZERO                 
+        bin auto[59392:60415]                               0          1          -    ZERO                 
+        bin auto[60416:61439]                               0          1          -    ZERO                 
+        bin auto[61440:62463]                               0          1          -    ZERO                 
+        bin auto[62464:63487]                               0          1          -    ZERO                 
+        bin auto[63488:64511]                               0          1          -    ZERO                 
+        bin auto[64512:65535]                               0          1          -    ZERO                 
+
+COVERGROUP COVERAGE:
+----------------------------------------------------------------------------------------------------------
+Covergroup                                             Metric       Goal       Bins    Status               
+                                                                                                         
+----------------------------------------------------------------------------------------------------------
+ TYPE /counter_top_sv_unit/counter_coverage/cg         67.18%        100          -    Uncovered            
+    covered/total bins:                                     5         68          -                      
+    missing/total bins:                                    63         68          -                      
+    % Hit:                                              7.35%        100          -                      
+    Coverpoint cp_start                               100.00%        100          -    Covered              
+        covered/total bins:                                 2          2          -                      
+        missing/total bins:                                 0          2          -                      
+        % Hit:                                        100.00%        100          -                      
+        bin auto[0]                                       110          1          -    Covered              
+        bin auto[1]                                       190          1          -    Covered              
+    Coverpoint cp_flag                                100.00%        100          -    Covered              
+        covered/total bins:                                 2          2          -                      
+        missing/total bins:                                 0          2          -                      
+        % Hit:                                        100.00%        100          -                      
+        bin auto[0]                                       151          1          -    Covered              
+        bin auto[1]                                       149          1          -    Covered              
+    Coverpoint cp_wait_timer                            1.56%        100          -    Uncovered            
+        covered/total bins:                                 1         64          -                      
+        missing/total bins:                                63         64          -                      
+        % Hit:                                          1.56%        100          -                      
+        bin auto[0:1023]                                  300          1          -    Covered              
+        bin auto[1024:2047]                                 0          1          -    ZERO                 
+        bin auto[2048:3071]                                 0          1          -    ZERO                 
+        bin auto[3072:4095]                                 0          1          -    ZERO                 
+        bin auto[4096:5119]                                 0          1          -    ZERO                 
+        bin auto[5120:6143]                                 0          1          -    ZERO                 
+        bin auto[6144:7167]                                 0          1          -    ZERO                 
+        bin auto[7168:8191]                                 0          1          -    ZERO                 
+        bin auto[8192:9215]                                 0          1          -    ZERO                 
+        bin auto[9216:10239]                                0          1          -    ZERO                 
+        bin auto[10240:11263]                               0          1          -    ZERO                 
+        bin auto[11264:12287]                               0          1          -    ZERO                 
+        bin auto[12288:13311]                               0          1          -    ZERO                 
+        bin auto[13312:14335]                               0          1          -    ZERO                 
+        bin auto[14336:15359]                               0          1          -    ZERO                 
+        bin auto[15360:16383]                               0          1          -    ZERO                 
+        bin auto[16384:17407]                               0          1          -    ZERO                 
+        bin auto[17408:18431]                               0          1          -    ZERO                 
+        bin auto[18432:19455]                               0          1          -    ZERO                 
+        bin auto[19456:20479]                               0          1          -    ZERO                 
+        bin auto[20480:21503]                               0          1          -    ZERO                 
+        bin auto[21504:22527]                               0          1          -    ZERO                 
+        bin auto[22528:23551]                               0          1          -    ZERO                 
+        bin auto[23552:24575]                               0          1          -    ZERO                 
+        bin auto[24576:25599]                               0          1          -    ZERO                 
+        bin auto[25600:26623]                               0          1          -    ZERO                 
+        bin auto[26624:27647]                               0          1          -    ZERO                 
+        bin auto[27648:28671]                               0          1          -    ZERO                 
+        bin auto[28672:29695]                               0          1          -    ZERO                 
+        bin auto[29696:30719]                               0          1          -    ZERO                 
+        bin auto[30720:31743]                               0          1          -    ZERO                 
+        bin auto[31744:32767]                               0          1          -    ZERO                 
+        bin auto[32768:33791]                               0          1          -    ZERO                 
+        bin auto[33792:34815]                               0          1          -    ZERO                 
+        bin auto[34816:35839]                               0          1          -    ZERO                 
+        bin auto[35840:36863]                               0          1          -    ZERO                 
+        bin auto[36864:37887]                               0          1          -    ZERO                 
+        bin auto[37888:38911]                               0          1          -    ZERO                 
+        bin auto[38912:39935]                               0          1          -    ZERO                 
+        bin auto[39936:40959]                               0          1          -    ZERO                 
+        bin auto[40960:41983]                               0          1          -    ZERO                 
+        bin auto[41984:43007]                               0          1          -    ZERO                 
+        bin auto[43008:44031]                               0          1          -    ZERO                 
+        bin auto[44032:45055]                               0          1          -    ZERO                 
+        bin auto[45056:46079]                               0          1          -    ZERO                 
+        bin auto[46080:47103]                               0          1          -    ZERO                 
+        bin auto[47104:48127]                               0          1          -    ZERO                 
+        bin auto[48128:49151]                               0          1          -    ZERO                 
+        bin auto[49152:50175]                               0          1          -    ZERO                 
+        bin auto[50176:51199]                               0          1          -    ZERO                 
+        bin auto[51200:52223]                               0          1          -    ZERO                 
+        bin auto[52224:53247]                               0          1          -    ZERO                 
+        bin auto[53248:54271]                               0          1          -    ZERO                 
+        bin auto[54272:55295]                               0          1          -    ZERO                 
+        bin auto[55296:56319]                               0          1          -    ZERO                 
+        bin auto[56320:57343]                               0          1          -    ZERO                 
+        bin auto[57344:58367]                               0          1          -    ZERO                 
+        bin auto[58368:59391]                               0          1          -    ZERO                 
+        bin auto[59392:60415]                               0          1          -    ZERO                 
+        bin auto[60416:61439]                               0          1          -    ZERO                 
+        bin auto[61440:62463]                               0          1          -    ZERO                 
+        bin auto[62464:63487]                               0          1          -    ZERO                 
+        bin auto[63488:64511]                               0          1          -    ZERO                 
+        bin auto[64512:65535]                               0          1          -    ZERO                 
+
+TOTAL COVERGROUP COVERAGE: 67.18%  COVERGROUP TYPES: 1
+
+ASSERTION RESULTS:
+--------------------------------------------------------------------
+Name                 File(Line)                   Failure      Pass 
+                                                  Count        Count
+--------------------------------------------------------------------
+/counter_top_sv_unit/counter_generator/run/#ublk#79824324#17/immed__19
+                     counter_generator.sv(19)           0          1
+
+Total Coverage By Instance (filtered view): 83.59%
+

@@ -11,13 +11,13 @@ mailbox #(counter_item) gen2driv;
     counter_item item;
     task run();
     forever begin
-    item=new();
+        @(negedge vif.clk);
     gen2driv.get(item);
     vif.rst_n=item.rst_n;
     vif.start=item.start;
     vif.wait_timer=item.wait_timer;
     vif.flag=item.flag;
-    @(negedge vif.clk);
+    
     end
     endtask
 endclass //counter_dri

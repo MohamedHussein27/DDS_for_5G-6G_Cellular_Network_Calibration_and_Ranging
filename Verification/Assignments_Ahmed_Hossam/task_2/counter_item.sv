@@ -9,7 +9,7 @@ class counter_item;       // <--- Renamed to match your Scoreboard
     rand bit        rst_n;
     rand bit        start;
     //rand bit [15:0] wait_timer;
-    bit [15:0] wait_timer=15;
+    bit [15:0] wait_timer=16;
     rand bit        flag;
 
     // ------------------------------------------------
@@ -24,7 +24,7 @@ class counter_item;       // <--- Renamed to match your Scoreboard
     // ------------------------------------------------
     constraint cons {
         start dist {0:=40, 1:=60};
-        rst_n dist {0:=2,  1:=98};
+        rst_n dist {0:=1,  1:=99};
         
         // Optional: Constrain timer to smaller values during debug 
         // so you don't wait 65,000 cycles for one test!

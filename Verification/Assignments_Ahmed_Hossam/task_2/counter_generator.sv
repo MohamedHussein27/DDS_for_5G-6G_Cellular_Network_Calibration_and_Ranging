@@ -14,7 +14,7 @@ item.rst_n=0;
 item.start=0;
 item.flag=0;
 gen2driv.put(item);
-repeat (100) begin
+repeat (1000) begin
 item =new();
 assert (item.randomize());
 gen2driv.put(item);
