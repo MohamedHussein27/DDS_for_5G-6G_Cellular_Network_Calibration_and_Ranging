@@ -1,0 +1,1327 @@
+Coverage Report by instance with details
+
+=================================================================================
+=== Instance: /count_top/count_if
+=== Design Unit: work.count_if
+=================================================================================
+Toggle Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Toggles                         52        23        29    44.23%
+
+================================Toggle Details================================
+
+Toggle Coverage for instance /count_top/count_if --
+
+                                              Node      1H->0L      0L->1H  "Coverage"
+                                              ---------------------------------------
+                                              busy           1           1      100.00 
+                                               clk           1           1      100.00 
+                                  count_value[4-0]           1           1      100.00 
+                                              flag           1           1      100.00 
+                                             rst_n           1           1      100.00 
+                                             start           1           1      100.00 
+                                  wait_timer[15-3]           0           0        0.00 
+                                     wait_timer[2]           1           1      100.00 
+                                     wait_timer[1]           0           0        0.00 
+                                     wait_timer[0]           0           1       50.00 
+
+Total Node Count     =         26 
+Toggled Node Count   =         11 
+Untoggled Node Count =         15 
+
+Toggle Coverage      =      44.23% (23 of 52 bins)
+
+=================================================================================
+=== Instance: /count_top/dut
+=== Design Unit: work.count_fsm
+=================================================================================
+Toggle Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Toggles                         52        23        29    44.23%
+
+================================Toggle Details================================
+
+Toggle Coverage for instance /count_top/dut --
+
+                                              Node      1H->0L      0L->1H  "Coverage"
+                                              ---------------------------------------
+                                              busy           1           1      100.00 
+                                               clk           1           1      100.00 
+                                  count_value[4-0]           1           1      100.00 
+                                              flag           1           1      100.00 
+                                             rst_n           1           1      100.00 
+                                             start           1           1      100.00 
+                                     wait_timer[0]           0           1       50.00 
+                                     wait_timer[1]           0           0        0.00 
+                                     wait_timer[2]           1           1      100.00 
+                                  wait_timer[3-15]           0           0        0.00 
+
+Total Node Count     =         26 
+Toggled Node Count   =         11 
+Untoggled Node Count =         15 
+
+Toggle Coverage      =      44.23% (23 of 52 bins)
+
+=================================================================================
+=== Instance: /count_top
+=== Design Unit: work.count_top
+=================================================================================
+Statement Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Statements                       8         8         0   100.00%
+
+================================Statement Details================================
+
+Statement Coverage for instance /count_top --
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File count_top.sv
+    5                                                module count_top;
+    6                                                
+    7                                                  // -----------------------------
+    8                                                  // Clock
+    9                                                  // -----------------------------
+    10                                                 bit clk;
+    11                                               
+    12                                                 // -----------------------------
+    13                                                 // Interface instantiation
+    14                                                 // -----------------------------
+    15                                                 count_if count_if (clk);
+    16                                               
+    17                                                 // -----------------------------
+    18                                                 // DUT instantiation
+    19                                                 // -----------------------------
+    20                                                 count_fsm dut (
+    21                                                   .clk         (count_if.clk),
+    22                                                   .rst_n       (count_if.rst_n),
+    23                                                   .start       (count_if.start),
+    24                                                   .flag        (count_if.flag),
+    25                                                   .wait_timer  (count_if.wait_timer),
+    26                                                   .busy        (count_if.busy),
+    27                                                   .count_value (count_if.count_value)
+    28                                                 );
+    29                                               
+    30                                                 // -----------------------------
+    31                                                 // Environment handle
+    32                                                 // -----------------------------
+    33                                                 count_env env;
+    34                                               
+    35                                                 // -----------------------------
+    36                                                 // Clock generation
+    37                                                 // -----------------------------
+    38                                                 initial begin
+    39              1                          1         clk = 0;
+    40              1                          1         forever #2 clk = ~clk;   // 4 time-unit clock period
+    40              2                      12000     
+    40              3                      11999     
+    41                                                 end
+    42                                               
+    43                                                 // -----------------------------
+    44                                                 // Test flow
+    45                                                 // -----------------------------
+    46                                                 initial begin
+    47                                                   // Create environment (empty constructor)
+    48              1                          1         env = new();
+    49                                               
+    50                                                   // Connect environment to interfaces
+    51              1                          1         env.connect(count_if.tb, count_if.monitor);
+    52                                               
+    53                                                   // Run test
+    54              1                          1         env.run();
+    55                                               
+    56              1                          1         $stop;
+
+Toggle Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Toggles                          2         2         0   100.00%
+
+================================Toggle Details================================
+
+Toggle Coverage for instance /count_top --
+
+                                              Node      1H->0L      0L->1H  "Coverage"
+                                              ---------------------------------------
+                                               clk           1           1      100.00 
+
+Total Node Count     =          1 
+Toggled Node Count   =          1 
+Untoggled Node Count =          0 
+
+Toggle Coverage      =     100.00% (2 of 2 bins)
+
+=================================================================================
+=== Instance: /count_scoreboard_pkg
+=== Design Unit: work.count_scoreboard_pkg
+=================================================================================
+Branch Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Branches                        20        19         1    95.00%
+
+================================Branch Details================================
+
+Branch Coverage for instance /count_scoreboard_pkg
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File count_scoreboard.sv
+------------------------------------IF Branch------------------------------------
+    78                                      5362     Count coming in to IF
+    78              1                          5           if (!rst_n) begin
+                                            5357     All False Count
+Branch totals: 2 hits of 2 branches = 100.00%
+
+------------------------------------IF Branch------------------------------------
+    84                                      5357     Count coming in to IF
+    84              1                         26           if (start) begin
+                                            5331     All False Count
+Branch totals: 2 hits of 2 branches = 100.00%
+
+------------------------------------IF Branch------------------------------------
+    111                                       26     Count coming in to IF
+    111             1                          1           if (!rst_n) begin
+                                              25     All False Count
+Branch totals: 2 hits of 2 branches = 100.00%
+
+------------------------------------IF Branch------------------------------------
+    148                                      612     Count coming in to IF
+    148             1                        145           if (timer_counter == wait_timer) begin
+                                             467     All False Count
+Branch totals: 2 hits of 2 branches = 100.00%
+
+------------------------------------IF Branch------------------------------------
+    151                                      145     Count coming in to IF
+    151             1                        145             if (count_value_ref < 5'd31)
+                                         ***0***     All False Count
+Branch totals: 1 hit of 2 branches = 50.00%
+
+------------------------------------IF Branch------------------------------------
+    156                                      612     Count coming in to IF
+    156             1                        120           if (timer_counter == 1)
+                                             492     All False Count
+Branch totals: 2 hits of 2 branches = 100.00%
+
+------------------------------------IF Branch------------------------------------
+    164                                      612     Count coming in to IF
+    164             1                         10           if (!rst_n) begin
+                                             602     All False Count
+Branch totals: 2 hits of 2 branches = 100.00%
+
+------------------------------------IF Branch------------------------------------
+    173                                      602     Count coming in to IF
+    173             1                          2           if (count_value_ref == 5'd31) begin
+                                             600     All False Count
+Branch totals: 2 hits of 2 branches = 100.00%
+
+------------------------------------IF Branch------------------------------------
+    181                                      600     Count coming in to IF
+    181             1                         13           if ((flag_counter == wait_timer) && flag) begin
+                                             587     All False Count
+Branch totals: 2 hits of 2 branches = 100.00%
+
+------------------------------------IF Branch------------------------------------
+    232                                     6000     Count coming in to IF
+    232             1                         72           if (tr_DUT.busy !== busy_ref || tr_DUT.count_value !== count_value_ref) begin
+    236             1                       5928           end else begin
+Branch totals: 2 hits of 2 branches = 100.00%
+
+
+Condition Coverage:
+    Enabled Coverage              Bins   Covered    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Conditions                       8         7         1    87.50%
+
+================================Condition Details================================
+
+Condition Coverage for instance /count_scoreboard_pkg --
+
+  File count_scoreboard.sv
+----------------Focused Condition View-------------------
+Line       148 Item    1  (timer_counter == wait_timer)
+Condition totals: 1 of 1 input term covered = 100.00%
+
+                     Input Term   Covered  Reason for no coverage   Hint
+                    -----------  --------  -----------------------  --------------
+  (timer_counter == wait_timer)         Y
+
+     Rows:       Hits  FEC Target                       Non-masking condition(s)      
+ ---------  ---------  --------------------             -------------------------     
+  Row   1:          1  (timer_counter == wait_timer)_0  -                             
+  Row   2:          1  (timer_counter == wait_timer)_1  -                             
+
+----------------Focused Condition View-------------------
+Line       151 Item    1  (count_value_ref < 31)
+Condition totals: 0 of 1 input term covered = 0.00%
+
+              Input Term   Covered  Reason for no coverage   Hint
+             -----------  --------  -----------------------  --------------
+  (count_value_ref < 31)         N  '_0' not hit             Hit '_0'
+
+     Rows:       Hits  FEC Target                Non-masking condition(s)      
+ ---------  ---------  --------------------      -------------------------     
+  Row   1:    ***0***  (count_value_ref < 31)_0  -                             
+  Row   2:          1  (count_value_ref < 31)_1  -                             
+
+----------------Focused Condition View-------------------
+Line       156 Item    1  (timer_counter == 1)
+Condition totals: 1 of 1 input term covered = 100.00%
+
+            Input Term   Covered  Reason for no coverage   Hint
+           -----------  --------  -----------------------  --------------
+  (timer_counter == 1)         Y
+
+     Rows:       Hits  FEC Target              Non-masking condition(s)      
+ ---------  ---------  --------------------    -------------------------     
+  Row   1:          1  (timer_counter == 1)_0  -                             
+  Row   2:          1  (timer_counter == 1)_1  -                             
+
+----------------Focused Condition View-------------------
+Line       173 Item    1  (count_value_ref == 31)
+Condition totals: 1 of 1 input term covered = 100.00%
+
+               Input Term   Covered  Reason for no coverage   Hint
+              -----------  --------  -----------------------  --------------
+  (count_value_ref == 31)         Y
+
+     Rows:       Hits  FEC Target                 Non-masking condition(s)      
+ ---------  ---------  --------------------       -------------------------     
+  Row   1:          1  (count_value_ref == 31)_0  -                             
+  Row   2:          1  (count_value_ref == 31)_1  -                             
+
+----------------Focused Condition View-------------------
+Line       181 Item    1  ((flag_counter == wait_timer) && flag)
+Condition totals: 2 of 2 input terms covered = 100.00%
+
+                    Input Term   Covered  Reason for no coverage   Hint
+                   -----------  --------  -----------------------  --------------
+  (flag_counter == wait_timer)         Y
+                          flag         Y
+
+     Rows:       Hits  FEC Target                      Non-masking condition(s)      
+ ---------  ---------  --------------------            -------------------------     
+  Row   1:          1  (flag_counter == wait_timer)_0  -                             
+  Row   2:          1  (flag_counter == wait_timer)_1  flag                          
+  Row   3:          1  flag_0                          (flag_counter == wait_timer)  
+  Row   4:          1  flag_1                          (flag_counter == wait_timer)  
+
+----------------Focused Condition View-------------------
+Line       232 Item    1  ((tr_DUT.busy !== busy_ref) || (tr_DUT.count_value !== count_value_ref))
+Condition totals: 2 of 2 input terms covered = 100.00%
+
+                                Input Term   Covered  Reason for no coverage   Hint
+                               -----------  --------  -----------------------  --------------
+                (tr_DUT.busy !== busy_ref)         Y
+  (tr_DUT.count_value !== count_value_ref)         Y
+
+     Rows:       Hits  FEC Target                                  Non-masking condition(s)      
+ ---------  ---------  --------------------                        -------------------------     
+  Row   1:          1  (tr_DUT.busy !== busy_ref)_0                ~(tr_DUT.count_value !== count_value_ref)
+  Row   2:          1  (tr_DUT.busy !== busy_ref)_1                -                             
+  Row   3:          1  (tr_DUT.count_value !== count_value_ref)_0  ~(tr_DUT.busy !== busy_ref)   
+  Row   4:          1  (tr_DUT.count_value !== count_value_ref)_1  ~(tr_DUT.busy !== busy_ref)   
+
+
+Statement Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Statements                      67        66         1    98.50%
+
+================================Statement Details================================
+
+Statement Coverage for instance /count_scoreboard_pkg --
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File count_scoreboard.sv
+    1                                                package count_scoreboard_pkg;
+    2                                                
+    3                                                  import count_transaction_pkg::*;
+    4                                                
+    5                                                  typedef class IdleState;
+    6                                                  typedef class ReadyState;
+    7                                                  typedef class CountingState;
+    8                                                
+    9                                                  ///////////////////////////////////////////////////////////////////
+    10                                                 // Reference signals
+    11                                                 logic       busy_ref        = 0;
+    12                                                 logic [4:0] count_value_ref = 0;
+    13                                                 int         timer_counter   = 0;
+    14                                                 int         flag_counter    = 0;
+    15                                               
+    16                                                 // FSM states enumeration
+    17                                                 typedef enum logic [1:0] {
+    18                                                   IDLE,
+    19                                                   READY,
+    20                                                   COUNTING
+    21                                                 } STATES;
+    22                                               
+    23                                                 STATES current_state;
+    24                                                 STATES next_state;
+    25                                               
+    26                                                 ///////////////////////////////////////////////////////////////////
+    27                                                 // Base State class
+    28                                                 class State;
+    29                                               
+    30                                                   virtual function State transition(
+    31                                                     logic rst_n,
+    32                                                     logic start,
+    33                                                     logic flag,
+    34                                                     logic [15:0] wait_timer
+    35                                                   );
+    36              1                    ***0***           return this;
+    37                                                   endfunction
+    38                                               
+    39                                                   function State reset_triggered();
+    40                                                     IdleState next_state;
+    41              1                         16           next_state = new();
+    42              1                         16           return next_state;
+    43                                                   endfunction
+    44                                               
+    45                                                   function State go_to_idle_state();
+    46              1                         15           IdleState next_state = new();
+    47              1                         15           return next_state;
+    48                                                   endfunction
+    49                                               
+    50                                                   function State go_to_ready_state();
+    51              1                         26           ReadyState next_state = new();
+    52              1                         26           return next_state;
+    53                                                   endfunction
+    54                                               
+    55                                                   function State go_to_count_state();
+    56              1                         25           CountingState next_state = new();
+    57              1                         25           return next_state;
+    58                                                   endfunction
+    59                                               
+    60                                                 endclass : State
+    61                                               
+    62                                                 ///////////////////////////////////////////////////////////////////
+    63                                                 // IDLE STATE
+    64                                                 ///////////////////////////////////////////////////////////////////
+    65                                                 class IdleState extends State;
+    66                                               
+    67                                                   function State transition(
+    68                                                     logic rst_n,
+    69                                                     logic start,
+    70                                                     logic flag,
+    71                                                     logic [15:0] wait_timer
+    72                                                   );
+    73              1                       5362           current_state   = IDLE;
+    74              1                       5362           busy_ref        = 0;
+    75              1                       5362           timer_counter   = 0;
+    76              1                       5362           flag_counter    = 0;
+    77                                               
+    78                                                     if (!rst_n) begin
+    79              1                          5             count_value_ref = 0;
+    80              1                          5             next_state = IDLE;
+    81              1                          5             return reset_triggered();
+    82                                                     end
+    83                                               
+    84                                                     if (start) begin
+    85              1                         26             next_state = READY;
+    86              1                         26             return go_to_ready_state();   // IDLE → READY
+    87                                                     end
+    88                                               
+    89              1                       5331           return this;
+    90                                                   endfunction
+    91                                               
+    92                                                 endclass : IdleState
+    93                                               
+    94                                                 ///////////////////////////////////////////////////////////////////
+    95                                                 // READY STATE
+    96                                                 ///////////////////////////////////////////////////////////////////
+    97                                                 class ReadyState extends State;
+    98                                               
+    99                                                   function State transition(
+    100                                                    logic rst_n,
+    101                                                    logic start,
+    102                                                    logic flag,
+    103                                                    logic [15:0] wait_timer
+    104                                                  );
+    105             1                         26           current_state   = READY;
+    106             1                         26           busy_ref        = 1;   // busy asserted
+    107             1                         26           count_value_ref = 0;   // count cleared
+    108             1                         26           timer_counter   = 0;
+    109             1                         26           flag_counter    = 0;
+    110                                              
+    111                                                    if (!rst_n) begin
+    112             1                          1             busy_ref        = 0;
+    113             1                          1             next_state = IDLE;
+    114             1                          1             return reset_triggered();
+    115                                                      end
+    116                                              
+    117             1                         25           next_state = COUNTING;
+    118                                                    // READY lasts exactly one cycle
+    119             1                         25           return go_to_count_state();   // READY → COUNTING
+    120                                                  endfunction
+    121                                              
+    122                                                endclass : ReadyState
+    123                                              
+    124                                                ///////////////////////////////////////////////////////////////////
+    125                                                // COUNTING STATE
+    126                                                ///////////////////////////////////////////////////////////////////
+    127                                                class CountingState extends State;
+    128                                              
+    129                                                  function State transition(
+    130                                                    logic rst_n,
+    131                                                    logic start,
+    132                                                    logic flag,
+    133                                                    logic [15:0] wait_timer
+    134                                                  );
+    135                                              
+    136             1                        612           current_state = COUNTING;
+    137             1                        612           busy_ref      = 1;
+    138                                              
+    139                                                    // ------------------------------------------------------------
+    140                                                    // Counters update
+    141                                                    // ------------------------------------------------------------
+    142             1                        612           timer_counter++;
+    143             1                        612           flag_counter++;
+    144                                              
+    145                                                    // ------------------------------------------------------------
+    146                                                    // Count increment logic
+    147                                                    // ------------------------------------------------------------
+    148                                                    if (timer_counter == wait_timer) begin
+    149             1                        145             timer_counter = 0;
+    150                                              
+    151                                                      if (count_value_ref < 5'd31)
+    152             1                        145               count_value_ref++;
+    153                                                    end
+    154                                              
+    155                                                    // Align flag counter early
+    156                                                    if (timer_counter == 1)
+    157             1                        120             flag_counter = timer_counter;
+    158                                              
+    159                                                    // ------------------------------------------------------------
+    160                                                    // STOP CONDITIONS
+    161                                                    // ------------------------------------------------------------
+    162                                              
+    163                                                    // Reset or saturation
+    164                                                    if (!rst_n) begin
+    165             1                         10             timer_counter = 0;
+    166             1                         10             flag_counter  = 0;
+    167             1                         10             busy_ref        = 0;
+    168             1                         10             count_value_ref = 0;
+    169             1                         10             next_state = IDLE;
+    170             1                         10             return reset_triggered();
+    171                                                    end
+    172                                              
+    173                                                    if (count_value_ref == 5'd31) begin
+    174             1                          2             timer_counter = 0;
+    175             1                          2             flag_counter  = 0;
+    176             1                          2             next_state = IDLE;
+    177             1                          2             return go_to_idle_state();
+    178                                                    end
+    179                                              
+    180                                                    // Flag at interval boundary
+    181                                                    if ((flag_counter == wait_timer) && flag) begin
+    182             1                         13             timer_counter = 0;
+    183             1                         13             flag_counter  = 0;
+    184             1                         13             count_value_ref--;  // compensate
+    185             1                         13             next_state = IDLE;
+    186             1                         13             return go_to_idle_state();
+    187                                                    end
+    188                                              
+    189             1                        587           return this;
+    190                                              
+    191                                                  endfunction
+    192                                              
+    193                                                endclass : CountingState
+    194                                              
+    195                                                ///////////////////////////////////////////////////////////////////
+    196                                                // Scoreboard class
+    197                                                class count_scoreboard;
+    198                                              
+    199                                                  mailbox #(count_transaction) mbx_mon_to_sb;
+    200                                                  count_transaction tr_sb;
+    201                                              
+    202             1                          1         int Error_count   = 0;
+    203             1                          1         int Correct_count = 0;
+    204                                              
+    205                                                  IdleState starting_state;
+    206                                                  State current_state_obj;
+    207                                                  State next_state_obj;
+    208                                              
+    209                                                  // Constructor function
+    210                                                  function new();
+    211             1                          1           starting_state = new();
+    212             1                          1           this.current_state_obj = starting_state;
+    213             1                          1           this.next_state_obj    = current_state_obj;
+    214                                                  endfunction
+    215                                                  
+    216                                                  // -----------------------------
+    217                                                  // Connect function: attach mailbox and initialize state
+    218                                                  // -----------------------------
+    219                                                  function void connect(mailbox #(count_transaction) mbx);
+    220             1                          1           this.mbx_mon_to_sb  = mbx;
+    221                                                  endfunction
+    222                                              
+    223                                                  // Compare DUT transaction to reference model
+    224                                                  function void count_check(count_transaction tr_DUT);
+    225                                                    // Update reference model
+    226             1                       6000           next_state_obj = current_state_obj.transition(
+    227                                                      tr_DUT.rst_n, tr_DUT.start, tr_DUT.flag, tr_DUT.wait_timer
+    228                                                    );
+    229             1                       6000           current_state_obj = next_state_obj;
+    230                                              
+    231                                                    // Compare DUT vs reference
+    232                                                    if (tr_DUT.busy !== busy_ref || tr_DUT.count_value !== count_value_ref) begin
+    233             1                         72             Error_count++;
+    234             1                         72             $display("ERROR at time %0t: DUT={busy=%b count=%0d} REF={busy=%b count=%0d}",
+    235                                                                $time, tr_DUT.busy, tr_DUT.count_value, busy_ref, count_value_ref);
+    236                                                    end else begin
+    237             1                       5928             Correct_count++;
+    238                                                    end
+    239                                                  endfunction
+    240                                              
+    241                                                  // Main run task
+    242                                                  task run();
+    243             1                          1           forever begin
+    244             1                       6001             mbx_mon_to_sb.get(tr_sb);
+    245             1                       6000             count_check(tr_sb);
+    246                                                    end
+    247                                                  endtask
+    248                                              
+    249                                                  // Final report
+    250                                                  task report();
+    251             1                          1           $display("Simulation summary: Correct=%0d Errors=%0d", Correct_count, Error_count);
+
+
+=================================================================================
+=== Instance: /count_coverage_pkg
+=== Design Unit: work.count_coverage_pkg
+=================================================================================
+
+Covergroup Coverage:
+    Covergroups                      1        na        na   100.00%
+        Coverpoints/Crosses          5        na        na        na
+            Covergroup Bins         39        39         0   100.00%
+----------------------------------------------------------------------------------------------------------
+Covergroup                                             Metric       Goal       Bins    Status               
+                                                                                                         
+----------------------------------------------------------------------------------------------------------
+ TYPE /count_coverage_pkg/count_coverage/count_cg     100.00%        100          -    Covered              
+    covered/total bins:                                    39         39          -                      
+    missing/total bins:                                     0         39          -                      
+    % Hit:                                            100.00%        100          -                      
+    Coverpoint #coverpoint__0#                        100.00%        100          -    Covered              
+        covered/total bins:                                 2          2          -                      
+        missing/total bins:                                 0          2          -                      
+        % Hit:                                        100.00%        100          -                      
+        bin start_0                                      5698          1          -    Covered              
+        bin start_1                                       302          1          -    Covered              
+    Coverpoint #coverpoint__1#                        100.00%        100          -    Covered              
+        covered/total bins:                                 2          2          -                      
+        missing/total bins:                                 0          2          -                      
+        % Hit:                                        100.00%        100          -                      
+        bin flag_0                                       5924          1          -    Covered              
+        bin flag_1                                         76          1          -    Covered              
+    Coverpoint #coverpoint__2#                        100.00%        100          -    Covered              
+        covered/total bins:                                 1          1          -                      
+        missing/total bins:                                 0          1          -                      
+        % Hit:                                        100.00%        100          -                      
+        bin all_values                                   6000          1          -    Covered              
+    Coverpoint #coverpoint__3#                        100.00%        100          -    Covered              
+        covered/total bins:                                 2          2          -                      
+        missing/total bins:                                 0          2          -                      
+        % Hit:                                        100.00%        100          -                      
+        bin busy_0                                       5372          1          -    Covered              
+        bin busy_1                                        628          1          -    Covered              
+    Coverpoint #coverpoint__4#                        100.00%        100          -    Covered              
+        covered/total bins:                                32         32          -                      
+        missing/total bins:                                 0         32          -                      
+        % Hit:                                        100.00%        100          -                      
+        bin cnt_bins[0]                                   155          1          -    Covered              
+        bin cnt_bins[1]                                   102          1          -    Covered              
+        bin cnt_bins[2]                                    66          1          -    Covered              
+        bin cnt_bins[3]                                    54          1          -    Covered              
+        bin cnt_bins[4]                                    49          1          -    Covered              
+        bin cnt_bins[5]                                    36          1          -    Covered              
+        bin cnt_bins[6]                                    34          1          -    Covered              
+        bin cnt_bins[7]                                    33          1          -    Covered              
+        bin cnt_bins[8]                                    12          1          -    Covered              
+        bin cnt_bins[9]                                    11          1          -    Covered              
+        bin cnt_bins[10]                                   15          1          -    Covered              
+        bin cnt_bins[11]                                    6          1          -    Covered              
+        bin cnt_bins[12]                                    6          1          -    Covered              
+        bin cnt_bins[13]                                    6          1          -    Covered              
+        bin cnt_bins[14]                                    6          1          -    Covered              
+        bin cnt_bins[15]                                    6          1          -    Covered              
+        bin cnt_bins[16]                                    6          1          -    Covered              
+        bin cnt_bins[17]                                    6          1          -    Covered              
+        bin cnt_bins[18]                                    6          1          -    Covered              
+        bin cnt_bins[19]                                    6          1          -    Covered              
+        bin cnt_bins[20]                                    6          1          -    Covered              
+        bin cnt_bins[21]                                    6          1          -    Covered              
+        bin cnt_bins[22]                                    6          1          -    Covered              
+        bin cnt_bins[23]                                    6          1          -    Covered              
+        bin cnt_bins[24]                                    6          1          -    Covered              
+        bin cnt_bins[25]                                    6          1          -    Covered              
+        bin cnt_bins[26]                                    6          1          -    Covered              
+        bin cnt_bins[27]                                    6          1          -    Covered              
+        bin cnt_bins[28]                                    6          1          -    Covered              
+        bin cnt_bins[29]                                    6          1          -    Covered              
+        bin cnt_bins[30]                                    6          1          -    Covered              
+        bin cnt_bins[31]                                 5313          1          -    Covered              
+Statement Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Statements                      12        12         0   100.00%
+
+================================Statement Details================================
+
+Statement Coverage for instance /count_coverage_pkg --
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File count_coverage.sv
+    1                                                package count_coverage_pkg;
+    2                                                
+    3                                                  import count_transaction_pkg::*;
+    4                                                
+    5                                                  // ---------------------------------------------------------------------------
+    6                                                  // count_coverage class
+    7                                                  // Implements functional coverage for the FSM counter transactions
+    8                                                  // ---------------------------------------------------------------------------
+    9                                                  class count_coverage;
+    10                                               
+    11                                                   // Transaction handle for covergroup sampling
+    12                                                   count_transaction tr_cvg;
+    13                                               
+    14                                                   // Mailbox connected to monitor
+    15                                                   mailbox #(count_transaction) mbx_mon_to_cov;
+    16                                               
+    17                                                   // Covergroup declaration
+    18                                                   covergroup count_cg;
+    19                                               
+    20                                                     // Coverpoint for start signal
+    21                                                     coverpoint tr_cvg.start {
+    22                                                       bins start_0 = {0};
+    23                                                       bins start_1 = {1};
+    24                                                     }
+    25                                               
+    26                                                     // Coverpoint for flag signal
+    27                                                     coverpoint tr_cvg.flag {
+    28                                                       bins flag_0 = {0};
+    29                                                       bins flag_1 = {1};
+    30                                                     }
+    31                                               
+    32                                                     // Coverpoint for wait_timer (example bins)
+    33                                                     coverpoint tr_cvg.wait_timer {
+    34                                                     bins all_values = {[0:65535]};
+    35                                               }
+    36                                               
+    37                                               
+    38                                                     // Coverpoint for busy
+    39                                                     coverpoint tr_cvg.busy {
+    40                                                       bins busy_0 = {0};
+    41                                                       bins busy_1 = {1};
+    42                                                     }
+    43                                               
+    44                                                     // Coverpoint for count_value
+    45                                                     coverpoint tr_cvg.count_value {
+    46                                                       bins cnt_bins[] = {[0:31]};
+    47                                                     }
+    48                                               
+    49                                                   endgroup : count_cg
+    50                                               
+    51                                                   // Constructor: initialize transaction and covergroup
+    52                                                   function new();
+    53              1                          1           tr_cvg = new();
+    54              1                          1           count_cg = new(); // bind to tr_cvg automatically
+    55                                                   endfunction : new
+    56                                               
+    57                                                   // -----------------------------
+    58                                                   // Connect function: assign mailbox
+    59                                                   // -----------------------------
+    60                                                   function void connect(mailbox #(count_transaction) mbx_mon_to_cov);
+    61              1                          1           this.mbx_mon_to_cov = mbx_mon_to_cov;
+    62                                                   endfunction : connect
+    63                                               
+    64                                                   // -----------------------------
+    65                                                   // Sample a transaction into the covergroup
+    66                                                   // -----------------------------
+    67                                                   function void sample_data(count_transaction tr_DUT);
+    68              1                       6000           tr_cvg.start       = tr_DUT.start;
+    69              1                       6000           tr_cvg.flag        = tr_DUT.flag;
+    70              1                       6000           tr_cvg.wait_timer  = tr_DUT.wait_timer;
+    71              1                       6000           tr_cvg.busy        = tr_DUT.busy;
+    72              1                       6000           tr_cvg.count_value = tr_DUT.count_value;
+    73                                               
+    74              1                       6000           count_cg.sample();
+    75                                                   endfunction : sample_data
+    76                                               
+    77                                                   // -----------------------------
+    78                                                   // Main run task: continuously sample transactions from monitor
+    79                                                   // -----------------------------
+    80                                                   task run();
+    81              1                          1           forever begin
+    82                                                       
+    83              1                       6001             mbx_mon_to_cov.get(tr_cvg); // Get new transaction from monitor
+    84              1                       6000             sample_data(tr_cvg);        // Sample it into covergroup
+
+
+=================================================================================
+=== Instance: /count_generator_pkg
+=== Design Unit: work.count_generator_pkg
+=================================================================================
+
+Assertion Coverage:
+    Assertions                       1         1         0   100.00%
+--------------------------------------------------------------------
+Name                 File(Line)                   Failure      Pass 
+                                                  Count        Count
+--------------------------------------------------------------------
+/count_generator_pkg/count_generator/run/#ublk#244381095#69/immed__71
+                     count_generator.sv(71)             0          1
+Statement Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Statements                      24        24         0   100.00%
+
+================================Statement Details================================
+
+Statement Coverage for instance /count_generator_pkg --
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File count_generator.sv
+    1                                                package count_generator_pkg;
+    2                                                  import count_transaction_pkg::*;
+    3                                                
+    4                                                  class count_generator;
+    5                                                    
+    6                                                    count_transaction tr_gen;
+    7                                                    mailbox #(count_transaction) gen_to_dr;
+    8                                                
+    9                                                    function new();
+    10                                                   endfunction
+    11                                               
+    12                                                   function void connect(mailbox #(count_transaction) gen_to_dr);
+    13              1                          1           this.gen_to_dr = gen_to_dr;
+    14                                                   endfunction
+    15                                               
+    16                                                   task send(
+    17                                                     logic rst_n,
+    18                                                     logic start,
+    19                                                     logic flag,
+    20                                                     logic [15:0] wait_timer
+    21                                                   );
+    22              1                         69           tr_gen = new();
+    23              1                         69           tr_gen.rst_n      = rst_n;
+    24              1                         69           tr_gen.start      = start;
+    25              1                         69           tr_gen.flag       = flag;
+    26              1                         69           tr_gen.wait_timer = wait_timer;
+    27              1                         69           gen_to_dr.put(tr_gen);
+    28                                                   endtask
+    29                                               
+    30                                                   task run();
+    31                                               
+    32                                                     // =====================================================
+    33                                                     // 1. RESET PHASE
+    34                                                     // =====================================================
+    35              1                          5           repeat (5)
+    36              1                          5             send(0, 0, 0, 0);
+    37                                               
+    38                                                     // Release reset
+    39              1                          1           send(1, 0, 0, 0);
+    40                                               
+    41                                                     // =====================================================
+    42                                                     // 2. DIRECTED FSM TRANSITIONS
+    43                                                     // =====================================================
+    44                                               
+    45                                                     // Start counting
+    46              1                          1           send(1, 1, 0, 5);
+    47                                               
+    48                                                     // Let counter run
+    49              1                         10           repeat (10)
+    50              1                         10             send(1, 0, 0, 5);
+    51                                               
+    52                                                     // Stop via flag
+    53              1                          1           send(1, 0, 1, 5);
+    54                                               
+    55                                                     // Idle cycles
+    56              1                          5           repeat (5)
+    57              1                          5             send(1, 0, 0, 5);
+    58                                               
+    59                                                     // =====================================================
+    60                                                     // 3. COUNTER MAX TEST
+    61                                                     // =====================================================
+    62              1                          1           send(1, 1, 0, 1);      // fast count
+    63              1                         40           repeat (40)
+    64              1                         40             send(1, 0, 0, 1);    // force count_value to reach max
+    65                                               
+    66                                                     // =====================================================
+    67                                                     // 4. RANDOM STRESS PHASE
+    68                                                     // =====================================================
+    69              1                        500           repeat (500) begin
+    70              1                        500             tr_gen = new();
+    71                                                       assert(tr_gen.randomize());
+    72              1                        500             gen_to_dr.put(tr_gen);
+    73                                                     end
+    74                                               
+    75                                                     // Idle cycles
+    76              1                          5           repeat (5)
+    77              1                          5             send(1, 0, 0, 5);
+
+
+=================================================================================
+=== Instance: /count_monitor_pkg
+=== Design Unit: work.count_monitor_pkg
+=================================================================================
+Statement Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Statements                      15        15         0   100.00%
+
+================================Statement Details================================
+
+Statement Coverage for instance /count_monitor_pkg --
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File count_monitor.sv
+    10                                               package count_monitor_pkg;
+    11                                               
+    12                                                 import count_transaction_pkg::*;
+    13                                               
+    14                                                 // ---------------------------------------------------------------------------
+    15                                                 // Count Monitor class
+    16                                                 // Observes DUT signals and creates transactions for verification
+    17                                                 // ---------------------------------------------------------------------------
+    18                                                 class count_monitor;
+    19                                               
+    20                                                   // -----------------------------
+    21                                                   // Transaction object to hold observed values
+    22                                                   // -----------------------------
+    23                                                   count_transaction tr_mon; 
+    24                                               
+    25                                                   // -----------------------------
+    26                                                   // Virtual interface handle (monitor modport)
+    27                                                   // -----------------------------
+    28                                                   virtual count_if.monitor vif;
+    29                                               
+    30                                                   // -----------------------------
+    31                                                   // Mailboxes to communicate with scoreboard and coverage
+    32                                                   // -----------------------------
+    33                                                   mailbox #(count_transaction) mbx_mon_to_sb;
+    34                                                   mailbox #(count_transaction) mbx_mon_to_cov;
+    35                                               
+    36                                                   // -----------------------------
+    37                                                   // Constructor: initialize transaction
+    38                                                   // -----------------------------
+    39                                                   function new();
+    40              1                          1           tr_mon = new();
+    41                                                   endfunction : new
+    42                                               
+    43                                                   // -----------------------------
+    44                                                   // Connect function: attach interface and mailboxes
+    45                                                   // -----------------------------
+    46                                                   function void connect(
+    47                                                     virtual count_if.monitor vif,
+    48                                                     mailbox #(count_transaction) mbx_mon_to_sb,
+    49                                                     mailbox #(count_transaction) mbx_mon_to_cov
+    50                                                   );
+    51              1                          1           this.vif            = vif;
+    52              1                          1           this.mbx_mon_to_sb  = mbx_mon_to_sb;
+    53              1                          1           this.mbx_mon_to_cov = mbx_mon_to_cov;
+    54                                                   endfunction : connect
+    55                                               
+    56                                                   // -----------------------------
+    57                                                   // Main monitoring task
+    58                                                   // -----------------------------
+    59                                                   task run();
+    60              1                          1           forever begin
+    61                                                       // Wait for positive edge of DUT clock
+    62              1                       6001             @(posedge vif.clk);
+    63              1                       6000             #0.01; // small delay to sample stable signals
+    64                                               
+    65                                                       // -----------------------------
+    66                                                       // Sample DUT outputs into transaction object
+    67                                                       // -----------------------------
+    68              1                       6000             tr_mon.rst_n       = vif.rst_n;
+    69              1                       6000             tr_mon.start       = vif.start;
+    70              1                       6000             tr_mon.flag        = vif.flag;
+    71              1                       6000             tr_mon.wait_timer  = vif.wait_timer;
+    72              1                       6000             tr_mon.busy        = vif.busy;
+    73              1                       6000             tr_mon.count_value = vif.count_value;
+    74                                               
+    75                                                       // -----------------------------
+    76                                                       // Send transaction copies to consumers
+    77                                                       // -----------------------------
+    78              1                       6000             mbx_mon_to_sb.put(tr_mon);
+    79              1                       6000             mbx_mon_to_cov.put(tr_mon);
+
+
+=================================================================================
+=== Instance: /count_driver_pkg
+=== Design Unit: work.count_driver_pkg
+=================================================================================
+Statement Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Statements                      10        10         0   100.00%
+
+================================Statement Details================================
+
+Statement Coverage for instance /count_driver_pkg --
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File count_driver.sv
+    1                                                package count_driver_pkg;
+    2                                                
+    3                                                  // Import count transaction definition
+    4                                                  import count_transaction_pkg::*;
+    5                                                
+    6                                                  // ------------------------------------------------------------
+    7                                                  // count Driver
+    8                                                  // Responsible for driving stimulus from the generator
+    9                                                  // onto the DUT through the count interface
+    10                                                 // ------------------------------------------------------------
+    11                                                 class count_driver;
+    12                                               
+    13                                                   // Mailbox used to receive transactions from the generator
+    14                                                   mailbox #(count_transaction) gen_to_dr;
+    15                                               
+    16                                                   // Transaction handle used by the driver
+    17                                                   count_transaction tr_dr;
+    18                                               
+    19                                                   // Virtual interface handle (TB modport)
+    20                                                   // Used to drive signals into the DUT
+    21                                                   virtual count_if.tb vif;
+    22                                               
+    23                                                   // ------------------------------------------------------------
+    24                                                   // Constructor
+    25                                                   // Kept intentionally empty
+    26                                                   // Object connections are handled explicitly in connect()
+    27                                                   // ------------------------------------------------------------
+    28                                                   function new();
+    29              1                          1           tr_dr = new();
+    30                                                   endfunction
+    31                                               
+    32                                                   // ------------------------------------------------------------
+    33                                                   // Connect function
+    34                                                   // Binds the virtual interface and mailbox to the driver
+    35                                                   // ------------------------------------------------------------
+    36                                                   function void connect(
+    37                                                     virtual count_if.tb vif,
+    38                                                     mailbox #(count_transaction) gen_to_dr
+    39                                                   );
+    40              1                          1           this.vif       = vif;
+    41              1                          1           this.gen_to_dr = gen_to_dr;
+    42                                                   endfunction
+    43                                               
+    44                                                   // ------------------------------------------------------------
+    45                                                   // Main driver task
+    46                                                   // Continuously receives transactions and drives them
+    47                                                   // onto the count DUT inputs
+    48                                                   // ------------------------------------------------------------
+    49                                                   task run();
+    50                                               
+    51                                                     // Note:
+    52                                                     // Reset sequencing is assumed to be handled externally
+    53                                                     // (either by the test or the generator)
+    54                                               
+    55              1                          1           forever begin
+    56                                               
+    57                                                       // Block until a transaction is received
+    58              1                        570             gen_to_dr.get(tr_dr);
+    59                                               
+    60                                                       // Drive transaction fields onto the interface signals
+    61              1                        569             vif.rst_n      = tr_dr.rst_n; 
+    62              1                        569             vif.start      = tr_dr.start;
+    63              1                        569             vif.flag       = tr_dr.flag;
+    64              1                        569             vif.wait_timer = tr_dr.wait_timer;
+    65                                               
+    66                                                       // Synchronize to the clock
+    67                                                       // Inputs are held stable until the next cycle
+    68              1                        569             @(negedge vif.clk);
+
+
+=================================================================================
+=== Instance: /count_agent_pkg
+=== Design Unit: work.count_agent_pkg
+=================================================================================
+Statement Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Statements                      14        14         0   100.00%
+
+================================Statement Details================================
+
+Statement Coverage for instance /count_agent_pkg --
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File count_agent.sv
+    1                                                package count_agent_pkg;
+    2                                                
+    3                                                  // Import required packages
+    4                                                  import count_transaction_pkg::*;
+    5                                                  import count_driver_pkg::*;
+    6                                                  import count_monitor_pkg::*;
+    7                                                  import count_generator_pkg::*;
+    8                                                
+    9                                                  // ---------------------------------------------------------------------------
+    10                                                 // count_agent class
+    11                                                 // Encapsulates generator, driver, and monitor, along with mailboxes
+    12                                                 // ---------------------------------------------------------------------------
+    13                                                 class count_agent;
+    14                                               
+    15                                                   // =========================
+    16                                                   // COMPONENTS
+    17                                                   // =========================
+    18                                                   count_driver    drv;   // Drives stimulus to DUT
+    19                                                   count_monitor   mon;   // Monitors DUT outputs
+    20                                                   count_generator gen;   // Generates transactions
+    21                                               
+    22                                                   // =========================
+    23                                                   // VIRTUAL INTERFACES
+    24                                                   // =========================
+    25                                                   virtual count_if.tb      vif_tb;   // For driver
+    26                                                   virtual count_if.monitor vif_mon;  // For monitor
+    27                                               
+    28                                                   // =========================
+    29                                                   // MAILBOXES
+    30                                                   // =========================
+    31                                                   mailbox #(count_transaction) mbx_gen_to_dr;   // Generator → Driver
+    32                                                   mailbox #(count_transaction) mbx_mon_to_sb;   // Monitor → Scoreboard
+    33                                                   mailbox #(count_transaction) mbx_mon_to_cov;  // Monitor → Coverage
+    34                                               
+    35                                                   // =========================
+    36                                                   // CONSTRUCTOR
+    37                                                   // =========================
+    38                                                   function new();
+    39                                                   
+    40                                                     // Create components
+    41              1                          1           drv = new();
+    42              1                          1           mon = new();
+    43              1                          1           gen = new();
+    44                                               
+    45                                                     // Create mailboxes
+    46              1                          1           mbx_gen_to_dr  = new();
+    47              1                          1           mbx_mon_to_sb  = new();
+    48              1                          1           mbx_mon_to_cov = new();
+    49                                                   endfunction : new
+    50                                               
+    51                                                   // =========================
+    52                                                   // CONNECT FUNCTION
+    53                                                   // Assign interfaces and connect components to mailboxes
+    54                                                   // =========================
+    55                                                   function void connect(
+    56                                                     virtual count_if.tb      vif_tb,
+    57                                                     virtual count_if.monitor vif_mon
+    58                                                   );
+    59              1                          1           this.vif_tb  = vif_tb;
+    60              1                          1           this.vif_mon = vif_mon;
+    61                                               
+    62                                                     // Instantiate components
+    63              1                          1           gen.connect(mbx_gen_to_dr);                          // Generator → Driver mailbox
+    64              1                          1           drv.connect(vif_tb, mbx_gen_to_dr);                  // Driver → DUT
+    65              1                          1           mon.connect(vif_mon, mbx_mon_to_sb, mbx_mon_to_cov); // Monitor → SB & coverage
+    66                                                   endfunction : connect
+    67                                               
+    68                                                   // =========================
+    69                                                   // RUN PHASE
+    70                                                   // =========================
+    71                                                   task run();
+    72                                                     fork
+    73              1                          1             gen.run();
+    74              1                          1             drv.run();
+    75              1                          1             mon.run();
+
+
+=================================================================================
+=== Instance: /count_env_pkg
+=== Design Unit: work.count_env_pkg
+=================================================================================
+Statement Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Statements                      17        17         0   100.00%
+
+================================Statement Details================================
+
+Statement Coverage for instance /count_env_pkg --
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File count_env.sv
+    3                                                package count_env_pkg;
+    4                                                
+    5                                                  // Import required packages
+    6                                                  import count_transaction_pkg::*;
+    7                                                  import count_agent_pkg::*;
+    8                                                  import count_coverage_pkg::*;
+    9                                                  import count_scoreboard_pkg::*;
+    10                                               
+    11                                                 // ---------------------------------------------------------------------------
+    12                                                 // count_env class
+    13                                                 // Top-level environment that connects agent, scoreboard, and coverage
+    14                                                 // ---------------------------------------------------------------------------
+    15                                                 class count_env;
+    16                                               
+    17                                                   // =========================
+    18                                                   // COMPONENTS
+    19                                                   // =========================
+    20                                                   count_agent       ag;   // Agent (gen + drv + mon)
+    21                                                   count_scoreboard  sb;   // Scoreboard
+    22                                                   count_coverage    cov;  // Coverage
+    23                                               
+    24                                                   // =========================
+    25                                                   // MAILBOXES
+    26                                                   // =========================
+    27                                                   mailbox #(count_transaction) mbx_mon_to_sb;
+    28                                                   mailbox #(count_transaction) mbx_mon_to_cov;
+    29                                               
+    30                                                   // =========================
+    31                                                   // VIRTUAL INTERFACES
+    32                                                   // =========================
+    33                                                   virtual count_if.tb      vif_tb;   // Driver interface
+    34                                                   virtual count_if.monitor vif_mon;  // Monitor interface
+    35                                               
+    36                                                   // =========================
+    37                                                   // CONSTRUCTOR (empty)
+    38                                                   // =========================
+    39                                                   function new();
+    40                                                     // Create environment-level mailboxes
+    41              1                          1           mbx_mon_to_sb  = new();
+    42              1                          1           mbx_mon_to_cov = new();
+    43                                                   endfunction : new
+    44                                               
+    45                                                   // =========================
+    46                                                   // CONNECT FUNCTION
+    47                                                   // =========================
+    48                                                   function void connect(
+    49                                                     virtual count_if.tb      vif_tb,
+    50                                                     virtual count_if.monitor vif_mon
+    51                                                   );
+    52                                                     // Save virtual interfaces
+    53              1                          1           this.vif_tb  = vif_tb;
+    54              1                          1           this.vif_mon = vif_mon;
+    55                                               
+    56                                                     // -------------------------
+    57                                                     // Create & connect agent
+    58                                                     // -------------------------
+    59              1                          1           ag = new();
+    60              1                          1           ag.connect(vif_tb, vif_mon);
+    61                                               
+    62                                                     // -------------------------
+    63                                                     // Create scoreboard & coverage
+    64                                                     // -------------------------
+    65              1                          1           sb  = new();
+    66              1                          1           cov = new();
+    67                                               
+    68                                                     // Connect mailboxes
+    69              1                          1           sb.connect(mbx_mon_to_sb);
+    70              1                          1           cov.connect(mbx_mon_to_cov);
+    71                                               
+    72                                                     // Connect agent monitor outputs
+    73              1                          1           ag.mon.mbx_mon_to_sb  = mbx_mon_to_sb;
+    74              1                          1           ag.mon.mbx_mon_to_cov = mbx_mon_to_cov;
+    75                                               
+    76                                                   endfunction : connect
+    77                                               
+    78                                                   // =========================
+    79                                                   // RUN PHASE
+    80                                                   // =========================
+    81                                                   task run();
+    82                                                     fork
+    83              1                          1             ag.run();   // Generator + Driver + Monitor
+    84              1                          1             sb.run();   // Scoreboard
+    85              1                          1             cov.run();  // Coverage
+    86                                                     join_none
+    87                                               
+    88                                                     // Let simulation run
+    89              1                          1           #24000;
+    90                                               
+    91                                                     // Final report
+    92              1                          1           sb.report();
+
+
+COVERGROUP COVERAGE:
+----------------------------------------------------------------------------------------------------------
+Covergroup                                             Metric       Goal       Bins    Status               
+                                                                                                         
+----------------------------------------------------------------------------------------------------------
+ TYPE /count_coverage_pkg/count_coverage/count_cg     100.00%        100          -    Covered              
+    covered/total bins:                                    39         39          -                      
+    missing/total bins:                                     0         39          -                      
+    % Hit:                                            100.00%        100          -                      
+    Coverpoint #coverpoint__0#                        100.00%        100          -    Covered              
+        covered/total bins:                                 2          2          -                      
+        missing/total bins:                                 0          2          -                      
+        % Hit:                                        100.00%        100          -                      
+        bin start_0                                      5698          1          -    Covered              
+        bin start_1                                       302          1          -    Covered              
+    Coverpoint #coverpoint__1#                        100.00%        100          -    Covered              
+        covered/total bins:                                 2          2          -                      
+        missing/total bins:                                 0          2          -                      
+        % Hit:                                        100.00%        100          -                      
+        bin flag_0                                       5924          1          -    Covered              
+        bin flag_1                                         76          1          -    Covered              
+    Coverpoint #coverpoint__2#                        100.00%        100          -    Covered              
+        covered/total bins:                                 1          1          -                      
+        missing/total bins:                                 0          1          -                      
+        % Hit:                                        100.00%        100          -                      
+        bin all_values                                   6000          1          -    Covered              
+    Coverpoint #coverpoint__3#                        100.00%        100          -    Covered              
+        covered/total bins:                                 2          2          -                      
+        missing/total bins:                                 0          2          -                      
+        % Hit:                                        100.00%        100          -                      
+        bin busy_0                                       5372          1          -    Covered              
+        bin busy_1                                        628          1          -    Covered              
+    Coverpoint #coverpoint__4#                        100.00%        100          -    Covered              
+        covered/total bins:                                32         32          -                      
+        missing/total bins:                                 0         32          -                      
+        % Hit:                                        100.00%        100          -                      
+        bin cnt_bins[0]                                   155          1          -    Covered              
+        bin cnt_bins[1]                                   102          1          -    Covered              
+        bin cnt_bins[2]                                    66          1          -    Covered              
+        bin cnt_bins[3]                                    54          1          -    Covered              
+        bin cnt_bins[4]                                    49          1          -    Covered              
+        bin cnt_bins[5]                                    36          1          -    Covered              
+        bin cnt_bins[6]                                    34          1          -    Covered              
+        bin cnt_bins[7]                                    33          1          -    Covered              
+        bin cnt_bins[8]                                    12          1          -    Covered              
+        bin cnt_bins[9]                                    11          1          -    Covered              
+        bin cnt_bins[10]                                   15          1          -    Covered              
+        bin cnt_bins[11]                                    6          1          -    Covered              
+        bin cnt_bins[12]                                    6          1          -    Covered              
+        bin cnt_bins[13]                                    6          1          -    Covered              
+        bin cnt_bins[14]                                    6          1          -    Covered              
+        bin cnt_bins[15]                                    6          1          -    Covered              
+        bin cnt_bins[16]                                    6          1          -    Covered              
+        bin cnt_bins[17]                                    6          1          -    Covered              
+        bin cnt_bins[18]                                    6          1          -    Covered              
+        bin cnt_bins[19]                                    6          1          -    Covered              
+        bin cnt_bins[20]                                    6          1          -    Covered              
+        bin cnt_bins[21]                                    6          1          -    Covered              
+        bin cnt_bins[22]                                    6          1          -    Covered              
+        bin cnt_bins[23]                                    6          1          -    Covered              
+        bin cnt_bins[24]                                    6          1          -    Covered              
+        bin cnt_bins[25]                                    6          1          -    Covered              
+        bin cnt_bins[26]                                    6          1          -    Covered              
+        bin cnt_bins[27]                                    6          1          -    Covered              
+        bin cnt_bins[28]                                    6          1          -    Covered              
+        bin cnt_bins[29]                                    6          1          -    Covered              
+        bin cnt_bins[30]                                    6          1          -    Covered              
+        bin cnt_bins[31]                                 5313          1          -    Covered              
+
+TOTAL COVERGROUP COVERAGE: 100.00%  COVERGROUP TYPES: 1
+
+ASSERTION RESULTS:
+--------------------------------------------------------------------
+Name                 File(Line)                   Failure      Pass 
+                                                  Count        Count
+--------------------------------------------------------------------
+/count_generator_pkg/count_generator/run/#ublk#244381095#69/immed__71
+                     count_generator.sv(71)             0          1
+
+Total Coverage By Instance (filtered view): 87.86%
+
