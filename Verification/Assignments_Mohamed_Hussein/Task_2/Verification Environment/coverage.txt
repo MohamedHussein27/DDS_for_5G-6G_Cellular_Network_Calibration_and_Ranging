@@ -1,0 +1,1028 @@
+Coverage Report by instance with details
+
+=================================================================================
+=== Instance: /counter_top/counterif
+=== Design Unit: work.counter_if
+=================================================================================
+Statement Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Statements                       3         3         0   100.00%
+
+================================Statement Details================================
+
+Statement Coverage for instance /counter_top/counterif --
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File COUNTER_IF.sv
+    1                                                interface counter_if(clk);
+    2                                                
+    3                                                    input clk;
+    4                                                
+    5                                                    logic rst_n;
+    6                                                    logic start;
+    7                                                    logic [15:0] wait_timer;
+    8                                                    logic flag;
+    9                                                    logic busy;
+    10                                                   logic [4:0] count_value;
+    11                                               
+    12                                                   // clocking block for monitor to sample data slightly after posedge of clock
+    13              1                          1         clocking mon_cb @(posedge clk);
+    14                                                       default input #1step output #1step; 
+    15                                                       output rst_n, start, wait_timer, flag; 
+    16              1                          1             input busy, count_value;
+    16              2                          1     
+
+Toggle Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Toggles                         52        23        29    44.23%
+
+================================Toggle Details================================
+
+Toggle Coverage for instance /counter_top/counterif --
+
+                                              Node      1H->0L      0L->1H  "Coverage"
+                                              ---------------------------------------
+                                              busy           1           1      100.00 
+                                               clk           1           1      100.00 
+                                  count_value[4-0]           1           1      100.00 
+                                              flag           1           1      100.00 
+                                             rst_n           1           1      100.00 
+                                             start           1           1      100.00 
+                                  wait_timer[15-2]           0           0        0.00 
+                                     wait_timer[1]           0           1       50.00 
+                                     wait_timer[0]           1           1      100.00 
+
+Total Node Count     =         26 
+Toggled Node Count   =         11 
+Untoggled Node Count =         15 
+
+Toggle Coverage      =      44.23% (23 of 52 bins)
+
+=================================================================================
+=== Instance: /counter_top/dut
+=== Design Unit: work.count_fsm
+=================================================================================
+Toggle Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Toggles                         52        23        29    44.23%
+
+================================Toggle Details================================
+
+Toggle Coverage for instance /counter_top/dut --
+
+                                              Node      1H->0L      0L->1H  "Coverage"
+                                              ---------------------------------------
+                                              busy           1           1      100.00 
+                                               clk           1           1      100.00 
+                                  count_value[4-0]           1           1      100.00 
+                                              flag           1           1      100.00 
+                                             rst_n           1           1      100.00 
+                                             start           1           1      100.00 
+                                     wait_timer[0]           1           1      100.00 
+                                     wait_timer[1]           0           1       50.00 
+                                  wait_timer[2-15]           0           0        0.00 
+
+Total Node Count     =         26 
+Toggled Node Count   =         11 
+Untoggled Node Count =         15 
+
+Toggle Coverage      =      44.23% (23 of 52 bins)
+
+=================================================================================
+=== Instance: /counter_top
+=== Design Unit: work.counter_top
+=================================================================================
+Statement Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Statements                       9         9         0   100.00%
+
+================================Statement Details================================
+
+Statement Coverage for instance /counter_top --
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File COUNTER_TOP.sv
+    3                                                module counter_top;
+    4                                                
+    5                                                    bit clk;
+    6                                                
+    7                                                    // clock generation
+    8                                                    initial begin
+    9               1                          1             clk = 0;
+    10              1                          1             forever #10 clk = ~clk;
+    10              2                       2285     
+    10              3                       2284     
+    11                                                   end
+    12                                               
+    13                                                   counter_if counterif(clk);
+    14                                               
+    15                                                   count_fsm dut (
+    16                                                       .rst_n      (counterif.rst_n),
+    17                                                       .clk        (counterif.clk),
+    18                                                       .start      (counterif.start),
+    19                                                       .wait_timer (counterif.wait_timer),
+    20                                                       .flag       (counterif.flag ),
+    21                                                       .busy       (counterif.busy),
+    22                                                       .count_value(counterif.count_value)
+    23                                                   );
+    24                                                   counter_env env;
+    25                                               
+    26                                                   initial begin
+    27              1                          1             env = new();
+    28              1                          1             env.counter_vif = counterif; // assigning real interface to env virtual interface
+    29              1                          1             env.connect(); // function used to connect mailboxes and virtual interfaces
+    30              1                          1             env.run();
+    31              1                          1             $stop;
+
+Toggle Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Toggles                          2         2         0   100.00%
+
+================================Toggle Details================================
+
+Toggle Coverage for instance /counter_top --
+
+                                              Node      1H->0L      0L->1H  "Coverage"
+                                              ---------------------------------------
+                                               clk           1           1      100.00 
+
+Total Node Count     =          1 
+Toggled Node Count   =          1 
+Untoggled Node Count =          0 
+
+Toggle Coverage      =     100.00% (2 of 2 bins)
+
+=================================================================================
+=== Instance: /COUNTER_TOP_sv_unit
+=== Design Unit: work.COUNTER_TOP_sv_unit
+=================================================================================
+
+Assertion Coverage:
+    Assertions                       3         3         0   100.00%
+--------------------------------------------------------------------
+Name                 File(Line)                   Failure      Pass 
+                                                  Count        Count
+--------------------------------------------------------------------
+/COUNTER_TOP_sv_unit/counter_generator/run/#ublk#180738964#211/immed__223
+                     COUNTER_GENERATOR.sv(223)          0          1
+/COUNTER_TOP_sv_unit/counter_generator/run/#ublk#180738964#211/#ublk#180738964#213/immed__214
+                     COUNTER_GENERATOR.sv(214)          0          1
+/COUNTER_TOP_sv_unit/counter_generator/run/#ublk#180738964#211/#ublk#180738964#217/immed__218
+                     COUNTER_GENERATOR.sv(218)          0          1
+Branch Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Branches                        23        23         0   100.00%
+
+================================Branch Details================================
+
+Branch Coverage for instance /COUNTER_TOP_sv_unit
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File COUNTER_GENERATOR.sv
+------------------------------------IF Branch------------------------------------
+    81                                        10     Count coming in to IF
+    81              1                          1                 if (i == 4) 
+                                               9     All False Count
+Branch totals: 2 hits of 2 branches = 100.00%
+
+------------------------------------IF Branch------------------------------------
+    101                                       10     Count coming in to IF
+    101             1                          1                 if (i == 4) 
+                                               9     All False Count
+Branch totals: 2 hits of 2 branches = 100.00%
+
+------------------------------------IF Branch------------------------------------
+    213                                     1000     Count coming in to IF
+    213             1                         24                 if (!has_reset && !has_started) begin
+    217             1                         95                 else if (has_started) begin
+    222             1                        881                 else
+Branch totals: 3 hits of 3 branches = 100.00%
+
+------------------------------------IF Branch------------------------------------
+    226                                     1000     Count coming in to IF
+    226             1                          5                 if (item.rst_n == 0) 
+                                             995     All False Count
+Branch totals: 2 hits of 2 branches = 100.00%
+
+
+  File COUNTER_STATE_CLASSES.sv
+------------------------------------IF Branch------------------------------------
+    42                                       303     Count coming in to IF
+    42              1                          4             if (rst_n == 0) begin
+    50              1                         33             end else if (start) begin
+    58              1                        266             end else begin
+Branch totals: 3 hits of 3 branches = 100.00%
+
+------------------------------------IF Branch------------------------------------
+    87                                       839     Count coming in to IF
+    87              1                          3             if (rst_n == 0) begin
+    97              1                         29             else if ((internal_counter % wait_timer == 0) && (flag == 1 || (fsm_output.count_value == 31 && !deassert_count))) begin
+    102             1                        807             else begin
+Branch totals: 3 hits of 3 branches = 100.00%
+
+------------------------------------IF Branch------------------------------------
+    107                                      807     Count coming in to IF
+    107             1                         32                 if (deassert_count) begin
+                                             775     All False Count
+Branch totals: 2 hits of 2 branches = 100.00%
+
+------------------------------------IF Branch------------------------------------
+    112                                      807     Count coming in to IF
+    112             1                        364                 if (internal_counter != 0 && internal_counter % wait_timer == 0) begin
+                                             443     All False Count
+Branch totals: 2 hits of 2 branches = 100.00%
+
+
+  File COUNTER_SCOREBOARD.sv
+------------------------------------IF Branch------------------------------------
+    20                                      1142     Count coming in to IF
+    20              1                        186             if (tr.count_value !== fsm_out.count_value) begin
+    24              1                        956             else
+Branch totals: 2 hits of 2 branches = 100.00%
+
+------------------------------------IF Branch------------------------------------
+    26                                      1142     Count coming in to IF
+    26              1                         67             if(tr.busy !== fsm_out.busy) begin
+    30              1                       1075             else
+Branch totals: 2 hits of 2 branches = 100.00%
+
+
+
+Covergroup Coverage:
+    Covergroups                      1        na        na   100.00%
+        Coverpoints/Crosses          4        na        na        na
+            Covergroup Bins         38        38         0   100.00%
+----------------------------------------------------------------------------------------------------------
+Covergroup                                             Metric       Goal       Bins    Status               
+                                                                                                         
+----------------------------------------------------------------------------------------------------------
+ TYPE /COUNTER_TOP_sv_unit/counter_coverage/counter_Cross_Group 
+                                                      100.00%        100          -    Covered              
+    covered/total bins:                                    38         38          -                      
+    missing/total bins:                                     0         38          -                      
+    % Hit:                                            100.00%        100          -                      
+    Coverpoint START_CP                               100.00%        100          -    Covered              
+        covered/total bins:                                 2          2          -                      
+        missing/total bins:                                 0          2          -                      
+        % Hit:                                        100.00%        100          -                      
+        bin auto[0]                                      1042          1          -    Covered              
+        bin auto[1]                                       100          1          -    Covered              
+    Coverpoint FLAG_CP                                100.00%        100          -    Covered              
+        covered/total bins:                                 2          2          -                      
+        missing/total bins:                                 0          2          -                      
+        % Hit:                                        100.00%        100          -                      
+        bin auto[0]                                      1083          1          -    Covered              
+        bin auto[1]                                        59          1          -    Covered              
+    Coverpoint BUSY_CP                                100.00%        100          -    Covered              
+        covered/total bins:                                 2          2          -                      
+        missing/total bins:                                 0          2          -                      
+        % Hit:                                        100.00%        100          -                      
+        bin auto[0]                                       260          1          -    Covered              
+        bin auto[1]                                       882          1          -    Covered              
+    Coverpoint COUNT_CP                               100.00%        100          -    Covered              
+        covered/total bins:                                32         32          -                      
+        missing/total bins:                                 0         32          -                      
+        % Hit:                                        100.00%        100          -                      
+        bin auto[0]                                       108          1          -    Covered              
+        bin auto[1]                                        85          1          -    Covered              
+        bin auto[2]                                        74          1          -    Covered              
+        bin auto[3]                                        66          1          -    Covered              
+        bin auto[4]                                        71          1          -    Covered              
+        bin auto[5]                                        82          1          -    Covered              
+        bin auto[6]                                        48          1          -    Covered              
+        bin auto[7]                                        73          1          -    Covered              
+        bin auto[8]                                        91          1          -    Covered              
+        bin auto[9]                                        54          1          -    Covered              
+        bin auto[10]                                       26          1          -    Covered              
+        bin auto[11]                                       28          1          -    Covered              
+        bin auto[12]                                       27          1          -    Covered              
+        bin auto[13]                                       20          1          -    Covered              
+        bin auto[14]                                       26          1          -    Covered              
+        bin auto[15]                                       18          1          -    Covered              
+        bin auto[16]                                       18          1          -    Covered              
+        bin auto[17]                                       18          1          -    Covered              
+        bin auto[18]                                       21          1          -    Covered              
+        bin auto[19]                                       19          1          -    Covered              
+        bin auto[20]                                       25          1          -    Covered              
+        bin auto[21]                                       12          1          -    Covered              
+        bin auto[22]                                       12          1          -    Covered              
+        bin auto[23]                                       17          1          -    Covered              
+        bin auto[24]                                       10          1          -    Covered              
+        bin auto[25]                                       10          1          -    Covered              
+        bin auto[26]                                       10          1          -    Covered              
+        bin auto[27]                                       10          1          -    Covered              
+        bin auto[28]                                       10          1          -    Covered              
+        bin auto[29]                                       10          1          -    Covered              
+        bin auto[30]                                       10          1          -    Covered              
+        bin auto[31]                                       33          1          -    Covered              
+Statement Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Statements                     300       293         7    97.66%
+
+================================Statement Details================================
+
+Statement Coverage for instance /COUNTER_TOP_sv_unit --
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File COUNTER_GENERATOR.sv
+    2                                                import counter_seq_item_pkg::*;
+    3                                                class counter_generator;
+    4                                                    string name;
+    5                                                    mailbox #(counter_seq_item) gen2drv;
+    6                                                
+    7                                                    event gen_ack; // acknowledgment event to send transactions to driver
+    8                                                
+    9                                                    bit has_started; // flag to indicate if start signal is rising edge or not
+    10                                                   bit has_reset; // flag to indicate if reset has been deasserted, so we will make start signal more frequent after reset is deasserted
+    11                                               
+    12                                                   function new(string name = "counter_generator");
+    13              1                          1             this.name = name;
+    14              1                          1             gen2drv = new();
+    15                                                   endfunction
+    16                                               
+    17                                                   task run();
+    18                                                       counter_seq_item item;
+    19              1                          1             item = new();
+    20                                                       // reset first (acting like reset sequence)
+    21              1                          1             item.rst_n      = 0;
+    22              1                          1             item.start      = 0;
+    23              1                          1             item.wait_timer = 0;
+    24              1                          1             item.flag       = 0;
+    25              1                          1             has_started     = item.start; // initialize has_started with the first transaction's start value
+    26              1                          1             has_reset       = item.rst_n; // initialize has_reset with the first transaction's rst_n value
+    27              1                          1             gen2drv.put(item);
+    28              1                          1             @(gen_ack);
+    29                                               
+    30                                                       // directed tests (assigning the wait_timer value first)
+    31              1                          1             item = new();
+    32              1                          1             item.rst_n      = 1;
+    33              1                          1             item.start      = 0; 
+    34              1                          1             item.wait_timer = 16'h0003;
+    35              1                          1             has_started     = item.start;
+    36              1                          1             has_reset       = item.rst_n;
+    37              1                          1             gen2drv.put(item);
+    38              1                          1             @(gen_ack);
+    39                                               
+    40                                               
+    41              1                          1             item = new();
+    42              1                          1             item.rst_n      = 1;
+    43              1                          1             item.start      = 1; // start signal rising edge
+    44              1                          1             item.wait_timer = 16'h0003;
+    45              1                          1             has_started     = item.start;
+    46              1                          1             has_reset       = item.rst_n;
+    47              1                          1             gen2drv.put(item);
+    48              1                          1             @(gen_ack);
+    49                                               
+    50                                                       // test 1 : testing wait_timer without flag
+    51              1                          1             for (int i = 0; i < 10; i++) begin
+    51              2                         10     
+    52              1                         10                 item = new();
+    53              1                         10                 item.rst_n      = 1;
+    54              1                         10                 item.start      = 0; 
+    55              1                         10                 item.wait_timer = 16'h0003;
+    56              1                         10                 has_started     = item.start;
+    57              1                         10                 has_reset       = item.rst_n;
+    58              1                         10                 gen2drv.put(item);
+    59              1                         10                 @(gen_ack);
+    60                                                       end
+    61                                               
+    62                                                       // wait for two transactions
+    63              1                          1             item = new();
+    64              1                          1             item.rst_n      = 1;
+    65              1                          1             item.wait_timer = 16'h0003;
+    66              1                          1             gen2drv.put(item);
+    67              1                          1             @(gen_ack);
+    68                                               
+    69              1                          1             item = new();
+    70              1                          1             item.rst_n      = 1;
+    71              1                          1             item.wait_timer = 16'h0003;
+    72              1                          1             gen2drv.put(item);
+    73              1                          1             @(gen_ack);
+    74                                               
+    75                                                       // test 2 : testing flag at internal counter != wait_timer
+    76              1                          1             for (int i = 0; i < 10; i++) begin
+    76              2                         10     
+    77              1                         10                 item = new();
+    78              1                         10                 item.rst_n      = 1;
+    79              1                         10                 item.start      = 0; 
+    80              1                         10                 item.wait_timer = 16'h0003;
+    81                                                           if (i == 4) 
+    82              1                          1                 item.flag       = 1;
+    83              1                         10                 has_started     = item.start;
+    84              1                         10                 has_reset       = item.rst_n;
+    85              1                         10                 gen2drv.put(item);
+    86              1                         10                 @(gen_ack);
+    87                                                       end
+    88                                               
+    89              1                          1             item = new();
+    90              1                          1             item.rst_n      = 1;
+    91              1                          1             item.wait_timer = 16'h0003;
+    92              1                          1             gen2drv.put(item);
+    93              1                          1             @(gen_ack);
+    94                                               
+    95                                                       // test 3 : testing flag at internal counter = wait_timer
+    96              1                          1             for (int i = 0; i < 10; i++) begin
+    96              2                         10     
+    97              1                         10                 item = new();
+    98              1                         10                 item.rst_n      = 1;
+    99              1                         10                 item.start      = 0; 
+    100             1                         10                 item.wait_timer = 16'h0003;
+    101                                                          if (i == 4) 
+    102             1                          1                 item.flag       = 1;
+    103             1                         10                 has_started     = item.start;
+    104             1                         10                 has_reset       = item.rst_n;
+    105             1                         10                 gen2drv.put(item);
+    106             1                         10                 @(gen_ack);
+    107                                                      end
+    108                                              
+    109             1                          1             item = new();
+    110             1                          1             item.rst_n      = 1;
+    111             1                          1             item.wait_timer = 16'h0003;
+    112             1                          1             gen2drv.put(item);
+    113             1                          1             @(gen_ack);
+    114                                              
+    115                                                      // test 4: testing the start without previously resetting the design
+    116             1                          1             item = new();
+    117             1                          1             item.rst_n      = 1;
+    118             1                          1             item.start      = 1;
+    119             1                          1             item.wait_timer = 16'h0003;
+    120             1                          1             gen2drv.put(item);
+    121             1                          1             @(gen_ack);
+    122                                              
+    123             1                          1             for (int i = 0; i < 10; i++) begin
+    123             2                         10     
+    124             1                         10                 item = new();
+    125             1                         10                 item.rst_n      = 1;
+    126             1                         10                 item.start      = 0; 
+    127             1                         10                 item.wait_timer = 16'h0003;
+    128             1                         10                 item.flag       = 0;
+    129             1                         10                 has_started     = item.start;
+    130             1                         10                 has_reset       = item.rst_n;
+    131             1                         10                 gen2drv.put(item);
+    132             1                         10                 @(gen_ack);
+    133                                                      end
+    134                                              
+    135                                                      // test 5: asserting start while normal operation
+    136             1                          1             item = new();
+    137             1                          1             item.rst_n      = 1;
+    138             1                          1             item.start      = 1;
+    139             1                          1             item.wait_timer = 16'h0003;
+    140             1                          1             gen2drv.put(item);
+    141             1                          1             @(gen_ack);
+    142                                              
+    143             1                          1             for (int i = 0; i < 10; i++) begin
+    143             2                         10     
+    144             1                         10                 item = new();
+    145             1                         10                 item.rst_n      = 1;
+    146             1                         10                 item.start      = 0; 
+    147             1                         10                 item.wait_timer = 16'h0003;
+    148             1                         10                 item.flag       = 0;
+    149             1                         10                 has_started     = item.start;
+    150             1                         10                 has_reset       = item.rst_n;
+    151             1                         10                 gen2drv.put(item);
+    152             1                         10                 @(gen_ack);
+    153                                                      end
+    154                                              
+    155                                                      //Test 6: testing max value of count
+    156             1                          1             item = new();
+    157             1                          1             item.rst_n      = 0; // reset first
+    158             1                          1             item.start      = 0; 
+    159             1                          1             item.wait_timer = 16'h0002;
+    160             1                          1             has_started     = item.start;
+    161             1                          1             has_reset       = item.rst_n;
+    162             1                          1             gen2drv.put(item);
+    163             1                          1             @(gen_ack);
+    164                                                      
+    165             1                          1             item = new();
+    166             1                          1             item.rst_n      = 1;
+    167             1                          1             item.start      = 1;
+    168             1                          1             item.wait_timer = 16'h0002;
+    169             1                          1             gen2drv.put(item);
+    170             1                          1             @(gen_ack);
+    171                                              
+    172             1                          1             for (int i = 0; i < 70; i++) begin
+    172             2                         70     
+    173             1                         70                 item = new();
+    174             1                         70                 item.rst_n      = 1;
+    175             1                         70                 item.start      = 0; 
+    176             1                         70                 item.wait_timer = 16'h0002;
+    177             1                         70                 item.flag       = 0;
+    178             1                         70                 has_started     = item.start;
+    179             1                         70                 has_reset       = item.rst_n;
+    180             1                         70                 gen2drv.put(item);
+    181             1                         70                 @(gen_ack);
+    182                                                      end
+    183                                              
+    184             1                          1             item = new();
+    185             1                          1             item.rst_n      = 1;
+    186             1                          1             item.start      = 0;
+    187             1                          1             item.wait_timer = 16'h0002;
+    188             1                          1             gen2drv.put(item);
+    189             1                          1             @(gen_ack);
+    190                                              
+    191                                                      // test7 : testing asserting start after counter reaches max
+    192             1                          1             item = new();
+    193             1                          1             item.rst_n      = 1;
+    194             1                          1             item.start      = 1;
+    195             1                          1             item.wait_timer = 16'h0002;
+    196             1                          1             gen2drv.put(item);
+    197             1                          1             @(gen_ack);
+    198                                              
+    199             1                          1             for (int i = 0; i < 10; i++) begin
+    199             2                         10     
+    200             1                         10                 item = new();
+    201             1                         10                 item.rst_n      = 1;
+    202             1                         10                 item.start      = 0; 
+    203             1                         10                 item.wait_timer = 16'h0002;
+    204             1                         10                 item.flag       = 0;
+    205             1                         10                 has_started     = item.start;
+    206             1                         10                 has_reset       = item.rst_n;
+    207             1                         10                 gen2drv.put(item);
+    208             1                         10                 @(gen_ack);
+    209                                                      end
+    210                                              
+    211             1                       1000             repeat (1000) begin
+    212             1                       1000                 item = new(); // every loop we create new sequence item (this is exactly like uvm_sequence_item::type_id::create() in sequence)
+    213                                                          if (!has_reset && !has_started) begin
+    214                                                              assert(item.randomize() with{ start dist {0 := 35, 1 := 65}; wait_timer == 2;}); // if reset is not deasserted, then it should be 1 in the next transaction
+    215                                                          end
+    216                                                          
+    217                                                          else if (has_started) begin
+    218                                                              assert(item.randomize() with { start == 0; wait_timer == 2;}); // if start is already 1, then it should be 0 in the next transaction
+    219             1                         95                     has_started = 0;
+    220             1                         95                     has_reset   = 1; // update has_reset to indicate that reset has been deasserted
+    221                                                          end
+    222                                                          else
+    223                                                              assert(item.randomize() with { wait_timer == 2; });
+    224                                                          
+    225             1                       1000                 has_started     = item.start; // update has_started with the current transaction's start value
+    226                                                          if (item.rst_n == 0) 
+    227             1                          5                 has_reset       = 0; 
+    228                                                          
+    229             1                       1000                 gen2drv.put(item); // send the seq_item to driver via mailbox
+    230             1                       1000                 @(gen_ack); // wait for acknowledgment from driver before sending next transaction
+
+  File COUNTER_DRIVER.sv
+    2                                                class counter_driver;
+    3                                                    string name;
+    4                                                
+    5                                                    virtual counter_if counter_vif;
+    6                                                    mailbox #(counter_seq_item) gen2drv;
+    7                                                
+    8                                                    event drv_rqt; // driver request event to acknowledge generator
+    9                                                
+    10                                                   function new(string name = "DRIVER");
+    11              1                          1             this.name = name;
+    12              1                          1             gen2drv = new();
+    13                                                   endfunction
+    14                                               
+    15                                                   task run();
+    16                                                       counter_seq_item item;
+    17              1                          1             $display("drv is ok");
+    18              1                          1             forever begin
+    19              1                       1144                 item = new();
+    20                                                           
+    21              1                       1144                 gen2drv.get(item);
+    22              1                       1143                 @(negedge counter_vif.clk);
+    23              1                       1143                 counter_vif.rst_n       = item.rst_n;
+    24              1                       1143                 counter_vif.start       = item.start;
+    25              1                       1143                 counter_vif.wait_timer  = item.wait_timer;
+    26              1                       1143                 counter_vif.flag        = item.flag;
+    27                                                           /*$display(
+    28                                                               "[BEFORE][DRIVER] t=%0t : start=%0d wait_timer=%0d flag=%0d",
+    29                                                               $time, item.start, item.wait_timer, item.flag
+    30                                                           );*/
+    31              1                       1143                 -> drv_rqt; // notify generator that transaction is done
+
+  File COUNTER_MONITOR.sv
+    2                                                class counter_monitor;
+    3                                                    string name;
+    4                                                
+    5                                                    virtual counter_if counter_vif;
+    6                                                    mailbox #(counter_seq_item) mon2sb;
+    7                                                    mailbox #(counter_seq_item) mon2cov;
+    8                                                
+    9                                                    function new(string name = "MONITOR");
+    10              1                          1             this.name = name;
+    11              1                          1             mon2sb = new();
+    12              1                          1             mon2cov = new();
+    13                                                   endfunction
+    14                                               
+    15                                                   task run();
+    16                                                       counter_seq_item item;
+    17              1                          1             forever begin
+    18              1                       1143                 item = new();
+    19              1                       1143                 @(counter_vif.mon_cb); // wait for monitor clocking block to sample data
+    20                                                          
+    21              1                       1142                 item.rst_n          = counter_vif.rst_n;
+    22              1                       1142                 item.start          = counter_vif.start;
+    23              1                       1142                 item.wait_timer     = counter_vif.wait_timer;
+    24              1                       1142                 item.flag           = counter_vif.flag;
+    25              1                       1142                 item.busy           = counter_vif.busy;
+    26              1                       1142                 item.count_value    = counter_vif.count_value;
+    27                                               
+    28                                                           // sending mailbox to scoreboard and coverage
+    29              1                       1142                 mon2sb.put(item);
+    30              1                       1142                 mon2cov.put(item);
+    31              1                       1142                 $display(
+
+  File COUNTER_AGENT.sv
+    2                                                `include "COUNTER_DRIVER.sv"
+    3                                                `include "COUNTER_MONITOR.sv"
+    4                                                import counter_seq_item_pkg::*;
+    5                                                
+    6                                                class counter_agent;
+    7                                                    string name;
+    8                                                
+    9                                                    counter_generator gen;
+    10                                                   counter_driver    drv;
+    11                                                   counter_monitor   mon;
+    12                                               
+    13                                                   // virtual interface
+    14                                                   virtual counter_if counter_vif;
+    15                                               
+    16                                               
+    17                                                   mailbox #(counter_seq_item) mon2sb;
+    18                                                   mailbox #(counter_seq_item) mon2cov;
+    19                                               
+    20                                                   function new(string name = "counter_agent");
+    21              1                          1             this.name = name;
+    22              1                          1             mon2sb = new();
+    23              1                          1             mon2cov = new();
+    24              1                          1             gen = new();
+    25              1                          1             drv = new();
+    26              1                          1             mon = new();
+    27                                                   endfunction
+    28                                               
+    29                                                   function void connect();
+    30                                                       // connect agent virtual interface to driver and monitor virtual interface
+    31              1                          1             drv.counter_vif = counter_vif;
+    32              1                          1             mon.counter_vif = counter_vif;
+    33                                                       // connect mailboxs to monitor, generator and driver
+    34              1                          1             mon.mon2sb  = mon2sb;
+    35              1                          1             mon.mon2cov =  mon2cov;
+    36              1                          1             drv.gen2drv = gen.gen2drv;
+    37              1                          1             gen.gen_ack = drv.drv_rqt; // connect acknowledgment event (TLM (port, export) in UVM)
+    38                                                   endfunction
+    39                                               
+    40                                                   task run();
+    41                                                       fork
+    42              1                          1                 gen.run();
+    43              1                          1                 drv.run();
+    44              1                          1                 mon.run();
+
+  File COUNTER_COVERAGE.sv
+    2                                                class counter_coverage;
+    3                                                    string name;
+    4                                                
+    5                                                    mailbox #(counter_seq_item) mon2cov;
+    6                                                
+    7                                                    
+    8                                                
+    9                                                    counter_seq_item cov_item;
+    10                                               
+    11                                                   // cover group
+    12                                                   covergroup counter_Cross_Group;
+    13                                                       // cover points
+    14                                                       START_CP: coverpoint cov_item.start;
+    15                                               
+    16                                                       FLAG_CP: coverpoint cov_item.flag;
+    17                                               
+    18                                                       BUSY_CP: coverpoint cov_item.busy;
+    19                                               
+    20                                                       COUNT_CP: coverpoint cov_item.count_value;
+    21                                               
+    22                                                   endgroup
+    23                                                   
+    24                                                   function new(string name = "SUBSCRIBER");
+    25              1                          1             this.name = name;
+    26              1                          1             mon2cov = new();
+    27              1                          1             counter_Cross_Group = new();
+    28                                                   endfunction
+    29                                               
+    30                                                   task run();
+    31                                                       counter_seq_item item;
+    32                                                       
+    33              1                          1             forever begin
+    34              1                       1143                 item = new();
+    35              1                       1143                 mon2cov.get(item);
+    36              1                       1142                 cov_item = item;
+    37              1                       1142                 counter_Cross_Group.sample();
+
+  File COUNTER_STATE_CLASSES.sv
+    2                                                typedef class State;
+    3                                                typedef class IdleState;
+    4                                                typedef class CountingState;
+    5                                                
+    6                                                // classes file variables are defined in shared package (to be displayed)
+    7                                                
+    8                                                class State;
+    9                                                
+    10                                                   virtual function State transition(logic rst_n, logic start, logic [15:0] wait_timer, logic flag);
+    11              1                    ***0***             return this; 
+    12                                                   endfunction
+    13                                                   
+    14                                               
+    15                                                   virtual function fsm_output_t get_output();
+    16              1                    ***0***             fsm_output.busy = 0;
+    17              1                    ***0***             fsm_output.count_value = 5'b00000;
+    18              1                    ***0***             return fsm_output; // Default output is 0
+    19                                                   endfunction
+    20                                               
+    21                                                   virtual function string display_name(); 
+    22              1                    ***0***             return "Base"; 
+    23                                                   endfunction
+    24                                               endclass
+    25                                               
+    26                                               // child classes
+    27                                               
+    28                                               class IdleState extends State;
+    29                                                   function string display_name();
+    30              1                    ***0***             return "IDLE"; 
+    31                                                   endfunction
+    32                                               
+    33                                                   function fsm_output_t get_output(); 
+    34              1                        302             fsm_output.busy = busy_ref;
+    35              1                        302             fsm_output.count_value = count_ref;
+    36              1                        302             return fsm_output; 
+    37                                                   endfunction
+    38                                                   
+    39                                                   function State transition(logic rst_n, logic start, logic [15:0] wait_timer, logic flag);
+    40                                                       State next_state; 
+    41                                                       
+    42                                                       if (rst_n == 0) begin
+    43              1                          4                 IdleState idle   = new();
+    44              1                          4                 next_state       = idle;
+    45              1                          4                 ns               = IDLE; // defined in shared package
+    46                                               
+    47              1                          4                 busy_ref         = 0;
+    48              1                          4                 count_ref        = 0;
+    49              1                          4                 internal_counter = 0;
+    50                                                       end else if (start) begin
+    51              1                         33                 CountingState counting = new(); 
+    52              1                         33                 next_state = counting;
+    53              1                         33                 ns = COUNTING;
+    54                                               
+    55              1                         33                 busy_ref         = 0;
+    56              1                         33                 deassert_count   = 1; // flag for timing matching regarding ref count value (delaying one clock)
+    57              1                         33                 internal_counter = 0;    
+    58                                                       end else begin
+    59              1                        266                 ns               = IDLE;
+    60              1                        266                 next_state       = this;
+    61                                               
+    62              1                        266                 busy_ref         = 0;
+    63                                                           //count_ref        = 0;
+    64              1                        266                 internal_counter = 0;    
+    65                                                       end
+    66                                                       
+    67              1                        303             return next_state;          
+    68                                                   endfunction
+    69                                               endclass
+    70                                               
+    71                                               
+    72                                               class CountingState extends State;
+    73                                                   function string display_name(); 
+    74              1                    ***0***             return "COUNTING"; 
+    75                                                   endfunction
+    76                                                   
+    77                                                   // Override output to 1 only for this state
+    78                                                   function fsm_output_t get_output(); 
+    79              1                        840             fsm_output.busy = busy_ref;
+    80              1                        840             fsm_output.count_value = count_ref;
+    81              1                        840             return fsm_output; 
+    82                                                   endfunction
+    83                                               
+    84                                                   function State transition(logic rst_n, logic start, logic [15:0] wait_timer, logic flag);
+    85                                                       State next_state;
+    86                                                       
+    87                                                       if (rst_n == 0) begin
+    88              1                          3                 IdleState idle = new();
+    89              1                          3                 next_state = idle;
+    90              1                          3                 ns = IDLE;
+    91                                                           
+    92              1                          3                 busy_ref         = 0;
+    93              1                          3                 count_ref        = 0;
+    94              1                          3                 internal_counter = 0;
+    95                                                       end 
+    96                                                       // if (internal counter is a multiple of wait_timer) & flag is high, or count_value is max, transition to IDLE
+    97                                                       else if ((internal_counter % wait_timer == 0) && (flag == 1 || (fsm_output.count_value == 31 && !deassert_count))) begin
+    98              1                         29                 IdleState idle   = new();
+    99              1                         29                 next_state       = idle;
+    100             1                         29                 ns               = IDLE;
+    101                                                      end 
+    102                                                      else begin
+    103             1                        807                 CountingState counting = new(); 
+    104             1                        807                 next_state             = counting;
+    105             1                        807                 ns                     = COUNTING;
+    106             1                        807                 busy_ref               = 1;
+    107                                                          if (deassert_count) begin
+    108             1                         32                     count_ref          = 0;
+    109             1                         32                     deassert_count     = 0;
+    110                                                          end
+    111                                                          // i just putted this condition before incerementing the counter to avoid incrementing it at the beginning of the state, mimicking NBA behavouir in RTL
+    112                                                          if (internal_counter != 0 && internal_counter % wait_timer == 0) begin
+    113             1                        364                     count_ref++; // Increment count value at each wait_timer interval
+    114                                                          end
+    115             1                        807                 internal_counter++; // Increment internal counter
+    116                                                      end
+    117                                                      
+    118             1                        839             return next_state;
+
+  File COUNTER_SCOREBOARD.sv
+    2                                                import counter_seq_item_pkg::*;
+    3                                                `include "COUNTER_STATE_CLASSES.sv"
+    4                                                class counter_scoreboard;
+    5                                                    string name;
+    6                                                
+    7                                                    mailbox #(counter_seq_item) mon2sb;
+    8                                                
+    9                                                    // State Handles
+    10                                                   State current_state; 
+    11                                                   State next_state;
+    12                                               
+    13                                                   function new(string name = "SCOREBOARD");
+    14              1                          1             this.name = name;
+    15              1                          1             mon2sb = new();
+    16                                                   endfunction
+    17                                               
+    18                                                   // compare function
+    19                                                   function void check_data (counter_seq_item tr, fsm_output_t fsm_out);
+    20                                                       if (tr.count_value !== fsm_out.count_value) begin
+    21              1                        186                 error_count_out++;
+    22              1                        186                 $display("error in fsm output, ref_count_value is: %0d     while dut count value is: %0d", fsm_out.count_value, tr.count_value  );
+    23                                                       end
+    24                                                       else
+    25              1                        956                 correct_count_out++;
+    26                                                       if(tr.busy !== fsm_out.busy) begin
+    27              1                         67                 error_count_busy++;
+    28              1                         67                 $display("error in fsm output, ref_busy is: %0d    while dut busy is: %0d", fsm_out.busy, tr.busy  );
+    29                                                       end
+    30                                                       else
+    31              1                       1075                 correct_count_busy++;
+    32                                                   endfunction
+    33                                               
+    34                                               
+    35                                                   task run();
+    36                                                       // Initialize
+    37                                                       counter_seq_item item;
+    38                                                       
+    39              1                          1             IdleState idle = new();
+    40              1                          1             current_state = idle;
+    41              1                          1             next_state = current_state;
+    42                                               
+    43              1                          1             forever begin
+    44              1                       1143                 item = new();
+    45              1                       1143                 mon2sb.get(item);
+    46                                                           //$display("we don't get anything" , item.start);
+    47                                               
+    48                                                           // We calculate where to go *next* cycle based on *current* input & current state (mealy FSM)
+    49              1                       1142                 next_state = current_state.transition(item.rst_n, item.start, item.wait_timer, item.flag);
+    50                                                           
+    51                                                           // state memory
+    52              1                       1142                 current_state = next_state;
+    53              1                       1142                 cs = ns;
+    54                                               
+    55                                                           // calling get_output fn
+    56              1                       1142                 fsm_out = current_state.get_output(); // fsm_out is defined in shared package
+    57                                               
+    58              1                       1142                 check_data(item, fsm_out);
+    59                                                       end
+    60                                                   endtask
+    61                                               
+    62                                                   task report(); // this task is the counter of report phase in UVM
+    63              1                          1             $display("error count out = %0d, correct count out = %0d", error_count_out, correct_count_out);
+    64              1                          1             $display("error count busy = %0d, correct count busy = %0d", error_count_busy, correct_count_busy);
+
+  File COUNTER_ENV.sv
+    2                                                `include "COUNTER_COVERAGE.sv"
+    3                                                `include "COUNTER_SCOREBOARD.sv"
+    4                                                import shared_pkg::*;
+    5                                                class counter_env;
+    6                                                    string name;
+    7                                                
+    8                                                    // virtual interface
+    9                                                    virtual counter_if counter_vif;
+    10                                               
+    11                                                   // agent, scoreboard and coverage class objects
+    12                                                   counter_agent agt;
+    13                                                   counter_scoreboard sb;
+    14                                                   counter_coverage cov;
+    15                                               
+    16                                                   function new(string name = "counter_env");
+    17              1                          1             this.name = name;
+    18              1                          1             agt = new();
+    19              1                          1             sb  = new();
+    20              1                          1             cov = new();
+    21                                                   endfunction
+    22                                               
+    23                                                   // function to connect seq_item to scoreboard and coverage
+    24                                                   function void connect();
+    25                                                       // connect virtual interface to agent virtual interface
+    26              1                          1             agt.counter_vif = counter_vif;
+    27                                                       // connect mailbox to scoreboard and coverage
+    28              1                          1             sb.mon2sb = agt.mon2sb;
+    29              1                          1             cov.mon2cov = agt.mon2cov;
+    30                                                   endfunction
+    31                                               
+    32                                                   task run();
+    33              1                          1             agt.connect(); // to connect mailboxes and vifs
+    34                                                       fork
+    35              1                          1                 agt.run();
+    36              1                          1                 sb.run();
+    37              1                          1                 cov.run();
+    38                                                       join_any
+    39              1                          1             sb.report(); // call report task to print the final count of errors and correct transactions
+
+
+COVERGROUP COVERAGE:
+----------------------------------------------------------------------------------------------------------
+Covergroup                                             Metric       Goal       Bins    Status               
+                                                                                                         
+----------------------------------------------------------------------------------------------------------
+ TYPE /COUNTER_TOP_sv_unit/counter_coverage/counter_Cross_Group 
+                                                      100.00%        100          -    Covered              
+    covered/total bins:                                    38         38          -                      
+    missing/total bins:                                     0         38          -                      
+    % Hit:                                            100.00%        100          -                      
+    Coverpoint START_CP                               100.00%        100          -    Covered              
+        covered/total bins:                                 2          2          -                      
+        missing/total bins:                                 0          2          -                      
+        % Hit:                                        100.00%        100          -                      
+        bin auto[0]                                      1042          1          -    Covered              
+        bin auto[1]                                       100          1          -    Covered              
+    Coverpoint FLAG_CP                                100.00%        100          -    Covered              
+        covered/total bins:                                 2          2          -                      
+        missing/total bins:                                 0          2          -                      
+        % Hit:                                        100.00%        100          -                      
+        bin auto[0]                                      1083          1          -    Covered              
+        bin auto[1]                                        59          1          -    Covered              
+    Coverpoint BUSY_CP                                100.00%        100          -    Covered              
+        covered/total bins:                                 2          2          -                      
+        missing/total bins:                                 0          2          -                      
+        % Hit:                                        100.00%        100          -                      
+        bin auto[0]                                       260          1          -    Covered              
+        bin auto[1]                                       882          1          -    Covered              
+    Coverpoint COUNT_CP                               100.00%        100          -    Covered              
+        covered/total bins:                                32         32          -                      
+        missing/total bins:                                 0         32          -                      
+        % Hit:                                        100.00%        100          -                      
+        bin auto[0]                                       108          1          -    Covered              
+        bin auto[1]                                        85          1          -    Covered              
+        bin auto[2]                                        74          1          -    Covered              
+        bin auto[3]                                        66          1          -    Covered              
+        bin auto[4]                                        71          1          -    Covered              
+        bin auto[5]                                        82          1          -    Covered              
+        bin auto[6]                                        48          1          -    Covered              
+        bin auto[7]                                        73          1          -    Covered              
+        bin auto[8]                                        91          1          -    Covered              
+        bin auto[9]                                        54          1          -    Covered              
+        bin auto[10]                                       26          1          -    Covered              
+        bin auto[11]                                       28          1          -    Covered              
+        bin auto[12]                                       27          1          -    Covered              
+        bin auto[13]                                       20          1          -    Covered              
+        bin auto[14]                                       26          1          -    Covered              
+        bin auto[15]                                       18          1          -    Covered              
+        bin auto[16]                                       18          1          -    Covered              
+        bin auto[17]                                       18          1          -    Covered              
+        bin auto[18]                                       21          1          -    Covered              
+        bin auto[19]                                       19          1          -    Covered              
+        bin auto[20]                                       25          1          -    Covered              
+        bin auto[21]                                       12          1          -    Covered              
+        bin auto[22]                                       12          1          -    Covered              
+        bin auto[23]                                       17          1          -    Covered              
+        bin auto[24]                                       10          1          -    Covered              
+        bin auto[25]                                       10          1          -    Covered              
+        bin auto[26]                                       10          1          -    Covered              
+        bin auto[27]                                       10          1          -    Covered              
+        bin auto[28]                                       10          1          -    Covered              
+        bin auto[29]                                       10          1          -    Covered              
+        bin auto[30]                                       10          1          -    Covered              
+        bin auto[31]                                       33          1          -    Covered              
+
+TOTAL COVERGROUP COVERAGE: 100.00%  COVERGROUP TYPES: 1
+
+ASSERTION RESULTS:
+--------------------------------------------------------------------
+Name                 File(Line)                   Failure      Pass 
+                                                  Count        Count
+--------------------------------------------------------------------
+/COUNTER_TOP_sv_unit/counter_generator/run/#ublk#180738964#211/immed__223
+                     COUNTER_GENERATOR.sv(223)          0          1
+/COUNTER_TOP_sv_unit/counter_generator/run/#ublk#180738964#211/#ublk#180738964#213/immed__214
+                     COUNTER_GENERATOR.sv(214)          0          1
+/COUNTER_TOP_sv_unit/counter_generator/run/#ublk#180738964#211/#ublk#180738964#217/immed__218
+                     COUNTER_GENERATOR.sv(218)          0          1
+
+Total Coverage By Instance (filtered view): 88.39%
+
