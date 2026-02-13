@@ -56,10 +56,10 @@ function T = mytypes(dt)
             T.phase = fi(0, 0, 32, 0, F);
         
             % LUT address
-            T.lut_addr = fi(0, 0, 16, 0, F);
+            T.lut_addr = fi(0, 0, 18, 0, F);
         
             % Sine amplitude (Q1.fracBits)
-            WL = fracBits + 1;
+            WL = fracBits + 2;
             T.sine_LUT = fi(0, 1, WL, fracBits, F);
             T.dds_out  = fi(0, 1, WL, fracBits, F);
 
