@@ -1,16 +1,13 @@
 clear; clc; close all;
-
 % =========================================================
 % 1. DESIGN PARAMETERS
 % =========================================================
 Fs       = 500e6;        % System clock (Hz)
-T_dur    = 20e-6;        % Signal duration (s)
-Nacc     = 10;           % Phase accumulator bits
+T_dur    = 4.096e-6;     % Signal duration (s)
+Nacc     = 24;           % Phase accumulator bits
 LUT_bits = 10;           % LUT address bits
 nSeeds   = 60;           % Number of random tests
 SQNR_fixed  = zeros(nSeeds, 1);
-
-
 Ns = round(T_dur * Fs);  % Number of samples
 t  = (0:Ns-1) / Fs;      % Time vector
 
@@ -22,14 +19,13 @@ fprintf('Testing Mode: %s\n', current_mode);
 
 % Define Q-Formats to sweep (Only used if mode is 'fixed')
 if strcmp(current_mode, 'fixed')
-    Q_list = [16 14 12 10 8]; 
+    Q_list = [14 12 10 8 6]; 
 else
     Q_list = [0]; % Dummy value for non-fixed modes
 end
 
 avg_sqnr_results = zeros(length(Q_list), 1);
 min_sqnr_results = zeros(length(Q_list), 1);
-
 
 % Global variable for your hardware core
 global DDS_FRAC_BITS; 
@@ -45,7 +41,6 @@ seed1_data = struct();
 % =========================================================
 % 2. TEST LOOPS (SWAPPED: Q IS OUTER, SEED IS INNER)
 % =========================================================
-
 % --- OUTER LOOP: Iterate through Q-Formats first ---
 for q_idx = 1:length(Q_list)
     
@@ -56,7 +51,6 @@ for q_idx = 1:length(Q_list)
     else
         fprintf('Testing Standard Precision...\n');
     end
-
     seed_sqnrs = zeros(nSeeds, 1);
     
     % --- INNER LOOP: Iterate through Random Seeds ---
@@ -82,7 +76,7 @@ for q_idx = 1:length(Q_list)
         
         % Calculate Tuning Word (M)
         M = round(f_inst * (2^Nacc) / Fs);
-
+        
         % -----------------------------------------------------
         % B. IDEAL REFERENCE (GROUND TRUTH)
         % -----------------------------------------------------
@@ -124,7 +118,6 @@ for q_idx = 1:length(Q_list)
         
         % 5. Capture Data for Seed #1 Plotting
         if seed == 1
-            % Save shared data (overwrite is fine, it's identical due to rng)
             seed1_data.time = t;
             seed1_data.ideal = yExpected;
             seed1_data.f_inst = f_inst;
@@ -136,6 +129,7 @@ for q_idx = 1:length(Q_list)
         end
         SQNR_fixed(seed) = calculate_SQNR(yExpected, dds_out_dbl);
     end
+    
     %% Plot Fixed-Point SQNR Results
     figure('Position', [100, 100, 1200, 500]);
     
@@ -153,7 +147,6 @@ for q_idx = 1:length(Q_list)
         'LabelHorizontalAlignment', 'left');
     hold off;
     
-    
     fprintf('Mean SQNR (fixed): %.2f dB\n', mean(SQNR_fixed));
     fprintf('Min  SQNR (fixed): %.2f dB\n', min(SQNR_fixed));
     fprintf('Max  SQNR (fixed): %.2f dB\n', max(SQNR_fixed));
@@ -162,16 +155,14 @@ for q_idx = 1:length(Q_list)
     % Record Statistics
     avg_sqnr_results(q_idx) = mean(SQNR_fixed);
     min_sqnr_results(q_idx) = min(SQNR_fixed);
-
 end
+
 %% 3. Plotting the Trade-off Curve
 figure('Position', [100, 100, 900, 600]);
-
 % Main Curve
 plot(Q_list, avg_sqnr_results, 'b-o', 'LineWidth', 2, 'MarkerFaceColor', 'b');
 hold on;
 plot(Q_list, min_sqnr_results, 'r--', 'LineWidth', 1.5);
-
 % Annotations
 grid on;
 xlabel('Fractional Length (bits)');
@@ -179,11 +170,9 @@ ylabel('SQNR (dB)');
 legend('Mean SQNR', 'Worst-Case SQNR', 'Location', 'Best');
 fprintf('Simulation Complete.\n');
 
-
 % =========================================================
 % 3. RESULTS VISUALIZATION 
 % =========================================================
-
 % --- FIGURE 1: Error Statistics ---
 figure('Name', 'Error Analysis', 'Color', 'w');
 if strcmp(current_mode, 'fixed')
@@ -205,8 +194,12 @@ subplot(2,1,1);
 plot(seed1_data.time*1e6, seed1_data.ideal, 'k', 'LineWidth', 1.5); hold on;
 if strcmp(current_mode, 'fixed')
     plot(seed1_data.time*1e6, double(seed1_data.waves{1}), '--'); 
-    plot(seed1_data.time*1e6, double(seed1_data.waves{end}), ':'); 
-    legend('Ideal', seed1_data.labels{1}, seed1_data.labels{end});
+    if length(Q_list) > 1
+        plot(seed1_data.time*1e6, double(seed1_data.waves{end}), ':'); 
+        legend('Ideal', seed1_data.labels{1}, seed1_data.labels{end});
+    else
+        legend('Ideal', seed1_data.labels{1});
+    end
 else
     plot(seed1_data.time*1e6, double(seed1_data.waves{1}), '--');
     legend('Ideal', current_mode);
@@ -231,7 +224,6 @@ fprintf('\n===========================================\n');
 fprintf('           RESULTS SUMMARY                 \n');
 fprintf('===========================================\n');
 fprintf('Testing Mode: %s\n', current_mode);
-
 if strcmp(current_mode, 'fixed')
     for q_idx = 1:length(Q_list)
         current_errors = error_log(:, q_idx);
@@ -253,7 +245,7 @@ fprintf('\n===========================================\n');
 % 5. FIGURE: ERROR VS SEED
 % =========================================================
 figure('Name', 'DDS Accuracy vs Seed', 'Color', 'w');
-p = plot(1:nSeeds, error_log, '.-', 'LineWidth', 1.5);
+plot(1:nSeeds, error_log, '.-', 'LineWidth', 1.5);
 grid on;
 xlabel('Test Seed'); ylabel('Mean Absolute Error');
 title(['DDS Chirp Accuracy - ' current_mode ' Mode']);
@@ -305,12 +297,44 @@ if strcmp(current_mode, 'fixed')
     xticks(sort(Q_list)); 
 end
 
+% =========================================================
+% 8. FIGURE: POWER SPECTRAL DENSITY (PSD)
+% =========================================================
+figure('Name', 'Power Spectral Density', 'Color', 'w', 'Position', [150, 150, 900, 500]);
+hold on;
+
+% Plot Ideal PSD using a rectangular window (best for chirps)
+[pxx_ideal, f_psd] = periodogram(seed1_data.ideal, rectwin(length(seed1_data.ideal)), length(seed1_data.ideal), Fs);
+plot(f_psd/1e6, 10*log10(pxx_ideal), 'k', 'LineWidth', 2, 'DisplayName', 'Ideal Chirp');
+
+% Plot Quantized DDS PSDs
+colors = lines(length(Q_list));
+if strcmp(current_mode, 'fixed')
+    for q_idx = 1:length(Q_list)
+        [pxx_dds, ~] = periodogram(double(seed1_data.waves{q_idx}), rectwin(length(seed1_data.waves{q_idx})), length(seed1_data.waves{q_idx}), Fs);
+        plot(f_psd/1e6, 10*log10(pxx_dds), 'Color', colors(q_idx,:), ...
+            'LineWidth', 1, 'DisplayName', seed1_data.labels{q_idx});
+    end
+else
+    [pxx_dds, ~] = periodogram(double(seed1_data.waves{1}), rectwin(length(seed1_data.waves{1})), length(seed1_data.waves{1}), Fs);
+    plot(f_psd/1e6, 10*log10(pxx_dds), 'b--', 'LineWidth', 1, 'DisplayName', current_mode);
+end
+
+grid on;
+xlabel('Frequency (MHz)', 'FontSize', 11, 'FontWeight', 'bold');
+ylabel('Power/Frequency (dB/Hz)', 'FontSize', 11, 'FontWeight', 'bold');
+title('Power Spectral Density (PSD) of DDS Chirp Output', 'FontSize', 12, 'FontWeight', 'bold');
+subtitle('Evaluated using Seed #1');
+legend('Location', 'best');
+xlim([0 Fs/2/1e6]); % Plot up to Nyquist frequency (250 MHz)
+ylim([-120 max(10*log10(pxx_ideal))+10]); % Set a clean noise floor view
+hold off;
+
 %% SQNR Calculation Function
 function sqnr_db = calculate_SQNR(signal_ref, signal_test)
     % Calculate Signal-to-Quantization Noise Ratio
     signal_power = sum(abs(signal_ref).^2);
     noise_power = sum(abs(signal_ref - signal_test).^2);
-
     if noise_power == 0
         sqnr_db = Inf;
     else
