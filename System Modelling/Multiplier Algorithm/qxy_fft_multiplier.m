@@ -2,92 +2,57 @@ function Y_hw = qxy_fft_multiplier(A_vec, B_vec, x, y, outType)
 %% ---------------------------------------------------------
 % Qx.y × Qx.y Wallace Tree Multiplier (Vector Version)
 %
-% Features:
-%   • Supports REAL and COMPLEX inputs
-%   • Double / Single → native MATLAB multiply
-%   • Fixed → Wallace Tree hardware-style multiply
-%
-% For complex numbers:
-%   (Ar + jAi)(Br + jBi)
-%       = (ArBr - AiBi) + j(ArBi + AiBr)
-%   → Implemented using FOUR real Wallace multipliers
-%
-% Inputs:
-%   A_vec   : Input vector
-%   B_vec   : Input vector
-%   x       : Integer bits including sign
-%   y       : Fractional bits
-%   outType : 'double' | 'single' | 'fixed'
-%
-% Output:
-%   Y_hw    : Output vector
+% Supports:
+%   • Real & Complex inputs
+%   • double / single (native MATLAB)
+%   • fixed-point (Wallace tree, bit-true)
 % ---------------------------------------------------------
 
     if nargin < 5
         outType = 'double';
     end
 
-    % Ensure vectors match
     assert(length(A_vec) == length(B_vec), ...
            'Input vectors must have same length');
 
     Npts = length(A_vec);
 
     %% =====================================================
-    %  COMPLEX HANDLING (Decomposition into real parts)
-    % ======================================================
-    %
-    % Wallace tree is REAL-only hardware.
-    % So if inputs are complex:
-    %   → Split into real & imaginary
-    %   → Use 4 real multipliers
-    %   → Recombine
-    %
+    % COMPLEX HANDLING (4 real Wallace multipliers)
+    %% =====================================================
     if ~isreal(A_vec) || ~isreal(B_vec)
 
-        % Separate components
         Ar = real(A_vec);  Ai = imag(A_vec);
         Br = real(B_vec);  Bi = imag(B_vec);
 
-        % Four real multiplications (reuse SAME function)
-        P1 = qxy_fft_multiplier(Ar, Br, x, y, outType); % Ar*Br
-        P2 = qxy_fft_multiplier(Ai, Bi, x, y, outType); % Ai*Bi
-        P3 = qxy_fft_multiplier(Ar, Bi, x, y, outType); % Ar*Bi
-        P4 = qxy_fft_multiplier(Ai, Br, x, y, outType); % Ai*Br
+        P1 = qxy_fft_multiplier(Ar, Br, x, y, outType);
+        P2 = qxy_fft_multiplier(Ai, Bi, x, y, outType);
+        P3 = qxy_fft_multiplier(Ar, Bi, x, y, outType);
+        P4 = qxy_fft_multiplier(Ai, Br, x, y, outType);
 
-        % Combine results
-        Y_real = P1 - P2;
-        Y_imag = P3 + P4;
-
-        % Final complex output
-        Y_hw = complex(Y_real, Y_imag);
+        Y_hw = complex(P1 - P2, P3 + P4);
         return;
     end
 
-
     %% =====================================================
-    %  DOUBLE / SINGLE PATH
-    % ======================================================
+    % DOUBLE / SINGLE
+    %% =====================================================
     if strcmpi(outType,'double')
         Y_hw = double(A_vec .* B_vec);
         return;
-
     elseif strcmpi(outType,'single')
         Y_hw = single(A_vec .* B_vec);
         return;
     end
 
-
     %% =====================================================
-    %  FIXED-POINT WALLACE TREE PATH (Qx.y)
-    % ======================================================
+    % FIXED-POINT WALLACE TREE
+    %% =====================================================
+    WordIn  = x + y;
+    Scale   = 2^y;
+    WordOut = 2 * WordIn;
+    FracOut = 2 * y;
 
-    WordIn  = x + y;     % Total input bits
-    Scale   = 2^y;       % Scaling factor for fraction
-    WordOut = 2*WordIn;  % Output width (full precision)
-    FracOut = 2*y;       % Fractional bits after multiply
-
-    % Output fixed-point type
     T = numerictype(1, WordOut, FracOut);
     F = fimath('OverflowAction','Wrap', ...
                'RoundingMethod','Floor');
@@ -95,30 +60,23 @@ function Y_hw = qxy_fft_multiplier(A_vec, B_vec, x, y, outType)
     Y_hw = fi(zeros(Npts,1), T, F);
 
     %% =====================================================
-    %  PROCESS EACH VECTOR ELEMENT
-    % ======================================================
+    % PROCESS VECTOR
+    %% =====================================================
     for n = 1:Npts
 
         A_val = A_vec(n);
         B_val = B_vec(n);
 
-        %% -----------------------------
-        % SIGN EXTRACTION
-        % -----------------------------
+        % ----- Sign handling -----
         A_sign = A_val < 0;
         B_sign = B_val < 0;
         result_sign = xor(A_sign, B_sign);
 
-        % Convert to scaled integers (magnitude only)
-        A_int = round(abs(A_val) * Scale);
-        B_int = round(abs(B_val) * Scale);
+        % ----- FIX: convert to native integers -----
+        A_int = uint64(round(double(abs(A_val)) * Scale));
+        B_int = uint64(round(double(abs(B_val)) * Scale));
 
-        %% -----------------------------
-        % PARTIAL PRODUCT GENERATION
-        % -----------------------------
-        %
-        % PP(i,j) = bit_i(A) AND bit_j(B)
-        %
+        % ----- Partial products -----
         PP = zeros(WordIn, WordIn);
 
         for i = 1:WordIn
@@ -128,25 +86,15 @@ function Y_hw = qxy_fft_multiplier(A_vec, B_vec, x, y, outType)
             end
         end
 
-
-        %% -----------------------------
-        % WALLACE TREE REDUCTION
-        % -----------------------------
-        %
-        % 3:2 compressors (Carry Save Adders)
-        % Reduce each column until <= 2 bits remain
-        %
+        % ----- Wallace tree reduction -----
         cols = cell(1, WordOut);
 
-        % Arrange partial products into columns
         for i = 1:WordIn
             for j = 1:WordIn
-                idx = i + j - 1;
-                cols{idx} = [cols{idx}, PP(i,j)];
+                cols{i+j-1} = [cols{i+j-1}, PP(i,j)];
             end
         end
 
-        % Iterative CSA compression
         while max(cellfun(@length, cols)) > 2
 
             new_cols = cell(1, WordOut+1);
@@ -154,12 +102,11 @@ function Y_hw = qxy_fft_multiplier(A_vec, B_vec, x, y, outType)
             for k = 1:WordOut
                 bits = cols{k};
 
-                while length(bits) >= 3
+                while numel(bits) >= 3
                     b1 = bits(end); bits(end)=[];
                     b2 = bits(end); bits(end)=[];
                     b3 = bits(end); bits(end)=[];
 
-                    % 3:2 compressor
                     s = xor(xor(b1,b2),b3);
                     c = (b1&b2) | (b1&b3) | (b2&b3);
 
@@ -173,13 +120,7 @@ function Y_hw = qxy_fft_multiplier(A_vec, B_vec, x, y, outType)
             cols = new_cols(1:WordOut);
         end
 
-
-        %% -----------------------------
-        % FINAL RIPPLE-CARRY ADDER
-        % -----------------------------
-        %
-        % Convert two rows into final binary result
-        %
+        % ----- Final ripple-carry adder -----
         sum_row = zeros(1, WordOut);
         carry = 0;
 
@@ -189,36 +130,20 @@ function Y_hw = qxy_fft_multiplier(A_vec, B_vec, x, y, outType)
             carry = floor(s/2);
         end
 
-
-        %% -----------------------------
-        % RECONSTRUCT INTEGER VALUE
-        % -----------------------------
+        % ----- Reconstruct integer -----
         raw_product = 0;
-
         for k = 1:WordOut
-            raw_product = raw_product + ...
-                          sum_row(k) * 2^(k-1);
+            raw_product = raw_product + sum_row(k)*2^(k-1);
         end
 
-
-        %% -----------------------------
-        % APPLY SIGN (Two's Complement)
-        % -----------------------------
+        % ----- Apply sign -----
         if result_sign
             raw_product = 2^WordOut - raw_product;
         end
-
         raw_product = mod(raw_product, 2^WordOut);
 
-
-        %% -----------------------------
-        % STORE FIXED-POINT RESULT
-        % -----------------------------
-        temp_unsigned = fi(raw_product, ...
-                           numerictype(0, WordOut, 0));
-
-        out_fmt = numerictype(1, WordOut, FracOut);
-
-        Y_hw(n) = reinterpretcast(temp_unsigned, out_fmt);
+        % ----- Store fixed-point result -----
+        temp_unsigned = fi(raw_product, numerictype(0,WordOut,0));
+        Y_hw(n) = reinterpretcast(temp_unsigned, T);
     end
 end
