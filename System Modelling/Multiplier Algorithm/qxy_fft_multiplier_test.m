@@ -10,8 +10,11 @@ y = 10;          % Fractional bits
 rng(1);          % Repeatability
 
 %% Generate random FFT-like inputs (bounded to Qx.y)
-A = (rand(Npts,1) - 0.5) * (2^(x-1) * 1.9);   % ~[-2^(x-1)*0.95, 2^(x-1)*0.95]
-B = (rand(Npts,1) - 0.5) * (2^(x-1) * 1.9);
+FS = 0.95 * 2^(x-1);      % Safe full-scale bound
+
+A = (rand(Npts,1)-0.5)*2*FS + 1j*(rand(Npts,1)-0.5)*2*FS;
+B = (rand(Npts,1)-0.5)*2*FS + 1j*(rand(Npts,1)-0.5)*2*FS;
+
 
 %% ----------------------------
 % Call hardware-style multiplier
@@ -44,12 +47,17 @@ fprintf('Max Abs Error (fixed)    : %e\n', max(abs(err_fixed)));
 fprintf('Mean Abs Error (fixed)   : %e\n', mean(abs(err_fixed)));
 fprintf('---------------------------------------------\n');
 
-%% ----------------------------
-% Display a few sample results
-%% ----------------------------
-disp('Index |     A    |     B    | HW Double | HW Single | HW Fixed | Reference');
-disp('--------------------------------------------------------------------------');
+disp('Index |  A (real + j imag) |  B (real + j imag) |      HW Double     |      HW Single     |      HW Fixed      |        Reference');
+disp('--------------------------------------------------------------------------------------------------------------------------------------');
+
 for k = 1:5
-    fprintf('%4d  | %+1.5f | %+1.5f | %+1.5f  | %+1.5f  | %+1.5f | %+1.5f\n', ...
-        k, A(k), B(k), Y_double(k), Y_single(k), Y_fixed_dbl(k), Y_ref(k));
+    fprintf('%4d  | %+1.5f %+1.5fj | %+1.5f %+1.5fj | %+1.5f %+1.5fj | %+1.5f %+1.5fj | %+1.5f %+1.5fj | %+1.5f %+1.5fj\n', ...
+        k, ...
+        real(A(k)), imag(A(k)), ...
+        real(B(k)), imag(B(k)), ...
+        real(Y_double(k)), imag(Y_double(k)), ...
+        real(Y_single(k)), imag(Y_single(k)), ...
+        real(Y_fixed_dbl(k)), imag(Y_fixed_dbl(k)), ...
+        real(Y_ref(k)), imag(Y_ref(k)));
 end
+
