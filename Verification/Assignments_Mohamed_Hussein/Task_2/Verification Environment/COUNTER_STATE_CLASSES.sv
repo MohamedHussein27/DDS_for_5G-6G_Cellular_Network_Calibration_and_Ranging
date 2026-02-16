@@ -38,6 +38,8 @@ class IdleState extends State;
     
     function State transition(logic rst_n, logic start, logic [15:0] wait_timer, logic flag);
         State next_state; 
+
+        stop_driving = 0;
         
         if (rst_n == 0) begin
             IdleState idle   = new();
@@ -52,6 +54,7 @@ class IdleState extends State;
             next_state = counting;
             ns = COUNTING;
 
+            stop_driving = 1;
             busy_ref         = 0;
             deassert_count   = 1; // flag for timing matching regarding ref count value (delaying one clock)
             internal_counter = 0;    
@@ -84,10 +87,14 @@ class CountingState extends State;
     function State transition(logic rst_n, logic start, logic [15:0] wait_timer, logic flag);
         State next_state;
         
+        stop_driving = 1;
+
         if (rst_n == 0) begin
             IdleState idle = new();
             next_state = idle;
             ns = IDLE;
+
+            stop_driving = 0;
             
             busy_ref         = 0;
             count_ref        = 0;
@@ -98,6 +105,8 @@ class CountingState extends State;
             IdleState idle   = new();
             next_state       = idle;
             ns               = IDLE;
+
+            stop_driving = 0;
         end 
         else begin
             CountingState counting = new(); 

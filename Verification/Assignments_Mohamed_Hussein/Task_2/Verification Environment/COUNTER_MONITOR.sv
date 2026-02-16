@@ -28,10 +28,10 @@ class counter_monitor;
             // sending mailbox to scoreboard and coverage
             mon2sb.put(item);
             mon2cov.put(item);
-            $display(
+            /*$display(
                 "[AFTER ][MONITOR] t=%0t : start=%0d wait_timer=%0d flag=%0d | busy=%0d count_value=%0d",
                 $time, item.start, item.wait_timer, item.flag, item.busy, item.count_value
-            );
+            );*/
         end
     endtask
 

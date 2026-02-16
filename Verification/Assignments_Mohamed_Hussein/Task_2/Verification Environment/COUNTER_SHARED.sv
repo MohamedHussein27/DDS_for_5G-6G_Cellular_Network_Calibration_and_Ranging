@@ -5,6 +5,9 @@ package shared_pkg;
     int correct_count_out   = 0;
     int error_count_busy    = 0;
     int correct_count_busy  = 0;
+
+    int waiting_time        = 0;
+    int i                   = 0;
     // enum
     typedef enum  {
             IDLE          ,
@@ -26,4 +29,12 @@ package shared_pkg;
     int count_ref        = 0;
     bit busy_ref         = 0;
     bit deassert_count   = 0; 
+
+    bit stop_driving     = 0; // to make the driver send only one packet and waits to send the next
+
+    // flags
+    bit  inner1 = 0;
+    bit  inner2 = 0;
+    bit  inner3 = 0;
+
 endpackage

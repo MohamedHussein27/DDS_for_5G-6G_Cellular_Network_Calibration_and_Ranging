@@ -24,8 +24,11 @@ add wave -position insertpoint  sim:/shared_pkg::internal_counter
 add wave -position insertpoint  sim:/shared_pkg::count_ref  
 add wave -position insertpoint  sim:/shared_pkg::error_count_out 
 add wave -position insertpoint  sim:/shared_pkg::error_count_busy  
-
-
+add wave -position insertpoint  sim:/shared_pkg::stop_driving  
+add wave -position insertpoint  sim:/shared_pkg::inner1 
+add wave -position insertpoint  sim:/shared_pkg::inner2 
+add wave -position insertpoint  sim:/shared_pkg::inner3 
+add wave -position insertpoint  sim:/shared_pkg::i 
 run -all
 coverage save COUNTER.ucdb
 
