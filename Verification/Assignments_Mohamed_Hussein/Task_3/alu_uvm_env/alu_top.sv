@@ -24,6 +24,6 @@ module alu_top();
     // setting the virtual interface to be accessible by the test
     initial begin
         uvm_config_db #(virtual alu_if)::set(null, "uvm_test_top", "alu_V", aluif); // main interface
-        run_test ("alu_test");
+        run_test ("");
     end
 endmodule
