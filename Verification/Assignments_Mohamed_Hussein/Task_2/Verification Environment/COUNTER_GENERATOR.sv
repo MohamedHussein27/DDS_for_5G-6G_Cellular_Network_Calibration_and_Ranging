@@ -19,7 +19,7 @@ class counter_generator;
         counter_seq_item item;
         
         // outer loop
-        for (int j = 1; j < 11; j++) begin
+        for (int j = 1; j < 301; j++) begin
             item = new();
             // reset first (acting like reset sequence)
             item.rst_n      = 0;
@@ -33,22 +33,23 @@ class counter_generator;
             item = new();
             item.rst_n      = 1;
             item.start      = 0; 
-            item.wait_timer = j;
+            item.wait_timer = $random();
+            waiting_time    = item.wait_timer;
             gen2drv.put(item);
             @(gen_ack);
             
             item = new();
             item.rst_n      = 1;
             item.start      = 1; // start signal rising edge
-            item.wait_timer = j;
-            waiting_time    = j;
+            item.wait_timer = waiting_time;
+            waiting_time    = waiting_time;
             inner1 = 0;
             inner2 = 0;
             inner3 = 0;
             gen2drv.put(item);
             @(gen_ack);
 
-            // inner loop
+            // testing normal operation with no flag
             for ( i = 0; i < (waiting_time*10 + 1); i++) begin
                 item = new();
                 gen2drv.put(item);
@@ -58,16 +59,17 @@ class counter_generator;
                 inner3 = 0;
             end
 
-            if (j != 1) begin
+            // testing flag while not wait_timer interval edge (glitch)
+            if (waiting_time != 1) begin
                 for ( i = 0; i < (waiting_time*10); i++) begin
                     item = new();
-                    if (i >= waiting_time*5 && j == 2) begin
+                    if (i >= waiting_time*5 && waiting_time == 2) begin
                         item.flag = 1;
                         gen2drv.put(item);
                         @(gen_ack);
                         break;
                     end
-                    else if (i > waiting_time*5 && (i % j != 0)) begin
+                    else if (i > waiting_time*5 && (i % waiting_time != 0)) begin
                         item.flag = 1;
                         gen2drv.put(item);
                         @(gen_ack);
@@ -81,9 +83,10 @@ class counter_generator;
                 end
             end
 
+            //testing flag while edge of wait_timer interval
             for ( i = i+1; i < 2*(waiting_time*10); i++) begin
                 item = new();
-                if (i > 2*(waiting_time*5) && (i+1) % j == 0) begin
+                if (i > 2*(waiting_time*5) && (i+1) % waiting_time == 0) begin
                     item.flag = 1;
                     gen2drv.put(item);
                     @(gen_ack);
@@ -97,11 +100,12 @@ class counter_generator;
                 inner3 = 0;
             end
 
-            // directed tests (assigning the wait_timer value first)
+
             item = new();
             item.rst_n      = 1;
             item.start      = 0; 
-            item.wait_timer = j;
+            item.flag       = 1;
+            item.wait_timer = waiting_time;
             inner1 = 0;
             inner2 = 0;
             inner3 = 0;
@@ -111,11 +115,13 @@ class counter_generator;
             item = new();
             item.rst_n      = 1;
             item.start      = 1; // start signal rising edge
-            item.wait_timer = j;
-            waiting_time    = j;
+            item.flag       = 1;
+            item.wait_timer = waiting_time;
+            waiting_time    = waiting_time;
             gen2drv.put(item);
             @(gen_ack);
 
+            // testing max value for count
             for ( i = 0; i < (waiting_time*32 + waiting_time*1); i++) begin
                 item = new();
                 gen2drv.put(item);

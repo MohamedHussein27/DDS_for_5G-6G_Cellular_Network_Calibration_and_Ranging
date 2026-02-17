@@ -19,7 +19,11 @@ class counter_driver;
             item = new();
             gen2drv.get(item);
             @(negedge counter_vif.clk);
-            counter_vif.flag        = item.flag;
+            
+            if (counter_vif.flag)
+            counter_vif.flag            = item.flag;            
+            if (item.flag || !item.rst_n)
+            counter_vif.flag            = item.flag;
 
             if (!stop_driving) begin
                 
