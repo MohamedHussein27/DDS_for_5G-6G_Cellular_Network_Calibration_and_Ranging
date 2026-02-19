@@ -14,8 +14,8 @@ class seq_item extends uvm_sequence_item;
     super.new(name); 
     endfunction
     function string convert2string();
-    return $sformatf ("A =%d ,B=%d , Op=%d ,C=%h ,out=%d ",
-     super.convert2string(),a,b,op,c,out) ;
+return $sformatf ("A =%d ,B=%d , Op=%d ,C=%h ,out=%d ",
+  a, b, op, c, out);
     endfunction
 
 endclass
