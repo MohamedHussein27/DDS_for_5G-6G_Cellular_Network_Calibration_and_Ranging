@@ -76,7 +76,7 @@ package alu_test_pkg;
         endfunction
 
 
-        task run_phase(uvm_phase phase);
+        task main_phase(uvm_phase phase);
             phase.raise_objection(this);
 
             add_seq.start(env.agt.sqr);
@@ -109,7 +109,7 @@ package alu_test_pkg;
             or_seq    = alu_or_sequence::type_id::create("or_seq");
         endfunction
 
-        task run_phase(uvm_phase phase);
+        task main_phase(uvm_phase phase);
             super.run_phase(phase);
             phase.raise_objection(this);
 
@@ -138,7 +138,7 @@ package alu_test_pkg;
             main_seq  = alu_main_sequence::type_id::create("main_seq");
         endfunction
 
-        task run_phase(uvm_phase phase);
+        task main_phase(uvm_phase phase);
             phase.raise_objection(this);
 
             main_seq.start(env.agt.sqr);
