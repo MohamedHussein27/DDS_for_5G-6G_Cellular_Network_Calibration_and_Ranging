@@ -1,4 +1,3 @@
-
 `include "env.sv"
 `include "and_sequence.sv"
 `include "or_sequence.sv"
@@ -6,11 +5,6 @@
 `include "addition_sequence.sv"
 `include "seq_item.sv"
 
-// ----------------------------------------------------------------------------
-// BASE TEST
-// Handles configuration, environment creation, and interface passing.
-// Does NOT run any sequences.
-// ----------------------------------------------------------------------------
 class base_test extends uvm_test;
   `uvm_component_utils(base_test)
 
@@ -37,8 +31,6 @@ class base_test extends uvm_test;
     uvm_config_db #(alu_config)::set(this, "*", "vif", cfg);
   endfunction
   
-  // NOTE: run_phase is empty here! 
-  // The child classes will fill it in.
 endclass
 
 
@@ -54,9 +46,12 @@ class test_addition extends base_test;
     super.new(name, parent);
   endfunction
 
-  task run_phase(uvm_phase phase);
+ function void build_phase(uvm_phase phase);
+  super.build_phase(phase);
     seq = addition_sequence::type_id::create("seq");
-
+endfunction
+  task run_phase(uvm_phase phase);
+  super.run_phase(phase);
     phase.raise_objection(this);
     `uvm_info("TEST", "Running ADDITION Sequence", UVM_LOW)
     seq.start(env_.agent_.sequencer_);
@@ -77,9 +72,12 @@ class test_xor extends base_test;
     super.new(name, parent);
   endfunction
 
-  task run_phase(uvm_phase phase);
+  function void build_phase (uvm_phase phase);
+  super.build_phase(phase);
     seq = xor_sequence::type_id::create("seq");
-
+endfunction
+task run_phase(uvm_phase phase);
+  super.run_phase(phase);
     phase.raise_objection(this);
     `uvm_info("TEST", "Running XOR Sequence", UVM_LOW)
     seq.start(env_.agent_.sequencer_);
@@ -100,9 +98,12 @@ class test_and extends base_test;
     super.new(name, parent);
   endfunction
 
-  task run_phase(uvm_phase phase);
+  function void build_phase (uvm_phase phase);
+  super.build_phase(phase);
     seq = and_sequence::type_id::create("seq");
-
+endfunction
+task run_phase(uvm_phase phase);
+  super.run_phase(phase);
     phase.raise_objection(this);
     `uvm_info("TEST", "Running AND Sequence", UVM_LOW)
     seq.start(env_.agent_.sequencer_);
@@ -123,9 +124,12 @@ class test_or extends base_test;
     super.new(name, parent);
   endfunction
 
-  task run_phase(uvm_phase phase);
+  function void build_phase (uvm_phase phase);
+  super.build_phase(phase);
     seq = or_sequence::type_id::create("seq");
-
+endfunction
+task run_phase(uvm_phase phase);
+  super.run_phase(phase);
     phase.raise_objection(this);
     `uvm_info("TEST", "Running OR Sequence", UVM_LOW)
     seq.start(env_.agent_.sequencer_);
@@ -149,13 +153,16 @@ class test_all extends base_test;
     super.new(name, parent);
   endfunction
 
-  task run_phase(uvm_phase phase);
+  function void build_phase (uvm_phase phase);
+  super.build_phase(phase);
     // 1. Create all sequence objects
     add_seq = addition_sequence::type_id::create("add_seq");
     xor_seq = xor_sequence::type_id::create("xor_seq");
     and_seq = and_sequence::type_id::create("and_seq");
     or_seq  = or_sequence::type_id::create("or_seq");
-
+endfunction
+  task run_phase(uvm_phase phase);
+  super.run_phase(phase);
     phase.raise_objection(this);
 
     // 2. Execute them one by one
