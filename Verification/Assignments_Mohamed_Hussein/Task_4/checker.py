@@ -14,6 +14,7 @@ class Checker:
         self.done_event = None
         self.passed = 0
         self.failed = 0
+        self.begin_ckecking = 0
 
     async def run(self):
         log.info("[Checker] Active and waiting...")
@@ -22,13 +23,14 @@ class Checker:
 
         while received < 10:
             try:
+                await self.begin_ckecking.wait()
                 # Wait for transaction with 3-second timeout
                 trx = await asyncio.wait_for(
                     self.score_queue.get(),
                     timeout=3
                 )
 
-                expected = trx.data * 2   # <-- Correct expectation
+                expected = (received + 1) * 20   # <-- Correct expectation
 
                 if trx.data == expected:
                     log.info(

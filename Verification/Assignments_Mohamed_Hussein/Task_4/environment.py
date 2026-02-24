@@ -39,6 +39,8 @@ class Environment:
         # connecting events
         self.s.done_event = self.join_any
         self.c.start_event = self.start_event
+        self.p.begin_driving = self.start_event
+        self.s.begin_ckecking = self.start_event
 
     async def run_environment(self):
         # --- UVM-style "run_phase" ---
