@@ -1,7 +1,4 @@
 import asyncio
-from cocotb.queue import Queue
-from cocotb.triggers import Event
-
 from producer import Producer
 from consumer import Consumer
 from checker import Checker
