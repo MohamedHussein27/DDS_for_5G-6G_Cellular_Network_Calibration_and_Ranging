@@ -1,0 +1,308 @@
+# Reading pref.tcl
+# //  Questa Sim-64
+# //  Version 2021.1 win64 Jan 19 2021
+# //
+# //  Copyright 1991-2021 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# vsim -gui -onfinish stop -pli "C:/Users/ABD_ELR7MAN/AppData/Roaming/Python/Python312/site-packages/cocotb/libs/cocotbvpi_modelsim.dll" -l transcript.log top.ALU 
+# Start time: 04:09:45 on Mar 05,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: (vsim-3865) Due to PLI being present, global +acc is being enabled automatically. This will cause your simulation to run very slowly. Please use vsim -no_autoacc to disable this feature. This feature is now deprecated and will be removed from future releases.
+# Loading sv_std.std
+# Loading work.dut_sv_unit(fast)
+# Loading work.ALU(fast)
+# Loading C:/Users/ABD_ELR7MAN/AppData/Roaming/Python/Python312/site-packages/cocotb/libs/cocotbvpi_modelsim.dll
+#      -.--ns INFO     gpi                                ..mbed\gpi_embed.cpp:81   in set_program_name_in_venv        Did not detect Python virtual environment. Using system-wide Python interpreter
+#      -.--ns INFO     gpi                                ..\gpi\GpiCommon.cpp:101  in gpi_print_registered_impl       VPI registered
+#      -.--ns INFO     gpi                                ..\gpi\GpiCommon.cpp:101  in gpi_print_registered_impl       FLI registered
+add wave -position insertpoint  \
+sim:/ALU/a \
+sim:/ALU/b \
+sim:/ALU/c \
+sim:/ALU/clk \
+sim:/ALU/op \
+sim:/ALU/out \
+sim:/ALU/out_data \
+sim:/ALU/rst_n
+run -all
+#      0.00ns INFO     cocotb                             Running on ModelSim for Questa-64 version 2021.1 2021.01
+# 
+#      0.00ns INFO     cocotb                             Running tests with cocotb v1.9.2 from C:\Users\ABD_ELR7MAN\AppData\Roaming\Python\Python312\site-packages\cocotb
+# 
+#      0.00ns INFO     cocotb                             Seeding Python random module with 1772676600
+# 
+#      0.00ns INFO     cocotb.regression                  pytest not found, install it to enable better AssertionError messages
+# 
+#      0.00ns INFO     cocotb.regression                  Found test testbench.run_reset_test
+# 
+#      0.00ns INFO     cocotb.regression                  Found test testbench.run_add_test
+# 
+#      0.00ns INFO     cocotb.regression                  Found test testbench.run_xor_test
+# 
+#      0.00ns INFO     cocotb.regression                  Found test testbench.run_and_test
+# 
+#      0.00ns INFO     cocotb.regression                  Found test testbench.run_or_test
+# 
+#      0.00ns INFO     cocotb.regression                  Found test testbench.run_random_test_with_reset
+# 
+#      0.00ns INFO     cocotb.regression                  running run_reset_test (1/6)
+# 
+#      0.00ns INFO     cocotb                             RESET OBSERVED: ALUTransaction(rst_n=0, ALUTransaction(a=0, b=0, op=0, out=0, c=0)
+# 
+#     10.00ns INFO     cocotb                             RESET OBSERVED: ALUTransaction(rst_n=0, ALUTransaction(a=3, b=0, op=0, out=0, c=0)
+# 
+#     20.00ns INFO     cocotb                             RESET OBSERVED: ALUTransaction(rst_n=0, ALUTransaction(a=10, b=11, op=0, out=0, c=0)
+# 
+#     30.00ns INFO     cocotb                             RESET OBSERVED: ALUTransaction(rst_n=0, ALUTransaction(a=4, b=14, op=0, out=0, c=0)
+# 
+#     40.00ns INFO     cocotb                             ========== SCOREBOARD REPORT ==========
+# 
+#     40.00ns INFO     cocotb                             Total Checked: 0
+# 
+#     40.00ns INFO     cocotb                             Errors: 0
+# 
+#     40.00ns INFO     cocotb                             TEST PASSED
+# 
+#     41.00ns INFO     cocotb.regression                  run_reset_test passed
+# 
+#     41.00ns INFO     cocotb.regression                  running run_add_test (2/6)
+# 
+#     51.00ns ERROR    cocotb                             ERROR: Expected=15 | Got: ALUTransaction(rst_n=1, ALUTransaction(a=10, b=5, op=0, out=6, c=0)
+# 
+#     61.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=11, b=9, op=0, out=4, c=1)
+# 
+#     71.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=4, b=15, op=0, out=3, c=1)
+# 
+#     81.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=11, b=12, op=0, out=7, c=1)
+# 
+#     91.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=13, b=3, op=0, out=0, c=1)
+# 
+#    101.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=5, b=6, op=0, out=11, c=0)
+# 
+#    111.00ns ERROR    cocotb                             ERROR: Expected=11 | Got: ALUTransaction(rst_n=1, ALUTransaction(a=13, b=14, op=0, out=0, c=1)
+# 
+#    121.00ns ERROR    cocotb                             ERROR: Expected=15 | Got: ALUTransaction(rst_n=1, ALUTransaction(a=5, b=10, op=0, out=12, c=0)
+# 
+#    131.00ns ERROR    cocotb                             ERROR: Expected=13 | Got: ALUTransaction(rst_n=1, ALUTransaction(a=10, b=3, op=0, out=15, c=1)
+# 
+#    141.00ns ERROR    cocotb                             ERROR: Expected=2 | Got: ALUTransaction(rst_n=1, ALUTransaction(a=7, b=11, op=0, out=14, c=0)
+# 
+#    151.00ns ERROR    cocotb                             ERROR: Expected=6 | Got: ALUTransaction(rst_n=1, ALUTransaction(a=14, b=8, op=0, out=11, c=1)
+# 
+#    161.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=0, b=3, op=0, out=3, c=0)
+# 
+#    171.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=1, b=1, op=0, out=2, c=0)
+# 
+#    181.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=10, b=8, op=0, out=2, c=1)
+# 
+#    191.00ns INFO     cocotb                             ========== SCOREBOARD REPORT ==========
+# 
+#    191.00ns INFO     cocotb                             Total Checked: 14
+# 
+#    191.00ns INFO     cocotb                             Errors: 6
+# 
+#    191.00ns ERROR    cocotb                             TEST FAILED
+# 
+#    192.00ns INFO     cocotb.regression                  run_add_test passed
+# 
+#    192.00ns INFO     cocotb.regression                  running run_xor_test (3/6)
+# 
+#    202.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=1, b=4, op=1, out=5, c=0)
+# 
+#    212.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=0, b=2, op=1, out=2, c=0)
+# 
+#    222.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=2, b=13, op=1, out=15, c=0)
+# 
+#    232.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=12, b=11, op=1, out=7, c=0)
+# 
+#    242.00ns ERROR    cocotb                             ERROR: Expected=0 | Got: ALUTransaction(rst_n=1, ALUTransaction(a=0, b=0, op=1, out=7, c=0)
+# 
+#    252.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=4, b=11, op=1, out=15, c=0)
+# 
+#    262.00ns ERROR    cocotb                             ERROR: Expected=11 | Got: ALUTransaction(rst_n=1, ALUTransaction(a=7, b=12, op=1, out=8, c=1)
+# 
+#    272.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=9, b=12, op=1, out=5, c=0)
+# 
+#    282.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=2, b=6, op=1, out=4, c=0)
+# 
+#    292.00ns ERROR    cocotb                             ERROR: Expected=0 | Got: ALUTransaction(rst_n=1, ALUTransaction(a=13, b=13, op=1, out=10, c=0)
+# 
+#    302.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=7, b=5, op=1, out=2, c=0)
+# 
+#    312.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=7, b=1, op=1, out=6, c=0)
+# 
+#    322.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=4, b=8, op=1, out=12, c=0)
+# 
+#    332.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=15, b=1, op=1, out=14, c=0)
+# 
+#    342.00ns INFO     cocotb                             ========== SCOREBOARD REPORT ==========
+# 
+#    342.00ns INFO     cocotb                             Total Checked: 14
+# 
+#    342.00ns INFO     cocotb                             Errors: 3
+# 
+#    342.00ns ERROR    cocotb                             TEST FAILED
+# 
+#    343.00ns INFO     cocotb.regression                  run_xor_test passed
+# 
+#    343.00ns INFO     cocotb.regression                  running run_and_test (4/6)
+# 
+#    353.00ns ERROR    cocotb                             ERROR: Expected=11 | Got: ALUTransaction(rst_n=1, ALUTransaction(a=11, b=15, op=2, out=1, c=0)
+# 
+#    363.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=12, b=11, op=2, out=8, c=0)
+# 
+#    373.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=5, b=2, op=2, out=0, c=0)
+# 
+#    383.00ns ERROR    cocotb                             ERROR: Expected=1 | Got: ALUTransaction(rst_n=1, ALUTransaction(a=9, b=5, op=2, out=2, c=1)
+# 
+#    393.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=13, b=8, op=2, out=8, c=0)
+# 
+#    403.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=3, b=9, op=2, out=1, c=0)
+# 
+#    413.00ns ERROR    cocotb                             ERROR: Expected=0 | Got: ALUTransaction(rst_n=1, ALUTransaction(a=0, b=10, op=2, out=4, c=1)
+# 
+#    423.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=11, b=2, op=2, out=2, c=0)
+# 
+#    433.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=7, b=11, op=2, out=3, c=0)
+# 
+#    443.00ns ERROR    cocotb                             ERROR: Expected=2 | Got: ALUTransaction(rst_n=1, ALUTransaction(a=10, b=3, op=2, out=15, c=1)
+# 
+#    453.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=13, b=9, op=2, out=9, c=0)
+# 
+#    463.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=7, b=10, op=2, out=2, c=0)
+# 
+#    473.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=14, b=7, op=2, out=6, c=0)
+# 
+#    483.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=5, b=1, op=2, out=1, c=0)
+# 
+#    493.00ns INFO     cocotb                             ========== SCOREBOARD REPORT ==========
+# 
+#    493.00ns INFO     cocotb                             Total Checked: 14
+# 
+#    493.00ns INFO     cocotb                             Errors: 4
+# 
+#    493.00ns ERROR    cocotb                             TEST FAILED
+# 
+#    494.00ns INFO     cocotb.regression                  run_and_test passed
+# 
+#    494.00ns INFO     cocotb.regression                  running run_or_test (5/6)
+# 
+#    504.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=7, b=8, op=3, out=15, c=0)
+# 
+#    514.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=6, b=11, op=3, out=15, c=0)
+# 
+#    524.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=5, b=3, op=3, out=7, c=0)
+# 
+#    534.00ns ERROR    cocotb                             ERROR: Expected=10 | Got: ALUTransaction(rst_n=1, ALUTransaction(a=8, b=2, op=3, out=8, c=1)
+# 
+#    544.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=14, b=10, op=3, out=14, c=0)
+# 
+#    554.00ns ERROR    cocotb                             ERROR: Expected=11 | Got: ALUTransaction(rst_n=1, ALUTransaction(a=2, b=11, op=3, out=0, c=1)
+# 
+#    564.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=7, b=15, op=3, out=15, c=0)
+# 
+#    574.00ns ERROR    cocotb                             ERROR: Expected=15 | Got: ALUTransaction(rst_n=1, ALUTransaction(a=15, b=13, op=3, out=1, c=0)
+# 
+#    584.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=14, b=8, op=3, out=14, c=0)
+# 
+#    594.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=6, b=9, op=3, out=15, c=0)
+# 
+#    604.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=1, b=7, op=3, out=7, c=0)
+# 
+#    614.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=4, b=5, op=3, out=5, c=0)
+# 
+#    624.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=11, b=9, op=3, out=11, c=0)
+# 
+#    634.00ns ERROR    cocotb                             ERROR: Expected=15 | Got: ALUTransaction(rst_n=1, ALUTransaction(a=15, b=1, op=3, out=13, c=1)
+# 
+#    644.00ns INFO     cocotb                             ========== SCOREBOARD REPORT ==========
+# 
+#    644.00ns INFO     cocotb                             Total Checked: 14
+# 
+#    644.00ns INFO     cocotb                             Errors: 4
+# 
+#    644.00ns ERROR    cocotb                             TEST FAILED
+# 
+#    645.00ns INFO     cocotb.regression                  run_or_test passed
+# 
+#    645.00ns INFO     cocotb.regression                  running run_random_test_with_reset (6/6)
+# 
+#    655.00ns INFO     cocotb                             RESET OBSERVED: ALUTransaction(rst_n=0, ALUTransaction(a=6, b=11, op=2, out=0, c=0)
+# 
+#    665.00ns INFO     cocotb                             RESET OBSERVED: ALUTransaction(rst_n=0, ALUTransaction(a=14, b=0, op=0, out=0, c=0)
+# 
+#    675.00ns ERROR    cocotb                             ERROR: Expected=11 | Got: ALUTransaction(rst_n=1, ALUTransaction(a=15, b=4, op=1, out=2, c=0)
+# 
+#    685.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=7, b=9, op=3, out=15, c=0)
+# 
+#    695.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=11, b=10, op=1, out=1, c=0)
+# 
+#    705.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=1, b=10, op=3, out=11, c=0)
+# 
+#    715.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=7, b=11, op=3, out=15, c=1)
+# 
+#    725.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=5, b=4, op=1, out=1, c=0)
+# 
+#    735.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=8, b=11, op=1, out=3, c=0)
+# 
+#    745.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=7, b=12, op=3, out=15, c=0)
+# 
+#    755.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=2, b=8, op=2, out=0, c=0)
+# 
+#    765.00ns ERROR    cocotb                             ERROR: Expected=12 | Got: ALUTransaction(rst_n=1, ALUTransaction(a=5, b=7, op=0, out=6, c=0)
+# 
+#    775.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=2, b=7, op=0, out=9, c=0)
+# 
+#    785.00ns INFO     cocotb                             PASS: ALUTransaction(rst_n=1, ALUTransaction(a=5, b=11, op=0, out=0, c=1)
+# 
+#    795.00ns INFO     cocotb                             ========== SCOREBOARD REPORT ==========
+# 
+#    795.00ns INFO     cocotb                             Total Checked: 12
+# 
+#    795.00ns INFO     cocotb                             Errors: 2
+# 
+#    795.00ns ERROR    cocotb                             TEST FAILED
+# 
+#    796.00ns INFO     cocotb.regression                  run_random_test_with_reset passed
+# 
+#    796.00ns INFO     cocotb.regression                  **********************************************************************************************
+# 
+#                                                         ** TEST                                  STATUS  SIM TIME (ns)  REAL TIME (s)  RATIO (ns/s) **
+# 
+#                                                         **********************************************************************************************
+# 
+#                                                         ** testbench.run_reset_test               PASS          41.00           0.00      29865.66  **
+# 
+#                                                         ** testbench.run_add_test                 PASS         151.00           0.00      50054.52  **
+# 
+#                                                         ** testbench.run_xor_test                 PASS         151.00           0.00      36178.45  **
+# 
+#                                                         ** testbench.run_and_test                 PASS         151.00           0.00      33708.02  **
+# 
+#                                                         ** testbench.run_or_test                  PASS         151.00           0.00      39289.08  **
+# 
+#                                                         ** testbench.run_random_test_with_reset   PASS         151.00           0.00      36296.63  **
+# 
+#                                                         **********************************************************************************************
+# 
+#                                                         ** TESTS=6 PASS=6 FAIL=0 SKIP=0                        796.00           0.04      21224.70  **
+# 
+#                                                         **********************************************************************************************
+# 
+#                                                         
+# 
+# ** Note: $finish
+#    Time: 796 ns  Iteration: 0  Instance: /ALU
+# Simulation stop requested.
+quit -sim
+# End time: 04:11:05 on Mar 05,2026, Elapsed time: 0:01:20
+# Errors: 0, Warnings: 1
