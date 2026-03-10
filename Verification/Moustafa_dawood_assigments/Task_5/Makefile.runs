@@ -1,0 +1,15 @@
+run_add:
+	make -f Makefile TESTCASE=add_test
+
+run_xor:
+	make -f Makefile TESTCASE=xor_test
+
+run_and:
+	make -f Makefile TESTCASE=and_test
+
+run_or:
+	make -f Makefile TESTCASE=or_test
+
+
+run_all:
+	make -f Makefile
