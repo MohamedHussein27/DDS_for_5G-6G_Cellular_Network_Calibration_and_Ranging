@@ -14,9 +14,7 @@ class Agent:
         self.drv = Driver()
         self.mon = Monitor()
 
-        #self.gen2drv = Queue()
-        #self.drv_rqt = Event()
-
+        # will be assigned to the scoreboard and subscriber queues
         self.mon2sb  = Queue()
         self.mon2cov = Queue()
 
@@ -24,9 +22,6 @@ class Agent:
 
         self.drv.gen2drv = self.gen.gen2drv
         self.gen.gen_ack = self.drv.drv_rqt
-
-        #self.drv.gen2drv = self.gen2drv
-        #self.drv.drv_rqt = self.drv_rqt
 
         self.mon.mon2sb = self.mon2sb
         self.mon.mon2cov = self.mon2cov

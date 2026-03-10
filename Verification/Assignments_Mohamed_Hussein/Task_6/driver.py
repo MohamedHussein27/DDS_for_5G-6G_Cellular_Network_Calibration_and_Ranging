@@ -16,6 +16,7 @@ class Driver:
 
             self.tr_drv = await self.gen2drv.get()
             await FallingEdge(dut.clk)
+            
             cocotb.log.info("[Driver] begins.")
 
             dut.rst_n.value = self.tr_drv.rst_n
@@ -24,7 +25,7 @@ class Driver:
             dut.op.value    = self.tr_drv.op
 
             
-            #self.drv_rqt.set()
-            if self.drv_rqt is not None:
+            self.drv_rqt.set()
+            """if self.drv_rqt is not None:
                 self.drv_rqt.set()
-                self.drv_rqt.clear()
+                self.drv_rqt.clear()"""

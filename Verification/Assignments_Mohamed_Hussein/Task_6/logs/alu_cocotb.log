@@ -1,0 +1,969 @@
+# Reading pref.tcl
+# //  Questa Sim-64
+# //  Version 2021.1 win64 Jan 19 2021
+# //
+# //  Copyright 1991-2021 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# vsim -gui -onfinish stop -pli "C:/Users/DELL/AppData/Roaming/Python/Python313/site-packages/cocotb/libs/cocotbvpi_modelsim.dll" -l transcript.log top.ALU 
+# Start time: 00:31:32 on Mar 11,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: (vsim-3865) Due to PLI being present, global +acc is being enabled automatically. This will cause your simulation to run very slowly. Please use vsim -no_autoacc to disable this feature. This feature is now deprecated and will be removed from future releases.
+# Loading sv_std.std
+# Loading work.DUT_sv_unit(fast)
+# Loading work.ALU(fast)
+# Loading C:/Users/DELL/AppData/Roaming/Python/Python313/site-packages/cocotb/libs/cocotbvpi_modelsim.dll
+#      -.--ns INFO     gpi                                ..mbed\gpi_embed.cpp:81   in set_program_name_in_venv        Did not detect Python virtual environment. Using system-wide Python interpreter
+#      -.--ns INFO     gpi                                ..\gpi\GpiCommon.cpp:101  in gpi_print_registered_impl       VPI registered
+#      -.--ns INFO     gpi                                ..\gpi\GpiCommon.cpp:101  in gpi_print_registered_impl       FLI registered
+add wave -position insertpoint  \
+sim:/ALU/clk \
+sim:/ALU/rst_n \
+sim:/ALU/a \
+sim:/ALU/b \
+sim:/ALU/op \
+sim:/ALU/c \
+sim:/ALU/out \
+sim:/ALU/out_data
+run -all
+#      0.00ns INFO     cocotb                             Running on ModelSim for Questa-64 version 2021.1 2021.01
+# 
+#      0.00ns INFO     cocotb                             Running tests with cocotb v1.9.2 from C:\Users\DELL\AppData\Roaming\Python\Python313\site-packages\cocotb
+# 
+#      0.00ns INFO     cocotb                             Seeding Python random module with 1773181909
+# 
+#      0.00ns INFO     cocotb.regression                  pytest not found, install it to enable better AssertionError messages
+# 
+#      0.00ns INFO     cocotb.regression                  Found test Testbench.add_xor_test
+# 
+#      0.00ns INFO     cocotb.regression                  Found test Testbench.and_or_test
+# 
+#      0.00ns INFO     cocotb.regression                  Found test Testbench.random_test
+# 
+#      0.00ns INFO     cocotb.regression                  running add_xor_test (1/3)
+# 
+#      0.00ns INFO     cocotb                              simulation starts 
+# 
+#      5.00ns INFO     cocotb                             [Driver] begins.
+# 
+#     10.00ns INFO     cocotb                             [Monitor] begins
+# 
+#     15.00ns INFO     cocotb                             [Driver] begins.
+# 
+#     20.00ns INFO     cocotb                             [Monitor] begins
+# 
+# Mismatch: expected=23 got=7
+# 
+#     25.00ns INFO     cocotb                             [Driver] begins.
+# 
+#     30.00ns INFO     cocotb                             [Monitor] begins
+# 
+#     35.00ns INFO     cocotb                             [Driver] begins.
+# 
+#     40.00ns INFO     cocotb                             [Monitor] begins
+# 
+#     45.00ns INFO     cocotb                             [Driver] begins.
+# 
+#     50.00ns INFO     cocotb                             [Monitor] begins
+# 
+#     55.00ns INFO     cocotb                             [Driver] begins.
+# 
+#     60.00ns INFO     cocotb                             [Monitor] begins
+# 
+#     65.00ns INFO     cocotb                             [Driver] begins.
+# 
+#     70.00ns INFO     cocotb                             [Monitor] begins
+# 
+# Mismatch: expected=3 got=2
+# 
+#     75.00ns INFO     cocotb                             [Driver] begins.
+# 
+#     80.00ns INFO     cocotb                             [Monitor] begins
+# 
+#     85.00ns INFO     cocotb                             [Driver] begins.
+# 
+#     90.00ns INFO     cocotb                             [Monitor] begins
+# 
+# Mismatch: expected=25 got=15
+# 
+#     95.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    100.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    105.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    110.00ns INFO     cocotb                             [Monitor] begins
+# 
+# Mismatch: expected=26 got=10
+# 
+#    115.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    120.00ns INFO     cocotb                             [Monitor] begins
+# 
+# Mismatch: expected=15 got=13
+# 
+#    125.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    130.00ns INFO     cocotb                             [Monitor] begins
+# 
+# Mismatch: expected=19 got=3
+# 
+#    135.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    140.00ns INFO     cocotb                             [Monitor] begins
+# 
+# Mismatch: expected=22 got=6
+# 
+#    145.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    150.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    155.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    160.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    165.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    170.00ns INFO     cocotb                             [Monitor] begins
+# 
+# Mismatch: expected=13 got=3
+# 
+#    175.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    180.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    185.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    190.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    195.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    195.00ns INFO     cocotb                             Completion signal received. Ending test.
+# 
+# =================================
+# 
+# TEST REPORT
+# 
+# PASSED: 11
+# 
+# FAILED: 8
+# 
+# =================================
+# 
+#    195.00ns INFO     cocotb                             ========= FUNCTIONAL COVERAGE REPORT =========
+# 
+#    195.00ns INFO     cocotb                             alu_cov : <cocotb_coverage.coverage.CoverItem object at 0x00000000067EE510>, coverage=9, size=84 
+# 
+#    195.00ns INFO     cocotb                                alu_cov.A_CP : <cocotb_coverage.coverage.CoverPoint object at 0x00000000067ECC20>, coverage=2, size=3 
+# 
+#    195.00ns INFO     cocotb                                   BIN 0 : 2
+# 
+#    195.00ns INFO     cocotb                                   BIN (8, 14) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN 15 : 1
+# 
+#    195.00ns INFO     cocotb                                alu_cov.B_CP : <cocotb_coverage.coverage.CoverPoint object at 0x000000000677E210>, coverage=1, size=3 
+# 
+#    195.00ns INFO     cocotb                                   BIN 0 : 1
+# 
+#    195.00ns INFO     cocotb                                   BIN (8, 14) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN 15 : 0
+# 
+#    195.00ns INFO     cocotb                                alu_cov.BOUNDARY_ADD_C : <cocotb_coverage.coverage.CoverCross object at 0x00000000067EE660>, coverage=1, size=36 
+# 
+#    195.00ns INFO     cocotb                                   BIN (0, 0, 0) : 1
+# 
+#    195.00ns INFO     cocotb                                   BIN (0, 0, 1) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (0, 0, 2) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (0, 0, 3) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (0, (8, 14), 0) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (0, (8, 14), 1) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (0, (8, 14), 2) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (0, (8, 14), 3) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (0, 15, 0) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (0, 15, 1) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (0, 15, 2) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (0, 15, 3) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN ((8, 14), 0, 0) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN ((8, 14), 0, 1) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN ((8, 14), 0, 2) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN ((8, 14), 0, 3) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN ((8, 14), (8, 14), 0) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN ((8, 14), (8, 14), 1) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN ((8, 14), (8, 14), 2) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN ((8, 14), (8, 14), 3) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN ((8, 14), 15, 0) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN ((8, 14), 15, 1) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN ((8, 14), 15, 2) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN ((8, 14), 15, 3) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (15, 0, 0) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (15, 0, 1) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (15, 0, 2) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (15, 0, 3) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (15, (8, 14), 0) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (15, (8, 14), 1) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (15, (8, 14), 2) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (15, (8, 14), 3) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (15, 15, 0) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (15, 15, 1) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (15, 15, 2) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (15, 15, 3) : 0
+# 
+#    195.00ns INFO     cocotb                                alu_cov.C_CP : <cocotb_coverage.coverage.CoverPoint object at 0x00000000068B8B00>, coverage=1, size=1 
+# 
+#    195.00ns INFO     cocotb                                   BIN True : 7
+# 
+#    195.00ns INFO     cocotb                                alu_cov.CARRY_C : <cocotb_coverage.coverage.CoverCross object at 0x000000000677F250>, coverage=1, size=36 
+# 
+#    195.00ns INFO     cocotb                                   BIN (0, 0, 0) : 1
+# 
+#    195.00ns INFO     cocotb                                   BIN (0, 0, 1) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (0, 0, 2) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (0, 0, 3) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (0, (8, 14), 0) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (0, (8, 14), 1) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (0, (8, 14), 2) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (0, (8, 14), 3) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (0, 15, 0) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (0, 15, 1) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (0, 15, 2) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (0, 15, 3) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN ((8, 14), 0, 0) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN ((8, 14), 0, 1) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN ((8, 14), 0, 2) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN ((8, 14), 0, 3) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN ((8, 14), (8, 14), 0) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN ((8, 14), (8, 14), 1) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN ((8, 14), (8, 14), 2) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN ((8, 14), (8, 14), 3) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN ((8, 14), 15, 0) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN ((8, 14), 15, 1) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN ((8, 14), 15, 2) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN ((8, 14), 15, 3) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (15, 0, 0) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (15, 0, 1) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (15, 0, 2) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (15, 0, 3) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (15, (8, 14), 0) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (15, (8, 14), 1) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (15, (8, 14), 2) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (15, (8, 14), 3) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (15, 15, 0) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (15, 15, 1) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (15, 15, 2) : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN (15, 15, 3) : 0
+# 
+#    195.00ns INFO     cocotb                                alu_cov.OP_CP : <cocotb_coverage.coverage.CoverPoint object at 0x000000000677EFD0>, coverage=2, size=4 
+# 
+#    195.00ns INFO     cocotb                                   BIN 0 : 10
+# 
+#    195.00ns INFO     cocotb                                   BIN 1 : 9
+# 
+#    195.00ns INFO     cocotb                                   BIN 2 : 0
+# 
+#    195.00ns INFO     cocotb                                   BIN 3 : 0
+# 
+#    195.00ns INFO     cocotb                                alu_cov.OUT_CP : <cocotb_coverage.coverage.CoverPoint object at 0x00000000067BB820>, coverage=1, size=1 
+# 
+#    195.00ns INFO     cocotb                                   BIN True : 2
+# 
+#    195.00ns INFO     cocotb                             ==============================================
+# 
+#    196.00ns INFO     cocotb.regression                  add_xor_test passed
+# 
+#    196.00ns INFO     cocotb.regression                  running and_or_test (2/3)
+# 
+#    196.00ns INFO     cocotb                              simulation starts 
+# 
+#    201.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    206.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    211.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    216.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    221.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    226.00ns INFO     cocotb                             [Monitor] begins
+# 
+# Mismatch: expected=15 got=12
+# 
+#    231.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    236.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    241.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    246.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    251.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    256.00ns INFO     cocotb                             [Monitor] begins
+# 
+# Mismatch: expected=0 got=5
+# 
+#    261.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    266.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    271.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    276.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    281.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    286.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    291.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    296.00ns INFO     cocotb                             [Monitor] begins
+# 
+# Mismatch: expected=4 got=2
+# 
+#    301.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    306.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    311.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    316.00ns INFO     cocotb                             [Monitor] begins
+# 
+# Mismatch: expected=11 got=10
+# 
+#    321.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    326.00ns INFO     cocotb                             [Monitor] begins
+# 
+# Mismatch: expected=13 got=10
+# 
+#    331.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    336.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    341.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    346.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    351.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    356.00ns INFO     cocotb                             [Monitor] begins
+# 
+# Mismatch: expected=2 got=14
+# 
+#    361.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    366.00ns INFO     cocotb                             [Monitor] begins
+# 
+# Mismatch: expected=2 got=3
+# 
+#    371.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    376.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    381.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    386.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    391.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    391.00ns INFO     cocotb                             Completion signal received. Ending test.
+# 
+# =================================
+# 
+# TEST REPORT
+# 
+# PASSED: 12
+# 
+# FAILED: 7
+# 
+# =================================
+# 
+#    391.00ns INFO     cocotb                             ========= FUNCTIONAL COVERAGE REPORT =========
+# 
+#    391.00ns INFO     cocotb                             alu_cov : <cocotb_coverage.coverage.CoverItem object at 0x00000000067EE510>, coverage=12, size=84 
+# 
+#    391.00ns INFO     cocotb                                alu_cov.A_CP : <cocotb_coverage.coverage.CoverPoint object at 0x00000000067ECC20>, coverage=2, size=3 
+# 
+#    391.00ns INFO     cocotb                                   BIN 0 : 4
+# 
+#    391.00ns INFO     cocotb                                   BIN (8, 14) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN 15 : 2
+# 
+#    391.00ns INFO     cocotb                                alu_cov.B_CP : <cocotb_coverage.coverage.CoverPoint object at 0x000000000677E210>, coverage=2, size=3 
+# 
+#    391.00ns INFO     cocotb                                   BIN 0 : 2
+# 
+#    391.00ns INFO     cocotb                                   BIN (8, 14) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN 15 : 1
+# 
+#    391.00ns INFO     cocotb                                alu_cov.BOUNDARY_ADD_C : <cocotb_coverage.coverage.CoverCross object at 0x00000000067EE660>, coverage=1, size=36 
+# 
+#    391.00ns INFO     cocotb                                   BIN (0, 0, 0) : 2
+# 
+#    391.00ns INFO     cocotb                                   BIN (0, 0, 1) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (0, 0, 2) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (0, 0, 3) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (0, (8, 14), 0) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (0, (8, 14), 1) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (0, (8, 14), 2) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (0, (8, 14), 3) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (0, 15, 0) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (0, 15, 1) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (0, 15, 2) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (0, 15, 3) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN ((8, 14), 0, 0) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN ((8, 14), 0, 1) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN ((8, 14), 0, 2) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN ((8, 14), 0, 3) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN ((8, 14), (8, 14), 0) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN ((8, 14), (8, 14), 1) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN ((8, 14), (8, 14), 2) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN ((8, 14), (8, 14), 3) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN ((8, 14), 15, 0) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN ((8, 14), 15, 1) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN ((8, 14), 15, 2) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN ((8, 14), 15, 3) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (15, 0, 0) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (15, 0, 1) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (15, 0, 2) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (15, 0, 3) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (15, (8, 14), 0) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (15, (8, 14), 1) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (15, (8, 14), 2) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (15, (8, 14), 3) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (15, 15, 0) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (15, 15, 1) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (15, 15, 2) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (15, 15, 3) : 0
+# 
+#    391.00ns INFO     cocotb                                alu_cov.C_CP : <cocotb_coverage.coverage.CoverPoint object at 0x00000000068B8B00>, coverage=1, size=1 
+# 
+#    391.00ns INFO     cocotb                                   BIN True : 11
+# 
+#    391.00ns INFO     cocotb                                alu_cov.CARRY_C : <cocotb_coverage.coverage.CoverCross object at 0x000000000677F250>, coverage=1, size=36 
+# 
+#    391.00ns INFO     cocotb                                   BIN (0, 0, 0) : 2
+# 
+#    391.00ns INFO     cocotb                                   BIN (0, 0, 1) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (0, 0, 2) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (0, 0, 3) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (0, (8, 14), 0) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (0, (8, 14), 1) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (0, (8, 14), 2) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (0, (8, 14), 3) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (0, 15, 0) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (0, 15, 1) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (0, 15, 2) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (0, 15, 3) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN ((8, 14), 0, 0) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN ((8, 14), 0, 1) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN ((8, 14), 0, 2) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN ((8, 14), 0, 3) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN ((8, 14), (8, 14), 0) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN ((8, 14), (8, 14), 1) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN ((8, 14), (8, 14), 2) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN ((8, 14), (8, 14), 3) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN ((8, 14), 15, 0) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN ((8, 14), 15, 1) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN ((8, 14), 15, 2) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN ((8, 14), 15, 3) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (15, 0, 0) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (15, 0, 1) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (15, 0, 2) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (15, 0, 3) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (15, (8, 14), 0) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (15, (8, 14), 1) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (15, (8, 14), 2) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (15, (8, 14), 3) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (15, 15, 0) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (15, 15, 1) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (15, 15, 2) : 0
+# 
+#    391.00ns INFO     cocotb                                   BIN (15, 15, 3) : 0
+# 
+#    391.00ns INFO     cocotb                                alu_cov.OP_CP : <cocotb_coverage.coverage.CoverPoint object at 0x000000000677EFD0>, coverage=4, size=4 
+# 
+#    391.00ns INFO     cocotb                                   BIN 0 : 11
+# 
+#    391.00ns INFO     cocotb                                   BIN 1 : 9
+# 
+#    391.00ns INFO     cocotb                                   BIN 2 : 9
+# 
+#    391.00ns INFO     cocotb                                   BIN 3 : 9
+# 
+#    391.00ns INFO     cocotb                                alu_cov.OUT_CP : <cocotb_coverage.coverage.CoverPoint object at 0x00000000067BB820>, coverage=1, size=1 
+# 
+#    391.00ns INFO     cocotb                                   BIN True : 2
+# 
+#    391.00ns INFO     cocotb                             ==============================================
+# 
+#    392.00ns INFO     cocotb.regression                  and_or_test passed
+# 
+#    392.00ns INFO     cocotb.regression                  running random_test (3/3)
+# 
+#    392.00ns INFO     cocotb                              simulation starts 
+# 
+#    397.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    402.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    407.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    412.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    417.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    422.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    427.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    432.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    437.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    442.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    447.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    452.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    457.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    462.00ns INFO     cocotb                             [Monitor] begins
+# 
+# Mismatch: expected=18 got=2
+# 
+#    467.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    472.00ns INFO     cocotb                             [Monitor] begins
+# 
+# Mismatch: expected=28 got=12
+# 
+#    477.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    482.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    487.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    492.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    497.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    502.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    507.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    512.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    517.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    522.00ns INFO     cocotb                             [Monitor] begins
+# 
+# Mismatch: expected=6 got=10
+# 
+#    527.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    532.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    537.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    542.00ns INFO     cocotb                             [Monitor] begins
+# 
+# Mismatch: expected=0 got=13
+# 
+#    547.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    552.00ns INFO     cocotb                             [Monitor] begins
+# 
+# Mismatch: expected=24 got=8
+# 
+#    557.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    562.00ns INFO     cocotb                             [Monitor] begins
+# 
+# Mismatch: expected=15 got=0
+# 
+#    567.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    572.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    577.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    582.00ns INFO     cocotb                             [Monitor] begins
+# 
+#    587.00ns INFO     cocotb                             [Driver] begins.
+# 
+#    587.00ns INFO     cocotb                             Completion signal received. Ending test.
+# 
+# =================================
+# 
+# TEST REPORT
+# 
+# PASSED: 13
+# 
+# FAILED: 6
+# 
+# =================================
+# 
+#    587.00ns INFO     cocotb                             ========= FUNCTIONAL COVERAGE REPORT =========
+# 
+#    587.00ns INFO     cocotb                             alu_cov : <cocotb_coverage.coverage.CoverItem object at 0x00000000067EE510>, coverage=12, size=84 
+# 
+#    587.00ns INFO     cocotb                                alu_cov.A_CP : <cocotb_coverage.coverage.CoverPoint object at 0x00000000067ECC20>, coverage=2, size=3 
+# 
+#    587.00ns INFO     cocotb                                   BIN 0 : 7
+# 
+#    587.00ns INFO     cocotb                                   BIN (8, 14) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN 15 : 2
+# 
+#    587.00ns INFO     cocotb                                alu_cov.B_CP : <cocotb_coverage.coverage.CoverPoint object at 0x000000000677E210>, coverage=2, size=3 
+# 
+#    587.00ns INFO     cocotb                                   BIN 0 : 6
+# 
+#    587.00ns INFO     cocotb                                   BIN (8, 14) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN 15 : 1
+# 
+#    587.00ns INFO     cocotb                                alu_cov.BOUNDARY_ADD_C : <cocotb_coverage.coverage.CoverCross object at 0x00000000067EE660>, coverage=1, size=36 
+# 
+#    587.00ns INFO     cocotb                                   BIN (0, 0, 0) : 3
+# 
+#    587.00ns INFO     cocotb                                   BIN (0, 0, 1) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (0, 0, 2) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (0, 0, 3) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (0, (8, 14), 0) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (0, (8, 14), 1) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (0, (8, 14), 2) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (0, (8, 14), 3) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (0, 15, 0) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (0, 15, 1) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (0, 15, 2) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (0, 15, 3) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN ((8, 14), 0, 0) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN ((8, 14), 0, 1) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN ((8, 14), 0, 2) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN ((8, 14), 0, 3) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN ((8, 14), (8, 14), 0) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN ((8, 14), (8, 14), 1) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN ((8, 14), (8, 14), 2) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN ((8, 14), (8, 14), 3) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN ((8, 14), 15, 0) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN ((8, 14), 15, 1) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN ((8, 14), 15, 2) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN ((8, 14), 15, 3) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (15, 0, 0) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (15, 0, 1) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (15, 0, 2) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (15, 0, 3) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (15, (8, 14), 0) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (15, (8, 14), 1) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (15, (8, 14), 2) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (15, (8, 14), 3) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (15, 15, 0) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (15, 15, 1) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (15, 15, 2) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (15, 15, 3) : 0
+# 
+#    587.00ns INFO     cocotb                                alu_cov.C_CP : <cocotb_coverage.coverage.CoverPoint object at 0x00000000068B8B00>, coverage=1, size=1 
+# 
+#    587.00ns INFO     cocotb                                   BIN True : 15
+# 
+#    587.00ns INFO     cocotb                                alu_cov.CARRY_C : <cocotb_coverage.coverage.CoverCross object at 0x000000000677F250>, coverage=1, size=36 
+# 
+#    587.00ns INFO     cocotb                                   BIN (0, 0, 0) : 3
+# 
+#    587.00ns INFO     cocotb                                   BIN (0, 0, 1) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (0, 0, 2) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (0, 0, 3) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (0, (8, 14), 0) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (0, (8, 14), 1) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (0, (8, 14), 2) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (0, (8, 14), 3) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (0, 15, 0) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (0, 15, 1) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (0, 15, 2) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (0, 15, 3) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN ((8, 14), 0, 0) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN ((8, 14), 0, 1) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN ((8, 14), 0, 2) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN ((8, 14), 0, 3) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN ((8, 14), (8, 14), 0) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN ((8, 14), (8, 14), 1) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN ((8, 14), (8, 14), 2) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN ((8, 14), (8, 14), 3) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN ((8, 14), 15, 0) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN ((8, 14), 15, 1) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN ((8, 14), 15, 2) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN ((8, 14), 15, 3) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (15, 0, 0) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (15, 0, 1) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (15, 0, 2) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (15, 0, 3) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (15, (8, 14), 0) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (15, (8, 14), 1) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (15, (8, 14), 2) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (15, (8, 14), 3) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (15, 15, 0) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (15, 15, 1) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (15, 15, 2) : 0
+# 
+#    587.00ns INFO     cocotb                                   BIN (15, 15, 3) : 0
+# 
+#    587.00ns INFO     cocotb                                alu_cov.OP_CP : <cocotb_coverage.coverage.CoverPoint object at 0x000000000677EFD0>, coverage=4, size=4 
+# 
+#    587.00ns INFO     cocotb                                   BIN 0 : 17
+# 
+#    587.00ns INFO     cocotb                                   BIN 1 : 16
+# 
+#    587.00ns INFO     cocotb                                   BIN 2 : 13
+# 
+#    587.00ns INFO     cocotb                                   BIN 3 : 11
+# 
+#    587.00ns INFO     cocotb                                alu_cov.OUT_CP : <cocotb_coverage.coverage.CoverPoint object at 0x00000000067BB820>, coverage=1, size=1 
+# 
+#    587.00ns INFO     cocotb                                   BIN True : 2
+# 
+#    587.00ns INFO     cocotb                             ==============================================
+# 
+#    588.00ns INFO     cocotb.regression                  random_test passed
+# 
+#    588.00ns INFO     cocotb.regression                  **************************************************************************************
+# 
+#                                                         ** TEST                          STATUS  SIM TIME (ns)  REAL TIME (s)  RATIO (ns/s) **
+# 
+#                                                         **************************************************************************************
+# 
+#                                                         ** Testbench.add_xor_test         PASS         196.00           0.02      11445.81  **
+# 
+#                                                         ** Testbench.and_or_test          PASS         196.00           0.01      13822.80  **
+# 
+#                                                         ** Testbench.random_test          PASS         196.00           0.01      13172.31  **
+# 
+#                                                         **************************************************************************************
+# 
+#                                                         ** TESTS=3 PASS=3 FAIL=0 SKIP=0                588.00           0.06      10021.05  **
+# 
+#                                                         **************************************************************************************
+# 
+#                                                         
+# 
+# ** Note: $finish
+#    Time: 588 ns  Iteration: 0  Instance: /ALU
+# Simulation stop requested.
+
+

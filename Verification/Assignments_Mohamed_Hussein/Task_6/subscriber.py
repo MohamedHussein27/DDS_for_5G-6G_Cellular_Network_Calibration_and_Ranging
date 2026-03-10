@@ -1,5 +1,7 @@
 from cocotb_coverage.coverage import CoverPoint, CoverCross, coverage_section
 from cocotb.queue import *
+from cocotb_coverage.coverage import coverage_db
+import cocotb
 
 class Subscriber:
 
@@ -74,9 +76,9 @@ class Subscriber:
     # -----------------------------
 
     def report(self):
+        
 
-        from cocotb_coverage.coverage import coverage_db
-
-        print("\n========= COVERAGE REPORT =========")
-        coverage_db.report_coverage()
-        print("===================================")
+        cocotb.log.info("========= FUNCTIONAL COVERAGE REPORT =========")
+        # Pass the cocotb logger so it prints perfectly in the transcript
+        coverage_db.report_coverage(cocotb.log.info, bins=True)
+        cocotb.log.info("==============================================")

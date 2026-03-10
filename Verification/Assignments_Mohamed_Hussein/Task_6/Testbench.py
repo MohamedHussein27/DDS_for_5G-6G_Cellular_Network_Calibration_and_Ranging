@@ -27,9 +27,12 @@ async def add_xor_test(dut):
     await env.join_any.wait()
 
 
-    # 4. Report Phase
+    # Report Phase
     cocotb.log.info("Completion signal received. Ending test.")
     env.s.report_test_cases() # s is the scoreboard instance
+
+    # Print Coverage Results
+    env.sub.report()
 
 # 2. AND OR test
 @cocotb.test()
@@ -53,9 +56,12 @@ async def and_or_test(dut):
     await env.join_any.wait()
 
 
-    # 4. Report Phase
+    # Report Phase
     cocotb.log.info("Completion signal received. Ending test.")
     env.s.report_test_cases() # s is the scoreboard instance
+
+    # Print Coverage Results
+    env.sub.report()
 
 # 3. Random test
 @cocotb.test()
@@ -79,6 +85,9 @@ async def random_test(dut):
     await env.join_any.wait()
 
 
-    # 4. Report Phase
+    # Report Phase
     cocotb.log.info("Completion signal received. Ending test.")
     env.s.report_test_cases() # s is the scoreboard instance
+
+    # Print Coverage Results
+    env.sub.report()

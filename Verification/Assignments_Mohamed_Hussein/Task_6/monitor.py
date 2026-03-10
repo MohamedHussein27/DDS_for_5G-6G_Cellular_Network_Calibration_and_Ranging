@@ -12,6 +12,7 @@ class Monitor:
         self.tr_mon = Transaction()
 
     async def run(self, dut):
+        # as our clock begins with a postive edge
         await RisingEdge(dut.clk)
         
         while True:
@@ -27,9 +28,11 @@ class Monitor:
             self.tr_mon.rst_n  = int(dut.rst_n.value)
             self.tr_mon.out    = int(dut.out.value)
             self.tr_mon.c      = int(dut.c.value)
-            cocotb.log.info("[Monitor] begins")
-            if self.mon2sb is not None:
-                await self.mon2sb.put(self.tr_mon)
 
-            if self.mon2cov is not None:
-                await self.mon2cov.put(self.tr_mon)
+            cocotb.log.info("[Monitor] begins")
+
+            
+            await self.mon2sb.put(self.tr_mon)
+
+            
+            await self.mon2cov.put(self.tr_mon)

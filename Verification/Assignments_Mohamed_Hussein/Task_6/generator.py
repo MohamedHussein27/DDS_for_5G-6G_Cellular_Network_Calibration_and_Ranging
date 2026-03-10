@@ -19,11 +19,11 @@ class Generator:
         
         for i in range(self.num_transactions):
             
-            # 1. Handle Reset on the very first transaction
+            # make reset sequence in every test
             if i == 0:
                 tr = self.reset_sequence()
                 
-            # 2. Handle standard test sequences for all other transactions
+            # Handle standard test sequences for all other transactions
             else:
                 if test_type == "add_xor_test":
                     tr = self.add_xor_sequence()
@@ -32,7 +32,7 @@ class Generator:
                 else:
                     tr = self.random_sequence()
 
-            # 3. Send to driver and wait for acknowledgment
+            # Send to driver and wait for acknowledgment
             await self.gen2drv.put(tr)
             await self.gen_ack.wait()
             self.gen_ack.clear() # Clear the event so it can be used for the next loop!
@@ -48,7 +48,7 @@ class Generator:
         a = random.randint(0, 15)
         b = random.randint(0, 15)
         op = random.choice([0, 1])  # 0=ADD 1=XOR
-        # Use explicit keywords based on your Transaction class variables
+        
         return Transaction(rst_n=1, a=a, b=b, op=op)
 
     def and_or_sequence(self):
