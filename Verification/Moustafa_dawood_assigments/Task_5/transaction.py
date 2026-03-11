@@ -5,7 +5,7 @@
 
 class ALUTransaction:
 
-    def __init__(self, a, b, op):
+    def __init__(self, a=0, b=0, op=0):
         self.a = a
         self.b = b
         self.op = op

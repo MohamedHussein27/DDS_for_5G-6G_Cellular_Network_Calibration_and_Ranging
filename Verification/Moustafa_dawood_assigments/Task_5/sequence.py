@@ -1,69 +1,37 @@
-import random
-import cocotb
 from transaction import ALUTransaction
 
-# ==========================================================
-# ADD SEQUENCE (op = 0)
-# ==========================================================
-class AddSequence:
-    def __init__(self, queue, count=500):
-        self.queue = queue
+class BaseSequence:
+    def __init__(self, count=256): # 16 x 16 = 256 items per operation
+        self.seq2drv = None
         self.count = count
 
+    def connect(self, mailbox):
+        self.seq2drv = mailbox
+
+class AddSequence(BaseSequence):
     async def run(self):
-        for _ in range(self.count):
-            a = random.randint(0, 15)
-            b = random.randint(0, 15)
-            # 0 is the OpCode for ADD
-            item = ALUTransaction(a, b, 0)
-            self.queue.put_nowait(item)
+        for a in range(16):
+            for b in range(16):
+                item = ALUTransaction(a, b, 0)
+                await self.seq2drv.put(item)
 
-
-# XOR SEQUENCE (op = 1)
-
-class XorSequence:
-    def __init__(self, queue, count=500):
-        self.queue = queue
-        self.count = count
-
+class XorSequence(BaseSequence):
     async def run(self):
-        for _ in range(self.count):
-            a = random.randint(0, 15)
-            b = random.randint(0, 15)
-            # 1 is the OpCode for XOR
-            item = ALUTransaction(a, b, 1)
-            self.queue.put_nowait(item)
+        for a in range(16):
+            for b in range(16):
+                item = ALUTransaction(a, b, 1)
+                await self.seq2drv.put(item)
 
-
-# AND SEQUENCE (op = 2)
-
-class AndSequence:
-    def __init__(self, queue, count=500):
-        self.queue = queue
-        self.count = count
-
+class AndSequence(BaseSequence):
     async def run(self):
-        for _ in range(self.count):
-            a = random.randint(0, 15)
-            b = random.randint(0, 15)
-            # 2 is the OpCode for AND
-            item = ALUTransaction(a, b, 2)
-            self.queue.put_nowait(item)
+        for a in range(16):
+            for b in range(16):
+                item = ALUTransaction(a, b, 2)
+                await self.seq2drv.put(item)
 
-
-# OR SEQUENCE (op = 3)
-
-class OrSequence:
-    def __init__(self, queue, count=500):
-        self.queue = queue
-        self.count = count
-
+class OrSequence(BaseSequence):
     async def run(self):
-        for _ in range(self.count):
-            a = random.randint(0, 15)
-            b = random.randint(0, 15)
-            # 3 is the OpCode for OR
-            item = ALUTransaction(a, b, 3)
-            self.queue.put_nowait(item)
-
-
+        for a in range(16):
+            for b in range(16):
+                item = ALUTransaction(a, b, 3)
+                await self.seq2drv.put(item)

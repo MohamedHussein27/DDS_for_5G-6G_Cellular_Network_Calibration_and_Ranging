@@ -1,48 +1,46 @@
-# scoreboard.py
 import logging
 
 
 class ALUScoreboard:
 
     def __init__(self):
+
+        self.mon2sb = None
         self.error_count = 0
 
-    def check(self, item):
+    async def run(self):
 
-        # Reference model
-        if item.op == 0:          # ADD_op
-            expected = item.a + item.b
+        while True:
 
-        elif item.op == 1:        # XOR_op
-            expected = item.a ^ item.b
+            item = await self.mon2sb.get()
 
-        elif item.op == 2:        # AND_op
-            expected = item.a & item.b
+            if item.op == 0:
+                expected = item.a + item.b
+            elif item.op == 1:
+                expected = item.a ^ item.b
+            elif item.op == 2:
+                expected = item.a & item.b
+            elif item.op == 3:
+                expected = item.a | item.b
 
-        elif item.op == 3:        # OR_op
-            expected = item.a | item.b
+            if item.result != expected:
 
-        else:
-            raise ValueError("Invalid opcode")
+                self.error_count += 1
 
-        if item.result != expected:
+                logging.error(
+                    f"ERROR A={item.a} "
+                    f"B={item.b} "
+                    f"OP={item.op} "
+                    f"EXP={expected} "
+                    f"GOT={item.result} "
+                    f"errors={self.error_count}"
+                )
 
-            self.error_count += 1
+            else:
 
-            logging.error(
-                f"ERROR A={item.a} "
-                f"B={item.b} "
-                f"OP={item.op} "
-                f"EXP={expected} "
-                f"GOT={item.result} "
-                f"errors={self.error_count}"
-            )
-
-        else:
-
-            logging.info(
-                f"PASS A={item.a} "
-                f"B={item.b} "
-                f"OP={item.op} "
-                f"RESULT={item.result}"
-            )
+                logging.info(
+                    f"PASS A={item.a} "
+                    f"B={item.b} "
+                    f"OP={item.op} "
+                    f"RESULT={item.result}"
+                )

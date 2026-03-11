@@ -1,35 +1,33 @@
-import cocotb
-from cocotb.triggers import RisingEdge
+from cocotb.triggers import RisingEdge, Timer
 from transaction import ALUTransaction
-from cocotb.triggers import Timer
+
+
 class ALUMonitor:
 
-    def __init__(self, dut, sb, cov):
+    def __init__(self, dut):
+
         self.dut = dut
-        self.sb = sb
-        self.cov = cov
+        self.mon2sb = None
+        self.mon2cov = None
 
     async def run(self):
 
         while True:
 
             await RisingEdge(self.dut.clk)
-            
-            await Timer(1, units="ns")
-            
-            item = ALUTransaction(
-            self.dut.a.value.to_unsigned(),
-            self.dut.b.value.to_unsigned(),
-            self.dut.op.value.to_unsigned()
-)
-            
-            
-            
-            c_val = int(self.dut.c.value)
-            out_val = self.dut.out.value.to_unsigned()
-            
-            result = (c_val << 4) | out_val
-            item.result = result
 
-            self.sb.check(item)
-            self.cov.sample(item)
+            await Timer(1, units="ns")
+
+            item = ALUTransaction()
+
+            item.a = int(self.dut.a.value)
+            item.b = int(self.dut.b.value)
+            item.op = int(self.dut.op.value)
+
+            c = int(self.dut.c.value)
+            out = int(self.dut.out.value)
+
+            item.result = (c << 4) | out
+
+            await self.mon2sb.put(item)
+            await self.mon2cov.put(item)

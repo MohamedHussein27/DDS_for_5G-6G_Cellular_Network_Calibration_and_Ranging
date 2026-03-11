@@ -1,92 +1,68 @@
 import cocotb
 import logging
-
 from cocotb.clock import Clock
 from cocotb.triggers import RisingEdge
-from cocotb.queue import Queue
 
-from driver import ALUDriver
-from monitor import ALUMonitor
+
+from env import ALUEnv
 from sequence import AddSequence, XorSequence, AndSequence, OrSequence
-from scoreboard import ALUScoreboard
-from coverage import ALUCoverage
 
+TOTAL_ERRORS = 0
 
-# =====================================================
-# Common Environment Setup
-# =====================================================
+async def base_test(dut, sequence):
+    global TOTAL_ERRORS
 
-async def base_test_setup(dut, sequence_class, count=500):
+    cocotb.start_soon(Clock(dut.clk,10,"ns").start())
 
-    cocotb.start_soon(Clock(dut.clk, 10, unit="ns").start())
+    env = ALUEnv(dut)
 
-    seq_queue = Queue()
+    env.agent.seq = sequence
 
-    seq = sequence_class(seq_queue, count)
+    env.connect()
 
-    drv = ALUDriver(dut, seq_queue)
-    sb = ALUScoreboard()
-    cov = ALUCoverage()
-    mon = ALUMonitor(dut, sb, cov)
+    await env.run()
 
-    await drv.reset()
-
-    cocotb.start_soon(drv.run())
-    cocotb.start_soon(mon.run())
-
-    await seq.run()
-
-    for _ in range(2000):
+    for _ in range(1000):
         await RisingEdge(dut.clk)
 
-    logging.info("================================")
-    logging.info(f"FINAL ERROR COUNT: {sb.error_count}")
-    logging.info("================================")
+    TOTAL_ERRORS += env.sb.error_count
+   
+    cocotb.log.info("========================================")
+    cocotb.log.info(f"TEST COMPLETE: {sequence.__class__.__name__}")
+    cocotb.log.info(f"Errors in THIS test: {env.sb.error_count}")
+    cocotb.log.info(f" TOTAL ERRORS : {TOTAL_ERRORS}")
+    cocotb.log.info("========================================")
+    
 
 
-# =====================================================
-# ADD TEST
-# =====================================================
 
 @cocotb.test()
 async def add_test(dut):
 
-    logging.info("Starting ADD Test")
+    seq = AddSequence(count=500)
 
-    await base_test_setup(dut, AddSequence)
+    await base_test(dut, seq)
 
-
-# =====================================================
-# XOR TEST
-# =====================================================
 
 @cocotb.test()
 async def xor_test(dut):
 
-    logging.info("Starting XOR Test")
+    seq = XorSequence(count=500)
 
-    await base_test_setup(dut, XorSequence)
+    await base_test(dut, seq)
 
-
-# =====================================================
-# AND TEST
-# =====================================================
 
 @cocotb.test()
 async def and_test(dut):
 
-    logging.info("Starting AND Test")
+    seq = AndSequence(count=500)
 
-    await base_test_setup(dut, AndSequence)
+    await base_test(dut, seq)
 
-
-# =====================================================
-# OR TEST
-# =====================================================
 
 @cocotb.test()
 async def or_test(dut):
 
-    logging.info("Starting OR Test")
+    seq = OrSequence(count=500)
 
-    await base_test_setup(dut, OrSequence)
+    await base_test(dut, seq)
