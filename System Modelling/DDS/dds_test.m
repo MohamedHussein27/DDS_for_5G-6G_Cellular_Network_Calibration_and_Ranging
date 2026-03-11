@@ -1,11 +1,11 @@
-clear; clc; close all;
+%clear; clc; close all;
 % =========================================================
 % 1. DESIGN PARAMETERS
 % =========================================================
 Fs       = 500e6;        % System clock (Hz)
-T_dur    = 4.096e-6;     % Signal duration (s)
+T_dur    = 20e-6;     % Signal duration (s)
 Nacc     = 24;           % Phase accumulator bits
-LUT_bits = 10;           % LUT address bits
+LUT_bits = 8;           % LUT address bits
 nSeeds   = 60;           % Number of random tests
 SQNR_fixed  = zeros(nSeeds, 1);
 Ns = round(T_dur * Fs);  % Number of samples
@@ -19,7 +19,7 @@ fprintf('Testing Mode: %s\n', current_mode);
 
 % Define Q-Formats to sweep (Only used if mode is 'fixed')
 if strcmp(current_mode, 'fixed')
-    Q_list = [14 12 10 8 6]; 
+    Q_list = [6]; 
 else
     Q_list = [0]; % Dummy value for non-fixed modes
 end
@@ -61,33 +61,41 @@ for q_idx = 1:length(Q_list)
         rng(seed); 
         
         % -----------------------------------------------------
-        % A. CHIRP PARAMETERS (Your Fixed Spec)
+        % A. CHIRP PARAMETERS & HARDWARE INPUTS
         % -----------------------------------------------------
         f0 = 0;
         B  = 200e6;
         
-        % Instantaneous frequency law
-        f_inst = f0 + B * (t / T_dur);
+        % 1. Calculate HW Sweep Parameters (Passed to core)
+        M_start = round(f0 * (2^Nacc) / Fs);
+        delta_M_total = (B * (2^Nacc) / Fs);
+        M_step  = round(delta_M_total / Ns);
         
-        % Nyquist Check
+        % 2. Recreate the M vector using the EXACT hardware integer steps
+        % This prevents the ideal reference from drifting away from the hardware!
+        M_hw_exact = M_start + (0:Ns-1) * M_step;
+        
+        % For plotting instantaneous frequency tracking only
+        f_inst = f0 + B * (t / T_dur);
         if max(f_inst) >= Fs/2
             f_inst(f_inst >= Fs/2) = (Fs/2) - 1e3;
         end
-        
-        % Calculate Tuning Word (M)
-        M = round(f_inst * (2^Nacc) / Fs);
         
         % -----------------------------------------------------
         % B. IDEAL REFERENCE (GROUND TRUTH)
         % -----------------------------------------------------
         ideal_phase = zeros(1, Ns);
-        ideal_phase(2:end) = cumsum(double(M(1:end-1)));
+        % Use the M_hw_exact vector to build the ideal phase
+        ideal_phase(2:end) = cumsum(double(M_hw_exact(1:end-1)));
+        
+        % Generate the pure double-precision sine wave
         yExpected = sin(2*pi * ideal_phase / 2^Nacc);
         
         % -----------------------------------------------------
         % C. SINGLE PRECISION REFERENCE (For SQNR)
         % -----------------------------------------------------
-        dds_ref_single = double(dds_core(M, Nacc, LUT_bits, 'single'));
+        % Updated signature: Passing Start, Step, and length (Ns)
+        dds_ref_single = double(dds_core(M_start, M_step, Ns, Nacc, LUT_bits, 'single'));
         
         % Use MEAN for power calculations to be consistent
         P_signal_ref   = mean(dds_ref_single.^2); 
@@ -97,8 +105,8 @@ for q_idx = 1:length(Q_list)
         % D. CORE EXECUTION & METRICS
         % -----------------------------------------------------
         
-        % 1. Run Core (DDS_FRAC_BITS is already set by outer loop)
-        dds_out = dds_core(M, Nacc, LUT_bits, current_mode);
+        % 1. Run Core with new dynamic sweep signature
+        dds_out = dds_core(M_start, M_step, Ns, Nacc, LUT_bits, current_mode);
         dds_out_dbl = double(dds_out);
         
         % 2. Compute MAE
@@ -121,7 +129,7 @@ for q_idx = 1:length(Q_list)
             seed1_data.time = t;
             seed1_data.ideal = yExpected;
             seed1_data.f_inst = f_inst;
-            seed1_data.M = M;
+            seed1_data.M_hw_exact = M_hw_exact; % Kept the array for the tracking plot
             
             % Save specific waveform for this Q-format
             seed1_data.waves{q_idx} = dds_out;
@@ -209,7 +217,7 @@ xlabel('Time (\mus)'); ylabel('Amplitude');
 grid on; xlim([0 2]); 
 
 subplot(2,1,2);
-f_dds_recalc = double(seed1_data.M) * Fs / 2^Nacc;
+f_dds_recalc = double(seed1_data.M_hw_exact) * Fs / 2^Nacc;
 plot(seed1_data.time*1e6, seed1_data.f_inst/1e6, 'k', 'LineWidth', 2); hold on;
 plot(seed1_data.time*1e6, f_dds_recalc/1e6, '--r');
 legend('Target Chirp', 'DDS M-Word');

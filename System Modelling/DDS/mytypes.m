@@ -52,7 +52,7 @@ function T = mytypes(dt)
         
             % Phase path (unchanged)
             T.M     = fi(0, 0, 32, 0, F);
-            T.acc   = fi(0, 0, 32, 0, F);
+            T.acc   = fi(0, 0, 48, 0, F);
             T.phase = fi(0, 0, 32, 0, F);
         
             % LUT address
