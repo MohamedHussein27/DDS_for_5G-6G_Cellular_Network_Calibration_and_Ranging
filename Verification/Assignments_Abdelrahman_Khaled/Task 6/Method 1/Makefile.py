@@ -30,6 +30,7 @@ def get_questa_runner():
     # Test step — run cocotb
     runner.test(
         test_module="testbench",
+        testcase=None,
         hdl_toplevel="ALU",
         hdl_toplevel_lang="verilog",
         verbose=True,
