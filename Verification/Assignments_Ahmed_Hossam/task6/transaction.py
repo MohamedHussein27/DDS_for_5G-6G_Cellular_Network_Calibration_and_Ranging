@@ -17,7 +17,6 @@ class  transaction (Randomized):
         self.add_rand("op"    , list(range(0,4)      )   )
 
 
-        self.add_constraint(lambda op :  op < 4)
         
     def display(self,name = "TRANSACTION"):
         cocotb.log.info("******************"+str(name)+"*******************")

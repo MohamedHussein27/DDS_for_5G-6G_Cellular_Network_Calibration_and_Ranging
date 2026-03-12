@@ -1,4 +1,4 @@
-import os  # <-- Add this at the top!
+import os  
 from transaction import transaction
 from cocotb.triggers import *
 import cocotb
@@ -46,12 +46,10 @@ class generator():
         await FallingEdge(dut_generator.clk)
         self.join_any.set()
 
-    # ... keep your sequence definitions (reset_sequence, add, xor, etc.) exactly as they are ...
     """ ************* **************** Sequence Generation ****************** ***************"""
     async def reset_sequence (self):
         self.transac = transaction()
         self.transac.randomize_with(lambda reset: reset == 0  )
-        #self.transac.display("GENERATOR")
         cocotb.log.info("[Generator] Sending To The Driver..... ") 
         await self.gen_mail.put(self.transac)  
         await self.gen_handover.wait()      
@@ -60,7 +58,6 @@ class generator():
         self.gen_handover.clear() 
         self.transac = transaction()
         self.transac.randomize_with(lambda reset :reset == 1 ,lambda op : op ==0 )
-        #self.transac.display("GENERATOR")
         cocotb.log.info("[Generator] Sending To The Driver..... ")
         await self.gen_mail.put(self.transac) 
         await self.gen_handover.wait()
@@ -69,7 +66,6 @@ class generator():
         self.gen_handover.clear() 
         self.transac = transaction()
         self.transac.randomize_with(lambda reset :reset == 1 ,lambda op :op == 1 )
-        #self.transac.display("GENERATOR")
         cocotb.log.info("[Generator] Sending To The Driver..... ")
         await self.gen_mail.put(self.transac) 
         await self.gen_handover.wait()
@@ -78,7 +74,6 @@ class generator():
         self.gen_handover.clear() 
         self.transac = transaction()
         self.transac.randomize_with(lambda reset :reset == 1 ,lambda op :op == 2 )
-        #self.transac.display("GENERATOR")
         cocotb.log.info("[Generator] Sending To The Driver..... ")
         await self.gen_mail.put(self.transac) 
         await self.gen_handover.wait()
@@ -87,7 +82,6 @@ class generator():
         self.gen_handover.clear() 
         self.transac = transaction()
         self.transac.randomize_with(lambda reset :reset == 1 ,lambda op :op == 3 )
-        #self.transac.display("GENERATOR")
         cocotb.log.info("[Generator] Sending To The Driver..... ")
         await self.gen_mail.put(self.transac) 
         await self.gen_handover.wait()
