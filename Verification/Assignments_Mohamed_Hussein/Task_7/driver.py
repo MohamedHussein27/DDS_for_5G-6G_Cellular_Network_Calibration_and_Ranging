@@ -25,8 +25,8 @@ class Driver(uvm_driver):
             await FallingEdge(self.dut_drv.clk)
             # driving
             # Displaying the values
-            self.logger.info(f"[DRIVER] sending: rst_n={stim_seq_item.rst_n}, "
-                         f"a={stim_seq_item.a}, b={stim_seq_item.b}, op={stim_seq_item.op}")
+            """self.logger.info(f"[DRIVER] sending: rst_n={stim_seq_item.rst_n}, "
+                         f"a={stim_seq_item.a}, b={stim_seq_item.b}, op={stim_seq_item.op}")"""
 
             self.dut_drv.rst_n.value = stim_seq_item.rst_n
             self.dut_drv.a.value     = stim_seq_item.a

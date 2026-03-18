@@ -35,9 +35,9 @@ class Monitor(uvm_monitor):
             rsp_seq_item.out   = self.dut_mon.out.value
             rsp_seq_item.c     = self.dut_mon.c.value
 
-            self.logger.info(f"[MOnitor] receiving: rst_n={rsp_seq_item.rst_n}, "
+            """self.logger.info(f"[MOnitor] receiving: rst_n={rsp_seq_item.rst_n}, "
                          f"a={rsp_seq_item.a}, b={rsp_seq_item.b}, op={rsp_seq_item.op},"
-                         f"out={rsp_seq_item.out}, c={rsp_seq_item.c}")
+                         f"out={rsp_seq_item.out}, c={rsp_seq_item.c}")"""
 
             # broadcasting the data to be collected by the sub and sb
             self.mon_ap.write(rsp_seq_item)
