@@ -1,5 +1,5 @@
 # ==============================================================================
-# PyUVM Makefile for Icarus Verilog (Decorator Mode)
+# Multi-File PyUVM Makefile for Icarus Verilog
 # ==============================================================================
 
 SIM ?= icarus
@@ -14,19 +14,34 @@ VERILOG_SOURCES += $(PWD)/DUT.sv
 # Define the Top-Level hardware module
 TOPLEVEL = ALU
 
-# Define the Python test file
-MODULE = test
-
 # ==============================================================================
 # Execution Targets
 # ==============================================================================
 
-# Default target runs all @pyuvm.test() decorated classes in test.py
-all: sim
+# Default target: The Regression Suite
+# By separating the file names with commas (NO SPACES), Cocotb will run them all sequentially!
+regression:
+	$(MAKE) clean_sim
+	$(MAKE) add_xor
+	$(MAKE) clean_sim
+	$(MAKE) and_or
+	$(MAKE) clean_sim
+	$(MAKE) rand
 
+# Individual Test Targets
+add_xor:
+	$(MAKE) sim MODULE=add_xor_test
+
+and_or:
+	$(MAKE) sim MODULE=and_or_test
+
+rand:
+	$(MAKE) sim MODULE=rand_test
+
+# Clean up simulation artifacts
 clean_sim:
 	$(MAKE) clean
-	rm -rf sim_build results.xml __pycache__ transcript.log
+	rm -rf sim_build results.xml __pycache__ transcript.log dump.vcd
 
 # ==============================================================================
 # Include standard Cocotb machinery
