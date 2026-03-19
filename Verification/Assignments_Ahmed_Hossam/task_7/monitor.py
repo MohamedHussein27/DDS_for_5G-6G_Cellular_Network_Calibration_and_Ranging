@@ -5,7 +5,7 @@ from cocotb.triggers import Timer
 from cocotb.clock import Clock
 class monitor(uvm_monitor):
     def build_phase(self):
-        self.mon_port = uvm_analysis_port("mon_port")
+        self.mon_port = uvm_analysis_port("mon_port", self)
     async def run_phase(self):
         while True:
             await Timer(10, units="ns") 
