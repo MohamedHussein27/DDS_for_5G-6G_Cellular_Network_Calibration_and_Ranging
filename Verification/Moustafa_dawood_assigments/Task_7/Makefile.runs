@@ -1,0 +1,23 @@
+run_rst:
+	make -f Makefile clean && make -f Makefile PLUSARGS="+UVM_TESTNAME=rst_test"
+
+run_add:
+	make -f Makefile clean && make -f Makefile PLUSARGS="+UVM_TESTNAME=add_test"
+
+run_xor:
+	make -f Makefile clean && make -f Makefile PLUSARGS="+UVM_TESTNAME=xor_test"
+
+run_and:
+	make -f Makefile clean && make -f Makefile PLUSARGS="+UVM_TESTNAME=and_test"
+
+run_or:
+	make -f Makefile clean && make -f Makefile PLUSARGS="+UVM_TESTNAME=or_test"
+
+run_random:
+	make -f Makefile clean && make -f Makefile PLUSARGS="+UVM_TESTNAME=random_test"
+
+run_regression:
+	make -f Makefile clean && make -f Makefile PLUSARGS="+UVM_TESTNAME=regression_test"
+
+clean_all:
+	make -f Makefile clean

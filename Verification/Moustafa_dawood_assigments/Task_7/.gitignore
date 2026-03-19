@@ -1,0 +1,18 @@
+# Python caches
+__pycache__/
+*.pyc
+
+# Cocotb generated files
+sim_build/
+results.xml
+
+# ModelSim / Questa generated files
+modelsim.ini
+transcript
+vsim.wlf
+*.wlf
+wlft*
+
+# Preemptive Verification Ignore
+work/
+*.vcd
