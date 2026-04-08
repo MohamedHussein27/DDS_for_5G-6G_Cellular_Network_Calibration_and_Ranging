@@ -1,22 +1,27 @@
 import pyuvm
 from pyuvm import *
 from seq_item import *
-from cocotb.triggers import Timer
-from cocotb.clock import Clock
+import cocotb
+from cocotb.triggers import RisingEdge, ReadOnly 
+
 class monitor(uvm_monitor):
     def build_phase(self):
         self.mon_port = uvm_analysis_port("mon_port", self)
+
     async def run_phase(self):
         while True:
-            await Timer(10, units="ns") 
-            item = seq_item()
-            item.reset = self.dut.reset.value
-            item.a = self.dut.a.value
-            item.b = self.dut.b.value
-            item.op = self.dut.op.value
-            item.c = self.dut.c.value
-            item.out = self.dut.out.value
+            await RisingEdge(cocotb.top.clk)
             
+            
+            await ReadOnly() 
+            
+            item = seq_item()
+            
+            item.reset = cocotb.top.reset.value
+            item.a = cocotb.top.a.value
+            item.b = cocotb.top.b.value
+            item.op = cocotb.top.op.value
+            item.c = cocotb.top.c.value
+            item.out = cocotb.top.out.value
             
             self.mon_port.write(item)
-            

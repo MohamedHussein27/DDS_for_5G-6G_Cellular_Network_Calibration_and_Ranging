@@ -7,12 +7,16 @@ from driver import *
 from subscriber import subscriber
 from scoreboard import scoreboard
 from agent import agent
+
 class env(uvm_env):
     def build_phase (self):
-        self.agent_ = agent.create("agent", self)
-        self.scoreboard = scoreboard.create("scoreboard", self)
-        self.subscriber = subscriber.create("subscriber", self)
+        self.agent_ = agent("agent", self) 
+        self.scoreboard = scoreboard("scoreboard", self)
+        self.subscriber = subscriber("subscriber", self)
 
-    def connect_phase(self): 
-        self.agent_.agent_port.connect(self.scoreboard.sc_export)
-        self.agent_.agent_port.connect(self.subscriber.sub_export)   
+    def connect_phase(self):
+        # 1. Route data to the Scoreboard
+        self.agent_.agent_port.connect(self.scoreboard.sc_fifo.analysis_export)
+        
+        # 2. Route the exact same data to the Subscriber!
+        self.agent_.agent_port.connect(self.subscriber.sub_fifo.analysis_export)
