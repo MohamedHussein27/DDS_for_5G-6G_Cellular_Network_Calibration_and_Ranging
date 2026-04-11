@@ -1,0 +1,1876 @@
+# Reading pref.tcl
+# //  Questa Sim-64
+# //  Version 2021.1 win64 Jan 19 2021
+# //
+# //  Copyright 1991-2021 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# vsim -gui -onfinish stop -pli "C:/Users/ABD_ELR7MAN/AppData/Roaming/Python/Python312/site-packages/cocotb/libs/cocotbvpi_modelsim.dll" -l transcript.log top.ALU 
+# Start time: 02:33:53 on Apr 11,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: (vsim-3865) Due to PLI being present, global +acc is being enabled automatically. This will cause your simulation to run very slowly. Please use vsim -no_autoacc to disable this feature. This feature is now deprecated and will be removed from future releases.
+# Loading sv_std.std
+# Loading work.dut_sv_unit(fast)
+# Loading work.ALU(fast)
+# Loading C:/Users/ABD_ELR7MAN/AppData/Roaming/Python/Python312/site-packages/cocotb/libs/cocotbvpi_modelsim.dll
+#      -.--ns INFO     gpi                                ..mbed\gpi_embed.cpp:81   in set_program_name_in_venv        Did not detect Python virtual environment. Using system-wide Python interpreter
+#      -.--ns INFO     gpi                                ..\gpi\GpiCommon.cpp:101  in gpi_print_registered_impl       VPI registered
+#      -.--ns INFO     gpi                                ..\gpi\GpiCommon.cpp:101  in gpi_print_registered_impl       FLI registered
+add wave -position insertpoint  \
+sim:/ALU/clk \
+sim:/ALU/a \
+sim:/ALU/b \
+sim:/ALU/op \
+sim:/ALU/c \
+sim:/ALU/out \
+sim:/ALU/out_data
+run -all
+#      0.00ns INFO     cocotb                             Running on ModelSim for Questa-64 version 2021.1 2021.01
+# 
+#      0.00ns INFO     cocotb                             Running tests with cocotb v1.9.2 from C:\Users\ABD_ELR7MAN\AppData\Roaming\Python\Python312\site-packages\cocotb
+# 
+#      0.00ns INFO     cocotb                             Seeding Python random module with 1775867646
+# 
+#      0.00ns INFO     cocotb.regression                  pytest not found, install it to enable better AssertionError messages
+# 
+#      0.00ns INFO     cocotb.regression                  Found test ALU_test.ALU_test_runner
+# 
+#      0.00ns INFO     cocotb.regression                  running ALU_test_runner (1/1)
+# 
+#      0.00ns INFO     ..on_task_V7.0\src\ALU_test.py(98) [uvm_test_top]: ===== ADD =====
+# 
+#     10.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=0 b=1 | out=10 c=0 | Expected c=0 out=1
+# 
+#     20.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=0 b=2 | out=7 c=0 | Expected c=0 out=2
+# 
+#     30.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=0 b=3 | out=2 c=0 | Expected c=0 out=3
+# 
+#     40.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=0 b=4 | out=3 c=0 | Expected c=0 out=4
+# 
+#     50.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=0 b=5 | out=4 c=0 | Expected c=0 out=5
+# 
+#     60.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=0 b=6 | out=5 c=0 | Expected c=0 out=6
+# 
+#     70.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=0 b=7 | out=6 c=0 | Expected c=0 out=7
+# 
+#     80.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=0 b=8 | out=7 c=0 | Expected c=0 out=8
+# 
+#     90.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=0 b=9 | out=8 c=0 | Expected c=0 out=9
+# 
+#    100.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=0 b=10 | out=9 c=0 | Expected c=0 out=10
+# 
+#    110.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=0 b=11 | out=2 c=1 | Expected c=0 out=11
+# 
+#    120.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=0 b=12 | out=11 c=0 | Expected c=0 out=12
+# 
+#    130.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=0 b=13 | out=12 c=0 | Expected c=0 out=13
+# 
+#    140.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=0 b=14 | out=13 c=0 | Expected c=0 out=14
+# 
+#    150.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=0 b=15 | out=14 c=0 | Expected c=0 out=15
+# 
+#    160.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=1 b=0 | out=4 c=1 | Expected c=0 out=1
+# 
+#    170.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=1 b=1 | out=3 c=1 | Expected c=0 out=2
+# 
+#    180.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=1 b=2 | out=2 c=0 | Expected c=0 out=3
+# 
+#    190.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=1 b=3 | out=3 c=0 | Expected c=0 out=4
+# 
+#    200.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=1 b=4 | out=4 c=0 | Expected c=0 out=5
+# 
+#    210.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=1 b=5 | out=6 c=1 | Expected c=0 out=6
+# 
+#    220.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=1 b=6 | out=6 c=0 | Expected c=0 out=7
+# 
+#    230.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=1 b=7 | out=12 c=1 | Expected c=0 out=8
+# 
+#    240.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=1 b=8 | out=8 c=0 | Expected c=0 out=9
+# 
+#    250.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=1 b=9 | out=9 c=0 | Expected c=0 out=10
+# 
+#    260.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=1 b=10 | out=1 c=0 | Expected c=0 out=11
+# 
+#    270.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=1 b=11 | out=6 c=1 | Expected c=0 out=12
+# 
+#    280.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=1 b=12 | out=12 c=0 | Expected c=0 out=13
+# 
+#    290.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=1 b=13 | out=13 c=0 | Expected c=0 out=14
+# 
+#    300.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=1 b=14 | out=14 c=0 | Expected c=0 out=15
+# 
+#    310.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=1 b=15 | out=15 c=0 | Expected c=1 out=0
+# 
+#    320.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=2 b=0 | out=0 c=1 | Expected c=0 out=2
+# 
+#    330.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=2 b=1 | out=2 c=0 | Expected c=0 out=3
+# 
+#    340.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=2 b=2 | out=3 c=0 | Expected c=0 out=4
+# 
+#    350.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=2 b=3 | out=4 c=0 | Expected c=0 out=5
+# 
+#    360.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=2 b=4 | out=5 c=0 | Expected c=0 out=6
+# 
+#    370.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=2 b=5 | out=6 c=0 | Expected c=0 out=7
+# 
+#    380.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=2 b=6 | out=1 c=1 | Expected c=0 out=8
+# 
+#    390.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=2 b=7 | out=8 c=0 | Expected c=0 out=9
+# 
+#    400.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=2 b=8 | out=9 c=0 | Expected c=0 out=10
+# 
+#    410.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=2 b=9 | out=7 c=0 | Expected c=0 out=11
+# 
+#    420.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=2 b=10 | out=11 c=0 | Expected c=0 out=12
+# 
+#    430.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=2 b=11 | out=12 c=0 | Expected c=0 out=13
+# 
+#    440.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=2 b=12 | out=7 c=0 | Expected c=0 out=14
+# 
+#    450.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=2 b=13 | out=14 c=0 | Expected c=0 out=15
+# 
+#    460.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=2 b=14 | out=13 c=0 | Expected c=1 out=0
+# 
+#    470.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=2 b=15 | out=5 c=0 | Expected c=1 out=1
+# 
+#    480.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=3 b=0 | out=1 c=1 | Expected c=0 out=3
+# 
+#    490.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=3 b=1 | out=3 c=0 | Expected c=0 out=4
+# 
+#    500.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=3 b=2 | out=4 c=0 | Expected c=0 out=5
+# 
+#    510.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=3 b=3 | out=5 c=0 | Expected c=0 out=6
+# 
+#    520.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=3 b=4 | out=6 c=0 | Expected c=0 out=7
+# 
+#    530.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=3 b=5 | out=13 c=1 | Expected c=0 out=8
+# 
+#    540.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=3 b=6 | out=6 c=0 | Expected c=0 out=9
+# 
+#    550.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=3 b=7 | out=9 c=0 | Expected c=0 out=10
+# 
+#    560.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=3 b=8 | out=10 c=0 | Expected c=0 out=11
+# 
+#    570.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=3 b=9 | out=11 c=0 | Expected c=0 out=12
+# 
+#    580.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=3 b=10 | out=12 c=0 | Expected c=0 out=13
+# 
+#    590.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=3 b=11 | out=13 c=0 | Expected c=0 out=14
+# 
+#    600.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=3 b=12 | out=14 c=0 | Expected c=0 out=15
+# 
+#    610.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=3 b=13 | out=15 c=0 | Expected c=1 out=0
+# 
+#    620.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=3 b=14 | out=0 c=1 | Expected c=1 out=1
+# 
+#    630.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=3 b=15 | out=11 c=1 | Expected c=1 out=2
+# 
+#    640.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=4 b=0 | out=2 c=1 | Expected c=0 out=4
+# 
+#    650.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=4 b=1 | out=4 c=0 | Expected c=0 out=5
+# 
+#    660.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=4 b=2 | out=5 c=0 | Expected c=0 out=6
+# 
+#    670.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=4 b=3 | out=15 c=1 | Expected c=0 out=7
+# 
+#    680.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=4 b=4 | out=7 c=0 | Expected c=0 out=8
+# 
+#    690.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=4 b=5 | out=0 c=0 | Expected c=0 out=9
+# 
+#    700.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=4 b=6 | out=9 c=0 | Expected c=0 out=10
+# 
+#    710.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=4 b=7 | out=10 c=0 | Expected c=0 out=11
+# 
+#    720.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=4 b=8 | out=15 c=0 | Expected c=0 out=12
+# 
+#    730.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=4 b=9 | out=12 c=0 | Expected c=0 out=13
+# 
+#    740.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=4 b=10 | out=13 c=0 | Expected c=0 out=14
+# 
+#    750.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=4 b=11 | out=14 c=0 | Expected c=0 out=15
+# 
+#    760.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=4 b=12 | out=15 c=0 | Expected c=1 out=0
+# 
+#    770.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=4 b=13 | out=0 c=1 | Expected c=1 out=1
+# 
+#    780.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=4 b=14 | out=1 c=1 | Expected c=1 out=2
+# 
+#    790.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=4 b=15 | out=8 c=0 | Expected c=1 out=3
+# 
+#    800.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=5 b=0 | out=3 c=1 | Expected c=0 out=5
+# 
+#    810.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=5 b=1 | out=5 c=0 | Expected c=0 out=6
+# 
+#    820.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=5 b=2 | out=6 c=0 | Expected c=0 out=7
+# 
+#    830.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=5 b=3 | out=12 c=0 | Expected c=0 out=8
+# 
+#    840.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=5 b=4 | out=8 c=0 | Expected c=0 out=9
+# 
+#    850.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=5 b=5 | out=9 c=0 | Expected c=0 out=10
+# 
+#    860.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=5 b=6 | out=10 c=0 | Expected c=0 out=11
+# 
+#    870.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=5 b=7 | out=11 c=0 | Expected c=0 out=12
+# 
+#    880.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=5 b=8 | out=6 c=0 | Expected c=0 out=13
+# 
+#    890.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=5 b=9 | out=13 c=0 | Expected c=0 out=14
+# 
+#    900.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=5 b=10 | out=14 c=0 | Expected c=0 out=15
+# 
+#    910.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=5 b=11 | out=12 c=0 | Expected c=1 out=0
+# 
+#    920.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=5 b=12 | out=0 c=1 | Expected c=1 out=1
+# 
+#    930.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=5 b=13 | out=1 c=1 | Expected c=1 out=2
+# 
+#    940.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=5 b=14 | out=2 c=1 | Expected c=1 out=3
+# 
+#    950.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=5 b=15 | out=3 c=1 | Expected c=1 out=4
+# 
+#    960.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=6 b=0 | out=4 c=1 | Expected c=0 out=6
+# 
+#    970.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=6 b=1 | out=6 c=0 | Expected c=0 out=7
+# 
+#    980.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=6 b=2 | out=7 c=0 | Expected c=0 out=8
+# 
+#    990.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=6 b=3 | out=1 c=1 | Expected c=0 out=9
+# 
+#   1000.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=6 b=4 | out=9 c=0 | Expected c=0 out=10
+# 
+#   1010.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=6 b=5 | out=10 c=0 | Expected c=0 out=11
+# 
+#   1020.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=6 b=6 | out=11 c=0 | Expected c=0 out=12
+# 
+#   1030.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=6 b=7 | out=12 c=0 | Expected c=0 out=13
+# 
+#   1040.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=6 b=8 | out=13 c=0 | Expected c=0 out=14
+# 
+#   1050.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=6 b=9 | out=14 c=0 | Expected c=0 out=15
+# 
+#   1060.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=6 b=10 | out=15 c=0 | Expected c=1 out=0
+# 
+#   1070.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=6 b=11 | out=0 c=1 | Expected c=1 out=1
+# 
+#   1080.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=6 b=12 | out=1 c=1 | Expected c=1 out=2
+# 
+#   1090.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=6 b=13 | out=2 c=1 | Expected c=1 out=3
+# 
+#   1100.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=6 b=14 | out=3 c=1 | Expected c=1 out=4
+# 
+#   1110.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=6 b=15 | out=4 c=1 | Expected c=1 out=5
+# 
+#   1120.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=7 b=0 | out=2 c=0 | Expected c=0 out=7
+# 
+#   1130.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=7 b=1 | out=10 c=1 | Expected c=0 out=8
+# 
+#   1140.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=7 b=2 | out=8 c=0 | Expected c=0 out=9
+# 
+#   1150.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=7 b=3 | out=9 c=0 | Expected c=0 out=10
+# 
+#   1160.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=7 b=4 | out=10 c=0 | Expected c=0 out=11
+# 
+#   1170.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=7 b=5 | out=11 c=0 | Expected c=0 out=12
+# 
+#   1180.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=7 b=6 | out=12 c=0 | Expected c=0 out=13
+# 
+#   1190.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=7 b=7 | out=9 c=1 | Expected c=0 out=14
+# 
+#   1200.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=7 b=8 | out=14 c=0 | Expected c=0 out=15
+# 
+#   1210.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=7 b=9 | out=15 c=0 | Expected c=1 out=0
+# 
+#   1220.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=7 b=10 | out=11 c=0 | Expected c=1 out=1
+# 
+#   1230.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=7 b=11 | out=1 c=1 | Expected c=1 out=2
+# 
+#   1240.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=7 b=12 | out=14 c=0 | Expected c=1 out=3
+# 
+#   1250.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=7 b=13 | out=3 c=1 | Expected c=1 out=4
+# 
+#   1260.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=7 b=14 | out=4 c=1 | Expected c=1 out=5
+# 
+#   1270.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=7 b=15 | out=5 c=1 | Expected c=1 out=6
+# 
+#   1280.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=8 b=0 | out=6 c=1 | Expected c=0 out=8
+# 
+#   1290.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=8 b=1 | out=12 c=0 | Expected c=0 out=9
+# 
+#   1300.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=8 b=2 | out=9 c=0 | Expected c=0 out=10
+# 
+#   1310.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=8 b=3 | out=10 c=0 | Expected c=0 out=11
+# 
+#   1320.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=8 b=4 | out=11 c=1 | Expected c=0 out=12
+# 
+#   1330.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=8 b=5 | out=11 c=0 | Expected c=0 out=13
+# 
+#   1340.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=8 b=6 | out=13 c=0 | Expected c=0 out=14
+# 
+#   1350.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=8 b=7 | out=14 c=0 | Expected c=0 out=15
+# 
+#   1360.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=8 b=8 | out=15 c=0 | Expected c=1 out=0
+# 
+#   1370.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=8 b=9 | out=0 c=1 | Expected c=1 out=1
+# 
+#   1380.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=8 b=10 | out=11 c=1 | Expected c=1 out=2
+# 
+#   1390.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=8 b=11 | out=7 c=0 | Expected c=1 out=3
+# 
+#   1400.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=8 b=12 | out=3 c=1 | Expected c=1 out=4
+# 
+#   1410.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=8 b=13 | out=13 c=1 | Expected c=1 out=5
+# 
+#   1420.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=8 b=14 | out=5 c=1 | Expected c=1 out=6
+# 
+#   1430.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=8 b=15 | out=6 c=1 | Expected c=1 out=7
+# 
+#   1450.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=9 b=1 | out=9 c=0 | Expected c=0 out=10
+# 
+#   1460.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=9 b=2 | out=1 c=1 | Expected c=0 out=11
+# 
+#   1470.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=9 b=3 | out=11 c=0 | Expected c=0 out=12
+# 
+#   1480.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=9 b=4 | out=12 c=0 | Expected c=0 out=13
+# 
+#   1490.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=9 b=5 | out=13 c=0 | Expected c=0 out=14
+# 
+#   1500.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=9 b=6 | out=6 c=1 | Expected c=0 out=15
+# 
+#   1510.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=9 b=7 | out=2 c=1 | Expected c=1 out=0
+# 
+#   1520.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=9 b=8 | out=0 c=1 | Expected c=1 out=1
+# 
+#   1530.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=9 b=9 | out=0 c=1 | Expected c=1 out=2
+# 
+#   1540.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=9 b=10 | out=1 c=0 | Expected c=1 out=3
+# 
+#   1550.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=9 b=11 | out=3 c=1 | Expected c=1 out=4
+# 
+#   1560.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=9 b=12 | out=4 c=1 | Expected c=1 out=5
+# 
+#   1570.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=9 b=13 | out=5 c=1 | Expected c=1 out=6
+# 
+#   1580.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=9 b=14 | out=6 c=1 | Expected c=1 out=7
+# 
+#   1590.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=9 b=15 | out=11 c=1 | Expected c=1 out=8
+# 
+#   1600.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=10 b=0 | out=8 c=1 | Expected c=0 out=10
+# 
+#   1610.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=10 b=1 | out=10 c=0 | Expected c=0 out=11
+# 
+#   1620.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=10 b=2 | out=11 c=0 | Expected c=0 out=12
+# 
+#   1630.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=10 b=3 | out=11 c=1 | Expected c=0 out=13
+# 
+#   1640.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=10 b=4 | out=15 c=1 | Expected c=0 out=14
+# 
+#   1650.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=10 b=5 | out=14 c=0 | Expected c=0 out=15
+# 
+#   1660.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=10 b=6 | out=6 c=0 | Expected c=1 out=0
+# 
+#   1670.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=10 b=7 | out=0 c=1 | Expected c=1 out=1
+# 
+#   1680.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=10 b=8 | out=1 c=1 | Expected c=1 out=2
+# 
+#   1690.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=10 b=9 | out=2 c=1 | Expected c=1 out=3
+# 
+#   1700.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=10 b=10 | out=3 c=1 | Expected c=1 out=4
+# 
+#   1710.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=10 b=11 | out=4 c=1 | Expected c=1 out=5
+# 
+#   1720.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=10 b=12 | out=5 c=1 | Expected c=1 out=6
+# 
+#   1730.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=10 b=13 | out=6 c=1 | Expected c=1 out=7
+# 
+#   1740.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=10 b=14 | out=7 c=1 | Expected c=1 out=8
+# 
+#   1750.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=10 b=15 | out=8 c=1 | Expected c=1 out=9
+# 
+#   1760.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=11 b=0 | out=9 c=1 | Expected c=0 out=11
+# 
+#   1770.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=11 b=1 | out=1 c=0 | Expected c=0 out=12
+# 
+#   1780.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=11 b=2 | out=14 c=0 | Expected c=0 out=13
+# 
+#   1790.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=11 b=3 | out=13 c=0 | Expected c=0 out=14
+# 
+#   1800.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=11 b=4 | out=14 c=0 | Expected c=0 out=15
+# 
+#   1810.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=11 b=5 | out=15 c=0 | Expected c=1 out=0
+# 
+#   1820.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=11 b=6 | out=0 c=1 | Expected c=1 out=1
+# 
+#   1830.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=11 b=7 | out=1 c=1 | Expected c=1 out=2
+# 
+#   1840.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=11 b=8 | out=2 c=1 | Expected c=1 out=3
+# 
+#   1850.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=11 b=9 | out=12 c=1 | Expected c=1 out=4
+# 
+#   1860.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=11 b=10 | out=4 c=1 | Expected c=1 out=5
+# 
+#   1870.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=11 b=11 | out=12 c=1 | Expected c=1 out=6
+# 
+#   1880.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=11 b=12 | out=6 c=1 | Expected c=1 out=7
+# 
+#   1890.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=11 b=13 | out=7 c=1 | Expected c=1 out=8
+# 
+#   1900.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=11 b=14 | out=8 c=1 | Expected c=1 out=9
+# 
+#   1910.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=11 b=15 | out=15 c=1 | Expected c=1 out=10
+# 
+#   1920.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=12 b=0 | out=8 c=1 | Expected c=0 out=12
+# 
+#   1930.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=12 b=1 | out=12 c=0 | Expected c=0 out=13
+# 
+#   1940.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=12 b=2 | out=3 c=1 | Expected c=0 out=14
+# 
+#   1950.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=12 b=3 | out=14 c=0 | Expected c=0 out=15
+# 
+#   1960.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=12 b=4 | out=15 c=0 | Expected c=1 out=0
+# 
+#   1970.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=12 b=5 | out=0 c=1 | Expected c=1 out=1
+# 
+#   1980.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=12 b=6 | out=1 c=1 | Expected c=1 out=2
+# 
+#   1990.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=12 b=7 | out=2 c=1 | Expected c=1 out=3
+# 
+#   2000.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=12 b=8 | out=3 c=1 | Expected c=1 out=4
+# 
+#   2010.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=12 b=9 | out=4 c=1 | Expected c=1 out=5
+# 
+#   2020.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=12 b=10 | out=5 c=1 | Expected c=1 out=6
+# 
+#   2030.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=12 b=11 | out=6 c=1 | Expected c=1 out=7
+# 
+#   2040.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=12 b=12 | out=7 c=1 | Expected c=1 out=8
+# 
+#   2050.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=12 b=13 | out=8 c=1 | Expected c=1 out=9
+# 
+#   2060.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=12 b=14 | out=9 c=1 | Expected c=1 out=10
+# 
+#   2080.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=13 b=0 | out=11 c=1 | Expected c=0 out=13
+# 
+#   2090.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=13 b=1 | out=13 c=0 | Expected c=0 out=14
+# 
+#   2100.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=13 b=2 | out=3 c=1 | Expected c=0 out=15
+# 
+#   2110.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=13 b=3 | out=11 c=1 | Expected c=1 out=0
+# 
+#   2120.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=13 b=4 | out=0 c=1 | Expected c=1 out=1
+# 
+#   2130.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=13 b=5 | out=1 c=1 | Expected c=1 out=2
+# 
+#   2140.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=13 b=6 | out=2 c=1 | Expected c=1 out=3
+# 
+#   2150.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=13 b=7 | out=3 c=1 | Expected c=1 out=4
+# 
+#   2160.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=13 b=8 | out=4 c=1 | Expected c=1 out=5
+# 
+#   2170.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=13 b=9 | out=8 c=1 | Expected c=1 out=6
+# 
+#   2180.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=13 b=10 | out=6 c=1 | Expected c=1 out=7
+# 
+#   2190.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=13 b=11 | out=15 c=1 | Expected c=1 out=8
+# 
+#   2200.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=13 b=12 | out=8 c=1 | Expected c=1 out=9
+# 
+#   2210.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=13 b=13 | out=9 c=1 | Expected c=1 out=10
+# 
+#   2220.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=13 b=14 | out=0 c=0 | Expected c=1 out=11
+# 
+#   2230.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=13 b=15 | out=0 c=1 | Expected c=1 out=12
+# 
+#   2240.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=14 b=0 | out=12 c=1 | Expected c=0 out=14
+# 
+#   2250.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=14 b=1 | out=14 c=0 | Expected c=0 out=15
+# 
+#   2260.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=14 b=2 | out=15 c=0 | Expected c=1 out=0
+# 
+#   2270.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=14 b=3 | out=0 c=1 | Expected c=1 out=1
+# 
+#   2280.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=14 b=4 | out=1 c=1 | Expected c=1 out=2
+# 
+#   2290.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=14 b=5 | out=2 c=1 | Expected c=1 out=3
+# 
+#   2300.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=14 b=6 | out=3 c=1 | Expected c=1 out=4
+# 
+#   2310.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=14 b=7 | out=4 c=1 | Expected c=1 out=5
+# 
+#   2320.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=14 b=8 | out=5 c=1 | Expected c=1 out=6
+# 
+#   2330.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=14 b=9 | out=11 c=1 | Expected c=1 out=7
+# 
+#   2340.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=14 b=10 | out=7 c=1 | Expected c=1 out=8
+# 
+#   2350.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=14 b=11 | out=8 c=1 | Expected c=1 out=9
+# 
+#   2360.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=14 b=12 | out=9 c=1 | Expected c=1 out=10
+# 
+#   2370.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=14 b=13 | out=10 c=1 | Expected c=1 out=11
+# 
+#   2380.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=14 b=14 | out=11 c=1 | Expected c=1 out=12
+# 
+#   2390.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=14 b=15 | out=12 c=1 | Expected c=1 out=13
+# 
+#   2400.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=15 b=0 | out=13 c=1 | Expected c=0 out=15
+# 
+#   2410.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=15 b=1 | out=15 c=0 | Expected c=1 out=0
+# 
+#   2420.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=15 b=2 | out=0 c=1 | Expected c=1 out=1
+# 
+#   2430.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=15 b=3 | out=1 c=1 | Expected c=1 out=2
+# 
+#   2440.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=15 b=4 | out=5 c=1 | Expected c=1 out=3
+# 
+#   2450.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=15 b=5 | out=3 c=1 | Expected c=1 out=4
+# 
+#   2460.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=15 b=6 | out=4 c=1 | Expected c=1 out=5
+# 
+#   2470.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=15 b=7 | out=5 c=1 | Expected c=1 out=6
+# 
+#   2480.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=15 b=8 | out=6 c=1 | Expected c=1 out=7
+# 
+#   2490.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=15 b=9 | out=7 c=1 | Expected c=1 out=8
+# 
+#   2500.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=15 b=10 | out=8 c=1 | Expected c=1 out=9
+# 
+#   2510.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=15 b=11 | out=11 c=0 | Expected c=1 out=10
+# 
+#   2520.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=15 b=12 | out=12 c=0 | Expected c=1 out=11
+# 
+#   2530.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=15 b=13 | out=11 c=1 | Expected c=1 out=12
+# 
+#   2540.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=15 b=14 | out=12 c=1 | Expected c=1 out=13
+# 
+#   2550.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: ADD a=15 b=15 | out=13 c=1 | Expected c=1 out=14
+# 
+#   2575.00ns INFO     ..on_task_V7.0\src\ALU_test.py(98) [uvm_test_top]: ===== XOR =====
+# 
+#   2580.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=0 b=1 | out=14 c=1 | Expected c=0 out=1
+# 
+#   2590.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=0 b=2 | out=14 c=0 | Expected c=0 out=2
+# 
+#   2600.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=0 b=3 | out=2 c=0 | Expected c=0 out=3
+# 
+#   2610.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=0 b=4 | out=3 c=0 | Expected c=0 out=4
+# 
+#   2620.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=0 b=5 | out=4 c=0 | Expected c=0 out=5
+# 
+#   2630.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=0 b=6 | out=5 c=0 | Expected c=0 out=6
+# 
+#   2640.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=0 b=7 | out=6 c=0 | Expected c=0 out=7
+# 
+#   2650.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=0 b=8 | out=15 c=1 | Expected c=0 out=8
+# 
+#   2660.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=0 b=9 | out=12 c=0 | Expected c=0 out=9
+# 
+#   2670.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=0 b=10 | out=9 c=0 | Expected c=0 out=10
+# 
+#   2680.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=0 b=11 | out=10 c=0 | Expected c=0 out=11
+# 
+#   2690.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=0 b=12 | out=11 c=0 | Expected c=0 out=12
+# 
+#   2700.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=0 b=13 | out=12 c=0 | Expected c=0 out=13
+# 
+#   2710.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=0 b=14 | out=2 c=0 | Expected c=0 out=14
+# 
+#   2720.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=0 b=15 | out=14 c=0 | Expected c=0 out=15
+# 
+#   2730.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=1 b=0 | out=9 c=1 | Expected c=0 out=1
+# 
+#   2740.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=1 b=1 | out=1 c=0 | Expected c=0 out=0
+# 
+#   2750.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=1 b=2 | out=0 c=0 | Expected c=0 out=3
+# 
+#   2760.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=1 b=3 | out=3 c=0 | Expected c=0 out=2
+# 
+#   2770.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=1 b=4 | out=0 c=0 | Expected c=0 out=5
+# 
+#   2780.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=1 b=5 | out=5 c=0 | Expected c=0 out=4
+# 
+#   2790.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=1 b=6 | out=10 c=0 | Expected c=0 out=7
+# 
+#   2800.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=1 b=7 | out=7 c=0 | Expected c=0 out=6
+# 
+#   2810.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=1 b=8 | out=6 c=0 | Expected c=0 out=9
+# 
+#   2820.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=1 b=9 | out=9 c=0 | Expected c=0 out=8
+# 
+#   2830.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=1 b=10 | out=8 c=0 | Expected c=0 out=11
+# 
+#   2840.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=1 b=11 | out=9 c=0 | Expected c=0 out=10
+# 
+#   2850.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=1 b=12 | out=10 c=0 | Expected c=0 out=13
+# 
+#   2860.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=1 b=13 | out=13 c=0 | Expected c=0 out=12
+# 
+#   2870.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=1 b=14 | out=12 c=0 | Expected c=0 out=15
+# 
+#   2880.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=1 b=15 | out=2 c=0 | Expected c=0 out=14
+# 
+#   2890.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=2 b=0 | out=14 c=0 | Expected c=0 out=2
+# 
+#   2900.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=2 b=1 | out=2 c=0 | Expected c=0 out=3
+# 
+#   2910.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=2 b=2 | out=3 c=0 | Expected c=0 out=0
+# 
+#   2920.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=2 b=3 | out=3 c=1 | Expected c=0 out=1
+# 
+#   2930.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=2 b=4 | out=8 c=1 | Expected c=0 out=6
+# 
+#   2940.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=2 b=5 | out=6 c=0 | Expected c=0 out=7
+# 
+#   2950.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=2 b=6 | out=7 c=0 | Expected c=0 out=4
+# 
+#   2960.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=2 b=7 | out=4 c=0 | Expected c=0 out=5
+# 
+#   2970.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=2 b=8 | out=5 c=0 | Expected c=0 out=10
+# 
+#   2980.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=2 b=9 | out=10 c=0 | Expected c=0 out=11
+# 
+#   2990.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=2 b=10 | out=11 c=0 | Expected c=0 out=8
+# 
+#   3000.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=2 b=11 | out=8 c=0 | Expected c=0 out=9
+# 
+#   3010.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=2 b=12 | out=9 c=0 | Expected c=0 out=14
+# 
+#   3020.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=2 b=13 | out=14 c=0 | Expected c=0 out=15
+# 
+#   3030.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=2 b=14 | out=15 c=0 | Expected c=0 out=12
+# 
+#   3040.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=2 b=15 | out=12 c=0 | Expected c=0 out=13
+# 
+#   3050.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=3 b=0 | out=4 c=1 | Expected c=0 out=3
+# 
+#   3060.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=3 b=1 | out=15 c=0 | Expected c=0 out=2
+# 
+#   3070.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=3 b=2 | out=2 c=0 | Expected c=0 out=1
+# 
+#   3080.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=3 b=3 | out=13 c=0 | Expected c=0 out=0
+# 
+#   3090.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=3 b=4 | out=0 c=0 | Expected c=0 out=7
+# 
+#   3100.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=3 b=5 | out=7 c=0 | Expected c=0 out=6
+# 
+#   3110.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=3 b=6 | out=6 c=0 | Expected c=0 out=5
+# 
+#   3120.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=3 b=7 | out=3 c=0 | Expected c=0 out=4
+# 
+#   3130.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=3 b=8 | out=4 c=0 | Expected c=0 out=11
+# 
+#   3140.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=3 b=9 | out=2 c=1 | Expected c=0 out=10
+# 
+#   3150.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=3 b=10 | out=10 c=0 | Expected c=0 out=9
+# 
+#   3160.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=3 b=11 | out=9 c=0 | Expected c=0 out=8
+# 
+#   3170.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=3 b=12 | out=3 c=0 | Expected c=0 out=15
+# 
+#   3180.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=3 b=13 | out=15 c=0 | Expected c=0 out=14
+# 
+#   3190.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=3 b=14 | out=14 c=0 | Expected c=0 out=13
+# 
+#   3200.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=3 b=15 | out=13 c=0 | Expected c=0 out=12
+# 
+#   3210.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=4 b=0 | out=12 c=0 | Expected c=0 out=4
+# 
+#   3220.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=4 b=1 | out=1 c=0 | Expected c=0 out=5
+# 
+#   3230.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=4 b=2 | out=5 c=0 | Expected c=0 out=6
+# 
+#   3240.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=4 b=3 | out=6 c=0 | Expected c=0 out=7
+# 
+#   3250.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=4 b=4 | out=2 c=1 | Expected c=0 out=0
+# 
+#   3260.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=4 b=5 | out=14 c=0 | Expected c=0 out=1
+# 
+#   3270.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=4 b=6 | out=1 c=0 | Expected c=0 out=2
+# 
+#   3280.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=4 b=7 | out=2 c=0 | Expected c=0 out=3
+# 
+#   3290.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=4 b=8 | out=9 c=1 | Expected c=0 out=12
+# 
+#   3300.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=4 b=9 | out=12 c=0 | Expected c=0 out=13
+# 
+#   3310.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=4 b=10 | out=13 c=0 | Expected c=0 out=14
+# 
+#   3320.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=4 b=11 | out=13 c=1 | Expected c=0 out=15
+# 
+#   3330.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=4 b=12 | out=15 c=0 | Expected c=0 out=8
+# 
+#   3340.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=4 b=13 | out=8 c=0 | Expected c=0 out=9
+# 
+#   3350.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=4 b=14 | out=9 c=0 | Expected c=0 out=10
+# 
+#   3360.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=4 b=15 | out=10 c=0 | Expected c=0 out=11
+# 
+#   3370.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=5 b=0 | out=11 c=0 | Expected c=0 out=5
+# 
+#   3380.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=5 b=1 | out=5 c=0 | Expected c=0 out=4
+# 
+#   3390.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=5 b=2 | out=4 c=0 | Expected c=0 out=7
+# 
+#   3400.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=5 b=3 | out=7 c=0 | Expected c=0 out=6
+# 
+#   3410.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=5 b=4 | out=10 c=0 | Expected c=0 out=1
+# 
+#   3420.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=5 b=5 | out=1 c=0 | Expected c=0 out=0
+# 
+#   3430.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=5 b=6 | out=0 c=0 | Expected c=0 out=3
+# 
+#   3440.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=5 b=7 | out=3 c=0 | Expected c=0 out=2
+# 
+#   3450.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=5 b=8 | out=2 c=0 | Expected c=0 out=13
+# 
+#   3460.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=5 b=9 | out=2 c=1 | Expected c=0 out=12
+# 
+#   3470.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=5 b=10 | out=12 c=0 | Expected c=0 out=15
+# 
+#   3480.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=5 b=11 | out=8 c=1 | Expected c=0 out=14
+# 
+#   3490.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=5 b=12 | out=14 c=0 | Expected c=0 out=9
+# 
+#   3500.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=5 b=13 | out=6 c=1 | Expected c=0 out=8
+# 
+#   3510.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=5 b=14 | out=10 c=1 | Expected c=0 out=11
+# 
+#   3520.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=5 b=15 | out=13 c=1 | Expected c=0 out=10
+# 
+#   3530.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=6 b=0 | out=2 c=1 | Expected c=0 out=6
+# 
+#   3540.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=6 b=1 | out=6 c=0 | Expected c=0 out=7
+# 
+#   3550.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=6 b=2 | out=0 c=0 | Expected c=0 out=4
+# 
+#   3560.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=6 b=3 | out=4 c=0 | Expected c=0 out=5
+# 
+#   3570.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=6 b=4 | out=12 c=0 | Expected c=0 out=2
+# 
+#   3580.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=6 b=5 | out=2 c=0 | Expected c=0 out=3
+# 
+#   3590.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=6 b=6 | out=3 c=0 | Expected c=0 out=0
+# 
+#   3600.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=6 b=7 | out=12 c=1 | Expected c=0 out=1
+# 
+#   3610.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=6 b=8 | out=11 c=0 | Expected c=0 out=14
+# 
+#   3620.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=6 b=9 | out=14 c=0 | Expected c=0 out=15
+# 
+#   3630.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=6 b=10 | out=15 c=0 | Expected c=0 out=12
+# 
+#   3640.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=6 b=11 | out=12 c=0 | Expected c=0 out=13
+# 
+#   3650.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=6 b=12 | out=13 c=0 | Expected c=0 out=10
+# 
+#   3660.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=6 b=13 | out=10 c=0 | Expected c=0 out=11
+# 
+#   3670.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=6 b=14 | out=11 c=0 | Expected c=0 out=8
+# 
+#   3680.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=6 b=15 | out=8 c=0 | Expected c=0 out=9
+# 
+#   3690.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=7 b=0 | out=0 c=0 | Expected c=0 out=7
+# 
+#   3700.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=7 b=1 | out=14 c=0 | Expected c=0 out=6
+# 
+#   3710.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=7 b=2 | out=6 c=0 | Expected c=0 out=5
+# 
+#   3720.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=7 b=3 | out=5 c=0 | Expected c=0 out=4
+# 
+#   3730.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=7 b=4 | out=4 c=0 | Expected c=0 out=3
+# 
+#   3740.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=7 b=5 | out=3 c=0 | Expected c=0 out=2
+# 
+#   3750.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=7 b=6 | out=2 c=0 | Expected c=0 out=1
+# 
+#   3760.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=7 b=7 | out=1 c=0 | Expected c=0 out=0
+# 
+#   3770.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=7 b=8 | out=0 c=0 | Expected c=0 out=15
+# 
+#   3780.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=7 b=9 | out=15 c=0 | Expected c=0 out=14
+# 
+#   3790.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=7 b=10 | out=14 c=0 | Expected c=0 out=13
+# 
+#   3800.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=7 b=11 | out=13 c=0 | Expected c=0 out=12
+# 
+#   3810.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=7 b=12 | out=7 c=0 | Expected c=0 out=11
+# 
+#   3820.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=7 b=13 | out=8 c=1 | Expected c=0 out=10
+# 
+#   3830.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=7 b=14 | out=10 c=0 | Expected c=0 out=9
+# 
+#   3840.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=7 b=15 | out=0 c=1 | Expected c=0 out=8
+# 
+#   3860.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=8 b=1 | out=8 c=0 | Expected c=0 out=9
+# 
+#   3870.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=8 b=2 | out=9 c=0 | Expected c=0 out=10
+# 
+#   3880.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=8 b=3 | out=10 c=0 | Expected c=0 out=11
+# 
+#   3890.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=8 b=4 | out=11 c=0 | Expected c=0 out=12
+# 
+#   3900.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=8 b=5 | out=12 c=0 | Expected c=0 out=13
+# 
+#   3910.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=8 b=6 | out=13 c=0 | Expected c=0 out=14
+# 
+#   3920.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=8 b=7 | out=14 c=0 | Expected c=0 out=15
+# 
+#   3930.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=8 b=8 | out=15 c=0 | Expected c=0 out=0
+# 
+#   3940.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=8 b=9 | out=0 c=0 | Expected c=0 out=1
+# 
+#   3950.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=8 b=10 | out=1 c=0 | Expected c=0 out=2
+# 
+#   3960.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=8 b=11 | out=10 c=1 | Expected c=0 out=3
+# 
+#   3970.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=8 b=12 | out=3 c=0 | Expected c=0 out=4
+# 
+#   3980.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=8 b=13 | out=4 c=0 | Expected c=0 out=5
+# 
+#   3990.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=8 b=14 | out=5 c=0 | Expected c=0 out=6
+# 
+#   4000.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=8 b=15 | out=6 c=0 | Expected c=0 out=7
+# 
+#   4010.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=9 b=0 | out=6 c=0 | Expected c=0 out=9
+# 
+#   4020.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=9 b=1 | out=4 c=0 | Expected c=0 out=8
+# 
+#   4030.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=9 b=2 | out=2 c=1 | Expected c=0 out=11
+# 
+#   4040.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=9 b=3 | out=4 c=1 | Expected c=0 out=10
+# 
+#   4050.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=9 b=4 | out=10 c=0 | Expected c=0 out=13
+# 
+#   4060.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=9 b=5 | out=3 c=1 | Expected c=0 out=12
+# 
+#   4070.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=9 b=6 | out=12 c=0 | Expected c=0 out=15
+# 
+#   4080.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=9 b=7 | out=15 c=0 | Expected c=0 out=14
+# 
+#   4090.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=9 b=8 | out=14 c=0 | Expected c=0 out=1
+# 
+#   4100.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=9 b=9 | out=10 c=1 | Expected c=0 out=0
+# 
+#   4110.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=9 b=10 | out=0 c=0 | Expected c=0 out=3
+# 
+#   4120.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=9 b=11 | out=3 c=0 | Expected c=0 out=2
+# 
+#   4130.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=9 b=12 | out=6 c=0 | Expected c=0 out=5
+# 
+#   4140.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=9 b=13 | out=5 c=0 | Expected c=0 out=4
+# 
+#   4150.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=9 b=14 | out=9 c=0 | Expected c=0 out=7
+# 
+#   4160.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=9 b=15 | out=15 c=1 | Expected c=0 out=6
+# 
+#   4170.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=10 b=0 | out=6 c=0 | Expected c=0 out=10
+# 
+#   4180.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=10 b=1 | out=10 c=0 | Expected c=0 out=11
+# 
+#   4190.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=10 b=2 | out=12 c=0 | Expected c=0 out=8
+# 
+#   4200.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=10 b=3 | out=14 c=1 | Expected c=0 out=9
+# 
+#   4210.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=10 b=4 | out=9 c=0 | Expected c=0 out=14
+# 
+#   4220.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=10 b=5 | out=14 c=0 | Expected c=0 out=15
+# 
+#   4230.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=10 b=6 | out=15 c=0 | Expected c=0 out=12
+# 
+#   4240.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=10 b=7 | out=12 c=0 | Expected c=0 out=13
+# 
+#   4250.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=10 b=8 | out=13 c=0 | Expected c=0 out=2
+# 
+#   4260.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=10 b=9 | out=2 c=0 | Expected c=0 out=3
+# 
+#   4270.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=10 b=10 | out=3 c=0 | Expected c=0 out=0
+# 
+#   4280.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=10 b=11 | out=0 c=0 | Expected c=0 out=1
+# 
+#   4290.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=10 b=12 | out=1 c=0 | Expected c=0 out=6
+# 
+#   4300.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=10 b=13 | out=1 c=1 | Expected c=0 out=7
+# 
+#   4310.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=10 b=14 | out=7 c=0 | Expected c=0 out=4
+# 
+#   4320.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=10 b=15 | out=6 c=1 | Expected c=0 out=5
+# 
+#   4330.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=11 b=0 | out=5 c=0 | Expected c=0 out=11
+# 
+#   4340.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=11 b=1 | out=11 c=0 | Expected c=0 out=10
+# 
+#   4350.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=11 b=2 | out=8 c=1 | Expected c=0 out=9
+# 
+#   4360.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=11 b=3 | out=4 c=0 | Expected c=0 out=8
+# 
+#   4370.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=11 b=4 | out=8 c=0 | Expected c=0 out=15
+# 
+#   4380.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=11 b=5 | out=6 c=0 | Expected c=0 out=14
+# 
+#   4390.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=11 b=6 | out=4 c=1 | Expected c=0 out=13
+# 
+#   4400.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=11 b=7 | out=6 c=0 | Expected c=0 out=12
+# 
+#   4410.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=11 b=8 | out=10 c=1 | Expected c=0 out=3
+# 
+#   4420.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=11 b=9 | out=3 c=0 | Expected c=0 out=2
+# 
+#   4430.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=11 b=10 | out=8 c=1 | Expected c=0 out=1
+# 
+#   4440.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=11 b=11 | out=1 c=0 | Expected c=0 out=0
+# 
+#   4450.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=11 b=12 | out=0 c=0 | Expected c=0 out=7
+# 
+#   4460.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=11 b=13 | out=8 c=0 | Expected c=0 out=6
+# 
+#   4470.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=11 b=14 | out=6 c=0 | Expected c=0 out=5
+# 
+#   4480.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=11 b=15 | out=5 c=0 | Expected c=0 out=4
+# 
+#   4490.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=12 b=0 | out=4 c=0 | Expected c=0 out=12
+# 
+#   4500.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=12 b=1 | out=12 c=0 | Expected c=0 out=13
+# 
+#   4510.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=12 b=2 | out=9 c=0 | Expected c=0 out=14
+# 
+#   4520.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=12 b=3 | out=14 c=0 | Expected c=0 out=15
+# 
+#   4530.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=12 b=4 | out=15 c=0 | Expected c=0 out=8
+# 
+#   4540.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=12 b=5 | out=8 c=0 | Expected c=0 out=9
+# 
+#   4550.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=12 b=6 | out=9 c=0 | Expected c=0 out=10
+# 
+#   4560.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=12 b=7 | out=14 c=1 | Expected c=0 out=11
+# 
+#   4570.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=12 b=8 | out=11 c=0 | Expected c=0 out=4
+# 
+#   4580.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=12 b=9 | out=4 c=0 | Expected c=0 out=5
+# 
+#   4590.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=12 b=10 | out=10 c=0 | Expected c=0 out=6
+# 
+#   4600.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=12 b=11 | out=10 c=0 | Expected c=0 out=7
+# 
+#   4610.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=12 b=12 | out=7 c=0 | Expected c=0 out=0
+# 
+#   4620.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=12 b=13 | out=0 c=0 | Expected c=0 out=1
+# 
+#   4630.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=12 b=14 | out=1 c=0 | Expected c=0 out=2
+# 
+#   4640.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=12 b=15 | out=2 c=0 | Expected c=0 out=3
+# 
+#   4650.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=13 b=0 | out=3 c=0 | Expected c=0 out=13
+# 
+#   4660.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=13 b=1 | out=13 c=0 | Expected c=0 out=12
+# 
+#   4670.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=13 b=2 | out=2 c=0 | Expected c=0 out=15
+# 
+#   4680.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=13 b=3 | out=15 c=0 | Expected c=0 out=14
+# 
+#   4690.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=13 b=4 | out=14 c=0 | Expected c=0 out=9
+# 
+#   4700.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=13 b=5 | out=9 c=0 | Expected c=0 out=8
+# 
+#   4710.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=13 b=6 | out=8 c=0 | Expected c=0 out=11
+# 
+#   4720.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=13 b=7 | out=15 c=1 | Expected c=0 out=10
+# 
+#   4730.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=13 b=8 | out=10 c=0 | Expected c=0 out=5
+# 
+#   4740.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=13 b=9 | out=5 c=0 | Expected c=0 out=4
+# 
+#   4750.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=13 b=10 | out=12 c=1 | Expected c=0 out=7
+# 
+#   4760.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=13 b=11 | out=7 c=0 | Expected c=0 out=6
+# 
+#   4770.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=13 b=12 | out=6 c=0 | Expected c=0 out=1
+# 
+#   4780.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=13 b=13 | out=1 c=0 | Expected c=0 out=0
+# 
+#   4790.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=13 b=14 | out=10 c=0 | Expected c=0 out=3
+# 
+#   4800.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=13 b=15 | out=3 c=0 | Expected c=0 out=2
+# 
+#   4810.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=14 b=0 | out=14 c=1 | Expected c=0 out=14
+# 
+#   4820.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=14 b=1 | out=14 c=0 | Expected c=0 out=15
+# 
+#   4830.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=14 b=2 | out=15 c=0 | Expected c=0 out=12
+# 
+#   4840.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=14 b=3 | out=12 c=0 | Expected c=0 out=13
+# 
+#   4850.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=14 b=4 | out=13 c=0 | Expected c=0 out=10
+# 
+#   4860.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=14 b=5 | out=10 c=0 | Expected c=0 out=11
+# 
+#   4870.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=14 b=6 | out=11 c=0 | Expected c=0 out=8
+# 
+#   4880.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=14 b=7 | out=14 c=0 | Expected c=0 out=9
+# 
+#   4890.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=14 b=8 | out=9 c=0 | Expected c=0 out=6
+# 
+#   4900.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=14 b=9 | out=6 c=0 | Expected c=0 out=7
+# 
+#   4910.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=14 b=10 | out=7 c=0 | Expected c=0 out=4
+# 
+#   4920.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=14 b=11 | out=2 c=1 | Expected c=0 out=5
+# 
+#   4930.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=14 b=12 | out=5 c=0 | Expected c=0 out=2
+# 
+#   4940.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=14 b=13 | out=2 c=0 | Expected c=0 out=3
+# 
+#   4950.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=14 b=14 | out=3 c=0 | Expected c=0 out=0
+# 
+#   4960.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=14 b=15 | out=0 c=0 | Expected c=0 out=1
+# 
+#   4970.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=15 b=0 | out=1 c=0 | Expected c=0 out=15
+# 
+#   4980.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=15 b=1 | out=15 c=0 | Expected c=0 out=14
+# 
+#   4990.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=15 b=2 | out=14 c=0 | Expected c=0 out=13
+# 
+#   5000.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=15 b=3 | out=13 c=0 | Expected c=0 out=12
+# 
+#   5010.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=15 b=4 | out=15 c=1 | Expected c=0 out=11
+# 
+#   5020.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=15 b=5 | out=2 c=0 | Expected c=0 out=10
+# 
+#   5030.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=15 b=6 | out=10 c=0 | Expected c=0 out=9
+# 
+#   5040.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=15 b=7 | out=9 c=0 | Expected c=0 out=8
+# 
+#   5050.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=15 b=8 | out=8 c=0 | Expected c=0 out=7
+# 
+#   5060.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=15 b=9 | out=2 c=1 | Expected c=0 out=6
+# 
+#   5070.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=15 b=10 | out=6 c=0 | Expected c=0 out=5
+# 
+#   5080.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=15 b=11 | out=13 c=0 | Expected c=0 out=4
+# 
+#   5090.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=15 b=12 | out=4 c=0 | Expected c=0 out=3
+# 
+#   5100.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=15 b=13 | out=2 c=1 | Expected c=0 out=2
+# 
+#   5110.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=15 b=14 | out=11 c=1 | Expected c=0 out=1
+# 
+#   5120.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: XOR a=15 b=15 | out=11 c=1 | Expected c=0 out=0
+# 
+#   5145.00ns INFO     ..on_task_V7.0\src\ALU_test.py(98) [uvm_test_top]: ===== AND =====
+# 
+#   5180.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=0 b=4 | out=1 c=1 | Expected c=0 out=0
+# 
+#   5250.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=0 b=11 | out=4 c=1 | Expected c=0 out=0
+# 
+#   5280.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=0 b=14 | out=3 c=1 | Expected c=0 out=0
+# 
+#   5300.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=1 b=0 | out=14 c=0 | Expected c=0 out=0
+# 
+#   5310.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=1 b=1 | out=0 c=0 | Expected c=0 out=1
+# 
+#   5320.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=1 b=2 | out=1 c=0 | Expected c=0 out=0
+# 
+#   5330.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=1 b=3 | out=4 c=0 | Expected c=0 out=1
+# 
+#   5340.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=1 b=4 | out=1 c=0 | Expected c=0 out=0
+# 
+#   5350.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=1 b=5 | out=0 c=0 | Expected c=0 out=1
+# 
+#   5360.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=1 b=6 | out=1 c=0 | Expected c=0 out=0
+# 
+#   5370.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=1 b=7 | out=0 c=0 | Expected c=0 out=1
+# 
+#   5380.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=1 b=8 | out=1 c=0 | Expected c=0 out=0
+# 
+#   5390.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=1 b=9 | out=15 c=1 | Expected c=0 out=1
+# 
+#   5400.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=1 b=10 | out=1 c=0 | Expected c=0 out=0
+# 
+#   5410.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=1 b=11 | out=0 c=0 | Expected c=0 out=1
+# 
+#   5420.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=1 b=12 | out=6 c=0 | Expected c=0 out=0
+# 
+#   5430.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=1 b=13 | out=1 c=1 | Expected c=0 out=1
+# 
+#   5440.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=1 b=14 | out=1 c=0 | Expected c=0 out=0
+# 
+#   5450.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=1 b=15 | out=0 c=0 | Expected c=0 out=1
+# 
+#   5460.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=2 b=0 | out=9 c=1 | Expected c=0 out=0
+# 
+#   5470.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=2 b=1 | out=15 c=1 | Expected c=0 out=0
+# 
+#   5480.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=2 b=2 | out=0 c=0 | Expected c=0 out=2
+# 
+#   5490.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=2 b=3 | out=14 c=1 | Expected c=0 out=2
+# 
+#   5500.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=2 b=4 | out=2 c=0 | Expected c=0 out=0
+# 
+#   5510.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=2 b=5 | out=0 c=1 | Expected c=0 out=0
+# 
+#   5520.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=2 b=6 | out=0 c=0 | Expected c=0 out=2
+# 
+#   5530.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=2 b=7 | out=1 c=1 | Expected c=0 out=2
+# 
+#   5540.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=2 b=8 | out=2 c=0 | Expected c=0 out=0
+# 
+#   5560.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=2 b=10 | out=0 c=0 | Expected c=0 out=2
+# 
+#   5580.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=2 b=12 | out=5 c=0 | Expected c=0 out=0
+# 
+#   5600.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=2 b=14 | out=0 c=0 | Expected c=0 out=2
+# 
+#   5610.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=2 b=15 | out=13 c=1 | Expected c=0 out=2
+# 
+#   5620.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=3 b=0 | out=2 c=0 | Expected c=0 out=0
+# 
+#   5630.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=3 b=1 | out=14 c=0 | Expected c=0 out=1
+# 
+#   5640.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=3 b=2 | out=1 c=0 | Expected c=0 out=2
+# 
+#   5650.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=3 b=3 | out=2 c=0 | Expected c=0 out=3
+# 
+#   5660.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=3 b=4 | out=2 c=0 | Expected c=0 out=0
+# 
+#   5670.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=3 b=5 | out=0 c=0 | Expected c=0 out=1
+# 
+#   5680.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=3 b=6 | out=1 c=0 | Expected c=0 out=2
+# 
+#   5690.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=3 b=7 | out=2 c=0 | Expected c=0 out=3
+# 
+#   5700.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=3 b=8 | out=3 c=0 | Expected c=0 out=0
+# 
+#   5710.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=3 b=9 | out=0 c=0 | Expected c=0 out=1
+# 
+#   5720.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=3 b=10 | out=1 c=0 | Expected c=0 out=2
+# 
+#   5730.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=3 b=11 | out=2 c=0 | Expected c=0 out=3
+# 
+#   5740.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=3 b=12 | out=3 c=0 | Expected c=0 out=0
+# 
+#   5750.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=3 b=13 | out=0 c=0 | Expected c=0 out=1
+# 
+#   5760.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=3 b=14 | out=1 c=0 | Expected c=0 out=2
+# 
+#   5770.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=3 b=15 | out=2 c=0 | Expected c=0 out=3
+# 
+#   5780.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=4 b=0 | out=3 c=0 | Expected c=0 out=0
+# 
+#   5810.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=4 b=3 | out=4 c=0 | Expected c=0 out=0
+# 
+#   5820.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=4 b=4 | out=0 c=0 | Expected c=0 out=4
+# 
+#   5860.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=4 b=8 | out=9 c=1 | Expected c=0 out=0
+# 
+#   5870.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=4 b=9 | out=5 c=0 | Expected c=0 out=0
+# 
+#   5880.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=4 b=10 | out=12 c=0 | Expected c=0 out=0
+# 
+#   5900.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=4 b=12 | out=0 c=0 | Expected c=0 out=4
+# 
+#   5940.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=5 b=0 | out=4 c=0 | Expected c=0 out=0
+# 
+#   5950.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=5 b=1 | out=0 c=0 | Expected c=0 out=1
+# 
+#   5960.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=5 b=2 | out=1 c=0 | Expected c=0 out=0
+# 
+#   5970.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=5 b=3 | out=0 c=0 | Expected c=0 out=1
+# 
+#   5980.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=5 b=4 | out=1 c=0 | Expected c=0 out=4
+# 
+#   5990.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=5 b=5 | out=12 c=1 | Expected c=0 out=5
+# 
+#   6000.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=5 b=6 | out=5 c=0 | Expected c=0 out=4
+# 
+#   6010.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=5 b=7 | out=4 c=0 | Expected c=0 out=5
+# 
+#   6020.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=5 b=8 | out=3 c=1 | Expected c=0 out=0
+# 
+#   6030.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=5 b=9 | out=8 c=1 | Expected c=0 out=1
+# 
+#   6040.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=5 b=10 | out=1 c=0 | Expected c=0 out=0
+# 
+#   6050.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=5 b=11 | out=0 c=0 | Expected c=0 out=1
+# 
+#   6060.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=5 b=12 | out=1 c=0 | Expected c=0 out=4
+# 
+#   6070.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=5 b=13 | out=4 c=0 | Expected c=0 out=5
+# 
+#   6080.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=5 b=14 | out=5 c=0 | Expected c=0 out=4
+# 
+#   6090.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=5 b=15 | out=4 c=0 | Expected c=0 out=5
+# 
+#   6100.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=6 b=0 | out=5 c=0 | Expected c=0 out=0
+# 
+#   6110.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=6 b=1 | out=9 c=1 | Expected c=0 out=0
+# 
+#   6120.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=6 b=2 | out=7 c=1 | Expected c=0 out=2
+# 
+#   6140.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=6 b=4 | out=2 c=0 | Expected c=0 out=4
+# 
+#   6160.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=6 b=6 | out=11 c=0 | Expected c=0 out=6
+# 
+#   6180.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=6 b=8 | out=6 c=0 | Expected c=0 out=0
+# 
+#   6190.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=6 b=9 | out=3 c=1 | Expected c=0 out=0
+# 
+#   6200.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=6 b=10 | out=0 c=0 | Expected c=0 out=2
+# 
+#   6220.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=6 b=12 | out=3 c=0 | Expected c=0 out=4
+# 
+#   6240.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=6 b=14 | out=4 c=0 | Expected c=0 out=6
+# 
+#   6250.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=6 b=15 | out=2 c=0 | Expected c=0 out=6
+# 
+#   6260.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=7 b=0 | out=6 c=0 | Expected c=0 out=0
+# 
+#   6270.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=7 b=1 | out=0 c=0 | Expected c=0 out=1
+# 
+#   6280.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=7 b=2 | out=11 c=0 | Expected c=0 out=2
+# 
+#   6300.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=7 b=4 | out=3 c=0 | Expected c=0 out=4
+# 
+#   6310.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=7 b=5 | out=2 c=1 | Expected c=0 out=5
+# 
+#   6320.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=7 b=6 | out=10 c=1 | Expected c=0 out=6
+# 
+#   6330.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=7 b=7 | out=6 c=0 | Expected c=0 out=7
+# 
+#   6340.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=7 b=8 | out=7 c=0 | Expected c=0 out=0
+# 
+#   6350.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=7 b=9 | out=0 c=0 | Expected c=0 out=1
+# 
+#   6360.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=7 b=10 | out=1 c=0 | Expected c=0 out=2
+# 
+#   6370.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=7 b=11 | out=2 c=0 | Expected c=0 out=3
+# 
+#   6380.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=7 b=12 | out=3 c=0 | Expected c=0 out=4
+# 
+#   6390.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=7 b=13 | out=4 c=0 | Expected c=0 out=5
+# 
+#   6400.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=7 b=14 | out=14 c=1 | Expected c=0 out=6
+# 
+#   6410.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=7 b=15 | out=6 c=0 | Expected c=0 out=7
+# 
+#   6420.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=8 b=0 | out=7 c=0 | Expected c=0 out=0
+# 
+#   6430.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=8 b=1 | out=10 c=1 | Expected c=0 out=0
+# 
+#   6450.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=8 b=3 | out=5 c=0 | Expected c=0 out=0
+# 
+#   6500.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=8 b=8 | out=0 c=0 | Expected c=0 out=8
+# 
+#   6580.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=9 b=0 | out=8 c=0 | Expected c=0 out=0
+# 
+#   6590.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=9 b=1 | out=0 c=0 | Expected c=0 out=1
+# 
+#   6600.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=9 b=2 | out=1 c=0 | Expected c=0 out=0
+# 
+#   6610.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=9 b=3 | out=0 c=0 | Expected c=0 out=1
+# 
+#   6620.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=9 b=4 | out=1 c=0 | Expected c=0 out=0
+# 
+#   6630.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=9 b=5 | out=7 c=0 | Expected c=0 out=1
+# 
+#   6640.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=9 b=6 | out=2 c=1 | Expected c=0 out=0
+# 
+#   6650.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=9 b=7 | out=0 c=0 | Expected c=0 out=1
+# 
+#   6660.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=9 b=8 | out=1 c=0 | Expected c=0 out=8
+# 
+#   6670.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=9 b=9 | out=8 c=0 | Expected c=0 out=9
+# 
+#   6680.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=9 b=10 | out=9 c=0 | Expected c=0 out=8
+# 
+#   6690.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=9 b=11 | out=8 c=0 | Expected c=0 out=9
+# 
+#   6700.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=9 b=12 | out=9 c=0 | Expected c=0 out=8
+# 
+#   6710.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=9 b=13 | out=8 c=0 | Expected c=0 out=9
+# 
+#   6720.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=9 b=14 | out=10 c=0 | Expected c=0 out=8
+# 
+#   6730.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=9 b=15 | out=8 c=0 | Expected c=0 out=9
+# 
+#   6740.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=10 b=0 | out=9 c=0 | Expected c=0 out=0
+# 
+#   6760.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=10 b=2 | out=5 c=0 | Expected c=0 out=2
+# 
+#   6770.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=10 b=3 | out=2 c=1 | Expected c=0 out=2
+# 
+#   6780.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=10 b=4 | out=15 c=1 | Expected c=0 out=0
+# 
+#   6790.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=10 b=5 | out=2 c=0 | Expected c=0 out=0
+# 
+#   6800.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=10 b=6 | out=0 c=0 | Expected c=0 out=2
+# 
+#   6820.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=10 b=8 | out=2 c=0 | Expected c=0 out=8
+# 
+#   6840.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=10 b=10 | out=8 c=0 | Expected c=0 out=10
+# 
+#   6860.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=10 b=12 | out=10 c=0 | Expected c=0 out=8
+# 
+#   6870.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=10 b=13 | out=9 c=0 | Expected c=0 out=8
+# 
+#   6880.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=10 b=14 | out=8 c=0 | Expected c=0 out=10
+# 
+#   6890.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=10 b=15 | out=13 c=0 | Expected c=0 out=10
+# 
+#   6900.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=11 b=0 | out=6 c=0 | Expected c=0 out=0
+# 
+#   6910.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=11 b=1 | out=8 c=0 | Expected c=0 out=1
+# 
+#   6920.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=11 b=2 | out=3 c=1 | Expected c=0 out=2
+# 
+#   6930.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=11 b=3 | out=2 c=0 | Expected c=0 out=3
+# 
+#   6940.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=11 b=4 | out=3 c=0 | Expected c=0 out=0
+# 
+#   6950.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=11 b=5 | out=0 c=0 | Expected c=0 out=1
+# 
+#   6960.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=11 b=6 | out=1 c=0 | Expected c=0 out=2
+# 
+#   6970.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=11 b=7 | out=6 c=0 | Expected c=0 out=3
+# 
+#   6980.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=11 b=8 | out=3 c=0 | Expected c=0 out=8
+# 
+#   6990.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=11 b=9 | out=8 c=0 | Expected c=0 out=9
+# 
+#   7000.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=11 b=10 | out=13 c=1 | Expected c=0 out=10
+# 
+#   7010.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=11 b=11 | out=0 c=0 | Expected c=0 out=11
+# 
+#   7020.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=11 b=12 | out=11 c=0 | Expected c=0 out=8
+# 
+#   7030.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=11 b=13 | out=4 c=0 | Expected c=0 out=9
+# 
+#   7040.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=11 b=14 | out=9 c=0 | Expected c=0 out=10
+# 
+#   7050.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=11 b=15 | out=10 c=0 | Expected c=0 out=11
+# 
+#   7060.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=12 b=0 | out=1 c=0 | Expected c=0 out=0
+# 
+#   7070.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=12 b=1 | out=13 c=0 | Expected c=0 out=0
+# 
+#   7080.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=12 b=2 | out=3 c=1 | Expected c=0 out=0
+# 
+#   7100.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=12 b=4 | out=0 c=0 | Expected c=0 out=4
+# 
+#   7110.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=12 b=5 | out=8 c=1 | Expected c=0 out=4
+# 
+#   7140.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=12 b=8 | out=4 c=0 | Expected c=0 out=8
+# 
+#   7180.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=12 b=12 | out=8 c=0 | Expected c=0 out=12
+# 
+#   7220.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=13 b=0 | out=12 c=1 | Expected c=0 out=0
+# 
+#   7230.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=13 b=1 | out=0 c=0 | Expected c=0 out=1
+# 
+#   7240.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=13 b=2 | out=1 c=0 | Expected c=0 out=0
+# 
+#   7250.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=13 b=3 | out=1 c=1 | Expected c=0 out=1
+# 
+#   7260.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=13 b=4 | out=3 c=0 | Expected c=0 out=4
+# 
+#   7270.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=13 b=5 | out=4 c=0 | Expected c=0 out=5
+# 
+#   7280.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=13 b=6 | out=13 c=1 | Expected c=0 out=4
+# 
+#   7290.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=13 b=7 | out=11 c=0 | Expected c=0 out=5
+# 
+#   7300.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=13 b=8 | out=2 c=0 | Expected c=0 out=8
+# 
+#   7310.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=13 b=9 | out=8 c=0 | Expected c=0 out=9
+# 
+#   7320.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=13 b=10 | out=9 c=0 | Expected c=0 out=8
+# 
+#   7340.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=13 b=12 | out=9 c=0 | Expected c=0 out=12
+# 
+#   7350.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=13 b=13 | out=12 c=0 | Expected c=0 out=13
+# 
+#   7360.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=13 b=14 | out=13 c=0 | Expected c=0 out=12
+# 
+#   7370.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=13 b=15 | out=12 c=0 | Expected c=0 out=13
+# 
+#   7380.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=14 b=0 | out=13 c=0 | Expected c=0 out=0
+# 
+#   7390.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=14 b=1 | out=13 c=0 | Expected c=0 out=0
+# 
+#   7400.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=14 b=2 | out=2 c=1 | Expected c=0 out=2
+# 
+#   7410.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=14 b=3 | out=6 c=0 | Expected c=0 out=2
+# 
+#   7420.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=14 b=4 | out=2 c=0 | Expected c=0 out=4
+# 
+#   7440.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=14 b=6 | out=4 c=0 | Expected c=0 out=6
+# 
+#   7460.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=14 b=8 | out=6 c=0 | Expected c=0 out=8
+# 
+#   7480.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=14 b=10 | out=8 c=0 | Expected c=0 out=10
+# 
+#   7500.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=14 b=12 | out=13 c=1 | Expected c=0 out=12
+# 
+#   7520.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=14 b=14 | out=9 c=1 | Expected c=0 out=14
+# 
+#   7530.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=14 b=15 | out=0 c=0 | Expected c=0 out=14
+# 
+#   7540.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=15 b=0 | out=14 c=0 | Expected c=0 out=0
+# 
+#   7550.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=15 b=1 | out=9 c=1 | Expected c=0 out=1
+# 
+#   7560.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=15 b=2 | out=1 c=0 | Expected c=0 out=2
+# 
+#   7570.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=15 b=3 | out=2 c=0 | Expected c=0 out=3
+# 
+#   7580.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=15 b=4 | out=1 c=1 | Expected c=0 out=4
+# 
+#   7590.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=15 b=5 | out=11 c=1 | Expected c=0 out=5
+# 
+#   7600.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=15 b=6 | out=14 c=1 | Expected c=0 out=6
+# 
+#   7610.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=15 b=7 | out=6 c=0 | Expected c=0 out=7
+# 
+#   7620.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=15 b=8 | out=7 c=0 | Expected c=0 out=8
+# 
+#   7630.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=15 b=9 | out=8 c=0 | Expected c=0 out=9
+# 
+#   7640.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=15 b=10 | out=9 c=0 | Expected c=0 out=10
+# 
+#   7650.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=15 b=11 | out=0 c=1 | Expected c=0 out=11
+# 
+#   7660.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=15 b=12 | out=11 c=0 | Expected c=0 out=12
+# 
+#   7670.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=15 b=13 | out=7 c=1 | Expected c=0 out=13
+# 
+#   7680.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=15 b=14 | out=9 c=1 | Expected c=0 out=14
+# 
+#   7690.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: AND a=15 b=15 | out=14 c=0 | Expected c=0 out=15
+# 
+#   7715.00ns INFO     ..on_task_V7.0\src\ALU_test.py(98) [uvm_test_top]: ===== OR =====
+# 
+#   7720.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=0 b=1 | out=15 c=0 | Expected c=0 out=1
+# 
+#   7730.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=0 b=2 | out=6 c=0 | Expected c=0 out=2
+# 
+#   7740.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=0 b=3 | out=2 c=0 | Expected c=0 out=3
+# 
+#   7750.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=0 b=4 | out=3 c=0 | Expected c=0 out=4
+# 
+#   7760.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=0 b=5 | out=8 c=0 | Expected c=0 out=5
+# 
+#   7770.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=0 b=6 | out=7 c=0 | Expected c=0 out=6
+# 
+#   7780.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=0 b=7 | out=6 c=0 | Expected c=0 out=7
+# 
+#   7790.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=0 b=8 | out=8 c=1 | Expected c=0 out=8
+# 
+#   7800.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=0 b=9 | out=8 c=0 | Expected c=0 out=9
+# 
+#   7810.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=0 b=10 | out=9 c=0 | Expected c=0 out=10
+# 
+#   7820.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=0 b=11 | out=10 c=0 | Expected c=0 out=11
+# 
+#   7830.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=0 b=12 | out=11 c=0 | Expected c=0 out=12
+# 
+#   7840.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=0 b=13 | out=8 c=1 | Expected c=0 out=13
+# 
+#   7850.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=0 b=14 | out=13 c=0 | Expected c=0 out=14
+# 
+#   7860.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=0 b=15 | out=6 c=0 | Expected c=0 out=15
+# 
+#   7870.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=1 b=0 | out=15 c=0 | Expected c=0 out=1
+# 
+#   7890.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=1 b=2 | out=10 c=1 | Expected c=0 out=3
+# 
+#   7900.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=1 b=3 | out=5 c=1 | Expected c=0 out=3
+# 
+#   7910.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=1 b=4 | out=3 c=0 | Expected c=0 out=5
+# 
+#   7920.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=1 b=5 | out=10 c=0 | Expected c=0 out=5
+# 
+#   7930.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=1 b=6 | out=5 c=0 | Expected c=0 out=7
+# 
+#   7950.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=1 b=8 | out=7 c=0 | Expected c=0 out=9
+# 
+#   7960.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=1 b=9 | out=0 c=0 | Expected c=0 out=9
+# 
+#   7970.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=1 b=10 | out=5 c=0 | Expected c=0 out=11
+# 
+#   7990.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=1 b=12 | out=11 c=0 | Expected c=0 out=13
+# 
+#   8000.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=1 b=13 | out=9 c=1 | Expected c=0 out=13
+# 
+#   8010.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=1 b=14 | out=0 c=1 | Expected c=0 out=15
+# 
+#   8030.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=2 b=0 | out=12 c=1 | Expected c=0 out=2
+# 
+#   8040.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=2 b=1 | out=2 c=0 | Expected c=0 out=3
+# 
+#   8050.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=2 b=2 | out=3 c=0 | Expected c=0 out=2
+# 
+#   8060.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=2 b=3 | out=2 c=0 | Expected c=0 out=3
+# 
+#   8070.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=2 b=4 | out=10 c=0 | Expected c=0 out=6
+# 
+#   8080.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=2 b=5 | out=6 c=0 | Expected c=0 out=7
+# 
+#   8090.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=2 b=6 | out=7 c=0 | Expected c=0 out=6
+# 
+#   8100.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=2 b=7 | out=6 c=0 | Expected c=0 out=7
+# 
+#   8110.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=2 b=8 | out=7 c=0 | Expected c=0 out=10
+# 
+#   8120.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=2 b=9 | out=10 c=0 | Expected c=0 out=11
+# 
+#   8130.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=2 b=10 | out=1 c=1 | Expected c=0 out=10
+# 
+#   8140.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=2 b=11 | out=10 c=0 | Expected c=0 out=11
+# 
+#   8150.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=2 b=12 | out=0 c=1 | Expected c=0 out=14
+# 
+#   8160.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=2 b=13 | out=2 c=0 | Expected c=0 out=15
+# 
+#   8170.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=2 b=14 | out=15 c=1 | Expected c=0 out=14
+# 
+#   8180.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=2 b=15 | out=14 c=0 | Expected c=0 out=15
+# 
+#   8190.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=3 b=0 | out=15 c=0 | Expected c=0 out=3
+# 
+#   8220.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=3 b=3 | out=13 c=0 | Expected c=0 out=3
+# 
+#   8230.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=3 b=4 | out=3 c=0 | Expected c=0 out=7
+# 
+#   8240.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=3 b=5 | out=15 c=1 | Expected c=0 out=7
+# 
+#   8250.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=3 b=6 | out=12 c=1 | Expected c=0 out=7
+# 
+#   8260.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=3 b=7 | out=2 c=1 | Expected c=0 out=7
+# 
+#   8280.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=3 b=9 | out=11 c=1 | Expected c=0 out=11
+# 
+#   8310.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=3 b=12 | out=11 c=0 | Expected c=0 out=15
+# 
+#   8350.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=4 b=0 | out=15 c=0 | Expected c=0 out=4
+# 
+#   8360.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=4 b=1 | out=4 c=0 | Expected c=0 out=5
+# 
+#   8370.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=4 b=2 | out=5 c=0 | Expected c=0 out=6
+# 
+#   8380.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=4 b=3 | out=6 c=0 | Expected c=0 out=7
+# 
+#   8390.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=4 b=4 | out=7 c=0 | Expected c=0 out=4
+# 
+#   8400.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=4 b=5 | out=4 c=0 | Expected c=0 out=5
+# 
+#   8410.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=4 b=6 | out=5 c=0 | Expected c=0 out=6
+# 
+#   8420.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=4 b=7 | out=3 c=1 | Expected c=0 out=7
+# 
+#   8430.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=4 b=8 | out=7 c=0 | Expected c=0 out=12
+# 
+#   8440.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=4 b=9 | out=12 c=0 | Expected c=0 out=13
+# 
+#   8450.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=4 b=10 | out=13 c=0 | Expected c=0 out=14
+# 
+#   8460.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=4 b=11 | out=14 c=0 | Expected c=0 out=15
+# 
+#   8480.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=4 b=13 | out=14 c=0 | Expected c=0 out=13
+# 
+#   8490.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=4 b=14 | out=9 c=0 | Expected c=0 out=14
+# 
+#   8500.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=4 b=15 | out=9 c=0 | Expected c=0 out=15
+# 
+#   8510.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=5 b=0 | out=15 c=0 | Expected c=0 out=5
+# 
+#   8520.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=5 b=1 | out=6 c=1 | Expected c=0 out=5
+# 
+#   8530.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=5 b=2 | out=5 c=0 | Expected c=0 out=7
+# 
+#   8550.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=5 b=4 | out=7 c=0 | Expected c=0 out=5
+# 
+#   8560.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=5 b=5 | out=15 c=0 | Expected c=0 out=5
+# 
+#   8570.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=5 b=6 | out=5 c=0 | Expected c=0 out=7
+# 
+#   8590.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=5 b=8 | out=7 c=0 | Expected c=0 out=13
+# 
+#   8610.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=5 b=10 | out=15 c=1 | Expected c=0 out=15
+# 
+#   8630.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=5 b=12 | out=15 c=0 | Expected c=0 out=13
+# 
+#   8650.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=5 b=14 | out=13 c=0 | Expected c=0 out=15
+# 
+#   8670.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=6 b=0 | out=15 c=0 | Expected c=0 out=6
+# 
+#   8680.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=6 b=1 | out=6 c=0 | Expected c=0 out=7
+# 
+#   8690.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=6 b=2 | out=7 c=0 | Expected c=0 out=6
+# 
+#   8700.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=6 b=3 | out=6 c=0 | Expected c=0 out=7
+# 
+#   8710.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=6 b=4 | out=7 c=0 | Expected c=0 out=6
+# 
+#   8720.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=6 b=5 | out=6 c=0 | Expected c=0 out=7
+# 
+#   8730.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=6 b=6 | out=7 c=0 | Expected c=0 out=6
+# 
+#   8740.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=6 b=7 | out=6 c=0 | Expected c=0 out=7
+# 
+#   8750.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=6 b=8 | out=7 c=0 | Expected c=0 out=14
+# 
+#   8760.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=6 b=9 | out=6 c=0 | Expected c=0 out=15
+# 
+#   8770.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=6 b=10 | out=15 c=0 | Expected c=0 out=14
+# 
+#   8780.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=6 b=11 | out=14 c=0 | Expected c=0 out=15
+# 
+#   8790.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=6 b=12 | out=15 c=0 | Expected c=0 out=14
+# 
+#   8800.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=6 b=13 | out=9 c=1 | Expected c=0 out=15
+# 
+#   8810.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=6 b=14 | out=15 c=0 | Expected c=0 out=14
+# 
+#   8820.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=6 b=15 | out=14 c=0 | Expected c=0 out=15
+# 
+#   8830.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=7 b=0 | out=15 c=0 | Expected c=0 out=7
+# 
+#   8880.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=7 b=5 | out=6 c=1 | Expected c=0 out=7
+# 
+#   8890.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=7 b=6 | out=15 c=1 | Expected c=0 out=7
+# 
+#   8910.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=7 b=8 | out=7 c=0 | Expected c=0 out=15
+# 
+#   8950.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=7 b=12 | out=15 c=1 | Expected c=0 out=15
+# 
+#   8990.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=8 b=0 | out=15 c=0 | Expected c=0 out=8
+# 
+#   9000.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=8 b=1 | out=10 c=1 | Expected c=0 out=9
+# 
+#   9010.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=8 b=2 | out=5 c=1 | Expected c=0 out=10
+# 
+#   9020.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=8 b=3 | out=8 c=1 | Expected c=0 out=11
+# 
+#   9030.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=8 b=4 | out=11 c=0 | Expected c=0 out=12
+# 
+#   9040.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=8 b=5 | out=3 c=1 | Expected c=0 out=13
+# 
+#   9050.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=8 b=6 | out=13 c=0 | Expected c=0 out=14
+# 
+#   9060.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=8 b=7 | out=14 c=0 | Expected c=0 out=15
+# 
+#   9070.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=8 b=8 | out=15 c=0 | Expected c=0 out=8
+# 
+#   9080.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=8 b=9 | out=9 c=1 | Expected c=0 out=9
+# 
+#   9090.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=8 b=10 | out=4 c=0 | Expected c=0 out=10
+# 
+#   9100.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=8 b=11 | out=10 c=0 | Expected c=0 out=11
+# 
+#   9110.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=8 b=12 | out=11 c=0 | Expected c=0 out=12
+# 
+#   9120.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=8 b=13 | out=12 c=0 | Expected c=0 out=13
+# 
+#   9130.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=8 b=14 | out=13 c=0 | Expected c=0 out=14
+# 
+#   9140.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=8 b=15 | out=14 c=0 | Expected c=0 out=15
+# 
+#   9150.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=9 b=0 | out=15 c=0 | Expected c=0 out=9
+# 
+#   9170.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=9 b=2 | out=9 c=0 | Expected c=0 out=11
+# 
+#   9180.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=9 b=3 | out=13 c=1 | Expected c=0 out=11
+# 
+#   9190.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=9 b=4 | out=0 c=0 | Expected c=0 out=13
+# 
+#   9210.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=9 b=6 | out=6 c=1 | Expected c=0 out=15
+# 
+#   9220.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=9 b=7 | out=13 c=0 | Expected c=0 out=15
+# 
+#   9230.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=9 b=8 | out=15 c=0 | Expected c=0 out=9
+# 
+#   9250.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=9 b=10 | out=9 c=0 | Expected c=0 out=11
+# 
+#   9260.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=9 b=11 | out=5 c=0 | Expected c=0 out=11
+# 
+#   9290.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=9 b=14 | out=13 c=0 | Expected c=0 out=15
+# 
+#   9310.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=10 b=0 | out=15 c=0 | Expected c=0 out=10
+# 
+#   9320.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=10 b=1 | out=10 c=0 | Expected c=0 out=11
+# 
+#   9330.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=10 b=2 | out=11 c=0 | Expected c=0 out=10
+# 
+#   9340.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=10 b=3 | out=4 c=0 | Expected c=0 out=11
+# 
+#   9350.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=10 b=4 | out=7 c=1 | Expected c=0 out=14
+# 
+#   9360.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=10 b=5 | out=14 c=0 | Expected c=0 out=15
+# 
+#   9370.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=10 b=6 | out=15 c=0 | Expected c=0 out=14
+# 
+#   9380.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=10 b=7 | out=14 c=0 | Expected c=0 out=15
+# 
+#   9390.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=10 b=8 | out=15 c=0 | Expected c=0 out=10
+# 
+#   9400.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=10 b=9 | out=10 c=0 | Expected c=0 out=11
+# 
+#   9410.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=10 b=10 | out=11 c=0 | Expected c=0 out=10
+# 
+#   9420.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=10 b=11 | out=10 c=0 | Expected c=0 out=11
+# 
+#   9430.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=10 b=12 | out=11 c=0 | Expected c=0 out=14
+# 
+#   9440.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=10 b=13 | out=13 c=1 | Expected c=0 out=15
+# 
+#   9450.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=10 b=14 | out=15 c=0 | Expected c=0 out=14
+# 
+#   9460.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=10 b=15 | out=14 c=0 | Expected c=0 out=15
+# 
+#   9470.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=11 b=0 | out=15 c=0 | Expected c=0 out=11
+# 
+#   9490.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=11 b=2 | out=3 c=0 | Expected c=0 out=11
+# 
+#   9500.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=11 b=3 | out=11 c=1 | Expected c=0 out=11
+# 
+#   9510.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=11 b=4 | out=11 c=0 | Expected c=0 out=15
+# 
+#   9520.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=11 b=5 | out=10 c=1 | Expected c=0 out=15
+# 
+#   9550.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=11 b=8 | out=0 c=1 | Expected c=0 out=11
+# 
+#   9560.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=11 b=9 | out=12 c=0 | Expected c=0 out=11
+# 
+#   9580.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=11 b=11 | out=10 c=1 | Expected c=0 out=11
+# 
+#   9590.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=11 b=12 | out=8 c=1 | Expected c=0 out=15
+# 
+#   9610.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=11 b=14 | out=7 c=0 | Expected c=0 out=15
+# 
+#   9630.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=12 b=0 | out=15 c=0 | Expected c=0 out=12
+# 
+#   9640.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=12 b=1 | out=12 c=0 | Expected c=0 out=13
+# 
+#   9650.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=12 b=2 | out=13 c=0 | Expected c=0 out=14
+# 
+#   9660.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=12 b=3 | out=14 c=0 | Expected c=0 out=15
+# 
+#   9670.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=12 b=4 | out=15 c=0 | Expected c=0 out=12
+# 
+#   9680.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=12 b=5 | out=3 c=0 | Expected c=0 out=13
+# 
+#   9690.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=12 b=6 | out=13 c=0 | Expected c=0 out=14
+# 
+#   9700.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=12 b=7 | out=14 c=0 | Expected c=0 out=15
+# 
+#   9710.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=12 b=8 | out=14 c=0 | Expected c=0 out=12
+# 
+#   9720.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=12 b=9 | out=12 c=0 | Expected c=0 out=13
+# 
+#   9730.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=12 b=10 | out=13 c=0 | Expected c=0 out=14
+# 
+#   9740.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=12 b=11 | out=14 c=0 | Expected c=0 out=15
+# 
+#   9750.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=12 b=12 | out=15 c=0 | Expected c=0 out=12
+# 
+#   9760.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=12 b=13 | out=12 c=0 | Expected c=0 out=13
+# 
+#   9770.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=12 b=14 | out=13 c=0 | Expected c=0 out=14
+# 
+#   9780.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=12 b=15 | out=14 c=0 | Expected c=0 out=15
+# 
+#   9790.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=13 b=0 | out=15 c=0 | Expected c=0 out=13
+# 
+#   9810.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=13 b=2 | out=13 c=0 | Expected c=0 out=15
+# 
+#   9830.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=13 b=4 | out=15 c=0 | Expected c=0 out=13
+# 
+#   9850.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=13 b=6 | out=13 c=0 | Expected c=0 out=15
+# 
+#   9870.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=13 b=8 | out=6 c=1 | Expected c=0 out=13
+# 
+#   9890.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=13 b=10 | out=13 c=0 | Expected c=0 out=15
+# 
+#   9910.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=13 b=12 | out=15 c=0 | Expected c=0 out=13
+# 
+#   9920.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=13 b=13 | out=10 c=1 | Expected c=0 out=13
+# 
+#   9930.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=13 b=14 | out=6 c=1 | Expected c=0 out=15
+# 
+#   9950.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=14 b=0 | out=15 c=0 | Expected c=0 out=14
+# 
+#   9960.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=14 b=1 | out=14 c=0 | Expected c=0 out=15
+# 
+#   9970.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=14 b=2 | out=15 c=0 | Expected c=0 out=14
+# 
+#   9980.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=14 b=3 | out=2 c=0 | Expected c=0 out=15
+# 
+#   9990.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=14 b=4 | out=15 c=0 | Expected c=0 out=14
+# 
+#  10000.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=14 b=5 | out=0 c=0 | Expected c=0 out=15
+# 
+#  10010.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=14 b=6 | out=12 c=0 | Expected c=0 out=14
+# 
+#  10020.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=14 b=7 | out=14 c=0 | Expected c=0 out=15
+# 
+#  10030.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=14 b=8 | out=14 c=1 | Expected c=0 out=14
+# 
+#  10040.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=14 b=9 | out=14 c=0 | Expected c=0 out=15
+# 
+#  10050.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=14 b=10 | out=15 c=0 | Expected c=0 out=14
+# 
+#  10060.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=14 b=11 | out=14 c=0 | Expected c=0 out=15
+# 
+#  10070.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=14 b=12 | out=15 c=0 | Expected c=0 out=14
+# 
+#  10080.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=14 b=13 | out=14 c=0 | Expected c=0 out=15
+# 
+#  10090.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=14 b=14 | out=7 c=1 | Expected c=0 out=14
+# 
+#  10100.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=14 b=15 | out=14 c=0 | Expected c=0 out=15
+# 
+#  10110.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=15 b=0 | out=10 c=0 | Expected c=0 out=15
+# 
+#  10130.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=15 b=2 | out=13 c=1 | Expected c=0 out=15
+# 
+#  10170.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=15 b=6 | out=2 c=0 | Expected c=0 out=15
+# 
+#  10190.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=15 b=8 | out=7 c=0 | Expected c=0 out=15
+# 
+#  10200.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=15 b=9 | out=0 c=1 | Expected c=0 out=15
+# 
+#  10220.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=15 b=11 | out=5 c=1 | Expected c=0 out=15
+# 
+#  10230.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=15 b=12 | out=2 c=1 | Expected c=0 out=15
+# 
+#  10250.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(27) [uvm_test_top.env.sb_env]: FAIL: OR a=15 b=14 | out=1 c=0 | Expected c=0 out=15
+# 
+#  10285.00ns ERROR    ..k_V7.0\src\ALU_scoreboard.py(54) [uvm_test_top.env.sb_env]: TEST FAILED with 899 errors.
+# 
+#  10286.00ns INFO     cocotb.regression                  ALU_test_runner passed
+# 
+#  10286.00ns INFO     cocotb.regression                  **************************************************************************************
+# 
+#                                                         ** TEST                          STATUS  SIM TIME (ns)  REAL TIME (s)  RATIO (ns/s) **
+# 
+#                                                         **************************************************************************************
+# 
+#                                                         ** ALU_test.ALU_test_runner       PASS       10286.00           0.29      35949.66  **
+# 
+#                                                         **************************************************************************************
+# 
+#                                                         ** TESTS=1 PASS=1 FAIL=0 SKIP=0              10286.00           0.37      27924.98  **
+# 
+#                                                         **************************************************************************************
+# 
+#                                                         
+# 
+# ** Note: $finish
+#    Time: 10286 ns  Iteration: 0  Instance: /ALU
+# Simulation stop requested.
