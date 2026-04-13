@@ -77,7 +77,7 @@ class test_all(base_test):
         self.drop_objection()
 
 # ----------------------------------------------------------------------------
-@cocotb.test()
+@pyuvm.test()
 async def main_test(dut):
     # 1. Start the clock in the background (10ns period)
     cocotb.start_soon(Clock(dut.clk, 10, unit="ns").start())
