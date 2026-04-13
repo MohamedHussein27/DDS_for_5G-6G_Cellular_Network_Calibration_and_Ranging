@@ -1,6 +1,6 @@
 <testsuites name="results">
   <testsuite name="all" package="all">
-    <property name="random_seed" value="1775670258" />
-    <testcase name="main_test" classname="test" file="C:\Users\lenovo\task_7\test.py" lineno="80" time="0.09566879272460938" sim_time_ns="2555.0" ratio_time="26706.723553570715" />
+    <property name="random_seed" value="1776087787" />
+    <testcase name="test_all" classname="test" file="C:\Users\lenovo\anaconda3\Lib\site-packages\pyuvm\extension_classes.py" lineno="91" time="0.2436537742614746" sim_time_ns="10235.0" ratio_time="42006.32652222498" />
   </testsuite>
 </testsuites>

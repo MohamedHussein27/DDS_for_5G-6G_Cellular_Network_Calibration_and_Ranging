@@ -1,30 +1,30 @@
-<top abs_name="top" size="22" coverage="19" cover_percentage="86.36">
+<top abs_name="top" size="22" coverage="22" cover_percentage="100.0">
   <out size="16" coverage="16" cover_percentage="100.0" abs_name="top.out" weight="1" at_least="1">
-    <bin0 bin="0" hits="15" abs_name="top.out.bin0" />
-    <bin1 bin="1" hits="12" abs_name="top.out.bin1" />
-    <bin2 bin="2" hits="22" abs_name="top.out.bin2" />
-    <bin3 bin="3" hits="17" abs_name="top.out.bin3" />
-    <bin4 bin="4" hits="15" abs_name="top.out.bin4" />
-    <bin5 bin="5" hits="12" abs_name="top.out.bin5" />
-    <bin6 bin="6" hits="19" abs_name="top.out.bin6" />
-    <bin7 bin="7" hits="10" abs_name="top.out.bin7" />
-    <bin8 bin="8" hits="16" abs_name="top.out.bin8" />
-    <bin9 bin="9" hits="16" abs_name="top.out.bin9" />
-    <bin10 bin="10" hits="22" abs_name="top.out.bin10" />
-    <bin11 bin="11" hits="11" abs_name="top.out.bin11" />
-    <bin12 bin="12" hits="17" abs_name="top.out.bin12" />
-    <bin13 bin="13" hits="14" abs_name="top.out.bin13" />
-    <bin14 bin="14" hits="21" abs_name="top.out.bin14" />
-    <bin15 bin="15" hits="17" abs_name="top.out.bin15" />
+    <bin0 bin="0" hits="95" abs_name="top.out.bin0" />
+    <bin1 bin="1" hits="59" abs_name="top.out.bin1" />
+    <bin2 bin="2" hits="69" abs_name="top.out.bin2" />
+    <bin3 bin="3" hits="60" abs_name="top.out.bin3" />
+    <bin4 bin="4" hits="59" abs_name="top.out.bin4" />
+    <bin5 bin="5" hits="43" abs_name="top.out.bin5" />
+    <bin6 bin="6" hits="67" abs_name="top.out.bin6" />
+    <bin7 bin="7" hits="53" abs_name="top.out.bin7" />
+    <bin8 bin="8" hits="64" abs_name="top.out.bin8" />
+    <bin9 bin="9" hits="57" abs_name="top.out.bin9" />
+    <bin10 bin="10" hits="55" abs_name="top.out.bin10" />
+    <bin11 bin="11" hits="56" abs_name="top.out.bin11" />
+    <bin12 bin="12" hits="55" abs_name="top.out.bin12" />
+    <bin13 bin="13" hits="64" abs_name="top.out.bin13" />
+    <bin14 bin="14" hits="66" abs_name="top.out.bin14" />
+    <bin15 bin="15" hits="102" abs_name="top.out.bin15" />
   </out>
   <c size="2" coverage="2" cover_percentage="100.0" abs_name="top.c" weight="1" at_least="1">
-    <bin0 bin="0" hits="215" abs_name="top.c.bin0" />
-    <bin1 bin="1" hits="41" abs_name="top.c.bin1" />
+    <bin0 bin="0" hits="767" abs_name="top.c.bin0" />
+    <bin1 bin="1" hits="257" abs_name="top.c.bin1" />
   </c>
-  <op size="4" coverage="1" cover_percentage="25.0" abs_name="top.op" weight="1" at_least="1">
-    <bin0 bin="0" hits="0" abs_name="top.op.bin0" />
+  <op size="4" coverage="4" cover_percentage="100.0" abs_name="top.op" weight="1" at_least="1">
+    <bin0 bin="0" hits="256" abs_name="top.op.bin0" />
     <bin1 bin="1" hits="256" abs_name="top.op.bin1" />
-    <bin2 bin="2" hits="0" abs_name="top.op.bin2" />
-    <bin3 bin="3" hits="0" abs_name="top.op.bin3" />
+    <bin2 bin="2" hits="256" abs_name="top.op.bin2" />
+    <bin3 bin="3" hits="256" abs_name="top.op.bin3" />
   </op>
 </top>

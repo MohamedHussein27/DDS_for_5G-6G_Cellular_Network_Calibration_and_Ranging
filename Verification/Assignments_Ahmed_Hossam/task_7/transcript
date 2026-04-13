@@ -17,20 +17,23 @@
 # QuestaSim-64 vmap 2021.1 Lib Mapping Utility 2021.01 Jan 19 2021
 # vmap -c 
 # ** Warning: vmap will not overwrite local modelsim.ini.
+# ** Warning: (vdel-134) Unable to remove locked optimized design "_opt".  Locker is lenovo@DESKTOP-C9NHKIC.
+# ** Warning: (vlib-34) Library already exists at "sim_build/work".
+# Errors: 0, Warnings: 1
 # QuestaSim-64 vmap 2021.1 Lib Mapping Utility 2021.01 Jan 19 2021
 # vmap work sim_build/work 
 # Modifying modelsim.ini
 # QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
-# Start time: 19:44:04 on Apr 08,2026
+# Start time: 15:42:58 on Apr 13,2026
 # vlog -reportprogress 300 -work work "+define+COCOTB_SIM" -sv -timescale 1ns/1ps -mfcu "+acc" C:/Users/lenovo/task_7/DUT.sv 
 # -- Compiling module ALU
 # 
 # Top level modules:
 # 	ALU
-# End time: 19:44:04 on Apr 08,2026, Elapsed time: 0:00:00
+# End time: 15:42:58 on Apr 13,2026, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vsim -onfinish stop -pli "C:/Users/lenovo/anaconda3/Lib/site-packages/cocotb/libs/cocotbvpi_modelsim.dll" work.ALU 
-# Start time: 19:44:04 on Apr 08,2026
+# Start time: 15:42:58 on Apr 13,2026
 # ** Note: (vsim-3812) Design is being optimized...
 # ** Warning: (vsim-3865) Due to PLI being present, global +acc is being enabled automatically. This will cause your simulation to run very slowly. Please use vsim -no_autoacc to disable this feature. This feature is now deprecated and will be removed from future releases.
 # Loading sv_std.std
@@ -39,22 +42,27 @@
 #      -.--ns INFO     gpi                                ..mbed\gpi_embed.cpp:94   in _embed_init_python              Using Python 3.13.0rc1 interpreter at C:/Users/lenovo/anaconda3/python.exe
 #      -.--ns ERROR    gpi                                ..mbed\gpi_embed.cpp:155  in _embed_init_python              Unexpected sys.executable value (expected 'C:/Users/lenovo/anaconda3/python.exe', got 'C:\questasim64_2021.1\win64\vsimk.exe')
 #      -.--ns INFO     gpi                                ..\gpi\GpiCommon.cpp:79   in gpi_print_registered_impl       VPI registered
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: lenovo  Hostname: DESKTOP-C9NHKIC  ProcessID: 29732
+#           Attempting to use alternate WLF file "./wlft0kxzaa".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlft0kxzaa
 run -all
 #      0.00ns INFO     cocotb                             Running on ModelSim for Questa-64 version 2021.1 2021.01
 # 
-#      0.00ns INFO     cocotb                             Seeding Python random module with 1775670258
+#      0.00ns INFO     cocotb                             Seeding Python random module with 1776087787
 # 
 #      0.00ns INFO     cocotb                             Initialized cocotb v2.0.1 from C:\Users\lenovo\anaconda3\Lib\site-packages\cocotb
 # 
 #      0.00ns INFO     cocotb                             Running tests
 # 
-#      0.00ns INFO     cocotb.regression                  running test.main_test (1/1)
+#      0.00ns INFO     cocotb.regression                  running test.test_all (1/1)
 # 
-#      0.00ns INFO     test                               >>> Running XOR Sequence <<<
+#      0.00ns INFO     test                               >>> Starting ADDITION Sequence <<<
 # 
-#      0.00ns ERROR    test                               XOR Test Case Failed 
+#      0.00ns ERROR    test                               Add Test Case Failed 
 # 
-#      0.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :7  GOLDEN C :0  YOUR C :0
+#      0.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :10  GOLDEN C :0  YOUR C :0
 # 
 #      0.00ns WARNING  py.warnings                        C:\Users\lenovo\anaconda3\Lib\inspect.py:602: DeprecationWarning: `logic_array.binstr` getter is deprecated. Use `str(logic_array)` instead.
 # 
@@ -72,716 +80,2700 @@ run -all
 # 
 #                                                           value = getter(object, key)
 # 
-#     10.00ns ERROR    test                               XOR Test Case Failed 
+#     10.00ns ERROR    test                               Add Test Case Failed 
 # 
-#     10.00ns INFO     test                               GOLDEN OUT :1  YOUR OUT :14  GOLDEN C :0  YOUR C :0
+#     10.00ns INFO     test                               GOLDEN OUT :1  YOUR OUT :7  GOLDEN C :0  YOUR C :0
 # 
-#     20.00ns INFO     test                               XOR Test Case Passed 
+#     20.00ns INFO     test                               Add Test Case Passed 
 # 
-#     30.00ns INFO     test                               XOR Test Case Passed 
+#     30.00ns INFO     test                               Add Test Case Passed 
 # 
-#     40.00ns INFO     test                               XOR Test Case Passed 
+#     40.00ns INFO     test                               Add Test Case Passed 
 # 
-#     50.00ns INFO     test                               XOR Test Case Passed 
+#     50.00ns INFO     test                               Add Test Case Passed 
 # 
-#     60.00ns INFO     test                               XOR Test Case Passed 
+#     60.00ns INFO     test                               Add Test Case Passed 
 # 
-#     70.00ns ERROR    test                               XOR Test Case Failed 
+#     70.00ns INFO     test                               Add Test Case Passed 
 # 
-#     70.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :15  GOLDEN C :0  YOUR C :1
+#     80.00ns INFO     test                               Add Test Case Passed 
 # 
-#     80.00ns ERROR    test                               XOR Test Case Failed 
+#     90.00ns INFO     test                               Add Test Case Passed 
 # 
-#     80.00ns INFO     test                               GOLDEN OUT :8  YOUR OUT :12  GOLDEN C :0  YOUR C :0
+#    100.00ns ERROR    test                               Add Test Case Failed 
 # 
-#     90.00ns INFO     test                               XOR Test Case Passed 
+#    100.00ns INFO     test                               GOLDEN OUT :10  YOUR OUT :2  GOLDEN C :0  YOUR C :1
 # 
-#    100.00ns INFO     test                               XOR Test Case Passed 
+#    110.00ns INFO     test                               Add Test Case Passed 
 # 
-#    110.00ns INFO     test                               XOR Test Case Passed 
+#    120.00ns INFO     test                               Add Test Case Passed 
 # 
-#    120.00ns INFO     test                               XOR Test Case Passed 
+#    130.00ns INFO     test                               Add Test Case Passed 
 # 
-#    130.00ns ERROR    test                               XOR Test Case Failed 
+#    140.00ns INFO     test                               Add Test Case Passed 
 # 
-#    130.00ns INFO     test                               GOLDEN OUT :13  YOUR OUT :2  GOLDEN C :0  YOUR C :0
+#    150.00ns ERROR    test                               Add Test Case Failed 
 # 
-#    140.00ns INFO     test                               XOR Test Case Passed 
+#    150.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :4  GOLDEN C :0  YOUR C :1
 # 
-#    150.00ns ERROR    test                               XOR Test Case Failed 
+#    160.00ns ERROR    test                               Add Test Case Failed 
 # 
-#    150.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :9  GOLDEN C :0  YOUR C :1
+#    160.00ns INFO     test                               GOLDEN OUT :1  YOUR OUT :3  GOLDEN C :0  YOUR C :1
 # 
-#    160.00ns INFO     test                               XOR Test Case Passed 
+#    170.00ns INFO     test                               Add Test Case Passed 
 # 
-#    170.00ns INFO     test                               XOR Test Case Passed 
+#    180.00ns INFO     test                               Add Test Case Passed 
 # 
-#    180.00ns INFO     test                               XOR Test Case Passed 
+#    190.00ns INFO     test                               Add Test Case Passed 
 # 
-#    190.00ns ERROR    test                               XOR Test Case Failed 
+#    200.00ns ERROR    test                               Add Test Case Failed 
 # 
-#    190.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :0  GOLDEN C :0  YOUR C :0
+#    200.00ns INFO     test                               GOLDEN OUT :5  YOUR OUT :6  GOLDEN C :0  YOUR C :1
 # 
-#    200.00ns INFO     test                               XOR Test Case Passed 
+#    210.00ns INFO     test                               Add Test Case Passed 
 # 
-#    210.00ns ERROR    test                               XOR Test Case Failed 
+#    220.00ns ERROR    test                               Add Test Case Failed 
 # 
-#    210.00ns INFO     test                               GOLDEN OUT :4  YOUR OUT :10  GOLDEN C :0  YOUR C :0
+#    220.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :12  GOLDEN C :0  YOUR C :1
 # 
-#    220.00ns INFO     test                               XOR Test Case Passed 
+#    230.00ns INFO     test                               Add Test Case Passed 
 # 
-#    230.00ns INFO     test                               XOR Test Case Passed 
+#    240.00ns INFO     test                               Add Test Case Passed 
 # 
-#    240.00ns INFO     test                               XOR Test Case Passed 
+#    250.00ns ERROR    test                               Add Test Case Failed 
 # 
-#    250.00ns INFO     test                               XOR Test Case Passed 
+#    250.00ns INFO     test                               GOLDEN OUT :10  YOUR OUT :1  GOLDEN C :0  YOUR C :0
 # 
-#    260.00ns ERROR    test                               XOR Test Case Failed 
+#    260.00ns ERROR    test                               Add Test Case Failed 
 # 
-#    260.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :9  GOLDEN C :0  YOUR C :0
+#    260.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :6  GOLDEN C :0  YOUR C :1
 # 
-#    270.00ns INFO     test                               XOR Test Case Passed 
+#    270.00ns INFO     test                               Add Test Case Passed 
 # 
-#    280.00ns INFO     test                               XOR Test Case Passed 
+#    280.00ns INFO     test                               Add Test Case Passed 
 # 
-#    290.00ns INFO     test                               XOR Test Case Passed 
+#    290.00ns INFO     test                               Add Test Case Passed 
 # 
-#    300.00ns ERROR    test                               XOR Test Case Failed 
+#    300.00ns INFO     test                               Add Test Case Passed 
 # 
-#    300.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :2  GOLDEN C :0  YOUR C :0
+#    310.00ns INFO     test                               Add Test Case Passed 
 # 
-#    310.00ns INFO     test                               XOR Test Case Passed 
+#    320.00ns INFO     test                               Add Test Case Passed 
 # 
-#    320.00ns INFO     test                               XOR Test Case Passed 
+#    330.00ns INFO     test                               Add Test Case Passed 
 # 
-#    330.00ns INFO     test                               XOR Test Case Passed 
+#    340.00ns INFO     test                               Add Test Case Passed 
 # 
-#    340.00ns ERROR    test                               XOR Test Case Failed 
+#    350.00ns INFO     test                               Add Test Case Passed 
 # 
-#    340.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :3  GOLDEN C :0  YOUR C :1
+#    360.00ns INFO     test                               Add Test Case Passed 
 # 
-#    350.00ns ERROR    test                               XOR Test Case Failed 
+#    370.00ns ERROR    test                               Add Test Case Failed 
 # 
-#    350.00ns INFO     test                               GOLDEN OUT :1  YOUR OUT :8  GOLDEN C :0  YOUR C :1
+#    370.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :1  GOLDEN C :0  YOUR C :1
 # 
-#    360.00ns INFO     test                               XOR Test Case Passed 
+#    380.00ns INFO     test                               Add Test Case Passed 
 # 
-#    370.00ns INFO     test                               XOR Test Case Passed 
+#    390.00ns INFO     test                               Add Test Case Passed 
 # 
-#    380.00ns INFO     test                               XOR Test Case Passed 
+#    400.00ns ERROR    test                               Add Test Case Failed 
 # 
-#    390.00ns INFO     test                               XOR Test Case Passed 
+#    400.00ns INFO     test                               GOLDEN OUT :10  YOUR OUT :7  GOLDEN C :0  YOUR C :0
 # 
-#    400.00ns INFO     test                               XOR Test Case Passed 
+#    410.00ns INFO     test                               Add Test Case Passed 
 # 
-#    410.00ns INFO     test                               XOR Test Case Passed 
+#    420.00ns INFO     test                               Add Test Case Passed 
 # 
-#    420.00ns INFO     test                               XOR Test Case Passed 
+#    430.00ns ERROR    test                               Add Test Case Failed 
 # 
-#    430.00ns INFO     test                               XOR Test Case Passed 
+#    430.00ns INFO     test                               GOLDEN OUT :13  YOUR OUT :7  GOLDEN C :0  YOUR C :0
 # 
-#    440.00ns INFO     test                               XOR Test Case Passed 
+#    440.00ns INFO     test                               Add Test Case Passed 
 # 
-#    450.00ns INFO     test                               XOR Test Case Passed 
+#    450.00ns ERROR    test                               Add Test Case Failed 
 # 
-#    460.00ns INFO     test                               XOR Test Case Passed 
+#    450.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :13  GOLDEN C :0  YOUR C :0
 # 
-#    470.00ns ERROR    test                               XOR Test Case Failed 
+#    460.00ns ERROR    test                               Add Test Case Failed 
 # 
-#    470.00ns INFO     test                               GOLDEN OUT :13  YOUR OUT :4  GOLDEN C :0  YOUR C :1
+#    460.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :5  GOLDEN C :1  YOUR C :0
 # 
-#    480.00ns ERROR    test                               XOR Test Case Failed 
+#    470.00ns INFO     test                               Add Test Case Passed 
 # 
-#    480.00ns INFO     test                               GOLDEN OUT :3  YOUR OUT :15  GOLDEN C :0  YOUR C :0
+#    480.00ns INFO     test                               Add Test Case Passed 
 # 
-#    490.00ns INFO     test                               XOR Test Case Passed 
+#    490.00ns INFO     test                               Add Test Case Passed 
 # 
-#    500.00ns ERROR    test                               XOR Test Case Failed 
+#    500.00ns INFO     test                               Add Test Case Passed 
 # 
-#    500.00ns INFO     test                               GOLDEN OUT :1  YOUR OUT :13  GOLDEN C :0  YOUR C :0
+#    510.00ns INFO     test                               Add Test Case Passed 
 # 
-#    510.00ns INFO     test                               XOR Test Case Passed 
+#    520.00ns ERROR    test                               Add Test Case Failed 
 # 
-#    520.00ns INFO     test                               XOR Test Case Passed 
+#    520.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :13  GOLDEN C :0  YOUR C :1
 # 
-#    530.00ns INFO     test                               XOR Test Case Passed 
+#    530.00ns ERROR    test                               Add Test Case Failed 
 # 
-#    540.00ns ERROR    test                               XOR Test Case Failed 
+#    530.00ns INFO     test                               GOLDEN OUT :8  YOUR OUT :6  GOLDEN C :0  YOUR C :0
 # 
-#    540.00ns INFO     test                               GOLDEN OUT :5  YOUR OUT :3  GOLDEN C :0  YOUR C :0
+#    540.00ns INFO     test                               Add Test Case Passed 
 # 
-#    550.00ns INFO     test                               XOR Test Case Passed 
+#    550.00ns INFO     test                               Add Test Case Passed 
 # 
-#    560.00ns ERROR    test                               XOR Test Case Failed 
+#    560.00ns INFO     test                               Add Test Case Passed 
 # 
-#    560.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :2  GOLDEN C :0  YOUR C :1
+#    570.00ns INFO     test                               Add Test Case Passed 
 # 
-#    570.00ns INFO     test                               XOR Test Case Passed 
+#    580.00ns INFO     test                               Add Test Case Passed 
 # 
-#    580.00ns INFO     test                               XOR Test Case Passed 
+#    590.00ns INFO     test                               Add Test Case Passed 
 # 
-#    590.00ns ERROR    test                               XOR Test Case Failed 
+#    600.00ns INFO     test                               Add Test Case Passed 
 # 
-#    590.00ns INFO     test                               GOLDEN OUT :8  YOUR OUT :3  GOLDEN C :0  YOUR C :0
+#    610.00ns INFO     test                               Add Test Case Passed 
 # 
-#    600.00ns INFO     test                               XOR Test Case Passed 
+#    620.00ns ERROR    test                               Add Test Case Failed 
 # 
-#    610.00ns INFO     test                               XOR Test Case Passed 
+#    620.00ns INFO     test                               GOLDEN OUT :1  YOUR OUT :11  GOLDEN C :1  YOUR C :1
 # 
-#    620.00ns INFO     test                               XOR Test Case Passed 
+#    630.00ns INFO     test                               Add Test Case Passed 
 # 
-#    630.00ns INFO     test                               XOR Test Case Passed 
+#    640.00ns INFO     test                               Add Test Case Passed 
 # 
-#    640.00ns ERROR    test                               XOR Test Case Failed 
+#    650.00ns INFO     test                               Add Test Case Passed 
 # 
-#    640.00ns INFO     test                               GOLDEN OUT :4  YOUR OUT :1  GOLDEN C :0  YOUR C :0
+#    660.00ns ERROR    test                               Add Test Case Failed 
 # 
-#    650.00ns INFO     test                               XOR Test Case Passed 
+#    660.00ns INFO     test                               GOLDEN OUT :6  YOUR OUT :15  GOLDEN C :0  YOUR C :1
 # 
-#    660.00ns INFO     test                               XOR Test Case Passed 
+#    670.00ns INFO     test                               Add Test Case Passed 
 # 
-#    670.00ns ERROR    test                               XOR Test Case Failed 
+#    680.00ns ERROR    test                               Add Test Case Failed 
 # 
-#    670.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :2  GOLDEN C :0  YOUR C :1
+#    680.00ns INFO     test                               GOLDEN OUT :8  YOUR OUT :0  GOLDEN C :0  YOUR C :0
 # 
-#    680.00ns ERROR    test                               XOR Test Case Failed 
+#    690.00ns INFO     test                               Add Test Case Passed 
 # 
-#    680.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :14  GOLDEN C :0  YOUR C :0
+#    700.00ns INFO     test                               Add Test Case Passed 
 # 
-#    690.00ns INFO     test                               XOR Test Case Passed 
+#    710.00ns ERROR    test                               Add Test Case Failed 
 # 
-#    700.00ns INFO     test                               XOR Test Case Passed 
+#    710.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :15  GOLDEN C :0  YOUR C :0
 # 
-#    710.00ns ERROR    test                               XOR Test Case Failed 
+#    720.00ns INFO     test                               Add Test Case Passed 
 # 
-#    710.00ns INFO     test                               GOLDEN OUT :3  YOUR OUT :9  GOLDEN C :0  YOUR C :1
+#    730.00ns INFO     test                               Add Test Case Passed 
 # 
-#    720.00ns INFO     test                               XOR Test Case Passed 
+#    740.00ns INFO     test                               Add Test Case Passed 
 # 
-#    730.00ns INFO     test                               XOR Test Case Passed 
+#    750.00ns INFO     test                               Add Test Case Passed 
 # 
-#    740.00ns ERROR    test                               XOR Test Case Failed 
+#    760.00ns INFO     test                               Add Test Case Passed 
 # 
-#    740.00ns INFO     test                               GOLDEN OUT :14  YOUR OUT :13  GOLDEN C :0  YOUR C :1
+#    770.00ns INFO     test                               Add Test Case Passed 
 # 
-#    750.00ns INFO     test                               XOR Test Case Passed 
+#    780.00ns ERROR    test                               Add Test Case Failed 
 # 
-#    760.00ns INFO     test                               XOR Test Case Passed 
+#    780.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :8  GOLDEN C :1  YOUR C :0
 # 
-#    770.00ns INFO     test                               XOR Test Case Passed 
+#    790.00ns INFO     test                               Add Test Case Passed 
 # 
-#    780.00ns INFO     test                               XOR Test Case Passed 
+#    800.00ns INFO     test                               Add Test Case Passed 
 # 
-#    790.00ns INFO     test                               XOR Test Case Passed 
+#    810.00ns INFO     test                               Add Test Case Passed 
 # 
-#    800.00ns INFO     test                               XOR Test Case Passed 
+#    820.00ns ERROR    test                               Add Test Case Failed 
 # 
-#    810.00ns INFO     test                               XOR Test Case Passed 
+#    820.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :12  GOLDEN C :0  YOUR C :0
 # 
-#    820.00ns INFO     test                               XOR Test Case Passed 
+#    830.00ns INFO     test                               Add Test Case Passed 
 # 
-#    830.00ns ERROR    test                               XOR Test Case Failed 
+#    840.00ns INFO     test                               Add Test Case Passed 
 # 
-#    830.00ns INFO     test                               GOLDEN OUT :6  YOUR OUT :10  GOLDEN C :0  YOUR C :0
+#    850.00ns INFO     test                               Add Test Case Passed 
 # 
-#    840.00ns INFO     test                               XOR Test Case Passed 
+#    860.00ns INFO     test                               Add Test Case Passed 
 # 
-#    850.00ns INFO     test                               XOR Test Case Passed 
+#    870.00ns ERROR    test                               Add Test Case Failed 
 # 
-#    860.00ns INFO     test                               XOR Test Case Passed 
+#    870.00ns INFO     test                               GOLDEN OUT :12  YOUR OUT :6  GOLDEN C :0  YOUR C :0
 # 
-#    870.00ns INFO     test                               XOR Test Case Passed 
+#    880.00ns INFO     test                               Add Test Case Passed 
 # 
-#    880.00ns ERROR    test                               XOR Test Case Failed 
+#    890.00ns INFO     test                               Add Test Case Passed 
 # 
-#    880.00ns INFO     test                               GOLDEN OUT :13  YOUR OUT :2  GOLDEN C :0  YOUR C :1
+#    900.00ns ERROR    test                               Add Test Case Failed 
 # 
-#    890.00ns INFO     test                               XOR Test Case Passed 
+#    900.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :12  GOLDEN C :0  YOUR C :0
 # 
-#    900.00ns ERROR    test                               XOR Test Case Failed 
+#    910.00ns INFO     test                               Add Test Case Passed 
 # 
-#    900.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :8  GOLDEN C :0  YOUR C :1
+#    920.00ns INFO     test                               Add Test Case Passed 
 # 
-#    910.00ns INFO     test                               XOR Test Case Passed 
+#    930.00ns INFO     test                               Add Test Case Passed 
 # 
-#    920.00ns ERROR    test                               XOR Test Case Failed 
+#    940.00ns INFO     test                               Add Test Case Passed 
 # 
-#    920.00ns INFO     test                               GOLDEN OUT :9  YOUR OUT :6  GOLDEN C :0  YOUR C :1
+#    950.00ns INFO     test                               Add Test Case Passed 
 # 
-#    930.00ns ERROR    test                               XOR Test Case Failed 
+#    960.00ns INFO     test                               Add Test Case Passed 
 # 
-#    930.00ns INFO     test                               GOLDEN OUT :8  YOUR OUT :10  GOLDEN C :0  YOUR C :1
+#    970.00ns INFO     test                               Add Test Case Passed 
 # 
-#    940.00ns ERROR    test                               XOR Test Case Failed 
+#    980.00ns ERROR    test                               Add Test Case Failed 
 # 
-#    940.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :13  GOLDEN C :0  YOUR C :1
+#    980.00ns INFO     test                               GOLDEN OUT :8  YOUR OUT :1  GOLDEN C :0  YOUR C :1
 # 
-#    950.00ns ERROR    test                               XOR Test Case Failed 
+#    990.00ns INFO     test                               Add Test Case Passed 
 # 
-#    950.00ns INFO     test                               GOLDEN OUT :10  YOUR OUT :2  GOLDEN C :0  YOUR C :1
+#   1000.00ns INFO     test                               Add Test Case Passed 
 # 
-#    960.00ns INFO     test                               XOR Test Case Passed 
+#   1010.00ns INFO     test                               Add Test Case Passed 
 # 
-#    970.00ns ERROR    test                               XOR Test Case Failed 
+#   1020.00ns INFO     test                               Add Test Case Passed 
 # 
-#    970.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :0  GOLDEN C :0  YOUR C :0
+#   1030.00ns INFO     test                               Add Test Case Passed 
 # 
-#    980.00ns INFO     test                               XOR Test Case Passed 
+#   1040.00ns INFO     test                               Add Test Case Passed 
 # 
-#    990.00ns ERROR    test                               XOR Test Case Failed 
+#   1050.00ns INFO     test                               Add Test Case Passed 
 # 
-#    990.00ns INFO     test                               GOLDEN OUT :5  YOUR OUT :12  GOLDEN C :0  YOUR C :0
+#   1060.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1000.00ns INFO     test                               XOR Test Case Passed 
+#   1070.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1010.00ns INFO     test                               XOR Test Case Passed 
+#   1080.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1020.00ns ERROR    test                               XOR Test Case Failed 
+#   1090.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1020.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :12  GOLDEN C :0  YOUR C :1
+#   1100.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1030.00ns ERROR    test                               XOR Test Case Failed 
+#   1110.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1030.00ns INFO     test                               GOLDEN OUT :1  YOUR OUT :11  GOLDEN C :0  YOUR C :0
+#   1110.00ns INFO     test                               GOLDEN OUT :5  YOUR OUT :2  GOLDEN C :1  YOUR C :0
 # 
-#   1040.00ns INFO     test                               XOR Test Case Passed 
+#   1120.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1050.00ns INFO     test                               XOR Test Case Passed 
+#   1120.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :10  GOLDEN C :0  YOUR C :1
 # 
-#   1060.00ns INFO     test                               XOR Test Case Passed 
+#   1130.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1070.00ns INFO     test                               XOR Test Case Passed 
+#   1140.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1080.00ns INFO     test                               XOR Test Case Passed 
+#   1150.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1090.00ns INFO     test                               XOR Test Case Passed 
+#   1160.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1100.00ns INFO     test                               XOR Test Case Passed 
+#   1170.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1110.00ns ERROR    test                               XOR Test Case Failed 
+#   1180.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1110.00ns INFO     test                               GOLDEN OUT :9  YOUR OUT :0  GOLDEN C :0  YOUR C :0
+#   1180.00ns INFO     test                               GOLDEN OUT :13  YOUR OUT :9  GOLDEN C :0  YOUR C :1
 # 
-#   1120.00ns ERROR    test                               XOR Test Case Failed 
+#   1190.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1120.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :14  GOLDEN C :0  YOUR C :0
+#   1200.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1130.00ns INFO     test                               XOR Test Case Passed 
+#   1210.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1140.00ns INFO     test                               XOR Test Case Passed 
+#   1210.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :11  GOLDEN C :1  YOUR C :0
 # 
-#   1150.00ns INFO     test                               XOR Test Case Passed 
+#   1220.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1160.00ns INFO     test                               XOR Test Case Passed 
+#   1230.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1170.00ns INFO     test                               XOR Test Case Passed 
+#   1230.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :14  GOLDEN C :1  YOUR C :0
 # 
-#   1180.00ns INFO     test                               XOR Test Case Passed 
+#   1240.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1190.00ns INFO     test                               XOR Test Case Passed 
+#   1250.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1200.00ns INFO     test                               XOR Test Case Passed 
+#   1260.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1210.00ns INFO     test                               XOR Test Case Passed 
+#   1270.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1220.00ns INFO     test                               XOR Test Case Passed 
+#   1280.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1230.00ns ERROR    test                               XOR Test Case Failed 
+#   1280.00ns INFO     test                               GOLDEN OUT :8  YOUR OUT :12  GOLDEN C :0  YOUR C :0
 # 
-#   1230.00ns INFO     test                               GOLDEN OUT :12  YOUR OUT :7  GOLDEN C :0  YOUR C :0
+#   1290.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1240.00ns ERROR    test                               XOR Test Case Failed 
+#   1300.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1240.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :8  GOLDEN C :0  YOUR C :1
+#   1310.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1250.00ns INFO     test                               XOR Test Case Passed 
+#   1310.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :11  GOLDEN C :0  YOUR C :1
 # 
-#   1260.00ns ERROR    test                               XOR Test Case Failed 
+#   1320.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1260.00ns INFO     test                               GOLDEN OUT :9  YOUR OUT :0  GOLDEN C :0  YOUR C :1
+#   1320.00ns INFO     test                               GOLDEN OUT :12  YOUR OUT :11  GOLDEN C :0  YOUR C :0
 # 
-#   1270.00ns INFO     test                               XOR Test Case Passed 
+#   1330.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1280.00ns INFO     test                               XOR Test Case Passed 
+#   1340.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1290.00ns INFO     test                               XOR Test Case Passed 
+#   1350.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1300.00ns INFO     test                               XOR Test Case Passed 
+#   1360.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1310.00ns INFO     test                               XOR Test Case Passed 
+#   1370.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1320.00ns INFO     test                               XOR Test Case Passed 
+#   1370.00ns INFO     test                               GOLDEN OUT :1  YOUR OUT :11  GOLDEN C :1  YOUR C :1
 # 
-#   1330.00ns INFO     test                               XOR Test Case Passed 
+#   1380.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1340.00ns INFO     test                               XOR Test Case Passed 
+#   1380.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :7  GOLDEN C :1  YOUR C :0
 # 
-#   1350.00ns INFO     test                               XOR Test Case Passed 
+#   1390.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1360.00ns INFO     test                               XOR Test Case Passed 
+#   1400.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1370.00ns INFO     test                               XOR Test Case Passed 
+#   1400.00ns INFO     test                               GOLDEN OUT :4  YOUR OUT :13  GOLDEN C :1  YOUR C :1
 # 
-#   1380.00ns ERROR    test                               XOR Test Case Failed 
+#   1410.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1380.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :10  GOLDEN C :0  YOUR C :1
+#   1420.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1390.00ns INFO     test                               XOR Test Case Passed 
+#   1430.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1400.00ns INFO     test                               XOR Test Case Passed 
+#   1430.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :9  GOLDEN C :1  YOUR C :0
 # 
-#   1410.00ns INFO     test                               XOR Test Case Passed 
+#   1440.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1420.00ns INFO     test                               XOR Test Case Passed 
+#   1450.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1430.00ns ERROR    test                               XOR Test Case Failed 
+#   1450.00ns INFO     test                               GOLDEN OUT :10  YOUR OUT :1  GOLDEN C :0  YOUR C :1
 # 
-#   1430.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :6  GOLDEN C :0  YOUR C :0
+#   1460.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1440.00ns ERROR    test                               XOR Test Case Failed 
+#   1470.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1440.00ns INFO     test                               GOLDEN OUT :9  YOUR OUT :4  GOLDEN C :0  YOUR C :0
+#   1480.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1450.00ns ERROR    test                               XOR Test Case Failed 
+#   1490.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1450.00ns INFO     test                               GOLDEN OUT :8  YOUR OUT :2  GOLDEN C :0  YOUR C :1
+#   1490.00ns INFO     test                               GOLDEN OUT :14  YOUR OUT :6  GOLDEN C :0  YOUR C :1
 # 
-#   1460.00ns ERROR    test                               XOR Test Case Failed 
+#   1500.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1460.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :4  GOLDEN C :0  YOUR C :1
+#   1500.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :2  GOLDEN C :0  YOUR C :1
 # 
-#   1470.00ns INFO     test                               XOR Test Case Passed 
+#   1510.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1480.00ns ERROR    test                               XOR Test Case Failed 
+#   1520.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1480.00ns INFO     test                               GOLDEN OUT :13  YOUR OUT :3  GOLDEN C :0  YOUR C :1
+#   1520.00ns INFO     test                               GOLDEN OUT :1  YOUR OUT :0  GOLDEN C :1  YOUR C :1
 # 
-#   1490.00ns INFO     test                               XOR Test Case Passed 
+#   1530.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1500.00ns INFO     test                               XOR Test Case Passed 
+#   1530.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :1  GOLDEN C :1  YOUR C :0
 # 
-#   1510.00ns INFO     test                               XOR Test Case Passed 
+#   1540.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1520.00ns ERROR    test                               XOR Test Case Failed 
+#   1550.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1520.00ns INFO     test                               GOLDEN OUT :1  YOUR OUT :10  GOLDEN C :0  YOUR C :1
+#   1560.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1530.00ns INFO     test                               XOR Test Case Passed 
+#   1570.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1540.00ns INFO     test                               XOR Test Case Passed 
+#   1580.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1550.00ns ERROR    test                               XOR Test Case Failed 
+#   1580.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :11  GOLDEN C :1  YOUR C :1
 # 
-#   1550.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :6  GOLDEN C :0  YOUR C :0
+#   1590.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1560.00ns INFO     test                               XOR Test Case Passed 
+#   1600.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1570.00ns ERROR    test                               XOR Test Case Failed 
+#   1610.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1570.00ns INFO     test                               GOLDEN OUT :4  YOUR OUT :9  GOLDEN C :0  YOUR C :0
+#   1620.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1580.00ns ERROR    test                               XOR Test Case Failed 
+#   1620.00ns INFO     test                               GOLDEN OUT :12  YOUR OUT :11  GOLDEN C :0  YOUR C :1
 # 
-#   1580.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :15  GOLDEN C :0  YOUR C :1
+#   1630.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1590.00ns INFO     test                               XOR Test Case Passed 
+#   1630.00ns INFO     test                               GOLDEN OUT :13  YOUR OUT :15  GOLDEN C :0  YOUR C :1
 # 
-#   1600.00ns INFO     test                               XOR Test Case Passed 
+#   1640.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1610.00ns ERROR    test                               XOR Test Case Failed 
+#   1650.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1610.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :12  GOLDEN C :0  YOUR C :0
+#   1650.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :6  GOLDEN C :0  YOUR C :0
 # 
-#   1620.00ns ERROR    test                               XOR Test Case Failed 
+#   1660.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1620.00ns INFO     test                               GOLDEN OUT :8  YOUR OUT :14  GOLDEN C :0  YOUR C :1
+#   1670.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1630.00ns INFO     test                               XOR Test Case Passed 
+#   1680.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1640.00ns INFO     test                               XOR Test Case Passed 
+#   1690.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1650.00ns INFO     test                               XOR Test Case Passed 
+#   1700.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1660.00ns INFO     test                               XOR Test Case Passed 
+#   1710.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1670.00ns INFO     test                               XOR Test Case Passed 
+#   1720.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1680.00ns INFO     test                               XOR Test Case Passed 
+#   1730.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1690.00ns INFO     test                               XOR Test Case Passed 
+#   1740.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1700.00ns INFO     test                               XOR Test Case Passed 
+#   1750.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1710.00ns INFO     test                               XOR Test Case Passed 
+#   1760.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1720.00ns ERROR    test                               XOR Test Case Failed 
+#   1760.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :1  GOLDEN C :0  YOUR C :0
 # 
-#   1720.00ns INFO     test                               GOLDEN OUT :6  YOUR OUT :1  GOLDEN C :0  YOUR C :1
+#   1770.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1730.00ns INFO     test                               XOR Test Case Passed 
+#   1770.00ns INFO     test                               GOLDEN OUT :12  YOUR OUT :14  GOLDEN C :0  YOUR C :0
 # 
-#   1740.00ns ERROR    test                               XOR Test Case Failed 
+#   1780.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1740.00ns INFO     test                               GOLDEN OUT :4  YOUR OUT :6  GOLDEN C :0  YOUR C :1
+#   1790.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1750.00ns INFO     test                               XOR Test Case Passed 
+#   1800.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1760.00ns INFO     test                               XOR Test Case Passed 
+#   1810.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1770.00ns ERROR    test                               XOR Test Case Failed 
+#   1820.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1770.00ns INFO     test                               GOLDEN OUT :10  YOUR OUT :8  GOLDEN C :0  YOUR C :1
+#   1830.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1780.00ns ERROR    test                               XOR Test Case Failed 
+#   1840.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1780.00ns INFO     test                               GOLDEN OUT :9  YOUR OUT :4  GOLDEN C :0  YOUR C :0
+#   1840.00ns INFO     test                               GOLDEN OUT :3  YOUR OUT :12  GOLDEN C :1  YOUR C :1
 # 
-#   1790.00ns INFO     test                               XOR Test Case Passed 
+#   1850.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1800.00ns ERROR    test                               XOR Test Case Failed 
+#   1860.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1800.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :6  GOLDEN C :0  YOUR C :0
+#   1860.00ns INFO     test                               GOLDEN OUT :5  YOUR OUT :12  GOLDEN C :1  YOUR C :1
 # 
-#   1810.00ns ERROR    test                               XOR Test Case Failed 
+#   1870.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1810.00ns INFO     test                               GOLDEN OUT :14  YOUR OUT :4  GOLDEN C :0  YOUR C :1
+#   1880.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1820.00ns ERROR    test                               XOR Test Case Failed 
+#   1890.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1820.00ns INFO     test                               GOLDEN OUT :13  YOUR OUT :6  GOLDEN C :0  YOUR C :0
+#   1900.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1830.00ns ERROR    test                               XOR Test Case Failed 
+#   1900.00ns INFO     test                               GOLDEN OUT :9  YOUR OUT :15  GOLDEN C :1  YOUR C :1
 # 
-#   1830.00ns INFO     test                               GOLDEN OUT :12  YOUR OUT :10  GOLDEN C :0  YOUR C :1
+#   1910.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1840.00ns INFO     test                               XOR Test Case Passed 
+#   1910.00ns INFO     test                               GOLDEN OUT :10  YOUR OUT :8  GOLDEN C :1  YOUR C :1
 # 
-#   1850.00ns ERROR    test                               XOR Test Case Failed 
+#   1920.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1850.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :8  GOLDEN C :0  YOUR C :1
+#   1930.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1860.00ns INFO     test                               XOR Test Case Passed 
+#   1930.00ns INFO     test                               GOLDEN OUT :13  YOUR OUT :3  GOLDEN C :0  YOUR C :1
 # 
-#   1870.00ns INFO     test                               XOR Test Case Passed 
+#   1940.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1880.00ns ERROR    test                               XOR Test Case Failed 
+#   1950.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1880.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :8  GOLDEN C :0  YOUR C :0
+#   1960.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1890.00ns INFO     test                               XOR Test Case Passed 
+#   1970.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1900.00ns INFO     test                               XOR Test Case Passed 
+#   1980.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1910.00ns INFO     test                               XOR Test Case Passed 
+#   1990.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1920.00ns INFO     test                               XOR Test Case Passed 
+#   2000.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1930.00ns ERROR    test                               XOR Test Case Failed 
+#   2010.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1930.00ns INFO     test                               GOLDEN OUT :13  YOUR OUT :9  GOLDEN C :0  YOUR C :0
+#   2020.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1940.00ns INFO     test                               XOR Test Case Passed 
+#   2030.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1950.00ns INFO     test                               XOR Test Case Passed 
+#   2040.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1960.00ns INFO     test                               XOR Test Case Passed 
+#   2050.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1970.00ns INFO     test                               XOR Test Case Passed 
+#   2060.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   1980.00ns ERROR    test                               XOR Test Case Failed 
+#   2060.00ns INFO     test                               GOLDEN OUT :10  YOUR OUT :11  GOLDEN C :1  YOUR C :1
 # 
-#   1980.00ns INFO     test                               GOLDEN OUT :10  YOUR OUT :14  GOLDEN C :0  YOUR C :1
+#   2070.00ns INFO     test                               Add Test Case Passed 
 # 
-#   1990.00ns INFO     test                               XOR Test Case Passed 
+#   2080.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2000.00ns INFO     test                               XOR Test Case Passed 
+#   2090.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   2010.00ns ERROR    test                               XOR Test Case Failed 
+#   2090.00ns INFO     test                               GOLDEN OUT :14  YOUR OUT :3  GOLDEN C :0  YOUR C :1
 # 
-#   2010.00ns INFO     test                               GOLDEN OUT :5  YOUR OUT :10  GOLDEN C :0  YOUR C :0
+#   2100.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   2020.00ns ERROR    test                               XOR Test Case Failed 
+#   2100.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :11  GOLDEN C :0  YOUR C :1
 # 
-#   2020.00ns INFO     test                               GOLDEN OUT :6  YOUR OUT :10  GOLDEN C :0  YOUR C :0
+#   2110.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2030.00ns INFO     test                               XOR Test Case Passed 
+#   2120.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2040.00ns INFO     test                               XOR Test Case Passed 
+#   2130.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2050.00ns INFO     test                               XOR Test Case Passed 
+#   2140.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2060.00ns INFO     test                               XOR Test Case Passed 
+#   2150.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2070.00ns INFO     test                               XOR Test Case Passed 
+#   2160.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   2080.00ns INFO     test                               XOR Test Case Passed 
+#   2160.00ns INFO     test                               GOLDEN OUT :5  YOUR OUT :8  GOLDEN C :1  YOUR C :1
 # 
-#   2090.00ns ERROR    test                               XOR Test Case Failed 
+#   2170.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2090.00ns INFO     test                               GOLDEN OUT :12  YOUR OUT :2  GOLDEN C :0  YOUR C :0
+#   2180.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   2100.00ns INFO     test                               XOR Test Case Passed 
+#   2180.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :15  GOLDEN C :1  YOUR C :1
 # 
-#   2110.00ns INFO     test                               XOR Test Case Passed 
+#   2190.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2120.00ns INFO     test                               XOR Test Case Passed 
+#   2200.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2130.00ns INFO     test                               XOR Test Case Passed 
+#   2210.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   2140.00ns ERROR    test                               XOR Test Case Failed 
+#   2210.00ns INFO     test                               GOLDEN OUT :10  YOUR OUT :0  GOLDEN C :1  YOUR C :0
 # 
-#   2140.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :15  GOLDEN C :0  YOUR C :1
+#   2220.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   2150.00ns INFO     test                               XOR Test Case Passed 
+#   2220.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :0  GOLDEN C :1  YOUR C :1
 # 
-#   2160.00ns INFO     test                               XOR Test Case Passed 
+#   2230.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2170.00ns ERROR    test                               XOR Test Case Failed 
+#   2240.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2170.00ns INFO     test                               GOLDEN OUT :4  YOUR OUT :12  GOLDEN C :0  YOUR C :1
+#   2250.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2180.00ns INFO     test                               XOR Test Case Passed 
+#   2260.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2190.00ns INFO     test                               XOR Test Case Passed 
+#   2270.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2200.00ns INFO     test                               XOR Test Case Passed 
+#   2280.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2210.00ns ERROR    test                               XOR Test Case Failed 
+#   2290.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2210.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :10  GOLDEN C :0  YOUR C :0
+#   2300.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2220.00ns INFO     test                               XOR Test Case Passed 
+#   2310.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2230.00ns ERROR    test                               XOR Test Case Failed 
+#   2320.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   2230.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :14  GOLDEN C :0  YOUR C :1
+#   2320.00ns INFO     test                               GOLDEN OUT :6  YOUR OUT :11  GOLDEN C :1  YOUR C :1
 # 
-#   2240.00ns INFO     test                               XOR Test Case Passed 
+#   2330.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2250.00ns INFO     test                               XOR Test Case Passed 
+#   2340.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2260.00ns INFO     test                               XOR Test Case Passed 
+#   2350.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2270.00ns INFO     test                               XOR Test Case Passed 
+#   2360.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2280.00ns INFO     test                               XOR Test Case Passed 
+#   2370.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2290.00ns INFO     test                               XOR Test Case Passed 
+#   2380.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2300.00ns ERROR    test                               XOR Test Case Failed 
+#   2390.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2300.00ns INFO     test                               GOLDEN OUT :8  YOUR OUT :14  GOLDEN C :0  YOUR C :0
+#   2400.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2310.00ns INFO     test                               XOR Test Case Passed 
+#   2410.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2320.00ns INFO     test                               XOR Test Case Passed 
+#   2420.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2330.00ns INFO     test                               XOR Test Case Passed 
+#   2430.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   2340.00ns ERROR    test                               XOR Test Case Failed 
+#   2430.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :5  GOLDEN C :1  YOUR C :1
 # 
-#   2340.00ns INFO     test                               GOLDEN OUT :4  YOUR OUT :2  GOLDEN C :0  YOUR C :1
+#   2440.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2350.00ns INFO     test                               XOR Test Case Passed 
+#   2450.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2360.00ns INFO     test                               XOR Test Case Passed 
+#   2460.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2370.00ns INFO     test                               XOR Test Case Passed 
+#   2470.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2380.00ns INFO     test                               XOR Test Case Passed 
+#   2480.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2390.00ns INFO     test                               XOR Test Case Passed 
+#   2490.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2400.00ns INFO     test                               XOR Test Case Passed 
+#   2500.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   2410.00ns INFO     test                               XOR Test Case Passed 
+#   2500.00ns INFO     test                               GOLDEN OUT :9  YOUR OUT :11  GOLDEN C :1  YOUR C :0
 # 
-#   2420.00ns INFO     test                               XOR Test Case Passed 
+#   2510.00ns ERROR    test                               Add Test Case Failed 
 # 
-#   2430.00ns ERROR    test                               XOR Test Case Failed 
+#   2510.00ns INFO     test                               GOLDEN OUT :10  YOUR OUT :12  GOLDEN C :1  YOUR C :0
 # 
-#   2430.00ns INFO     test                               GOLDEN OUT :12  YOUR OUT :15  GOLDEN C :0  YOUR C :1
+#   2520.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2440.00ns ERROR    test                               XOR Test Case Failed 
+#   2530.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2440.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :2  GOLDEN C :0  YOUR C :0
+#   2540.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2450.00ns INFO     test                               XOR Test Case Passed 
+#   2550.00ns INFO     test                               Add Test Case Passed 
 # 
-#   2460.00ns INFO     test                               XOR Test Case Passed 
+#   2555.00ns INFO     test                               >>> Starting XOR Sequence <<<
 # 
-#   2470.00ns INFO     test                               XOR Test Case Passed 
+#   2560.00ns ERROR    test                               XOR Test Case Failed 
 # 
-#   2480.00ns ERROR    test                               XOR Test Case Failed 
+#   2560.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :7  GOLDEN C :0  YOUR C :0
 # 
-#   2480.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :2  GOLDEN C :0  YOUR C :1
+#   2570.00ns ERROR    test                               XOR Test Case Failed 
 # 
-#   2490.00ns INFO     test                               XOR Test Case Passed 
+#   2570.00ns INFO     test                               GOLDEN OUT :1  YOUR OUT :14  GOLDEN C :0  YOUR C :0
 # 
-#   2500.00ns ERROR    test                               XOR Test Case Failed 
+#   2580.00ns INFO     test                               XOR Test Case Passed 
 # 
-#   2500.00ns INFO     test                               GOLDEN OUT :5  YOUR OUT :13  GOLDEN C :0  YOUR C :0
+#   2590.00ns INFO     test                               XOR Test Case Passed 
 # 
-#   2510.00ns INFO     test                               XOR Test Case Passed 
+#   2600.00ns INFO     test                               XOR Test Case Passed 
 # 
-#   2520.00ns ERROR    test                               XOR Test Case Failed 
+#   2610.00ns INFO     test                               XOR Test Case Passed 
 # 
-#   2520.00ns INFO     test                               GOLDEN OUT :3  YOUR OUT :2  GOLDEN C :0  YOUR C :1
+#   2620.00ns INFO     test                               XOR Test Case Passed 
 # 
-#   2530.00ns ERROR    test                               XOR Test Case Failed 
+#   2630.00ns ERROR    test                               XOR Test Case Failed 
 # 
-#   2530.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :11  GOLDEN C :0  YOUR C :1
+#   2630.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :15  GOLDEN C :0  YOUR C :1
 # 
-#   2540.00ns ERROR    test                               XOR Test Case Failed 
+#   2640.00ns ERROR    test                               XOR Test Case Failed 
 # 
-#   2540.00ns INFO     test                               GOLDEN OUT :1  YOUR OUT :11  GOLDEN C :0  YOUR C :1
+#   2640.00ns INFO     test                               GOLDEN OUT :8  YOUR OUT :12  GOLDEN C :0  YOUR C :0
 # 
-#   2550.00ns INFO     test                               XOR Test Case Passed 
+#   2650.00ns INFO     test                               XOR Test Case Passed 
 # 
-#   2555.00ns INFO     test                               ========================================
+#   2660.00ns INFO     test                               XOR Test Case Passed 
 # 
-#   2555.00ns INFO     test                                        SCOREBOARD FINAL REPORT        
+#   2670.00ns INFO     test                               XOR Test Case Passed 
 # 
-#   2555.00ns INFO     test                               ========================================
+#   2680.00ns INFO     test                               XOR Test Case Passed 
 # 
-#   2555.00ns INFO     test                                PASSED: 177
+#   2690.00ns ERROR    test                               XOR Test Case Failed 
 # 
-#   2555.00ns INFO     test                                FAILED: 79
+#   2690.00ns INFO     test                               GOLDEN OUT :13  YOUR OUT :2  GOLDEN C :0  YOUR C :0
 # 
-#   2555.00ns INFO     test                               ========================================
+#   2700.00ns INFO     test                               XOR Test Case Passed 
 # 
-#   2555.00ns ERROR    test                                TEST STATUS: FAILED 
+#   2710.00ns ERROR    test                               XOR Test Case Failed 
 # 
-#   2555.00ns INFO     test                               ========================================
+#   2710.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :9  GOLDEN C :0  YOUR C :1
 # 
-#   2555.00ns INFO     test                                          COVERAGE REPORT              
+#   2720.00ns INFO     test                               XOR Test Case Passed 
 # 
-#   2555.00ns INFO     test                               ========================================
+#   2730.00ns INFO     test                               XOR Test Case Passed 
 # 
-#   2555.00ns INFO     test                                'out' Hits: 16
+#   2740.00ns INFO     test                               XOR Test Case Passed 
 # 
-#   2555.00ns INFO     test                                'out' Percentage: 100.0%
+#   2750.00ns ERROR    test                               XOR Test Case Failed 
 # 
-#   2555.00ns INFO     test                               ========================================
+#   2750.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :0  GOLDEN C :0  YOUR C :0
 # 
-#   2555.00ns INFO     cocotb.regression                  test.main_test passed
+#   2760.00ns INFO     test                               XOR Test Case Passed 
 # 
-#   2555.00ns INFO     cocotb.regression                  **************************************************************************************
+#   2770.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   2770.00ns INFO     test                               GOLDEN OUT :4  YOUR OUT :10  GOLDEN C :0  YOUR C :0
+# 
+#   2780.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   2790.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   2800.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   2810.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   2820.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   2820.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :9  GOLDEN C :0  YOUR C :0
+# 
+#   2830.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   2840.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   2850.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   2860.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   2860.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :2  GOLDEN C :0  YOUR C :0
+# 
+#   2870.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   2880.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   2890.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   2900.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   2900.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :3  GOLDEN C :0  YOUR C :1
+# 
+#   2910.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   2910.00ns INFO     test                               GOLDEN OUT :1  YOUR OUT :8  GOLDEN C :0  YOUR C :1
+# 
+#   2920.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   2930.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   2940.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   2950.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   2960.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   2970.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   2980.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   2990.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3000.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3010.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3020.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3030.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3030.00ns INFO     test                               GOLDEN OUT :13  YOUR OUT :4  GOLDEN C :0  YOUR C :1
+# 
+#   3040.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3040.00ns INFO     test                               GOLDEN OUT :3  YOUR OUT :15  GOLDEN C :0  YOUR C :0
+# 
+#   3050.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3060.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3060.00ns INFO     test                               GOLDEN OUT :1  YOUR OUT :13  GOLDEN C :0  YOUR C :0
+# 
+#   3070.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3080.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3090.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3100.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3100.00ns INFO     test                               GOLDEN OUT :5  YOUR OUT :3  GOLDEN C :0  YOUR C :0
+# 
+#   3110.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3120.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3120.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :2  GOLDEN C :0  YOUR C :1
+# 
+#   3130.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3140.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3150.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3150.00ns INFO     test                               GOLDEN OUT :8  YOUR OUT :3  GOLDEN C :0  YOUR C :0
+# 
+#   3160.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3170.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3180.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3190.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3200.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3200.00ns INFO     test                               GOLDEN OUT :4  YOUR OUT :1  GOLDEN C :0  YOUR C :0
+# 
+#   3210.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3220.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3230.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3230.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :2  GOLDEN C :0  YOUR C :1
+# 
+#   3240.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3240.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :14  GOLDEN C :0  YOUR C :0
+# 
+#   3250.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3260.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3270.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3270.00ns INFO     test                               GOLDEN OUT :3  YOUR OUT :9  GOLDEN C :0  YOUR C :1
+# 
+#   3280.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3290.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3300.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3300.00ns INFO     test                               GOLDEN OUT :14  YOUR OUT :13  GOLDEN C :0  YOUR C :1
+# 
+#   3310.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3320.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3330.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3340.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3350.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3360.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3370.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3380.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3390.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3390.00ns INFO     test                               GOLDEN OUT :6  YOUR OUT :10  GOLDEN C :0  YOUR C :0
+# 
+#   3400.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3410.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3420.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3430.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3440.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3440.00ns INFO     test                               GOLDEN OUT :13  YOUR OUT :2  GOLDEN C :0  YOUR C :1
+# 
+#   3450.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3460.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3460.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :8  GOLDEN C :0  YOUR C :1
+# 
+#   3470.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3480.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3480.00ns INFO     test                               GOLDEN OUT :9  YOUR OUT :6  GOLDEN C :0  YOUR C :1
+# 
+#   3490.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3490.00ns INFO     test                               GOLDEN OUT :8  YOUR OUT :10  GOLDEN C :0  YOUR C :1
+# 
+#   3500.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3500.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :13  GOLDEN C :0  YOUR C :1
+# 
+#   3510.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3510.00ns INFO     test                               GOLDEN OUT :10  YOUR OUT :2  GOLDEN C :0  YOUR C :1
+# 
+#   3520.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3530.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3530.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :0  GOLDEN C :0  YOUR C :0
+# 
+#   3540.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3550.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3550.00ns INFO     test                               GOLDEN OUT :5  YOUR OUT :12  GOLDEN C :0  YOUR C :0
+# 
+#   3560.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3570.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3580.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3580.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :12  GOLDEN C :0  YOUR C :1
+# 
+#   3590.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3590.00ns INFO     test                               GOLDEN OUT :1  YOUR OUT :11  GOLDEN C :0  YOUR C :0
+# 
+#   3600.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3610.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3620.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3630.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3640.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3650.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3660.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3670.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3670.00ns INFO     test                               GOLDEN OUT :9  YOUR OUT :0  GOLDEN C :0  YOUR C :0
+# 
+#   3680.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3680.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :14  GOLDEN C :0  YOUR C :0
+# 
+#   3690.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3700.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3710.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3720.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3730.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3740.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3750.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3760.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3770.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3780.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3790.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3790.00ns INFO     test                               GOLDEN OUT :12  YOUR OUT :7  GOLDEN C :0  YOUR C :0
+# 
+#   3800.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3800.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :8  GOLDEN C :0  YOUR C :1
+# 
+#   3810.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3820.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3820.00ns INFO     test                               GOLDEN OUT :9  YOUR OUT :0  GOLDEN C :0  YOUR C :1
+# 
+#   3830.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3840.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3850.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3860.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3870.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3880.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3890.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3900.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3910.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3920.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3930.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3940.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3940.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :10  GOLDEN C :0  YOUR C :1
+# 
+#   3950.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3960.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3970.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3980.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   3990.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   3990.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :6  GOLDEN C :0  YOUR C :0
+# 
+#   4000.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4000.00ns INFO     test                               GOLDEN OUT :9  YOUR OUT :4  GOLDEN C :0  YOUR C :0
+# 
+#   4010.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4010.00ns INFO     test                               GOLDEN OUT :8  YOUR OUT :2  GOLDEN C :0  YOUR C :1
+# 
+#   4020.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4020.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :4  GOLDEN C :0  YOUR C :1
+# 
+#   4030.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4040.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4040.00ns INFO     test                               GOLDEN OUT :13  YOUR OUT :3  GOLDEN C :0  YOUR C :1
+# 
+#   4050.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4060.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4070.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4080.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4080.00ns INFO     test                               GOLDEN OUT :1  YOUR OUT :10  GOLDEN C :0  YOUR C :1
+# 
+#   4090.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4100.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4110.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4110.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :6  GOLDEN C :0  YOUR C :0
+# 
+#   4120.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4130.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4130.00ns INFO     test                               GOLDEN OUT :4  YOUR OUT :9  GOLDEN C :0  YOUR C :0
+# 
+#   4140.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4140.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :15  GOLDEN C :0  YOUR C :1
+# 
+#   4150.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4160.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4170.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4170.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :12  GOLDEN C :0  YOUR C :0
+# 
+#   4180.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4180.00ns INFO     test                               GOLDEN OUT :8  YOUR OUT :14  GOLDEN C :0  YOUR C :1
+# 
+#   4190.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4200.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4210.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4220.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4230.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4240.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4250.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4260.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4270.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4280.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4280.00ns INFO     test                               GOLDEN OUT :6  YOUR OUT :1  GOLDEN C :0  YOUR C :1
+# 
+#   4290.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4300.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4300.00ns INFO     test                               GOLDEN OUT :4  YOUR OUT :6  GOLDEN C :0  YOUR C :1
+# 
+#   4310.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4320.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4330.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4330.00ns INFO     test                               GOLDEN OUT :10  YOUR OUT :8  GOLDEN C :0  YOUR C :1
+# 
+#   4340.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4340.00ns INFO     test                               GOLDEN OUT :9  YOUR OUT :4  GOLDEN C :0  YOUR C :0
+# 
+#   4350.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4360.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4360.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :6  GOLDEN C :0  YOUR C :0
+# 
+#   4370.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4370.00ns INFO     test                               GOLDEN OUT :14  YOUR OUT :4  GOLDEN C :0  YOUR C :1
+# 
+#   4380.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4380.00ns INFO     test                               GOLDEN OUT :13  YOUR OUT :6  GOLDEN C :0  YOUR C :0
+# 
+#   4390.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4390.00ns INFO     test                               GOLDEN OUT :12  YOUR OUT :10  GOLDEN C :0  YOUR C :1
+# 
+#   4400.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4410.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4410.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :8  GOLDEN C :0  YOUR C :1
+# 
+#   4420.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4430.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4440.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4440.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :8  GOLDEN C :0  YOUR C :0
+# 
+#   4450.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4460.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4470.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4480.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4490.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4490.00ns INFO     test                               GOLDEN OUT :13  YOUR OUT :9  GOLDEN C :0  YOUR C :0
+# 
+#   4500.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4510.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4520.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4530.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4540.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4540.00ns INFO     test                               GOLDEN OUT :10  YOUR OUT :14  GOLDEN C :0  YOUR C :1
+# 
+#   4550.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4560.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4570.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4570.00ns INFO     test                               GOLDEN OUT :5  YOUR OUT :10  GOLDEN C :0  YOUR C :0
+# 
+#   4580.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4580.00ns INFO     test                               GOLDEN OUT :6  YOUR OUT :10  GOLDEN C :0  YOUR C :0
+# 
+#   4590.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4600.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4610.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4620.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4630.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4640.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4650.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4650.00ns INFO     test                               GOLDEN OUT :12  YOUR OUT :2  GOLDEN C :0  YOUR C :0
+# 
+#   4660.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4670.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4680.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4690.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4700.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4700.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :15  GOLDEN C :0  YOUR C :1
+# 
+#   4710.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4720.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4730.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4730.00ns INFO     test                               GOLDEN OUT :4  YOUR OUT :12  GOLDEN C :0  YOUR C :1
+# 
+#   4740.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4750.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4760.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4770.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4770.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :10  GOLDEN C :0  YOUR C :0
+# 
+#   4780.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4790.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4790.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :14  GOLDEN C :0  YOUR C :1
+# 
+#   4800.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4810.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4820.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4830.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4840.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4850.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4860.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4860.00ns INFO     test                               GOLDEN OUT :8  YOUR OUT :14  GOLDEN C :0  YOUR C :0
+# 
+#   4870.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4880.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4890.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4900.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4900.00ns INFO     test                               GOLDEN OUT :4  YOUR OUT :2  GOLDEN C :0  YOUR C :1
+# 
+#   4910.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4920.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4930.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4940.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4950.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4960.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4970.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4980.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   4990.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   4990.00ns INFO     test                               GOLDEN OUT :12  YOUR OUT :15  GOLDEN C :0  YOUR C :1
+# 
+#   5000.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   5000.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :2  GOLDEN C :0  YOUR C :0
+# 
+#   5010.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   5020.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   5030.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   5040.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   5040.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :2  GOLDEN C :0  YOUR C :1
+# 
+#   5050.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   5060.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   5060.00ns INFO     test                               GOLDEN OUT :5  YOUR OUT :13  GOLDEN C :0  YOUR C :0
+# 
+#   5070.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   5080.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   5080.00ns INFO     test                               GOLDEN OUT :3  YOUR OUT :2  GOLDEN C :0  YOUR C :1
+# 
+#   5090.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   5090.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :11  GOLDEN C :0  YOUR C :1
+# 
+#   5100.00ns ERROR    test                               XOR Test Case Failed 
+# 
+#   5100.00ns INFO     test                               GOLDEN OUT :1  YOUR OUT :11  GOLDEN C :0  YOUR C :1
+# 
+#   5110.00ns INFO     test                               XOR Test Case Passed 
+# 
+#   5115.00ns INFO     test                               >>> Starting AND Sequence <<<
+# 
+#   5120.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   5120.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :10  GOLDEN C :0  YOUR C :0
+# 
+#   5130.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5140.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5150.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   5150.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :1  GOLDEN C :0  YOUR C :1
+# 
+#   5160.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5170.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5180.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5190.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5200.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5210.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5220.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   5220.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :4  GOLDEN C :0  YOUR C :1
+# 
+#   5230.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5240.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5250.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   5250.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :3  GOLDEN C :0  YOUR C :1
+# 
+#   5260.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5270.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   5270.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :14  GOLDEN C :0  YOUR C :0
+# 
+#   5280.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5290.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5300.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   5300.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :4  GOLDEN C :0  YOUR C :0
+# 
+#   5310.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5320.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5330.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5340.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5350.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5360.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   5360.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :15  GOLDEN C :0  YOUR C :1
+# 
+#   5370.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5380.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5390.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   5390.00ns INFO     test                               GOLDEN OUT :1  YOUR OUT :6  GOLDEN C :0  YOUR C :0
+# 
+#   5400.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   5400.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :1  GOLDEN C :0  YOUR C :1
+# 
+#   5410.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5420.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5430.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   5430.00ns INFO     test                               GOLDEN OUT :1  YOUR OUT :9  GOLDEN C :0  YOUR C :1
+# 
+#   5440.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   5440.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :15  GOLDEN C :0  YOUR C :1
+# 
+#   5450.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5460.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   5460.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :14  GOLDEN C :0  YOUR C :1
+# 
+#   5470.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5480.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   5480.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :0  GOLDEN C :0  YOUR C :1
+# 
+#   5490.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5500.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   5500.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :1  GOLDEN C :0  YOUR C :1
+# 
+#   5510.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5520.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5530.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5540.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5550.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   5550.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :5  GOLDEN C :0  YOUR C :0
+# 
+#   5560.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5570.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5580.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   5580.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :13  GOLDEN C :0  YOUR C :1
+# 
+#   5590.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5600.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   5600.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :14  GOLDEN C :0  YOUR C :0
+# 
+#   5610.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5620.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5630.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   5630.00ns INFO     test                               GOLDEN OUT :3  YOUR OUT :2  GOLDEN C :0  YOUR C :0
+# 
+#   5640.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5650.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5660.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5670.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5680.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5690.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5700.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5710.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5720.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5730.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5740.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5750.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5760.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5770.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5780.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   5780.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :4  GOLDEN C :0  YOUR C :0
+# 
+#   5790.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5800.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5810.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5820.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5830.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   5830.00ns INFO     test                               GOLDEN OUT :4  YOUR OUT :9  GOLDEN C :0  YOUR C :1
+# 
+#   5840.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   5840.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :5  GOLDEN C :0  YOUR C :0
+# 
+#   5850.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   5850.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :12  GOLDEN C :0  YOUR C :0
+# 
+#   5860.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5870.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5880.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5890.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5900.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5910.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5920.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5930.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5940.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5950.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5960.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   5960.00ns INFO     test                               GOLDEN OUT :4  YOUR OUT :12  GOLDEN C :0  YOUR C :1
+# 
+#   5970.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5980.00ns INFO     test                               AND Test Case Passed 
+# 
+#   5990.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   5990.00ns INFO     test                               GOLDEN OUT :5  YOUR OUT :3  GOLDEN C :0  YOUR C :1
+# 
+#   6000.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6000.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :8  GOLDEN C :0  YOUR C :1
+# 
+#   6010.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6020.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6030.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6040.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6050.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6060.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6070.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6080.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6080.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :9  GOLDEN C :0  YOUR C :1
+# 
+#   6090.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6090.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :7  GOLDEN C :0  YOUR C :1
+# 
+#   6100.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6110.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6120.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6130.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6130.00ns INFO     test                               GOLDEN OUT :4  YOUR OUT :11  GOLDEN C :0  YOUR C :0
+# 
+#   6140.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6150.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6160.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6160.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :3  GOLDEN C :0  YOUR C :1
+# 
+#   6170.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6180.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6190.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6190.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :3  GOLDEN C :0  YOUR C :0
+# 
+#   6200.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6210.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6220.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6220.00ns INFO     test                               GOLDEN OUT :6  YOUR OUT :2  GOLDEN C :0  YOUR C :0
+# 
+#   6230.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6240.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6250.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6250.00ns INFO     test                               GOLDEN OUT :1  YOUR OUT :11  GOLDEN C :0  YOUR C :0
+# 
+#   6260.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6260.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :3  GOLDEN C :0  YOUR C :0
+# 
+#   6270.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6280.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6280.00ns INFO     test                               GOLDEN OUT :4  YOUR OUT :2  GOLDEN C :0  YOUR C :1
+# 
+#   6290.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6290.00ns INFO     test                               GOLDEN OUT :5  YOUR OUT :10  GOLDEN C :0  YOUR C :1
+# 
+#   6300.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6310.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6320.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6330.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6340.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6350.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6360.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6370.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6370.00ns INFO     test                               GOLDEN OUT :5  YOUR OUT :14  GOLDEN C :0  YOUR C :1
+# 
+#   6380.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6390.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6400.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6400.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :10  GOLDEN C :0  YOUR C :1
+# 
+#   6410.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6420.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6420.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :5  GOLDEN C :0  YOUR C :0
+# 
+#   6430.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6440.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6450.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6460.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6470.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6480.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6490.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6500.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6510.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6520.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6530.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6540.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6550.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6560.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6570.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6580.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6590.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6600.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6600.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :7  GOLDEN C :0  YOUR C :0
+# 
+#   6610.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6610.00ns INFO     test                               GOLDEN OUT :1  YOUR OUT :2  GOLDEN C :0  YOUR C :1
+# 
+#   6620.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6630.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6640.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6650.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6660.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6670.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6680.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6690.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6690.00ns INFO     test                               GOLDEN OUT :9  YOUR OUT :10  GOLDEN C :0  YOUR C :0
+# 
+#   6700.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6710.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6720.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6730.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6730.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :5  GOLDEN C :0  YOUR C :0
+# 
+#   6740.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6740.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :2  GOLDEN C :0  YOUR C :1
+# 
+#   6750.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6750.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :15  GOLDEN C :0  YOUR C :1
+# 
+#   6760.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6760.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :2  GOLDEN C :0  YOUR C :0
+# 
+#   6770.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6780.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6790.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6800.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6810.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6820.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6830.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6840.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6840.00ns INFO     test                               GOLDEN OUT :8  YOUR OUT :9  GOLDEN C :0  YOUR C :0
+# 
+#   6850.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6860.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6860.00ns INFO     test                               GOLDEN OUT :10  YOUR OUT :13  GOLDEN C :0  YOUR C :0
+# 
+#   6870.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6870.00ns INFO     test                               GOLDEN OUT :10  YOUR OUT :6  GOLDEN C :0  YOUR C :0
+# 
+#   6880.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6880.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :8  GOLDEN C :0  YOUR C :0
+# 
+#   6890.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6890.00ns INFO     test                               GOLDEN OUT :1  YOUR OUT :3  GOLDEN C :0  YOUR C :1
+# 
+#   6900.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6910.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6920.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6930.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6940.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6940.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :6  GOLDEN C :0  YOUR C :0
+# 
+#   6950.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6960.00ns INFO     test                               AND Test Case Passed 
+# 
+#   6970.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6970.00ns INFO     test                               GOLDEN OUT :9  YOUR OUT :13  GOLDEN C :0  YOUR C :1
+# 
+#   6980.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   6980.00ns INFO     test                               GOLDEN OUT :10  YOUR OUT :0  GOLDEN C :0  YOUR C :0
+# 
+#   6990.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7000.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   7000.00ns INFO     test                               GOLDEN OUT :8  YOUR OUT :4  GOLDEN C :0  YOUR C :0
+# 
+#   7010.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7020.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7030.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   7030.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :1  GOLDEN C :0  YOUR C :0
+# 
+#   7040.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   7040.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :13  GOLDEN C :0  YOUR C :0
+# 
+#   7050.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   7050.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :3  GOLDEN C :0  YOUR C :1
+# 
+#   7060.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7070.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7080.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   7080.00ns INFO     test                               GOLDEN OUT :4  YOUR OUT :8  GOLDEN C :0  YOUR C :1
+# 
+#   7090.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7100.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7110.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7120.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7130.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7140.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7150.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7160.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7170.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7180.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7190.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   7190.00ns INFO     test                               GOLDEN OUT :12  YOUR OUT :12  GOLDEN C :0  YOUR C :1
+# 
+#   7200.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7210.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7220.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   7220.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :1  GOLDEN C :0  YOUR C :1
+# 
+#   7230.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   7230.00ns INFO     test                               GOLDEN OUT :1  YOUR OUT :3  GOLDEN C :0  YOUR C :0
+# 
+#   7240.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7250.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   7250.00ns INFO     test                               GOLDEN OUT :5  YOUR OUT :13  GOLDEN C :0  YOUR C :1
+# 
+#   7260.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   7260.00ns INFO     test                               GOLDEN OUT :4  YOUR OUT :11  GOLDEN C :0  YOUR C :0
+# 
+#   7270.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   7270.00ns INFO     test                               GOLDEN OUT :5  YOUR OUT :2  GOLDEN C :0  YOUR C :0
+# 
+#   7280.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7290.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7300.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   7300.00ns INFO     test                               GOLDEN OUT :8  YOUR OUT :9  GOLDEN C :0  YOUR C :0
+# 
+#   7310.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7320.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7330.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7340.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7350.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7360.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   7360.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :13  GOLDEN C :0  YOUR C :0
+# 
+#   7370.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   7370.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :2  GOLDEN C :0  YOUR C :1
+# 
+#   7380.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   7380.00ns INFO     test                               GOLDEN OUT :2  YOUR OUT :6  GOLDEN C :0  YOUR C :0
+# 
+#   7390.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7400.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7410.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7420.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7430.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7440.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7450.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7460.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7470.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   7470.00ns INFO     test                               GOLDEN OUT :10  YOUR OUT :13  GOLDEN C :0  YOUR C :1
+# 
+#   7480.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7490.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   7490.00ns INFO     test                               GOLDEN OUT :12  YOUR OUT :9  GOLDEN C :0  YOUR C :1
+# 
+#   7500.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   7500.00ns INFO     test                               GOLDEN OUT :14  YOUR OUT :0  GOLDEN C :0  YOUR C :0
+# 
+#   7510.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7520.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   7520.00ns INFO     test                               GOLDEN OUT :0  YOUR OUT :9  GOLDEN C :0  YOUR C :1
+# 
+#   7530.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7540.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7550.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   7550.00ns INFO     test                               GOLDEN OUT :3  YOUR OUT :1  GOLDEN C :0  YOUR C :1
+# 
+#   7560.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   7560.00ns INFO     test                               GOLDEN OUT :4  YOUR OUT :11  GOLDEN C :0  YOUR C :1
+# 
+#   7570.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   7570.00ns INFO     test                               GOLDEN OUT :5  YOUR OUT :14  GOLDEN C :0  YOUR C :1
+# 
+#   7580.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7590.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7600.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7610.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7620.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   7620.00ns INFO     test                               GOLDEN OUT :10  YOUR OUT :0  GOLDEN C :0  YOUR C :1
+# 
+#   7630.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7640.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   7640.00ns INFO     test                               GOLDEN OUT :12  YOUR OUT :7  GOLDEN C :0  YOUR C :1
+# 
+#   7650.00ns ERROR    test                               AND Test Case Failed 
+# 
+#   7650.00ns INFO     test                               GOLDEN OUT :13  YOUR OUT :9  GOLDEN C :0  YOUR C :1
+# 
+#   7660.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7670.00ns INFO     test                               AND Test Case Passed 
+# 
+#   7675.00ns INFO     test                               >>> Starting OR Sequence <<<
+# 
+#   7680.00ns INFO     test                               OR Test Case Passed 
+# 
+#   7690.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   7690.00ns INFO     test                               GOLDEN OUT :1  YOUR OUT :6  GOLDEN C :0  YOUR C :0
+# 
+#   7700.00ns INFO     test                               OR Test Case Passed 
+# 
+#   7710.00ns INFO     test                               OR Test Case Passed 
+# 
+#   7720.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   7720.00ns INFO     test                               GOLDEN OUT :4  YOUR OUT :8  GOLDEN C :0  YOUR C :0
+# 
+#   7730.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   7730.00ns INFO     test                               GOLDEN OUT :5  YOUR OUT :7  GOLDEN C :0  YOUR C :0
+# 
+#   7740.00ns INFO     test                               OR Test Case Passed 
+# 
+#   7750.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   7750.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :8  GOLDEN C :0  YOUR C :1
+# 
+#   7760.00ns INFO     test                               OR Test Case Passed 
+# 
+#   7770.00ns INFO     test                               OR Test Case Passed 
+# 
+#   7780.00ns INFO     test                               OR Test Case Passed 
+# 
+#   7790.00ns INFO     test                               OR Test Case Passed 
+# 
+#   7800.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   7800.00ns INFO     test                               GOLDEN OUT :12  YOUR OUT :8  GOLDEN C :0  YOUR C :1
+# 
+#   7810.00ns INFO     test                               OR Test Case Passed 
+# 
+#   7820.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   7820.00ns INFO     test                               GOLDEN OUT :14  YOUR OUT :6  GOLDEN C :0  YOUR C :0
+# 
+#   7830.00ns INFO     test                               OR Test Case Passed 
+# 
+#   7840.00ns INFO     test                               OR Test Case Passed 
+# 
+#   7850.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   7850.00ns INFO     test                               GOLDEN OUT :1  YOUR OUT :10  GOLDEN C :0  YOUR C :1
+# 
+#   7860.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   7860.00ns INFO     test                               GOLDEN OUT :3  YOUR OUT :5  GOLDEN C :0  YOUR C :1
+# 
+#   7870.00ns INFO     test                               OR Test Case Passed 
+# 
+#   7880.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   7880.00ns INFO     test                               GOLDEN OUT :5  YOUR OUT :10  GOLDEN C :0  YOUR C :0
+# 
+#   7890.00ns INFO     test                               OR Test Case Passed 
+# 
+#   7900.00ns INFO     test                               OR Test Case Passed 
+# 
+#   7910.00ns INFO     test                               OR Test Case Passed 
+# 
+#   7920.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   7920.00ns INFO     test                               GOLDEN OUT :9  YOUR OUT :0  GOLDEN C :0  YOUR C :0
+# 
+#   7930.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   7930.00ns INFO     test                               GOLDEN OUT :9  YOUR OUT :5  GOLDEN C :0  YOUR C :0
+# 
+#   7940.00ns INFO     test                               OR Test Case Passed 
+# 
+#   7950.00ns INFO     test                               OR Test Case Passed 
+# 
+#   7960.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   7960.00ns INFO     test                               GOLDEN OUT :13  YOUR OUT :9  GOLDEN C :0  YOUR C :1
+# 
+#   7970.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   7970.00ns INFO     test                               GOLDEN OUT :13  YOUR OUT :0  GOLDEN C :0  YOUR C :1
+# 
+#   7980.00ns INFO     test                               OR Test Case Passed 
+# 
+#   7990.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   7990.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :12  GOLDEN C :0  YOUR C :1
+# 
+#   8000.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8010.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8020.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8030.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8030.00ns INFO     test                               GOLDEN OUT :3  YOUR OUT :10  GOLDEN C :0  YOUR C :0
+# 
+#   8040.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8050.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8060.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8070.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8080.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8090.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8090.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :1  GOLDEN C :0  YOUR C :1
+# 
+#   8100.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8110.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8110.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :0  GOLDEN C :0  YOUR C :1
+# 
+#   8120.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8120.00ns INFO     test                               GOLDEN OUT :14  YOUR OUT :2  GOLDEN C :0  YOUR C :0
+# 
+#   8130.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8130.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :15  GOLDEN C :0  YOUR C :1
+# 
+#   8140.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8150.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8160.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8170.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8180.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8180.00ns INFO     test                               GOLDEN OUT :3  YOUR OUT :13  GOLDEN C :0  YOUR C :0
+# 
+#   8190.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8200.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8200.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :15  GOLDEN C :0  YOUR C :1
+# 
+#   8210.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8210.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :12  GOLDEN C :0  YOUR C :1
+# 
+#   8220.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8220.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :2  GOLDEN C :0  YOUR C :1
+# 
+#   8230.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8230.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :11  GOLDEN C :0  YOUR C :0
+# 
+#   8240.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8240.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :11  GOLDEN C :0  YOUR C :1
+# 
+#   8250.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8260.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8270.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8280.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8290.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8300.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8310.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8320.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8330.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8340.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8350.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8360.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8370.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8380.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8380.00ns INFO     test                               GOLDEN OUT :6  YOUR OUT :3  GOLDEN C :0  YOUR C :1
+# 
+#   8390.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8400.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8410.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8420.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8430.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8430.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :12  GOLDEN C :0  YOUR C :0
+# 
+#   8440.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8440.00ns INFO     test                               GOLDEN OUT :12  YOUR OUT :14  GOLDEN C :0  YOUR C :0
+# 
+#   8450.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8450.00ns INFO     test                               GOLDEN OUT :13  YOUR OUT :9  GOLDEN C :0  YOUR C :0
+# 
+#   8460.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8460.00ns INFO     test                               GOLDEN OUT :14  YOUR OUT :9  GOLDEN C :0  YOUR C :0
+# 
+#   8470.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8480.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8480.00ns INFO     test                               GOLDEN OUT :5  YOUR OUT :6  GOLDEN C :0  YOUR C :1
+# 
+#   8490.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8500.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8510.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8520.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8520.00ns INFO     test                               GOLDEN OUT :5  YOUR OUT :15  GOLDEN C :0  YOUR C :0
+# 
+#   8530.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8540.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8550.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8560.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8570.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8570.00ns INFO     test                               GOLDEN OUT :13  YOUR OUT :15  GOLDEN C :0  YOUR C :1
+# 
+#   8580.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8590.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8600.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8610.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8620.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8630.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8640.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8650.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8660.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8670.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8680.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8690.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8700.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8710.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8720.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8720.00ns INFO     test                               GOLDEN OUT :14  YOUR OUT :6  GOLDEN C :0  YOUR C :0
+# 
+#   8730.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8740.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8750.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8760.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8760.00ns INFO     test                               GOLDEN OUT :14  YOUR OUT :9  GOLDEN C :0  YOUR C :1
+# 
+#   8770.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8780.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8790.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8800.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8810.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8820.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8830.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8840.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8840.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :6  GOLDEN C :0  YOUR C :1
+# 
+#   8850.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8850.00ns INFO     test                               GOLDEN OUT :7  YOUR OUT :15  GOLDEN C :0  YOUR C :1
+# 
+#   8860.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8870.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8880.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8890.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8900.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8910.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8910.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :15  GOLDEN C :0  YOUR C :1
+# 
+#   8920.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8930.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8940.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8950.00ns INFO     test                               OR Test Case Passed 
+# 
+#   8960.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8960.00ns INFO     test                               GOLDEN OUT :8  YOUR OUT :10  GOLDEN C :0  YOUR C :1
+# 
+#   8970.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8970.00ns INFO     test                               GOLDEN OUT :9  YOUR OUT :5  GOLDEN C :0  YOUR C :1
+# 
+#   8980.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   8980.00ns INFO     test                               GOLDEN OUT :10  YOUR OUT :8  GOLDEN C :0  YOUR C :1
+# 
+#   8990.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9000.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9000.00ns INFO     test                               GOLDEN OUT :12  YOUR OUT :3  GOLDEN C :0  YOUR C :1
+# 
+#   9010.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9020.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9030.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9040.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9040.00ns INFO     test                               GOLDEN OUT :8  YOUR OUT :9  GOLDEN C :0  YOUR C :1
+# 
+#   9050.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9050.00ns INFO     test                               GOLDEN OUT :9  YOUR OUT :4  GOLDEN C :0  YOUR C :0
+# 
+#   9060.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9070.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9080.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9090.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9100.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9110.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9120.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9130.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9140.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9140.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :13  GOLDEN C :0  YOUR C :1
+# 
+#   9150.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9150.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :0  GOLDEN C :0  YOUR C :0
+# 
+#   9160.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9170.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9170.00ns INFO     test                               GOLDEN OUT :13  YOUR OUT :6  GOLDEN C :0  YOUR C :1
+# 
+#   9180.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9180.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :13  GOLDEN C :0  YOUR C :0
+# 
+#   9190.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9200.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9210.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9220.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9220.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :5  GOLDEN C :0  YOUR C :0
+# 
+#   9230.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9230.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :13  GOLDEN C :0  YOUR C :0
+# 
+#   9240.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9250.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9260.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9270.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9280.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9290.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9300.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9300.00ns INFO     test                               GOLDEN OUT :10  YOUR OUT :4  GOLDEN C :0  YOUR C :0
+# 
+#   9310.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9310.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :7  GOLDEN C :0  YOUR C :1
+# 
+#   9320.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9330.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9340.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9350.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9360.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9370.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9380.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9390.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9400.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9400.00ns INFO     test                               GOLDEN OUT :14  YOUR OUT :13  GOLDEN C :0  YOUR C :1
+# 
+#   9410.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9420.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9430.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9440.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9450.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9450.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :3  GOLDEN C :0  YOUR C :0
+# 
+#   9460.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9460.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :11  GOLDEN C :0  YOUR C :1
+# 
+#   9470.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9480.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9480.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :10  GOLDEN C :0  YOUR C :1
+# 
+#   9490.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9500.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9510.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9510.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :0  GOLDEN C :0  YOUR C :1
+# 
+#   9520.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9520.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :12  GOLDEN C :0  YOUR C :0
+# 
+#   9530.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9540.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9540.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :10  GOLDEN C :0  YOUR C :1
+# 
+#   9550.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9550.00ns INFO     test                               GOLDEN OUT :11  YOUR OUT :8  GOLDEN C :0  YOUR C :1
+# 
+#   9560.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9570.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9570.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :7  GOLDEN C :0  YOUR C :0
+# 
+#   9580.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9590.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9600.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9610.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9620.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9630.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9640.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9640.00ns INFO     test                               GOLDEN OUT :12  YOUR OUT :3  GOLDEN C :0  YOUR C :0
+# 
+#   9650.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9660.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9670.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9670.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :14  GOLDEN C :0  YOUR C :0
+# 
+#   9680.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9690.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9700.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9710.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9720.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9730.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9740.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9750.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9760.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9770.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9780.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9790.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9800.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9810.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9820.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9830.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9830.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :6  GOLDEN C :0  YOUR C :1
+# 
+#   9840.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9850.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9860.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9870.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9880.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9880.00ns INFO     test                               GOLDEN OUT :13  YOUR OUT :10  GOLDEN C :0  YOUR C :1
+# 
+#   9890.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9890.00ns INFO     test                               GOLDEN OUT :13  YOUR OUT :6  GOLDEN C :0  YOUR C :1
+# 
+#   9900.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9910.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9920.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9930.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9940.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9940.00ns INFO     test                               GOLDEN OUT :14  YOUR OUT :2  GOLDEN C :0  YOUR C :0
+# 
+#   9950.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9960.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9960.00ns INFO     test                               GOLDEN OUT :14  YOUR OUT :0  GOLDEN C :0  YOUR C :0
+# 
+#   9970.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9970.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :12  GOLDEN C :0  YOUR C :0
+# 
+#   9980.00ns INFO     test                               OR Test Case Passed 
+# 
+#   9990.00ns ERROR    test                               OR Test Case Failed 
+# 
+#   9990.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :14  GOLDEN C :0  YOUR C :1
+# 
+#  10000.00ns INFO     test                               OR Test Case Passed 
+# 
+#  10010.00ns INFO     test                               OR Test Case Passed 
+# 
+#  10020.00ns INFO     test                               OR Test Case Passed 
+# 
+#  10030.00ns INFO     test                               OR Test Case Passed 
+# 
+#  10040.00ns INFO     test                               OR Test Case Passed 
+# 
+#  10050.00ns ERROR    test                               OR Test Case Failed 
+# 
+#  10050.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :7  GOLDEN C :0  YOUR C :1
+# 
+#  10060.00ns INFO     test                               OR Test Case Passed 
+# 
+#  10070.00ns ERROR    test                               OR Test Case Failed 
+# 
+#  10070.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :10  GOLDEN C :0  YOUR C :0
+# 
+#  10080.00ns INFO     test                               OR Test Case Passed 
+# 
+#  10090.00ns ERROR    test                               OR Test Case Failed 
+# 
+#  10090.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :13  GOLDEN C :0  YOUR C :1
+# 
+#  10100.00ns INFO     test                               OR Test Case Passed 
+# 
+#  10110.00ns INFO     test                               OR Test Case Passed 
+# 
+#  10120.00ns INFO     test                               OR Test Case Passed 
+# 
+#  10130.00ns ERROR    test                               OR Test Case Failed 
+# 
+#  10130.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :2  GOLDEN C :0  YOUR C :0
+# 
+#  10140.00ns INFO     test                               OR Test Case Passed 
+# 
+#  10150.00ns ERROR    test                               OR Test Case Failed 
+# 
+#  10150.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :7  GOLDEN C :0  YOUR C :0
+# 
+#  10160.00ns ERROR    test                               OR Test Case Failed 
+# 
+#  10160.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :0  GOLDEN C :0  YOUR C :1
+# 
+#  10170.00ns INFO     test                               OR Test Case Passed 
+# 
+#  10180.00ns ERROR    test                               OR Test Case Failed 
+# 
+#  10180.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :5  GOLDEN C :0  YOUR C :1
+# 
+#  10190.00ns ERROR    test                               OR Test Case Failed 
+# 
+#  10190.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :2  GOLDEN C :0  YOUR C :1
+# 
+#  10200.00ns INFO     test                               OR Test Case Passed 
+# 
+#  10210.00ns ERROR    test                               OR Test Case Failed 
+# 
+#  10210.00ns INFO     test                               GOLDEN OUT :15  YOUR OUT :1  GOLDEN C :0  YOUR C :0
+# 
+#  10220.00ns INFO     test                               OR Test Case Passed 
+# 
+#  10230.00ns INFO     test                               OR Test Case Passed 
+# 
+#  10235.00ns INFO     test                               ========================================
+# 
+#  10235.00ns INFO     test                                        SCOREBOARD FINAL REPORT        
+# 
+#  10235.00ns INFO     test                               ========================================
+# 
+#  10235.00ns INFO     test                                PASSED: 724
+# 
+#  10235.00ns INFO     test                                FAILED: 300
+# 
+#  10235.00ns INFO     test                               ========================================
+# 
+#  10235.00ns ERROR    test                                TEST STATUS: FAILED 
+# 
+#  10235.00ns INFO     test                               ========================================
+# 
+#  10235.00ns INFO     test                                          COVERAGE REPORT              
+# 
+#  10235.00ns INFO     test                               ========================================
+# 
+#  10235.00ns INFO     test                                'out' Hits: 16
+# 
+#  10235.00ns INFO     test                                'out' Percentage: 100.0%
+# 
+#  10235.00ns INFO     test                               ========================================
+# 
+#  10235.00ns INFO     cocotb.regression                  test.test_all passed
+# 
+#  10235.00ns INFO     cocotb.regression                  **************************************************************************************
 # 
 #                                                         ** TEST                          STATUS  SIM TIME (ns)  REAL TIME (s)  RATIO (ns/s) **
 # 
 #                                                         **************************************************************************************
 # 
-#                                                         ** test.main_test                 PASS        2555.00           0.10      26706.72  **
+#                                                         ** test.test_all                  PASS       10235.00           0.24      42006.33  **
 # 
 #                                                         **************************************************************************************
 # 
-#                                                         ** TESTS=1 PASS=1 FAIL=0 SKIP=0               2555.00           0.11      23597.80  **
+#                                                         ** TESTS=1 PASS=1 FAIL=0 SKIP=0              10235.00           0.24      41917.07  **
 # 
 #                                                         **************************************************************************************
 # 
 # ** Note: $finish
-#    Time: 2555 ns  Iteration: 2  Instance: /ALU File: C:/Users/lenovo/task_7/DUT.sv
+#    Time: 10235 ns  Iteration: 2  Instance: /ALU File: C:/Users/lenovo/task_7/DUT.sv
 # Simulation stop requested.
-# End time: 19:45:20 on Apr 08,2026, Elapsed time: 0:01:16
-# Errors: 0, Warnings: 1
+# End time: 15:43:28 on Apr 13,2026, Elapsed time: 0:00:30
+# Errors: 0, Warnings: 3

@@ -17,6 +17,16 @@ class base_test(uvm_test):
         # Pythonic instantiation
         self.env = env("env", self)
 
+    async def run_phase(self):
+        # 1. Start the clock here instead! 
+        # cocotb.top automatically grabs your DUT
+        dut = cocotb.top
+        cocotb.start_soon(Clock(dut.clk, 10, unit="ns").start())
+
+    def report_phase(self):
+        # 2. Export coverage automatically at the end
+        coverage_db.export_to_xml(filename="ALU_coverage.xml")
+
 # ----------------------------------------------------------------------------
 class test_addition(base_test):
     async def run_phase(self): 
@@ -77,16 +87,29 @@ class test_all(base_test):
         self.drop_objection()
 
 # ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 @pyuvm.test()
-async def main_test(dut):
-    # 1. Start the clock in the background (10ns period)
-    cocotb.start_soon(Clock(dut.clk, 10, unit="ns").start())
-    
-   
-    
-    # 2. Grab the test name and run the UVM phases
-    test_name = os.environ.get("UVM_TESTNAME", "test_all")
-    await uvm_root().run_test(test_name)
-    
-    # 3. Once UVM finishes, export the coverage database
-    coverage_db.export_to_xml(filename="ALU_coverage.xml")
+class test_all(base_test):
+    async def run_phase(self):
+        # Start the clock from the base_test
+        await super().run_phase() 
+        
+        self.raise_objection()
+        
+        cocotb.log.info(">>> Starting ADDITION Sequence <<<")
+        seq_add = addition_seq("seq_add")
+        await seq_add.start(self.env.agent_.sqr)
+
+        cocotb.log.info(">>> Starting XOR Sequence <<<")
+        seq_xor = xor_seq("seq_xor")
+        await seq_xor.start(self.env.agent_.sqr)
+        
+        cocotb.log.info(">>> Starting AND Sequence <<<")
+        seq_and = and_seq("and_seq")
+        await seq_and.start(self.env.agent_.sqr)
+        
+        cocotb.log.info(">>> Starting OR Sequence <<<")
+        seq_or = or_seq("seq_or")
+        await seq_or.start(self.env.agent_.sqr)
+        
+        self.drop_objection()
