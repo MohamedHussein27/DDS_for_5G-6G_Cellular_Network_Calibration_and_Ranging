@@ -3,6 +3,7 @@ from pyuvm import *
 from seq_item import *
 from cocotb.triggers import Timer
 from cocotb.clock import Clock
+
 class xor_seq(uvm_sequence):
     async def body(self):
         for a in range(16):
