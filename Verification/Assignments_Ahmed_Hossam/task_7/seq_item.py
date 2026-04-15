@@ -11,6 +11,7 @@ class seq_item (uvm_sequence_item):
         self.out=0
         self.reset = 0
      
+     
     def randomize(self):
         self.a = random.randint(0, 15)
         self.b = random.randint(0, 15)
