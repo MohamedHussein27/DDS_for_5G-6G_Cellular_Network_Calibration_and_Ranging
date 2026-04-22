@@ -8,7 +8,7 @@ module tb_dds_top;
     reg   [31:0] FTW_start;
     reg   [12:0] cycles;
     reg   [31:0] FTW_step;
-    wire  [7:0] amplitude_out; 
+    wire  [7:0] final_amplitude; 
 
     integer file_id;
 
@@ -25,7 +25,7 @@ module tb_dds_top;
         .FTW_start    (FTW_start),
         .cycles       (cycles),
         .FTW_step     (FTW_step),
-        .amplitude_out(amplitude_out)
+        .final_amplitude(final_amplitude)
     );
 
     // --- Stimulus and File I/O ---
@@ -53,7 +53,7 @@ module tb_dds_top;
             
             // Cast to signed to ensure MATLAB reads negative values correctly, 
             // rather than large positive integers
-            $fdisplay(file_id, "%d", $signed(amplitude_out)); 
+            $fdisplay(file_id, "%d", $signed(final_amplitude)); 
         end
 
         $fclose(file_id);
