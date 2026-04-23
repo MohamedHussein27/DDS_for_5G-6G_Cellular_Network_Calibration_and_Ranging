@@ -20,7 +20,6 @@ from cocotb.clock    import Clock
 from cocotb_coverage.crv import *
 from pyuvm import * 
 import pyuvm
-import logging
 
 
 from environment import *
@@ -45,7 +44,12 @@ class base_test(uvm_test):
         ConfigDB().set(self, "*", "DUT", self.dut)
 
         self.reset_seq = reset_sequence.create("reset_seq")
-        self.seq       = base_sequence.create("seq")
+
+        # assigning the which is active and which is passive
+        ConfigDB().set(self, "top_agent", "is_active", UVM_ACTIVE) # top agent
+        ConfigDB().set(self, "dds_agent", "is_active", UVM_PASSIVE) # dds agent
+        ConfigDB().set(self, "fft_agent", "is_active", UVM_PASSIVE) # fft agent
+        ConfigDB().set(self, "ifft_agent", "is_active", UVM_PASSIVE) # ifft agent
 
     # generate the clock
     async def generate_clock(self):
