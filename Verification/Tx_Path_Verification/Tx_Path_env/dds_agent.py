@@ -30,7 +30,7 @@ class agent(uvm_agent):
         # 1. The Monitor is ALWAYS built, because we always want to observe
         self.mon = monitor.create("monitor", self)
         self.agent_port = uvm_analysis_port("agent_port", self)
-
+        self.is_active = ConfigDB().get(self,"","is_active")
         # 2. The Driver and Sequencer are ONLY built if the agent is ACTIVE
         if self.is_active == UVM_ACTIVE:
             self.sqr = sequencer.create("sequencer", self)
