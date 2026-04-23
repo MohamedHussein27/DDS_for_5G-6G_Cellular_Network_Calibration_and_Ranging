@@ -4149,7 +4149,7 @@ module twiddlerom #(
 
     always @(*) begin  // rom for IFFT
         W_real_b = rom_real[addr_b * STRIDE];
-        W_img_b = rom_imag[addr_b * STRIDE];
+        W_img_b = -rom_imag[addr_b * STRIDE];
     end
 
 endmodule
