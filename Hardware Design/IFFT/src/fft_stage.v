@@ -11,9 +11,7 @@
 module fft_stage #(
     parameter WL = 16,
     parameter DELAY_LEN = 2048,
-    parameter ROM_DEPTH = 2048,
-    parameter FILE_REAL = "",
-    parameter FILE_IMAG = ""
+    parameter ROM_DEPTH = 2048
 )(
     input wire clk,
     input wire rst_n,
@@ -64,18 +62,16 @@ module fft_stage #(
         .b_imag(bf_b_im)
     );
 
-    twiddle_rom #(
+    twiddlerom #(
         .WL(WL),
-        .DEPTH(ROM_DEPTH), 
-        .FILE_REAL(FILE_REAL),
-        .FILE_IMAG(FILE_IMAG)
+        .DEPTH(ROM_DEPTH) 
     ) rom_inst (
-        .addr_a('b0),                       // Reverted back to a simple, safe zero!
-        .tw_re_a(),                         // Keep empty (Floating output)
-        .tw_im_a(),                         // Keep empty (Floating output)
-        .addr_b(addr),        
-        .tw_re_b(twiddle_re), 
-        .tw_im_b(twiddle_im)  
+        .addr_a(0),
+        .addr_b(addr),
+        .W_real_a(),
+        .W_img_a(),
+        .W_real_b(twiddle_re),
+        .W_img_b(twiddle_im)
     );
 
     multiplier #(.WL(WL)) mult_inst (
