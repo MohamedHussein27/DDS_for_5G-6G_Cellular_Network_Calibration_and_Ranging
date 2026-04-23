@@ -9,9 +9,7 @@
         The Environment class acts as the top-level container for the TX wrapper 
         testbench. Following the verification architecture, it instantiates the 
         Top Active Agent to drive the DUT, alongside three Passive Agents (DDS, 
-        FFT, IFFT) to monitor internal DSP boundaries. It wires their respective 
-        analysis ports to the scoreboards for EVM/Q5.26 fixed-point comparison 
-        and subscribers for functional coverage.
+        FFT, IFFT) to monitor internal DSP boundaries.
 """
 
 import cocotb 
