@@ -47,50 +47,102 @@ class Environment(uvm_env):
     def build_phase(self):
         super().build_phase()
 
-        # ---------------------------------------------------------
-        # TOP PATH (Active Boundary: Driver + Sequencer + Monitor)
-        # ---------------------------------------------------------
-        self.top_agt = top_agent.create("top_agt", self)
-        self.top_sb  = top_scoreboard.create("top_sb", self)
-        self.top_sub = top_subscriber.create("top_sub", self)
+        # 1. Read the configuration (Default to "TOP" if not set)
+        if ConfigDB().exists(self, "", "VERIF_MODE"):
+            self.mode = ConfigDB().get(self, "", "VERIF_MODE")
+        else:
+            self.mode = "TOP"
+
+        self.logger.info(f"Environment building in {self.mode} mode.")
+
+        # 2. Conditionally Build Components (switch-case style)
 
         # ---------------------------------------------------------
-        # DDS PATH (Passive Visibility: Monitor Only)
+        # IFFT PATH 
         # ---------------------------------------------------------
-        self.dds_agt = dds_agent.create("dds_agt", self)
-        self.dds_sb  = dds_scoreboard.create("dds_sb", self)
-        self.dds_sub = dds_subscriber.create("dds_sub", self)
-
+        if self.mode == "IFFT":
+            self.ifft_agt = ifft_agent.create("ifft_agt", self)
+            self.ifft_sb  = ifft_scoreboard.create("ifft_sb", self)
+            self.ifft_sub = ifft_subscriber.create("ifft_sub", self)
+            
         # ---------------------------------------------------------
-        # FFT PATH (Passive Visibility: Monitor Only)
+        # DDS PATH 
         # ---------------------------------------------------------
-        self.fft_agt = fft_agent.create("fft_agt", self)
-        self.fft_sb  = fft_scoreboard.create("fft_sb", self)
-        self.fft_sub = fft_subscriber.create("fft_sub", self)
-
+        elif self.mode == "DDS":
+            self.dds_agt = dds_agent.create("dds_agt", self)
+            self.dds_sb  = dds_scoreboard.create("dds_sb", self)
+            self.dds_sub = dds_subscriber.create("dds_sub", self)
+        
         # ---------------------------------------------------------
-        # IFFT PATH (Passive Visibility: Monitor Only)
+        # FFT PATH 
         # ---------------------------------------------------------
-        self.ifft_agt = ifft_agent.create("ifft_agt", self)
-        self.ifft_sb  = ifft_scoreboard.create("ifft_sb", self)
-        self.ifft_sub = ifft_subscriber.create("ifft_sub", self)
+        elif self.mode == "FFT":
+            self.fft_agt = fft_agent.create("fft_agt", self)
+            self.fft_sb  = fft_scoreboard.create("fft_sb", self)
+            self.fft_sub = fft_subscriber.create("fft_sub", self)
+            
+        # ---------------------------------------------------------
+        # TOP PATH 
+        # ---------------------------------------------------------
+        elif self.mode == "TOP":
+            # Build EVERYTHING for system-level regression
+            
+            # Top Active Path
+            self.top_agt  = top_agent.create("top_agt", self)
+            self.top_sb   = top_scoreboard.create("top_sb", self)
+            self.top_sub  = top_subscriber.create("top_sub", self)
+            
+            # IFFT Passive Path
+            self.ifft_agt = ifft_agent.create("ifft_agt", self)
+            self.ifft_sb  = ifft_scoreboard.create("ifft_sb", self)
+            self.ifft_sub = ifft_subscriber.create("ifft_sub", self)
+            
+            # DDS Passive Path
+            self.dds_agt  = dds_agent.create("dds_agt", self)
+            self.dds_sb   = dds_scoreboard.create("dds_sb", self)
+            self.dds_sub  = dds_subscriber.create("dds_sub", self)
+            
+            # FFT Passive Path
+            self.fft_agt  = fft_agent.create("fft_agt", self)
+            self.fft_sb   = fft_scoreboard.create("fft_sb", self)
+            self.fft_sub  = fft_subscriber.create("fft_sub", self)
+            
+        else:
+            self.logger.fatal(f"Unknown VERIF_MODE: {self.mode}")
 
 
     def connect_phase(self):
         super().connect_phase()
 
-        # Connect Top Agent to its Scoreboard and Subscriber
-        self.top_agt.agt_ap.connect(self.top_sb.sb_export)
-        self.top_agt.agt_ap.connect(self.top_sub.analysis_export)
+        
+        if self.mode == "TOP":
+            # Connect Top Agent to its Scoreboard and Subscriber
+            self.top_agt.agt_ap.connect(self.top_sb.sb_export)
+            self.top_agt.agt_ap.connect(self.top_sub.analysis_export)
 
-        # Connect DDS Agent to its Scoreboard and Subscriber
-        self.dds_agt.agt_ap.connect(self.dds_sb.sb_export)
-        self.dds_agt.agt_ap.connect(self.dds_sub.analysis_export)
+            # Connect DDS Agent to its Scoreboard and Subscriber
+            self.dds_agt.agt_ap.connect(self.dds_sb.sb_export)
+            self.dds_agt.agt_ap.connect(self.dds_sub.analysis_export)
 
-        # Connect FFT Agent to its Scoreboard and Subscriber
-        self.fft_agt.agt_ap.connect(self.fft_sb.sb_export)
-        self.fft_agt.agt_ap.connect(self.fft_sub.analysis_export)
+            # Connect FFT Agent to its Scoreboard and Subscriber
+            self.fft_agt.agt_ap.connect(self.fft_sb.sb_export)
+            self.fft_agt.agt_ap.connect(self.fft_sub.analysis_export)
 
-        # Connect IFFT Agent to its Scoreboard and Subscriber
-        self.ifft_agt.agt_ap.connect(self.ifft_sb.sb_export)
-        self.ifft_agt.agt_ap.connect(self.ifft_sub.analysis_export)
+            # Connect IFFT Agent to its Scoreboard and Subscriber
+            self.ifft_agt.agt_ap.connect(self.ifft_sb.sb_export)
+            self.ifft_agt.agt_ap.connect(self.ifft_sub.analysis_export)
+        
+        elif self.mode == "DDS":
+            # Connect DDS Agent to its Scoreboard and Subscriber
+            self.dds_agt.agt_ap.connect(self.dds_sb.sb_export)
+            self.dds_agt.agt_ap.connect(self.dds_sub.analysis_export)
+
+        elif self.mode == "FFT":
+            # Connect FFT Agent to its Scoreboard and Subscriber
+            self.fft_agt.agt_ap.connect(self.fft_sb.sb_export)
+            self.fft_agt.agt_ap.connect(self.fft_sub.analysis_export)
+        
+        elif self.mode == "IFFT":
+            # Connect IFFT Agent to its Scoreboard and Subscriber
+            self.ifft_agt.agt_ap.connect(self.ifft_sb.sb_export)
+            self.ifft_agt.agt_ap.connect(self.ifft_sub.analysis_export)
