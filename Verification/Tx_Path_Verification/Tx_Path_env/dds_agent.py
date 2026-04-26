@@ -21,20 +21,20 @@
 
 import pyuvm
 from pyuvm import *
-from sequencer import sequencer
-from driver import driver
-from monitor import monitor
+from dds_sequencer import dds_sequencer
+from dds_driver import dds_driver
+from dds_monitor import dds_monitor
 
-class agent(uvm_agent):
+class dds_agent(uvm_agent):
     def build_phase(self):
         # 1. The Monitor is ALWAYS built, because we always want to observe
-        self.mon = monitor.create("monitor", self)
+        self.mon = dds_monitor.create("mon", self)
         self.agent_port = uvm_analysis_port("agent_port", self)
         self.is_active = ConfigDB().get(self,"","is_active")
         # 2. The Driver and Sequencer are ONLY built if the agent is ACTIVE
         if self.is_active == UVM_ACTIVE:
-            self.sqr = sequencer.create("sequencer", self)
-            self.drv = driver.create("driver", self)
+            self.sqr = dds_sequencer.create("sqr", self)
+            self.drv = dds_driver.create("drv", self)
 
     def connect_phase(self):
         # 1. Broadcast the monitor's observed traffic up to the agent level

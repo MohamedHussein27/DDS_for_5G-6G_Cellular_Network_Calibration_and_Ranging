@@ -21,24 +21,24 @@
 
 import pyuvm
 from pyuvm import *
-from seq_item import *
+from dds_seq_item import *
 import cocotb
-from cocotb.triggers import Timer
 from cocotb.clock import Clock
-from cocotb.triggers import RisingEdge
-class monitor(uvm_monitor):
+from cocotb.triggers import *
+class dds_monitor(uvm_monitor):
     def build_phase(self):
         self.mon_port = uvm_analysis_port("mon_port", self)
         self.dut_mon= ConfigDB().get(self,"","DUT")
         
     async def run_phase(self):
         while True:
-            await RisingEdge(cocotb.dut_mon.clk)
+            await RisingEdge(self.dut_mon.clk)
+            await ReadOnly()
             
-            item = seq_item.create("item")
+            seq_item = dds_seq_item.create("seq_item")
             # here we will read the signals from the DUT and write them to the analysis port
             
             
             
-            self.mon_port.write(item)
+            self.mon_port.write(seq_item)
             
