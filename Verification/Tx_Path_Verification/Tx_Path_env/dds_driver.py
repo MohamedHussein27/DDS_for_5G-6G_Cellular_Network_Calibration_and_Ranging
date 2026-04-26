@@ -20,20 +20,21 @@
 
 import pyuvm
 from pyuvm import *
-from seq_item import *
+from dds_seq_item import *
 import cocotb
 from cocotb.triggers import Timer
 from cocotb.clock import Clock
 from cocotb.triggers import FallingEdge
 
-class driver(uvm_driver): 
+class dds_driver(uvm_driver): 
     
     def build_phase(self):
         self.dut_drv = ConfigDB().get(self,"","DUT")
           
     async def run_phase(self):
         while True: 
-            seq_item = seq_item.create("seq_item")
+           # seq_item = dds_seq_item.create("seq_item")
+           
             seq_item = await self.seq_item_port.get_next_item()
             await FallingEdge(self.dut_drv.clk) 
             

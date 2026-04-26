@@ -25,5 +25,5 @@ from pyuvm import *
 import pyuvm
 import logging
 
-class Sequencer(uvm_sequencer):
+class dds_sequencer(uvm_sequencer):
     pass
