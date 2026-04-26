@@ -1,0 +1,761 @@
+%% System Parameters
+clc; clear; close all;
+
+WL_reduction = 0;
+scale = 64;
+
+WL_FFT = 16 - WL_reduction;
+FL_FFT = 8 - WL_reduction;
+
+WL_FFT1 = 16 - WL_reduction;
+FL_FFT1 = 8 - WL_reduction;
+
+WL_FFT2 = 16 - WL_reduction;
+FL_FFT2 = 14 - WL_reduction;
+
+WL_IFFT2 = 16 - WL_reduction;
+FL_IFFT2 = 5 - WL_reduction;
+% =========================================================
+% 1. DESIGN PARAMETERS
+% =========================================================
+Fs       = 491.52e6;        % System clock (Hz)
+T_dur    = 8.333e-6;     % Signal duration (s)
+
+% --- Bit-True DDS Hardware Parameters ---
+FTW_step = 426666;         
+FTW_start = 0;             
+ADDRESS_WIDTH = 16;
+MEMORY_WIDTH = 8;
+
+
+% --- 1. Frequency Configuration ---
+fs = 491.52e6;              % Sampling Frequency (Total BW = 400 MHz)
+N  = 4096;                  % NFFT Size
+df = fs/N;                  % Subcarrier Spacing (120 kHz)
+M  = 256;                   % Modulation Order (256-QAM)
+
+
+
+% Create Frequency Axis (Centered)
+% Range: -245.76 MHz to +245.76 MHz
+f_axis = (-N/2 : N/2-1) * df;
+% --- 2. DEFINE BANDS (Physical Mapping) ---
+% We want to use exactly 400 MHz centered at DC.
+% Chirp: -200 MHz to 0 MHz (Baseband representation of 0-200 Phys)
+% OFDM:   0 MHz to +200 MHz (Baseband representation of 200-400 Phys)
+
+% Find Indices
+idx_chirp_start = find(f_axis >= -200e6, 1);
+idx_center      = N/2 + 1; % Index corresponding to 0 Hz
+idx_ofdm_end    = find(f_axis <= 200e6, 1, 'last');
+
+
+
+% --- Calculate Indices for -200 MHz to 0 MHz ---
+% Formula: Index = N - (Abs_Freq / df) + 1
+
+% 1. Start (-200 MHz)
+% We map -200 MHz to the negative side of the FFT (Indices > N/2)
+idx_start = N + round(-200e6 / df) + 1;  % Result: 2430
+
+% 2. Stop (0 MHz / DC)
+% We stop at the last bin (effectively -0.12 MHz), avoiding DC index 1
+idx_stop  = N;                           % Result: 4096
+
+% Create the Vector
+idx_chirp_standard = idx_start : idx_stop;
+
+
+
+
+
+
+
+% Define Allocation Indices
+idx_chirp_active = idx_chirp_start : (idx_center - 1); % ~1667 bins
+idx_ofdm_active  = idx_center : idx_ofdm_end;          % ~1667 bins
+
+%% --- TX PATH ---
+% 1.Generate Chirp in Time (Bit-True Hardware Logic)
+lut_depth = 2^(ADDRESS_WIDTH - 2); 
+lut_table = round((2^(MEMORY_WIDTH-1)-1) * sin((pi/2) * (0:lut_depth-1) / lut_depth));
+
+chirp_time = zeros(1, N);
+current_ftw = double(FTW_start);
+truncated_phase = double(0);
+FTW_step_dbl = double(FTW_step);
+
+for i = 1:N
+    % --- 1. SEQUENTIAL LOGIC (Clock Edge) ---
+    old_ftw = current_ftw;
+    current_ftw = mod(current_ftw + FTW_step_dbl, 2^32);
+    truncated_phase = mod(truncated_phase + old_ftw, 2^32); 
+
+    % --- 2. COMBINATIONAL LOGIC (After Clock Edge) ---
+    phase_32 = uint32(truncated_phase);
+    phase_16 = bitshift(phase_32, -(32 - ADDRESS_WIDTH));
+    quadrant = bitshift(phase_16, -14); 
+    
+    switch quadrant
+        case 0 % 1st Quad
+            mapped_addr = phase_16;
+            neg_flag = false;
+        case 1 % 2nd Quad
+            mapped_addr = uint32(32768) - 1 - phase_16;
+            neg_flag = false;
+        case 2 % 3rd Quad
+            mapped_addr = phase_16 - uint32(32768);
+            neg_flag = true;
+        case 3 % 4th Quad
+            mapped_addr = uint32(65536) - 1 - phase_16;
+            neg_flag = true;
+    end
+    
+    % LUT Lookup
+    amp = lut_table(double(mapped_addr) + 1);
+    if neg_flag
+        amp = -amp;
+    end
+    
+    chirp_time(i) = amp;
+end
+
+chirp_time = chirp_time(:);
+
+
+% --- NEW FIX: Normalize to fractional fixed-point to prevent FFT saturation ---
+chirp_time_frac = fi(chirp_time / 128, 1, 16, 15);
+
+% 2. BLOCK: FFT (Get Chirp Spectrum)
+% Pass the fractional version into the FFT instead of the raw integers
+chirp_freq_full = radix22_dif_fft_fixed(chirp_time_frac, WL_FFT1, FL_FFT1);
+% 2. BLOCK: FFT (Get Chirp Spectrum)
+%chirp_freq_full = radix22_dif_fft_fixed(chirp_time,WL_FFT1,FL_FFT1);
+
+out_type2 = numerictype(1, WL_FFT, FL_FFT + log2(scale));
+chirp_freq_full = reinterpretcast(chirp_freq_full, out_type2);
+
+%chirp_freq_full = chirp_freq_full/512;
+
+
+chirp_freq_full = chirp_freq_full(:);
+
+% 
+% 
+% %% --- VISUALIZE RAW UNSHIFTED CHIRP FFT ---
+% figure('Name', 'Raw Unshifted DDS Chirp Spectrum', 'Position', [150, 150, 800, 400]);
+% 
+% % Plot Magnitude in dB vs. Array Index
+% plot(1:N, 20*log10(abs(double(chirp_freq_full))), 'b', 'LineWidth', 1.2);
+% grid on; hold on;
+% 
+% % Highlight key memory boundaries
+% xline(1, 'k--', 'DC (0 Hz)', 'LabelVerticalAlignment', 'bottom', 'LineWidth', 1.5);
+% xline(round(200e6/df), 'r--', '200 MHz Cutoff', 'LabelVerticalAlignment', 'bottom', 'LineWidth', 1.5);
+% xline(N/2 + 1, 'k-', 'Nyquist Limit (Fs/2)', 'LabelVerticalAlignment', 'bottom', 'LineWidth', 2);
+% 
+% title('Raw Memory Output of radix22\_dif\_fft\_fixed (Unshifted)');
+% xlabel('Array Index (FFT Bins)');
+% ylabel('Magnitude (dB)');
+% xlim([1 N]);
+
+
+chirp_freq_shifted = fftshift(chirp_freq_full); % Shift to visualize/mask easily
+
+% --- B. OFDM INDICES (10 to 190) ---
+% We calculate the active subcarriers only
+% ofdm_start_freq = 10e6;  % 10 MHz Guard from DC
+% ofdm_end_freq   = 190e6; % Ends at 190 MHz (Leaving 10 MHz at top)
+
+
+f_start_ofdm = 10e6;
+f_stop_ofdm  = f_start_ofdm + 180e6; % 390 MHz
+
+% --- CALCULATE INDICES ---
+% We must handle the "Wrap Around" at 245.76 MHz (Fs/2).
+% Frequencies 0 to 245 MHz -> Indices 1 to 2048
+% Frequencies 245 to 491 MHz -> Indices 2049 to 4096
+
+% 1. Start Index (210 MHz is < 245 MHz, so it's in the first half)
+idx_start = round(f_start_ofdm / df) + 1; 
+
+% 2. Stop Index (390 MHz is > 245 MHz, so it wraps to the second half)
+idx_stop  = round(f_stop_ofdm / df) + 1;
+
+%idx_ofdm_start  = find(f_axis >= ofdm_start_freq, 1);
+%idx_ofdm_end    = find(f_axis <= ofdm_end_freq, 1, 'last');
+
+%idx_ofdm_active = idx_ofdm_start : idx_ofdm_end;
+idx_ofdm_active = idx_start : idx_stop;
+
+% 3. BLOCK: OFDM (256-QAM on Upper Band)
+num_ofdm_subcarriers = length(idx_ofdm_active);
+data_integers = randi([0 M-1], num_ofdm_subcarriers, 1);
+
+% 256-QAM Modulation
+if exist('qammod', 'file')
+    ofdm_symbols = qammod(data_integers, M, 'UnitAveragePower', true);
+else
+    % Fallback Manual 256-QAM
+    [I, Q] = meshgrid(-15:2:15, -15:2:15);
+    const = (I + 1j*Q); const = const(:) / sqrt(mean(abs(const(:)).^2));
+    ofdm_symbols = const(data_integers + 1);
+end
+
+% 4. BLOCK: Multiplexer (Frequency Domain Mapping)
+stream_pos_in = ofdm_symbols; 
+
+    % Fixed-point type
+    T = numerictype(1, WL_FFT, FL_FFT);   % signed
+    F = fimath( ...
+        'RoundingMethod', 'Convergent', ...
+        'OverflowAction', 'Saturate', ...
+        'ProductMode', 'FullPrecision', ...
+        'ProductWordLength', WL_FFT, ...
+        'ProductFractionLength', FL_FFT, ...
+        'SumMode', 'FullPrecision', ...
+        'SumWordLength', WL_FFT, ...
+        'SumFractionLength', FL_FFT);
+
+% Stream 2: Negative Frequencies (-200 to 0 MHz) -> Indices N/2+1 to N
+% We map the Chirp data here. We take the first half of the chirp source
+% because we are effectively "moving" it to the negative band.
+% --- 1. Identify 200 MHz Limit ---
+% Fs = 491.52 MHz, N = 4096
+% Each bin = 0.12 MHz
+% 200 MHz corresponds to roughly bin #1667
+cutoff_freq = 200e6;
+idx_cutoff  = round(cutoff_freq / (fs/N)); 
+
+% --- 2. Extract and Mask ---
+% Get the full positive spectrum of the chirp (assumes real chirp input)
+chirp_freq_half = chirp_freq_full(1:N/2);
+
+% FORCE ZEROS: Set everything from 200 MHz to 245 MHz to EXACTLY ZERO
+% Indices: 1668 to 2048
+chirp_freq_half(idx_cutoff+1 : end) = 0; 
+
+% --- 3. Assign to Stream ---
+stream_neg_in = chirp_freq_half;
+
+
+
+
+
+
+
+%stream_neg_in = chirp_freq_full(1:N); 
+
+% B. CALL HARDWARE MUX
+% --------------------
+% We assign the output to 'X_tx_combined' (this is your spectrum in standard order)
+
+% --- FIX: ZERO PADDING FOR MUX INPUTS ---
+% The Mux expects full half-band inputs (N/2 = 2048 bins).
+% Our signals are only ~1667 bins (200 MHz). We must pad the rest with zeros.
+
+target_len = N / 2; % 2048
+
+% =========================================================
+% 3. BLOCK: OFDM DATA PERSISTENCE (Load or Generate)
+% =========================================================
+data_file = 'ofdm_reference_data.mat';
+hex_re_file = 'ofdm_data_re.hex';
+hex_im_file = 'ofdm_data_im.hex';
+
+if exist(data_file, 'file')
+    % --- LOAD EXISTING DATA ---
+    fprintf('Loading existing OFDM data from %s...\n', data_file);
+    load(data_file); % This brings 'stream_pos_in' into the workspace
+else
+    % --- GENERATE NEW DATA (Runs only once) ---
+    fprintf('Generating new random OFDM data...\n');
+    
+    % Use your existing parameters
+    num_ofdm_subcarriers = 1500; % Approximate based on your 180MHz BW
+    data_integers = randi([0 M-1], num_ofdm_subcarriers, 1);
+    
+    % Generate 256-QAM
+    ofdm_symbols = qammod(data_integers, M, 'UnitAveragePower', true);
+    
+    % Apply your specific Padding Logic
+    target_len = N / 2; % 2048
+    pad_len = target_len - length(ofdm_symbols);
+    % 83 bins of zero-padding at DC
+    stream_pos_in = [ zeros(83, 1); ofdm_symbols(:) ; zeros(pad_len-83, 1)];
+    
+    % Save for MATLAB subsequent runs
+    save(data_file, 'stream_pos_in');
+    
+    % --- EXPORT TO HEX FOR VERILOG ---
+    % CORRECTED: Quantize to Q8.8 to perfectly match the hardware datapath
+    T_hex = numerictype(1, 16, 8); 
+    F_hex = fimath('RoundingMethod', 'Floor', 'OverflowAction', 'Saturate');
+    q_ofdm = fi(stream_pos_in, T_hex, F_hex);
+    
+    re_hex = hex(real(q_ofdm));
+    im_hex = hex(imag(q_ofdm));
+    
+    fid_re = fopen('ofdm_data_re.hex', 'w');
+    fid_im = fopen('ofdm_data_im.hex', 'w');
+    
+    for i = 1:length(q_ofdm)
+        fprintf(fid_re, '%s\n', re_hex(i,:));
+        fprintf(fid_im, '%s\n', im_hex(i,:));
+    end
+    
+    fclose(fid_re); fclose(fid_im);
+    fprintf('Hex files safely generated for RTL testbench.\n');
+end
+
+% 2. PAD RADAR (Negative Frequencies: -200 MHz to 0 MHz)
+% The mux maps this to [-245 ... 0].
+% Our signal is [-200 ... 0]. The gap is at the start [-245 ... -200].
+% Action: Pad at the START.
+
+stream_neg_in(1668:end) = [];
+if length(stream_neg_in) < target_len
+    pad_len = target_len - length(stream_neg_in);
+    stream_neg_in = [ zeros(pad_len, 1); stream_neg_in(:)];
+    %stream_neg_in = [ stream_neg_in(:); zeros(pad_len, 1)];
+end
+
+
+
+
+[X_tx_combined, tx_valid] = mux(stream_pos_in, stream_neg_in, N);
+
+X_tx_combined = fi(X_tx_combined, T, F);
+% 5. BLOCK: IFFT (Generate Composite Signal)
+x_tx_time = radix22_dif_ifft_fixed(X_tx_combined, WL_FFT, FL_FFT);
+
+
+% --- ADDITION: EXPORT GOLDEN REFERENCE FOR RTL VERIFICATION ---
+matlab_tx_ref = double(x_tx_time); 
+save('matlab_tx_reference.mat', 'matlab_tx_ref');
+fprintf('Saved 4096 MATLAB TX samples to matlab_tx_reference.mat\n');
+% --------------------------------------------------------------
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%OFDM resolution%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% --- REVEAL TRUE HARDWARE SPECTRUM (ZERO-PADDING) ---
+% 1. Take the time-domain signal and pad it with zeros (4x oversampling)
+pad_factor = 4;
+x_time_padded = [double(x_tx_time(:)); zeros((pad_factor-1)*length(x_tx_time), 1)];
+
+% 2. Calculate the high-resolution FFT
+N_pad = length(x_time_padded);
+X_true_freq = fftshift(fft(x_time_padded));
+
+% 3. Create a high-resolution frequency axis
+f_axis_pad = (-N_pad/2 : N_pad/2-1) * (fs / N_pad) / 1e6; % in MHz
+
+% 4. Plot the true spectrum
+figure('Name', 'The Hardware Reality: True Transmit Spectrum');
+plot(f_axis_pad, 20*log10(abs(X_true_freq)), 'b');
+hold on;
+xline(0, 'k--', 'DC Boundary', 'LineWidth', 2);
+title('True Interpolated Spectrum (Showing Out-of-Band Emissions)');
+xlabel('Frequency (MHz)'); ylabel('Magnitude (dB)');
+xlim([-250 250]); 
+ylim([0 90]); % Adjusted to see the peaks and the floor clearly
+grid on;
+
+
+% 5. BLOCK: IFFT (Generate Composite Signal)
+x_tx_time = radix22_dif_ifft_fixed(X_tx_combined, WL_FFT, FL_FFT);
+
+% --- EXPORT GOLDEN REFERENCE FOR RTL VERIFICATION ---
+matlab_tx_ref = double(x_tx_time); 
+save('matlab_tx_reference.mat', 'matlab_tx_ref');
+
+% --- NEW: SAVE TO TEXT FILES FOR DIRECT READING ---
+% We multiply by 2^FL_FFT (which is 2^8 = 256) to convert the MATLAB floating-point 
+% numbers back into the exact integers your RTL outputs, making them easy to compare.
+matlab_tx_re_int = round(real(matlab_tx_ref) * (2^FL_FFT));
+matlab_tx_im_int = round(imag(matlab_tx_ref) * (2^FL_FFT));
+
+fid_ref_re = fopen('matlab_tx_out_re.txt', 'w');
+fid_ref_im = fopen('matlab_tx_out_im.txt', 'w');
+
+for i = 1:length(matlab_tx_ref)
+    fprintf(fid_ref_re, '%d\n', matlab_tx_re_int(i));
+    fprintf(fid_ref_im, '%d\n', matlab_tx_im_int(i));
+end
+
+fclose(fid_ref_re); 
+fclose(fid_ref_im);
+
+fprintf('Saved 4096 MATLAB TX samples to .mat AND text files (matlab_tx_out_re/im.txt)\n');
+% --------------------------------------------------------------
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+%% --- ANALOG BLOCKS AND CHANNEL ---
+
+% 1. Define Target Parameters
+target_distance_m = 12.5;         % Target distance in meters
+c                 = 3e8;          % Speed of light (m/s)
+
+% --- PHYSICAL RADAR LIMITS CHECK ---
+% Your code uses 'scale = 512', which divides the chirp amplitude by 512.
+% We pass 1/scale to the function to see the physical real-world power.
+%target_RCS_sqm = 10; % Let's assume we are tracking a car (10 m^2)
+%[R_max, RCS_min] = calculate_radar_limits(1/scale, target_RCS_sqm, target_distance_m);
+
+
+
+% 2. Calculate Delay
+% Radar uses two-way travel time: tau = 2 * R / c
+time_delay_s  = (2 * target_distance_m) / c; 
+
+% Convert time delay to a discrete number of samples
+delay_samples = round(time_delay_s * Fs);
+
+fprintf('\n================ CHANNEL SETUP ================\n');
+fprintf('Target Distance: %.2f meters\n', target_distance_m);
+fprintf('Time Delay:      %.2f ns\n', time_delay_s * 1e9);
+fprintf('Sample Delay:    %d samples\n', delay_samples);
+fprintf('===============================================\n');
+
+% 3. Apply Linear Delay (Zero-Padding)
+% We prepend zeros to simulate the wait time, and truncate the end 
+% to keep the array length perfectly matched to N for the RX FFT.
+ if delay_samples < length(x_tx_time)
+    x_rx_time = [zeros(delay_samples, 1); x_tx_time(1:end-delay_samples)];
+ else
+     error('Delay exceeds the signal duration! Choose a closer target.');
+ end
+
+%delay_samples = 0;%% to make channel ideal
+
+
+%% --- ANALOG BLOCKS AND CHANNEL ---
+
+
+SNR_dB = 30; % Desired Signal-to-Noise Ratio in dB
+
+
+% Ideal Channel (Wire)
+%x_rx_time = x_tx_time;
+x_rx_time = circshift(x_tx_time,delay_samples);
+%x_rx_time = x_tx_time;
+%x_rx_time = awgn(double(x_rx_time), SNR_dB, 'measured');
+
+
+
+
+
+
+
+
+
+
+
+
+
+%% --- RX PATH ---
+% 1. BLOCK: FFT (Convert Time to Freq)
+% Standard FFT output: [Positive Freqs | Negative Freqs]
+Y_rx_freq_raw = radix22_dif_fft_fixed(x_rx_time,WL_FFT2,FL_FFT2);
+
+% 2. BLOCK: Hardware Demultiplexer
+% ==========================================================
+% Call the hardware function to split the streams
+[Y_ofdm_stream, Y_chirp_stream, rx_valid] = demux(Y_rx_freq_raw, N);
+%Y_ofdm_stream = fi(Y_ofdm_stream, T, F);
+%Y_chirp_stream = fi(Y_chirp_stream, T, F);
+
+% Renaming for clarity in downstream blocks:
+% - The first half (Pos) contains our OFDM data
+% - The second half (Neg) contains our Chirp data
+Y_ofdm_part  = Y_ofdm_stream; 
+Y_chirp_part = Y_chirp_stream;
+
+% % --- Path A: Communication Signal Detection ---
+% figure('Name', 'Split Band System: Chirp (0-200) & OFDM (200-400)', 'Position', [100, 100, 1200, 500]);
+% subplot(1,3,1);
+% plot(real(Y_ofdm_part), imag(Y_ofdm_part), 'b.');
+% grid on;
+% title('RX: OFDM Constellation (200-400 MHz)');
+% xlabel('I'); ylabel('Q'); axis square;
+
+% 3. BLOCK: Conjugate (Reference)
+ref_chirp = stream_neg_in; % Known TX chirp bins
+ref_conj  = conj(ref_chirp);
+
+
+% 4. BLOCK: Multiplier (Correlation)
+Y_chirp_part = fi(Y_chirp_part, T, F);
+
+Z_radar_freq = qxy_fft_multiplier2(Y_chirp_part, ref_conj, WL_FFT - FL_FFT, FL_FFT, 'double');
+max_Z = max(abs(Z_radar_freq));
+%Z_radar_freq = Z_radar_freq*4096;
+
+% 5. BLOCK: IFFT (Range Profile)
+radar_profile = radix22_dif_ifft_fixed(Z_radar_freq, WL_IFFT2, FL_IFFT2);
+
+out_type3 = numerictype(1, WL_IFFT2, FL_IFFT2 + 11 -log2(scale));
+radar_profile = reinterpretcast(radar_profile, out_type3);
+
+%radar_profile = radar_profile*512;
+
+% subplot(1,3,2);
+% dist_axis = (0:length(radar_profile)-1) * (3e8/(Fs)); % BW is 200M
+% plot(dist_axis, abs(radar_profile), 'r', 'LineWidth', 1.5);
+% title('RX: Radar Profile (0-200 MHz)');
+% xlabel('Distance (m)'); grid on; xlim([0 50]);
+% 
+% % --- Spectrum Visualization ---
+% subplot(1,3,3);
+% f_axis = f_axis / 1e6; % Shift to 0 - 400 MHz view
+% X_visual = fftshift(X_tx_combined); 
+% spectrum_mag = 20*log10(abs(double(X_visual)));
+% 
+% area(f_axis(idx_chirp_active), spectrum_mag(idx_chirp_active), 'FaceColor', 'r', 'FaceAlpha', 0.3);
+% hold on;
+% area(f_axis(idx_ofdm_active), spectrum_mag(idx_ofdm_active), 'FaceColor', 'b', 'FaceAlpha', 0.3);
+% plot(f_axis, spectrum_mag, 'k');
+% xline(200, 'k--', 'LineWidth', 2);
+% title('TX Spectrum Allocation');
+% legend('Chirp (0-200 MHz)', 'OFDM (200-400 MHz)');
+% xlabel('Frequency (MHz)'); ylabel('Magnitude (dB)');
+% xlim([-245.76 245.76]); ylim([-20 60]);
+
+%% --- SQNR & ERROR ANALYSIS ---
+% This section compares the generated TX signals with the recovered RX signals.
+
+% 1. Align & Normalize Signals
+% FFT/IFFT chains often introduce scaling factors. We compute a scalar 
+% normalization factor to ensure we are comparing unity-to-unity.
+
+% --- OFDM Alignment ---
+% Reference: stream_pos_in | Received: Y_ofdm_part
+%scale_ofdm  = mean(abs(stream_pos_in)) / mean(abs(Y_ofdm_part));
+%Y_ofdm_norm = Y_ofdm_part * scale_ofdm;
+Y_ofdm_norm = Y_ofdm_part;
+error_ofdm  = stream_pos_in - double(Y_ofdm_norm);
+
+% --- Chirp Alignment ---
+% Reference: stream_neg_in | Received: Y_chirp_part
+%scale_chirp  = mean(abs(stream_neg_in)) / mean(abs(Y_chirp_part));
+%Y_chirp_norm = Y_chirp_part * scale_chirp;
+Y_chirp_norm = Y_chirp_part;
+error_chirp  = stream_neg_in - Y_chirp_norm;
+
+
+
+% =========================================================
+% OFDM: Starts after 83 bins of zero-padding
+idx_ofdm_start = 84;
+idx_ofdm_end   = 83 + length(ofdm_symbols);
+
+tx_active_ofdm = stream_pos_in(idx_ofdm_start : idx_ofdm_end);
+rx_active_ofdm = double(Y_ofdm_norm(idx_ofdm_start : idx_ofdm_end));
+
+
+
+% =========================================================
+% --- 2. 1-TAP ZERO-FORCING EQUALIZER (PHASE DEROTATION) ---
+% =========================================================
+% 1. Identify the exact FFT bin numbers (k) for our active data
+% Index 84 corresponds to FFT bin k = 83 (since k=0 is DC)
+k_bins = (idx_ofdm_start : idx_ofdm_end) - 1;
+k_bins = k_bins(:); % Ensure it's a column vector
+
+% 2. Calculate the ideal Equalizer Weights for the known delay
+% We use positive phase to perfectly invert the negative phase of the delay
+%delay_samples = 0;
+W_eq = exp(1j * 2 * pi * k_bins * delay_samples / N);
+
+% 3. Apply the Equalizer to derotate the constellation
+rx_eq_ofdm = rx_active_ofdm .* W_eq;
+
+
+
+% --- Path A: Communication Signal Detection ---
+figure('Name', 'Split Band System: Chirp (-200-0) & OFDM (0-200)', 'Position', [100, 100, 1200, 500]);
+subplot(1,3,1);
+plot(real(rx_eq_ofdm), imag(rx_eq_ofdm), 'b.');
+grid on;
+title('RX: OFDM Constellation');
+xlabel('I'); ylabel('Q'); axis square;
+
+subplot(1,3,2);
+dist_axis = (0:length(radar_profile)-1) * (3e8/(Fs)); % BW is 200M
+plot(dist_axis, abs(radar_profile), 'r', 'LineWidth', 1.5);
+title('RX: Radar Profile (0-200 MHz)');
+xlabel('Distance (m)'); grid on; xlim([0 50]);
+
+% --- Spectrum Visualization ---
+subplot(1,3,3);
+f_axis = f_axis / 1e6; % Shift to 0 - 400 MHz view
+X_visual = fftshift(X_tx_combined); 
+spectrum_mag = 20*log10(abs(double(X_visual)));
+
+area(f_axis(idx_chirp_active), spectrum_mag(idx_chirp_active), 'FaceColor', 'r', 'FaceAlpha', 0.3);
+hold on;
+area(f_axis(idx_ofdm_active), spectrum_mag(idx_ofdm_active), 'FaceColor', 'b', 'FaceAlpha', 0.3);
+plot(f_axis, spectrum_mag, 'k');
+xline(200, 'k--', 'LineWidth', 2);
+title('TX Spectrum Allocation');
+legend('Chirp (0-200 MHz)', 'OFDM (200-400 MHz)');
+xlabel('Frequency (MHz)'); ylabel('Magnitude (dB)');
+xlim([-245.76 245.76]); ylim([-20 60]);
+
+
+
+error_active_ofdm = tx_active_ofdm - rx_eq_ofdm;
+error_active_ofdm = [ zeros(83, 1); error_active_ofdm; zeros(pad_len-83, 1)];
+
+%CHIRP: Starts at bin 1, ends at the 200 MHz cutoff
+tx_active_chirp = stream_neg_in(328 : 2048);
+rx_active_chirp = double(Y_chirp_norm(328 : 2048));
+error_active_chirp = tx_active_chirp - rx_active_chirp;
+
+
+
+
+
+
+
+
+
+
+
+% 2. Calculate Global SQNR (Scalar dB)
+% SQNR = 10 * log10( Signal_Power / Error_Power )
+
+
+
+P_signal_ofdm = sum(abs(double(stream_pos_in)).^2);
+P_noise_ofdm  = sum(abs(double(error_active_ofdm)).^2);
+sqnr_ofdm_db  = 10 * log10(double(P_signal_ofdm) / double(P_noise_ofdm));
+
+
+
+P_signal_chirp = sum(abs(double(stream_neg_in)).^2);
+P_noise_chirp  = sum(abs(double(error_active_chirp)).^2);
+sqnr_chirp_db  = 10 * log10(double(P_signal_chirp) / double(P_noise_chirp));
+
+% Display Results
+fprintf('\n================ SQNR RESULTS ================\n');
+fprintf('OFDM Signal SQNR: %.2f dB\n', sqnr_ofdm_db);
+fprintf('Chirp Signal SQNR: %.2f dB\n', sqnr_chirp_db);
+fprintf('==============================================\n');
+
+% 3. Plot SQNR Curves (Spectral Error Analysis)
+figure('Name', 'SQNR Analysis: TX vs RX Error', 'Position', [100, 100, 1000, 800]);
+
+% --- Subplot 1: OFDM SQNR Curve ---
+subplot(2,1,1);
+% Convert to dB for plotting
+plot(20*log10(abs(stream_pos_in)), 'b', 'LineWidth', 1.5, 'DisplayName', 'TX Reference');
+hold on;
+plot(20*log10(abs(double(Y_ofdm_norm))), 'g--', 'LineWidth', 1, 'DisplayName', 'RX Recovered');
+plot(20*log10(abs(double(error_active_ofdm))), 'r', 'LineWidth', 1, 'DisplayName', 'Error (Noise Floor)');
+grid on;
+legend('Location', 'best');
+title(['OFDM Band SQNR: ' num2str(sqnr_ofdm_db, '%.2f') ' dB']);
+ylabel('Magnitude (dB)'); xlabel('Subcarrier Index');
+xlim([1 length(stream_pos_in)]);
+
+% --- Subplot 2: Chirp SQNR Curve ---
+subplot(2,1,2);
+plot(20*log10(abs(double(stream_neg_in))), 'b', 'LineWidth', 1.5, 'DisplayName', 'TX Reference');
+hold on;
+plot(20*log10(abs(double(Y_chirp_norm))), 'g--', 'LineWidth', 1, 'DisplayName', 'RX Recovered');
+plot(20*log10(abs(double(error_chirp))), 'r', 'LineWidth', 1, 'DisplayName', 'Error (Noise Floor)');
+grid on;
+legend('Location', 'best');
+title(['Chirp Band SQNR: ' num2str(sqnr_chirp_db, '%.2f') ' dB']);
+ylabel('Magnitude (dB)'); xlabel('Subcarrier Index');
+xlim([1 length(double(stream_neg_in))]);
+
+
+
+
+% --- EXTRACT ONLY ACTIVE SUBCARRIERS FOR EVM ---
+% The OFDM data was shifted by 83 bins of zero-padding at DC.
+idx_data_start = 84;
+idx_data_end   = 83 + length(ofdm_symbols);
+
+% 1. Extract the raw TX reference symbols (No zeros)
+tx_active_ofdm = stream_pos_in(idx_data_start : idx_data_end);
+
+% 2. Extract the exact matching RX symbols
+rx_active_ofdm = Y_ofdm_norm(idx_data_start : idx_data_end);
+
+% 3. Calculate true data-only EVM
+evmCalc = comm.EVM();
+evm_ofdm_pct = evmCalc(double(tx_active_ofdm(:)), double(rx_eq_ofdm(:)));
+
+
+
+
+P_signal_ofdm = sum(abs(double(tx_active_ofdm)).^2);
+P_noise_ofdm  = sum(abs(double(error_active_ofdm)).^2);
+sqnr_ofdm_db  = 10 * log10(double(P_signal_ofdm) / double(P_noise_ofdm));
+
+
+
+
+
+% --- Built-in EVM Calculation ---
+% 1. Create the EVM measurement object
+evmCalc = comm.EVM();
+
+% 2. Calculate EVM (%) ensuring inputs are handled as columns
+% Format: evmCalc(Reference_Signal, Received_Signal)
+%evm_ofdm_pct = evmCalc(double(stream_pos_in(:)), double(Y_ofdm_norm(:)));
+evm_chirp_pct = evmCalc(double(stream_neg_in(:)), double(Y_chirp_norm(:)));
+
+% Display Results
+fprintf('\n================ SQNR & EVM RESULTS ================\n');
+fprintf('OFDM Signal SQNR: %7.2f dB  |  EVM: %6.2f %%\n', sqnr_ofdm_db, evm_ofdm_pct);
+fprintf('Chirp Signal SQNR:%7.2f dB  |  EVM: %6.2f %%\n', sqnr_chirp_db, evm_chirp_pct);
+fprintf('====================================================\n');
+
+
+
+
+
+
+
+
+
+% =========================================================
+% --- MEASURE POWER DIFFERENCE BETWEEN SPECTRUMS (dB) ---
+% =========================================================
+% We use 'mean' instead of 'sum' to find the Average Power per bin,
+% which ensures a fair comparison even if the bands have slightly 
+% different numbers of active subcarriers.
+
+% 1. Extract the active, non-zero data
+% (Assuming idx_ofdm_start = 84, idx_ofdm_end = 83 + length(ofdm_symbols))
+active_ofdm_data  = double(stream_pos_in(idx_ofdm_start : idx_ofdm_end));
+
+% (Assuming the chirp cutoff is at bin ~1667)
+active_chirp_data = double(stream_neg_in(1 : idx_cutoff)); 
+
+% 2. Calculate the Average Power (Magnitude Squared)
+P_avg_ofdm  = mean(abs(active_ofdm_data).^2);
+P_avg_chirp = mean(abs(active_chirp_data).^2);
+
+% 3. Convert to dB and find the exact difference
+dB_ofdm  = 10 * log10(P_avg_ofdm);
+dB_chirp = 10 * log10(P_avg_chirp);
+
+power_diff_dB = dB_chirp - dB_ofdm;
+
+% 4. Print the results to the console
+fprintf('\n================ SPECTRUM POWER BALANCE ================\n');
+fprintf('Average OFDM Power:  %7.2f dB (Relative)\n', dB_ofdm);
+fprintf('Average Chirp Power: %7.2f dB (Relative)\n', dB_chirp);
+fprintf('Difference (Chirp - OFDM): %7.2f dB\n', power_diff_dB);
+fprintf('========================================================\n');
