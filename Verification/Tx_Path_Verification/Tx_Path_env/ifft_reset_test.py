@@ -38,7 +38,6 @@ class ifft_reset_test(ifft_base_test):
         self.logger.info(f"================ Start of {self.get_type_name()} ================")
  
         await self.generate_clock()
-        await self.run_initial_setup()
  
         self.logger.info("Running: reset_sequence")
         await self._run(self.seq)

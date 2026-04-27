@@ -48,7 +48,7 @@ def _sign16(v):
         return v
  
  
-class Subscriber(uvm_subscriber):
+class IFFTSubscriber(uvm_subscriber):
     """
     Functional-coverage subscriber for the 4096-point IFFT.
  
@@ -83,7 +83,7 @@ class Subscriber(uvm_subscriber):
     # write : mandatory uvm_subscriber hook
     # ──────────────────────────────────────────────────────────────────────
     def write(self, item):
-        self.logger.debug(f"Subscriber received: {item.convert2string()}")
+        self.logger.debug(f"IFFTSubscriber received: {item.convert2string()}")
  
     # ══════════════════════════════════════════════════════════════════════
     # COVER POINTS  (all bins defined with lambda pin functions)

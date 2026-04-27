@@ -23,8 +23,7 @@ import numpy as np
 from ifft_item import *
 
 # Assuming your python golden model is in a file named ifft_golden.py
-# (Update the import to match your actual file name)
-from ifft_golden import radix22_dif_ifft_fixed
+from ifft_fixed import radix22_dif_ifft_fixed
 
 # ─────────────────────────────────────────────────────────────────────────────
 # RTL parameters

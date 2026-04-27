@@ -28,13 +28,13 @@ class ifft_base_test(base_test):
     def build_phase(self):
         super().build_phase()
         # Activate only the IFFT agent — passivate all others
-        ConfigDB().set(self, "ifft_agent", "is_active", UVM_ACTIVE)
-        ConfigDB().set(self, "top_agent",  "is_active", UVM_PASSIVE)
-        ConfigDB().set(self, "dds_agent",  "is_active", UVM_PASSIVE)
-        ConfigDB().set(self, "fft_agent",  "is_active", UVM_PASSIVE)
+        ConfigDB().set(self, "env.ifft_agt", "is_active", uvm_active_passive_enum.UVM_ACTIVE)
+        ConfigDB().set(self, "env.top_agt",  "is_active", uvm_active_passive_enum.UVM_PASSIVE)
+        ConfigDB().set(self, "env.dds_agt",  "is_active", uvm_active_passive_enum.UVM_PASSIVE)
+        ConfigDB().set(self, "env.fft_agt",  "is_active", uvm_active_passive_enum.UVM_PASSIVE)
         # Tag so monitors / scoreboards know which DUT block is under test
         ConfigDB().set(self, "*", "VERIF_MODE", "IFFT")
  
     # Convenience wrapper used by every run_phase
     async def _run(self, seq):
-        await seq.start(self.env.agt.sqr)
+        await seq.start(self.env.ifft_agt.sqr)

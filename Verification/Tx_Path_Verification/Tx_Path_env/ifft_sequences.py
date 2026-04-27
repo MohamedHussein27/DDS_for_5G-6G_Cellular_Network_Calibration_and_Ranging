@@ -1,5 +1,18 @@
 """
+    Sponsor: Analog Devices, Inc. (ADI)
+    Institution: Faculty of Engineering, Ain Shams University
+    Project: DDS for 5G/6G Cellular Network Calibration and Ranging
 
+    Module: ifft_sequences.py
+
+    Description:
+        This module contains a comprehensive suite of UVM stimulus sequences 
+        for verifying the 4096-point IFFT block. It translates mathematical 
+        frequency-domain matrices into cycle-accurate, 16-bit signed fixed-point 
+        (Q11.5 format) transactions. The suite includes corner cases (max positive/
+        negative, resets), protocol checks (bursts, back-to-back frames), and 
+        fundamental DSP signal models (impulses, single-tone, and two-tone 
+        generation) for exhaustive functional coverage.
 """
 
 import cocotb
@@ -14,7 +27,7 @@ from ifft_item import ifft_item
 # ─────────────────────────────────────────────────────────────────────────────
 N       = 4096
 WL      = 16
-Q_FRAC  = 8
+Q_FRAC  = 5
 MAX_VAL = (1 << (WL - 1)) - 1   #  32767
 MIN_VAL = -(1 << (WL - 1))      # -32768
 
