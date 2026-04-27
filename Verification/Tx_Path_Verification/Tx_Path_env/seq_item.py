@@ -58,10 +58,14 @@ class top_item(uvm_sequence_item, Randomized):
     def convert2string(self):
         # Full transaction printout (Inputs -> Outputs)
         return (f"{self.get_name()} "
-                f"IN[ rst_n={self.rst_n}, valid={self.valid_in}, real={self.in_real}, imag={self.in_imag} ] -> "
-                f"OUT[ valid={self.valid_out}, real={self.out_real}, imag={self.out_imag} ]")
+                f"IN[ rst_n={self.rst_n}, dds_en={self.dds_enable}, "
+                f"FTW_start={self.FTW_start}, cycles={self.cycles}, FTW_step={self.FTW_step}, "
+                f"ofdm_rd_en={self.ofdm_rd_en}, ofdm_re={self.ofdm_in_real}, ofdm_im={self.ofdm_in_imag} ] -> "
+                f"OUT[ tx_valid={self.tx_valid}, tx_re={self.tx_out_real}, tx_im={self.tx_out_imag} ]")
 
     def convert2string_stimulus(self):
         # Input-only printout for the driver/sequencer logging
         return (f"{self.get_name()} "
-                f"STIMULUS: rst_n={self.rst_n}, valid_in={self.valid_in}, real={self.in_real}, imag={self.in_imag}")
+                f"STIMULUS: rst_n={self.rst_n}, dds_en={self.dds_enable}, "
+                f"FTW_start={self.FTW_start}, cycles={self.cycles}, FTW_step={self.FTW_step}, "
+                f"ofdm_rd_en={self.ofdm_rd_en}, ofdm_re={self.ofdm_in_real}, ofdm_im={self.ofdm_in_imag}")

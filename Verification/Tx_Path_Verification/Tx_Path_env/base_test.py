@@ -23,7 +23,7 @@ import pyuvm
 
 
 from environment import *
-from sequences import *
+#from sequences import *
 
 
 class base_test(uvm_test):
@@ -43,24 +43,19 @@ class base_test(uvm_test):
         # put dut handle to be seen by all components
         ConfigDB().set(self, "*", "DUT", self.dut)
 
-        self.reset_seq = reset_sequence.create("reset_seq")
+        #self.reset_seq = reset_sequence.create("reset_seq")
 
         # assigning the which is active and which is passive
-        ConfigDB().set(self, "top_agent", "is_active", UVM_ACTIVE) # top agent
-        ConfigDB().set(self, "dds_agent", "is_active", UVM_PASSIVE) # dds agent
-        ConfigDB().set(self, "fft_agent", "is_active", UVM_PASSIVE) # fft agent
-        ConfigDB().set(self, "ifft_agent", "is_active", UVM_PASSIVE) # ifft agent
+        ConfigDB().set(self, "env.top_agt", "is_active", uvm_active_passive_enum.UVM_ACTIVE) # top agent
+        ConfigDB().set(self, "env.dds_agt", "is_active", uvm_active_passive_enum.UVM_PASSIVE) # dds agent
+        ConfigDB().set(self, "env.fft_agt", "is_active", uvm_active_passive_enum.UVM_PASSIVE) # fft agent
+        
+        ConfigDB().set(self, "env.ifft_agt", "is_active", uvm_active_passive_enum.UVM_PASSIVE) # ifft agent
 
     # generate the clock
     async def generate_clock(self):
-        self.clk = Clock(self.dut.clk, 2034.5, units="ps") # 491.52 MHz
+        self.clk = Clock(self.dut.clk, 2034, units="ps") # 491.52 MHz
         await cocotb.start(self.clk.start())
-
-    # reset
-    async def run_initial_setup(self):
-        self.logger.info("Starting Reset Sequence...")
-        await self.reset_seq.start(self.env.agt.sqr)
-        self.logger.info("Reset Sequence Complete.")
         
     def final_phase(self):
         self.logger.info(f"********** End of {self.get_type_name()} **********")

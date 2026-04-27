@@ -11,13 +11,13 @@ import logging
 
 # Import the base test and the specific sequences
 from base_test import base_test
-from ifft_sequences import ifft_random_seq, ifft_zero_seq, ifft_sine_seq
+from dds_sequences import * ############## need to be modified 
 
 @pyuvm.test()
-class null_test(base_test):
+class dds_test(base_test):
     def build_phase(self):
         super().build_phase()
-        ConfigDB.set(self, "*", "VERIF_MODE", "IFFT")  # Set the verification mode to TOP for this test
+        ConfigDB.set(self, "*", "VERIF_MODE", "DDS")  # Set the verification mode to TOP for this test
 
         # write sequences here >>>>>>>
 
@@ -40,5 +40,5 @@ class null_test(base_test):
     def report_phase(self):
         self.logger.info("---------------------------------------------------------")
         self.logger.info(f" [TEST REPORT] : {self.get_type_name()}")
-        self.logger.info(" [TARGETS]     : IFFT output correctness")
+        self.logger.info(" [TARGETS]     : DDS output correctness")
         self.logger.info("---------------------------------------------------------")

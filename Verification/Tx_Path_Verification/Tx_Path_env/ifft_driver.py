@@ -37,8 +37,8 @@ class ifft_driver(uvm_driver):
             # 3. Drive the physical pins
             self.dut.rst_n.value    = stim_seq_item.rst_n
             self.dut.valid_in.value = stim_seq_item.valid_in
-            self.dut.in_real.value  = stim_seq_item.data_real_in
-            self.dut.in_imag.value  = stim_seq_item.data_imag_in
+            self.dut.in_real.value  = stim_seq_item.in_real
+            self.dut.in_imag.value  = stim_seq_item.in_imag
             
             # 4. Notify the sequencer that the transaction is complete
             self.seq_item_port.item_done()
