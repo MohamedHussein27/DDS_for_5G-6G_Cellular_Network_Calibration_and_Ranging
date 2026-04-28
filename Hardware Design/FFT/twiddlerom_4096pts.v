@@ -13,7 +13,7 @@
 */
 
 
-module twiddlerom #(
+module twiddlerom_4096 #(
     parameter DEPTH = 2048, // N/2 for current stage
     parameter WL = 16
 ) (
@@ -21,8 +21,6 @@ module twiddlerom #(
     input wire [(DEPTH == 1) ? 0 : $clog2(DEPTH)-1 : 0] addr_b, // Addr for IFFT
     output reg signed [WL-1:0] W_real_a,
     output reg signed [WL-1:0] W_img_a,
-    output reg signed [WL-1:0] W_real_b,
-    output reg signed [WL-1:0] W_img_b
 );
 
     // The Master ROM size is ALWAYS 2048 for a 4096-point FFT
