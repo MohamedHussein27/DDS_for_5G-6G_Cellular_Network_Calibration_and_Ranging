@@ -18,23 +18,14 @@ module twiddlerom_4096 #(
     parameter DEPTH = 2048, // N/2 for current stage
     parameter WL = 16
 ) (
-    input  wire [(DEPTH == 1) ? 0 : $clog2(DEPTH)-1 : 0] addr_a, // Addr for FFT
-    input wire [(DEPTH == 1) ? 0 : $clog2(DEPTH)-1 : 0] addr_b, // Addr for IFFT
-    output reg signed [WL-1:0] W_real_a,
-    output reg signed [WL-1:0] W_img_a,
-    output reg signed [WL-1:0] W_real_b,
-    output reg signed [WL-1:0] W_img_b
+    input  wire [(DEPTH == 1) ? 0 : $clog2(DEPTH)-1 : 0] addr,
+    output reg signed [WL-1:0] W_real,
+    output reg signed [WL-1:0] W_img    
 );
 
-    // The Master ROM size is ALWAYS 2048 for a 4096-point FFT
     localparam MASTER_DEPTH = 2048;
-    
-    // Calculate how many values to skip for smaller stages
-    // e.g., Stage 1 (DEPTH=2048) -> STRIDE = 1
-    // e.g., Stage 2 (DEPTH=1024) -> STRIDE = 2
     localparam STRIDE = MASTER_DEPTH / DEPTH;
 
-    // The Master ROM arrays
     reg signed [WL-1:0] rom_real [0:MASTER_DEPTH-1];
     reg signed [WL-1:0] rom_imag [0:MASTER_DEPTH-1];
 
@@ -4143,14 +4134,9 @@ module twiddlerom_4096 #(
     end
 
     // Sub-sample the Master ROM based on the stage's stride
-    always @(*) begin  // rom for FFT
-        W_real_a = rom_real[addr_a * STRIDE];
-        W_img_a  = rom_imag[addr_a * STRIDE];
-    end
-
-    always @(*) begin  // rom for IFFT
-        W_real_b = rom_real[addr_b * STRIDE];
-        W_img_b = -rom_imag[addr_b * STRIDE];
+    always @(*) begin
+        W_real = rom_real[addr * STRIDE];
+        W_img  = rom_imag[addr * STRIDE];
     end
 
 endmodule

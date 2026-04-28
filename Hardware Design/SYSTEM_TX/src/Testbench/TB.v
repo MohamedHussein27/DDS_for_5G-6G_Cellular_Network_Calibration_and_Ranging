@@ -2,12 +2,16 @@
 
 module TX_TOP_tb();
 
-    // --- Parameters ---
+    // =========================================================================
+    // 1. PARAMETERS
+    // =========================================================================
     parameter WL = 16;
     parameter N  = 4096;
     parameter DDS_W = 8;
 
-    // --- Testbench Signals ---
+    // =========================================================================
+    // 2. TESTBENCH SIGNALS
+    // =========================================================================
     reg clk;
     reg rst_n;
     
@@ -27,7 +31,9 @@ module TX_TOP_tb();
     wire signed [WL-1:0] tx_out_re;
     wire signed [WL-1:0] tx_out_im;
 
-    // --- Instantiating the TX_TOP ---
+    // =========================================================================
+    // 3. DUT INSTANTIATION
+    // =========================================================================
     TX_TOP #(
         .WL(WL),
         .N(N),
@@ -47,24 +53,29 @@ module TX_TOP_tb();
         .tx_out_im(tx_out_im)
     );
 
-    // --- 1. Clock Generation ---
+    // =========================================================================
+    // 4. CLOCK GENERATION
+    // =========================================================================
     initial begin
         clk = 0;
         forever #1 clk = ~clk; // 500 MHz simulation clock (2ns period)
     end
 
-    // --- 2. Memory Buffers & File Loading ---
+    // =========================================================================
+    // 5. OFDM MEMORY BUFFERING
+    // =========================================================================
     reg signed [WL-1:0] ofdm_rom_re [0:2047];
     reg signed [WL-1:0] ofdm_rom_im [0:2047];
     reg [11:0] ofdm_ptr;
 
     initial begin
+        // Make sure these hex files exist in your simulation directory
         $readmemh("ofdm_data_re.hex", ofdm_rom_re);
         $readmemh("ofdm_data_im.hex", ofdm_rom_im);
         ofdm_ptr = 0;
     end
 
-    // Stream the OFDM data
+    // Stream the OFDM data when requested by the MUX
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             ofdm_ptr   <= 0;
@@ -77,19 +88,48 @@ module TX_TOP_tb();
         end
     end
 
-    // --- 3. Output Capturing & Simulation Control ---
-    integer file_re, file_im, file_dds;
+    // =========================================================================
+    // 6. SIMULATION CONTROL & FILE I/O
+    // =========================================================================
+    integer file_re, file_im;               // Final TX Outputs
+    integer file_dds;                       // DDS Time-Domain Output
+    integer file_raw_re, file_raw_im;       // Raw Scrambled FFT Output
+    integer file_bitrev_re, file_bitrev_im; // Bit Reversal Hex Output
+    integer file_mux_re, file_mux_im;       // <--- NEW: MUX Hex Output
+    
     integer sample_count;
-    reg dds_valid_delayed; // Used to detect the falling edge of DDS valid
+    integer raw_fft_count;
+    integer bitrev_count;
+    integer mux_count;                      // <--- NEW: Counter for MUX
+    
+    reg dds_valid_delayed; 
+    reg raw_fft_valid_delayed;
+    reg bitrev_valid_delayed;
+    reg mux_valid_delayed;                  // <--- NEW: Edge detector for MUX
 
     initial begin
-        // Open files
-        file_re  = $fopen("rtl_tx_out_re.txt", "w");
-        file_im  = $fopen("rtl_tx_out_im.txt", "w");
-        file_dds = $fopen("rtl_dds_out.txt", "w"); // <--- NEW: DDS file
+        // Open all extraction files
+        file_re        = $fopen("rtl_tx_out_re.txt", "w");
+        file_im        = $fopen("rtl_tx_out_im.txt", "w");
+        file_dds       = $fopen("rtl_dds_out.txt", "w"); 
+        file_raw_re    = $fopen("rtl_raw_fft_re.txt", "w");
+        file_raw_im    = $fopen("rtl_raw_fft_im.txt", "w");
+        file_bitrev_re = $fopen("rtl_bitrev_out_re.hex", "w");
+        file_bitrev_im = $fopen("rtl_bitrev_out_im.hex", "w");
+        
+        // --- NEW: Open hex files for MUX extraction ---
+        file_mux_re    = $fopen("rtl_mux_out_re.hex", "w");
+        file_mux_im    = $fopen("rtl_mux_out_im.hex", "w");
         
         sample_count = 0;
+        raw_fft_count = 0;
+        bitrev_count = 0;
+        mux_count = 0;
+        
         dds_valid_delayed = 0;
+        raw_fft_valid_delayed = 0;
+        bitrev_valid_delayed = 0;
+        mux_valid_delayed = 0;
 
         // Initialize Inputs
         rst_n      = 0;
@@ -110,19 +150,17 @@ module TX_TOP_tb();
         $stop;
     end
 
-    // --- NEW: Capture DDS Internal Output ---
+    // -------------------------------------------------------------------------
+    // CAPTURE 1: Internal DDS Output (Decimal)
+    // -------------------------------------------------------------------------
     always @(posedge clk) begin
         if (rst_n) begin
-            // Keep track of the previous clock cycle's valid signal
             dds_valid_delayed <= uut.dds_valid;
 
-            // Write to file while valid is HIGH
             if (uut.dds_valid) begin
-                // $signed forces Verilog to treat the 8-bit vector as a negative number if the MSB is 1
                 $fdisplay(file_dds, "%d", $signed(uut.dds_amplitude));
             end
 
-            // Close file exactly when valid drops from 1 to 0 (Falling Edge)
             if (dds_valid_delayed == 1'b1 && uut.dds_valid == 1'b0) begin
                 $display("SUCCESS: Captured DDS samples. Closing DDS file.");
                 $fclose(file_dds);
@@ -130,7 +168,75 @@ module TX_TOP_tb();
         end
     end
 
-    // --- TX IFFT Final Output Capture ---
+    // -------------------------------------------------------------------------
+    // CAPTURE 2: Internal Raw Scrambled FFT Output (Decimal)
+    // -------------------------------------------------------------------------
+    always @(posedge clk) begin
+        if (rst_n) begin
+            raw_fft_valid_delayed <= uut.u_fft_tx.valid_out;
+
+            if (uut.u_fft_tx.valid_out) begin
+                $fdisplay(file_raw_re, "%d", $signed(uut.u_fft_tx.out_real));
+                $fdisplay(file_raw_im, "%d", $signed(uut.u_fft_tx.out_imag));
+                raw_fft_count = raw_fft_count + 1;
+            end
+
+            if (raw_fft_valid_delayed == 1'b1 && uut.u_fft_tx.valid_out == 1'b0) begin
+                $display("SUCCESS: Captured %0d Raw FFT samples. Closing files.", raw_fft_count);
+                $fclose(file_raw_re);
+                $fclose(file_raw_im);
+            end
+        end
+    end
+
+    // -------------------------------------------------------------------------
+    // CAPTURE 3: Internal Bit Reversal Output (HEXADECIMAL)
+    // -------------------------------------------------------------------------
+    always @(posedge clk) begin
+        if (rst_n) begin
+            bitrev_valid_delayed <= uut.bit_rev_valid;
+
+            if (uut.bit_rev_valid) begin
+                $fdisplay(file_bitrev_re, "%04x", uut.bit_rev_re);
+                $fdisplay(file_bitrev_im, "%04x", uut.bit_rev_im);
+                bitrev_count = bitrev_count + 1;
+            end
+
+            if (bitrev_valid_delayed == 1'b1 && uut.bit_rev_valid == 1'b0) begin
+                $display("SUCCESS: Captured %0d Bit Reversal Hex samples. Closing files.", bitrev_count);
+                $fclose(file_bitrev_re);
+                $fclose(file_bitrev_im);
+            end
+        end
+    end
+
+    // -------------------------------------------------------------------------
+    // CAPTURE 4: Internal MUX Output (HEXADECIMAL)
+    // -------------------------------------------------------------------------
+    always @(posedge clk) begin
+        if (rst_n) begin
+            // Tap the interconnected wires inside TX_TOP
+            mux_valid_delayed <= uut.mux_valid;
+
+            if (uut.mux_valid) begin
+                // %04x forces 4 lowercase hex characters, zero-padded (e.g., '11a9')
+                $fdisplay(file_mux_re, "%04x", uut.mux_re);
+                $fdisplay(file_mux_im, "%04x", uut.mux_im);
+                mux_count = mux_count + 1;
+            end
+
+            // Close files on the falling edge of mux_valid
+            if (mux_valid_delayed == 1'b1 && uut.mux_valid == 1'b0) begin
+                $display("SUCCESS: Captured %0d MUX Hex samples. Closing files.", mux_count);
+                $fclose(file_mux_re);
+                $fclose(file_mux_im);
+            end
+        end
+    end
+
+    // -------------------------------------------------------------------------
+    // CAPTURE 5: Final TX Output (Post-IFFT) (Decimal)
+    // -------------------------------------------------------------------------
     always @(posedge clk) begin
         if (tx_valid) begin
             $fdisplay(file_re, "%d", tx_out_re);
@@ -138,11 +244,12 @@ module TX_TOP_tb();
             
             sample_count = sample_count + 1;
             
+            // Stop simulation once the 4096-bin frame is completely transmitted
             if (sample_count == 4096) begin
-                $display("SUCCESS: Captured exactly 4096 TX output samples.");
+                $display("SUCCESS: Captured exactly 4096 Final TX output samples.");
                 $fclose(file_re);
                 $fclose(file_im);
-                #100; // Delay to let the OS save the file
+                #100; // Delay to let the OS flush the files
                 $stop;
             end
         end

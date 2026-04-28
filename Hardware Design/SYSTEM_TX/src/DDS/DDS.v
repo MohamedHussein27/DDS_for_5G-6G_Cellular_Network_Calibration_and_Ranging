@@ -13,7 +13,7 @@ module dds_top #(
     input  wire [CYCLES_WIDTH-1:0]      cycles,
     input  wire [TUNING_WORD_WIDTH-1:0] FTW_step,
     output wire                         valid_out,  // <--- NEW: Connects directly to FFT valid_in
-    output wire [MEMORY_WIDTH-1:0]      final_amplitude
+    output wire signed [MEMORY_WIDTH-1:0]      final_amplitude
 );
 
     // --- Internal Wires ---

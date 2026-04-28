@@ -109,7 +109,7 @@ module TX_TOP #(
     isac_mux #(.WL(WL), .N(N)) u_mux (
         .clk(clk), .rst_n(rst_n),
         .radar_valid(bit_rev_valid),
-        .radar_in_re(bit_rev_re), .radar_in_im(bit_rev_im),
+        .radar_in_re(bit_rev_re>>>9), .radar_in_im(bit_rev_im>>>9),
         .ofdm_in_re(ofdm_in_re), .ofdm_in_im(ofdm_in_im),
         .ofdm_rd_en(ofdm_rd_en),
         .mux_valid(mux_valid),

@@ -8,7 +8,8 @@
 */
 
 
-// module fft_stage_4096 #(
+
+// module ifft_stage_4096 #(
 //     parameter WL = 16,
 //     parameter DELAY_LEN = 2048,
 //     parameter ROM_DEPTH = 2048
@@ -28,14 +29,13 @@
 //     wire signed [WL-1:0] bf_a_re, bf_a_im, bf_b_re, bf_b_im;
 //     wire signed [WL-1:0] mult_out_re, mult_out_im;
 //     wire signed [WL-1:0] twiddle_re, twiddle_im;
-//     wire enable;
+
 //     assign delay_in_re = sel ? mult_out_re : in_real;
 //     assign delay_in_im = sel ? mult_out_im : in_imag;
 
 //     assign out_real = sel ? bf_a_re : delay_out_re;
 //     assign out_imag = sel ? bf_a_im : delay_out_im;
 
-//     assign enable = sel;
 //     delayfeedback #(
 //         .WL(WL), 
 //         .L(DELAY_LEN) 
@@ -50,7 +50,6 @@
 //     );
 
 //     butterfly #(.WL(WL)) bf_inst (
-//         .enable(enable),
 //         .in1_real(delay_out_re), .in1_imag(delay_out_im),
 //         .in2_real(in_real),      .in2_imag(in_imag),
 //         .a_real(bf_a_re),        .a_imag(bf_a_im),
@@ -58,10 +57,12 @@
 //     );
 
 //     twiddlerom_4096 #(.WL(WL), .DEPTH(ROM_DEPTH)) rom_inst (
-//         .addr_a(addr),
-//         .addr_b(0),
-//         .W_real_a(twiddle_re), .W_img_a(twiddle_im),
-//         .W_real_b(),           .W_img_b()
+//         .addr_a(0),
+//         .addr_b(addr),
+//         .W_real_a(), 
+//         .W_img_a(),
+//         .W_real_b(twiddle_re),           
+//         .W_img_b(twiddle_im)
 //     );
 
 //     multiplier #(.WL(WL)) mult_inst (
@@ -71,6 +72,16 @@
 //     );
 // endmodule
 
+// Analog Devices 
+// GP Ain-shams University
+// Butterfly unit for 4096-FFT 
+
+
+/* Description ..........
+    It uses MUX logic to correctly route the data into the delay feedback buffer or directly to the next stage based on the sel signal.
+*/
+
+
 module ifft_stage_4096 #(
     parameter WL = 16,
     parameter DELAY_LEN = 2048,
@@ -78,7 +89,7 @@ module ifft_stage_4096 #(
 )(
     input wire clk,
     input wire rst_n,
-    input wire valid_in, // <--- NEW: Pipeline Enable
+    input wire valid_in,
     input wire sel,
     input wire [(ROM_DEPTH == 1) ? 0 : $clog2(ROM_DEPTH)-1 : 0] addr,
     input wire signed [WL-1:0] in_real,
@@ -86,31 +97,31 @@ module ifft_stage_4096 #(
     output wire signed [WL-1:0] out_real,
     output wire signed [WL-1:0] out_imag
 );
+    // Internal wires for signal routing
     wire signed [WL-1:0] delay_in_re, delay_in_im;
     wire signed [WL-1:0] delay_out_re, delay_out_im;
     wire signed [WL-1:0] bf_a_re, bf_a_im, bf_b_re, bf_b_im;
     wire signed [WL-1:0] mult_out_re, mult_out_im;
-    wire signed [WL-1:0] twiddle_re, twiddle_im;
+    
+    // Twiddle wires
+    wire signed [WL-1:0] twiddle_re_rom, twiddle_im_rom;
+    wire signed [WL-1:0] twiddle_re_ifft, twiddle_im_ifft;
 
+    // MUX Logic for SDF Feedback Path[cite: 19]
     assign delay_in_re = sel ? mult_out_re : in_real;
     assign delay_in_im = sel ? mult_out_im : in_imag;
 
     assign out_real = sel ? bf_a_re : delay_out_re;
     assign out_imag = sel ? bf_a_im : delay_out_im;
 
-    delayfeedback #(
-        .WL(WL), 
-        .L(DELAY_LEN) 
-    ) delay_inst (
-        .clk(clk),
-        .rst_n(rst_n),
-        .en(valid_in), // <--- NEW: Pass enable to buffer
-        .data_in_real(delay_in_re),
-        .data_in_imag(delay_in_im),
-        .data_out_real(delay_out_re),
-        .data_out_imag(delay_out_im)
+    // 1. Delay Line Buffer[cite: 19]
+    delayfeedback #(.WL(WL), .L(DELAY_LEN)) delay_inst (
+        .clk(clk), .rst_n(rst_n), .en(valid_in),
+        .data_in_real(delay_in_re), .data_in_imag(delay_in_im),
+        .data_out_real(delay_out_re), .data_out_imag(delay_out_im)
     );
 
+    // 2. Radix-2 Butterfly[cite: 19]
     butterfly #(.WL(WL)) bf_inst (
         .in1_real(delay_out_re), .in1_imag(delay_out_im),
         .in2_real(in_real),      .in2_imag(in_imag),
@@ -118,16 +129,22 @@ module ifft_stage_4096 #(
         .b_real(bf_b_re),        .b_imag(bf_b_im)
     );
 
+    // 3. Instantiate Forward ROM (Single Address, 2 Data Out)[cite: 20]
     twiddlerom_4096 #(.WL(WL), .DEPTH(ROM_DEPTH)) rom_inst (
-        .addr_a(0),
-        .addr_b(addr),
-        .W_real_a(), .W_img_a(),
-        .W_real_b(twiddle_re), .W_img_b(twiddle_im)
+        .addr(addr),
+        .W_real(twiddle_re_rom), 
+        .W_img(twiddle_im_rom)
     );
 
+    // 4. IFFT CONJUGATION: Keep Real, Negate Imaginary[cite: 3, 11]
+    assign twiddle_re_ifft = twiddle_re_rom;
+    assign twiddle_im_ifft = -twiddle_im_rom;
+
+    // 5. Complex Multiplier using the Conjugated Twiddle[cite: 11, 19]
     multiplier #(.WL(WL)) mult_inst (
-        .re1(bf_b_re),    .im1(bf_b_im),
-        .re2(twiddle_re), .im2(twiddle_im),
-        .re_out(mult_out_re), .im_out(mult_out_im)
+        .re1(bf_b_re),         .im1(bf_b_im),
+        .re2(twiddle_re_ifft), .im2(twiddle_im_ifft),
+        .re_out(mult_out_re),  .im_out(mult_out_im)
     );
+
 endmodule

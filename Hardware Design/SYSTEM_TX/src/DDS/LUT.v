@@ -7,7 +7,7 @@ module LUT #(
     input clk,
     input rst_n,
     input [memory_depth-1:0] address,
-    output reg [memory_width-1:0] amplitude
+    output reg signed [memory_width-1:0] amplitude
 );
 
     (* memory_style = "block" *) reg [memory_width-1:0] memory [0:(2**memory_depth)-1];
