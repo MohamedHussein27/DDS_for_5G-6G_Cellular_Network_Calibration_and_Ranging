@@ -23,7 +23,7 @@ import numpy as np
 from ifft_item import *
 
 # Assuming your python golden model is in a file named ifft_golden.py
-from ifft_fixed import radix22_dif_ifft_fixed
+from ifft_fixed import *
 
 # ─────────────────────────────────────────────────────────────────────────────
 # RTL parameters
@@ -60,11 +60,10 @@ def _float_to_raw_int(f, frac_bits):
     raw = max(-(1 << (WL - 1)), min((1 << (WL - 1)) - 1, raw)) # take min bet. (1 << (WL - 1)) - 1, raw then take the max bet. this value in the minumum value
     return raw
 
-
 class IFFTGoldenModel:
     """
     Accumulates N complex input samples, runs the custom fixed-point 
-    radix22_dif_ifft_fixed model, and yields Q11.5 output samples.
+    radix2_dif_ifft_fixed model, and yields Q11.5 output samples.
     """
 
     def __init__(self, n=N):
@@ -79,15 +78,22 @@ class IFFTGoldenModel:
         self._buf_im.append(_raw_int_to_float(in_imag_raw, FL))
 
         if len(self._buf_re) == self._n:
+            # print that buffer is full for debugging purposes
+            print("Golden model buffer full. Computing IFFT and preparing output samples. i = ",  i)
             self._compute()
+            
 
     def _compute(self):
         # 1. Reconstruct the complex array
         x_in = np.array(self._buf_re) + 1j * np.array(self._buf_im)
         
         # 2. Call your custom hardware-accurate fixed-point function
-        X_out_complex, wl_out, fl_out = radix22_dif_ifft_fixed(x_in, WL=WL, FL=FL)
-        
+        #X_out_complex, wl_out, fl_out = radix2_dif_ifft_fixed(x_in, WL=WL, FL=FL)
+        X_out_complex = radix2_dif_ifft_fixed(x_in, WL=WL, FL=FL)
+
+        # print computed
+        print("Golden model computed IFFT output samples (in complex float format). i = ", i)
+
         # 3. Convert the resulting floats back to raw signed integers for DUT comparison
         self._out = []
 
@@ -145,11 +151,15 @@ class IFFTScoreboard(uvm_scoreboard):
 
     # ── _process ─────────────────────────────────────────────────────────
     def _process(self, item):
+
+        global i
+
         # ── Reset: flush golden model state ──────────────────────────────
         if not item.rst_n:
             self.reset_cycles += 1
             self._golden = IFFTGoldenModel(n=N)   # wipe internal state
-            self.logger.debug("Reset detected , golden model flushed.")
+            self.logger.info("Reset detected , golden model flushed.")
+            i = 0
             return
 
         # ── Feed input sample into golden model ──────────────────────────
@@ -160,9 +170,38 @@ class IFFTScoreboard(uvm_scoreboard):
                 f"re={_sign16(item.in_real)}, im={_sign16(item.in_imag)}"
             )
 
+        
+        # debug print for all samples
+        if (i == 0):
+            self.logger.info(
+                f"Golden model output sample #{i}: "
+                f" | DUT output: re={_sign16(item.out_real)}, im={_sign16(item.out_imag)},vld_in={item.valid_in} vld_out={item.valid_out}"
+                )
+
+        i += 1
+
+        # debug print
+        if (i > 4090 and i < 4100):
+            self.logger.info(
+                f"Golden model output sample #{i}: "
+                f" | DUT output: re={_sign16(item.out_real)}, im={_sign16(item.out_imag)},vld_in={item.valid_in} vld_out={item.valid_out}"
+                )
+
         # ── Compare DUT output with golden model output ───────────────────
         if item.valid_out:
             golden_pair = self._golden.pop()
+
+            # print first few golden model outputs against dut outputs for debugging purposes
+            """i = 0
+            if (i < 5):
+                self.logger.info(
+                    f"Golden model output sample #{i}: "
+                    f"re={golden_pair[0]}, im={golden_pair[1]}"
+                    f" | DUT output: re={_sign16(item.out_real)}, im={_sign16(item.out_imag)}"
+                )
+                i += 1"""
+            
+            
 
             if golden_pair is None:
                 self.logger.warning(
@@ -200,9 +239,9 @@ class IFFTScoreboard(uvm_scoreboard):
                 self.correct_real += 1
             else:
                 self.correct_imag += 1
-            self.logger.debug(
-                f"OK  {signal_name}: DUT={dut_val}  REF={ref_val}  diff={diff}"
-            )
+            #self.logger.info(
+            #    f"OK  {signal_name}: DUT={dut_val}  REF={ref_val}  diff={diff}"
+            #)
         else:
             if signal_name == "out_real":
                 self.error_real += 1

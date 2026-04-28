@@ -25,6 +25,7 @@ class ifft_monitor(uvm_monitor):
         self.mon_port = uvm_analysis_port("mon_port", self)
 
     async def run_phase(self):
+        await RisingEdge(self.dut.clk)
         while True:
             rsp_seq_item = ifft_item("rsp_seq_item")
 
@@ -33,19 +34,23 @@ class ifft_monitor(uvm_monitor):
             await ReadOnly()
             
             # If the IFFT produces a valid output sample
-            if self.dut.valid_out.value == 1:
+            #if self.dut.valid_out.value == 1:
                 # Create a new transaction item
-                rsp_seq_item = ifft_item("rsp_seq_item")
-                
-                # Capture the physical pin values
-                rsp_seq_item.valid_out     = 1
-                rsp_seq_item.data_real_out = self.dut.out_real.value.signed_integer
-                rsp_seq_item.data_imag_out = self.dut.out_imag.value.signed_integer
+            rsp_seq_item = ifft_item("rsp_seq_item")
+            
+            # Capture the physical pin values
+            rsp_seq_item.valid_out     = self.dut.valid_out.value
+            rsp_seq_item.data_real_out = self.dut.out_real.value.signed_integer
+            rsp_seq_item.data_imag_out = self.dut.out_imag.value.signed_integer
 
-                # capture inputs as well
-                rsp_seq_item.valid_in      = self.dut.valid_in.value
-                rsp_seq_item.data_real_in  = self.dut.in_real.value.signed_integer
-                rsp_seq_item.data_imag_in  = self.dut.in_imag.value.signed_integer
-                
-                # Broadcast the captured item to the agent
-                self.mon_port.write(rsp_seq_item)
+            # capture inputs as well
+            rsp_seq_item.rst_n         = self.dut.rst_n.value
+            rsp_seq_item.valid_in      = self.dut.valid_in.value
+            rsp_seq_item.data_real_in  = self.dut.in_real.value.signed_integer
+            rsp_seq_item.data_imag_in  = self.dut.in_imag.value.signed_integer
+
+            # monitoring captured output values
+            #self.logger.info(f"Monitor captured: valid_out={rsp_seq_item.valid_out}, out_real ={rsp_seq_item.data_real_out}, out_imag={rsp_seq_item.data_imag_out}")
+            
+            # Broadcast the captured item to the agent
+            self.mon_port.write(rsp_seq_item)
