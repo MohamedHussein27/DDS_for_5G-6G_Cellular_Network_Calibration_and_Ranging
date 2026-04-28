@@ -25,20 +25,32 @@ from dds_seq_item import *
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import *
+
 class dds_monitor(uvm_monitor):
     def build_phase(self):
         self.mon_port = uvm_analysis_port("mon_port", self)
-        self.dut_mon= ConfigDB().get(self,"","DUT")
+        self.dut_mon = ConfigDB().get(self,"","DUT")
         
     async def run_phase(self):
         while True:
+            # 1. Wait for the clock edge and ensure all signals have settled (ReadOnly)
             await RisingEdge(self.dut_mon.clk)
             await ReadOnly()
             
-            seq_item = dds_seq_item.create("seq_item")
-            # here we will read the signals from the DUT and write them to the analysis port
+            # 2. Create a new transaction item to hold the sampled data
+            seq_item = dds_seq_item("seq_item")
             
+            # 3. Read the input signals from the DUT
+            seq_item.rst_n = self.dut_mon.rst_n.value.integer
+            seq_item.FTW_start = self.dut_mon.FTW_start.value.integer
+            seq_item.FTW_step = self.dut_mon.FTW_step.value.integer
+            seq_item.cycles = self.dut_mon.cycles.value.integer
             
+            # 4. Read the output signals from the DUT
+            # Note: We use .integer or .signed_integer depending on your SV logic type to cast correctly
+            seq_item.final_amplitude = self.dut_mon.final_amplitude.value.integer 
             
+            self.logger.debug(f"Monitoring Item: {seq_item.convert2string_stimulus()}")
+            
+            # 5. Broadcast the reconstructed transaction to the scoreboard/coverage
             self.mon_port.write(seq_item)
-            

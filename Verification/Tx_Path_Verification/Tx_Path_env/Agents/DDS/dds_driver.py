@@ -33,13 +33,19 @@ class dds_driver(uvm_driver):
           
     async def run_phase(self):
         while True: 
-           # seq_item = dds_seq_item.create("seq_item")
-           
+            # 1. Fetch the next item from the sequencer
             seq_item = await self.seq_item_port.get_next_item()
+            
+            # 2. Wait for the falling edge to drive signals cleanly
             await FallingEdge(self.dut_drv.clk) 
             
-            # here we will drive the signals to the DUT using the values from the sequence item
+            # 3. Drive the inputs to the DUT
+            self.dut_drv.rst_n.value = seq_item.rst_n
+            self.dut_drv.FTW_start.value = seq_item.FTW_start
+            self.dut_drv.FTW_step.value = seq_item.FTW_step
+            self.dut_drv.cycles.value = seq_item.cycles
             
+            self.logger.debug(f"Driving Item: {seq_item.convert2string_stimulus()}")
             
-            
+            # 4. Signal completion back to the sequencer
             self.seq_item_port.item_done()
