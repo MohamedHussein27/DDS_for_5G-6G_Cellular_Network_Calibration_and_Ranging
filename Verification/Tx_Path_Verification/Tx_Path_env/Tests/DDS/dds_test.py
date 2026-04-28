@@ -51,14 +51,14 @@ from dds_sequences import *
 
 
 # ---------------------------------------------------------
-# Test 1: The Full Regression (Runs everything)
+# Test 1: The reset test 
 # ---------------------------------------------------------
 @pyuvm.test()
-class dds_full_regression_test(base_test):
+class dds_reset_seq(base_test):
     def build_phase(self):
         super().build_phase()
         ConfigDB.set(self, "*", "VERIF_MODE", "DDS")  # Set the verification mode to TOP for this test
-        self.reset_seq = dds_reset_recovery_seq("reset_seq")
+        self.reset_seq = dds_reset_seq("reset_seq")
         self.random_seq = dds_random_seq("random_seq")
         
     async def run_phase(self):

@@ -24,7 +24,7 @@ class dds_random_seq(dds_reset):
         self.num_items = 10 
         
     async def body(self):
-        await super.body()  # Ensure we start with a reset transaction to initialize the hardware
+        await super().body()  # Ensure we start with a reset transaction to initialize the hardware
         for _ in range(self.num_items):
             req = dds_seq_item("req")
             await self.start_item(req)
@@ -37,7 +37,7 @@ class dds_singletone_seq(dds_reset):
         super().__init__(name)
         self.num_items = 15
     async def body(self):
-        await super.body()  # Start with a reset to ensure clean state
+        await super().body()  # Start with a reset to ensure clean state
         # Generate 15 pure single tones (No chirp acceleration)
         for _ in range(self.num_items):
             req = dds_seq_item("req")
@@ -52,7 +52,7 @@ class dds_cyclestress_seq(dds_reset):
     def __init__(self, name="dds_cyclestress_seq"):
         super().__init__(name)
     async def body(self):
-        await super.body()
+        await super().body()
         # Force the cycle counter to overflow almost instantly
         short_cycles = [1, 2, 3, 5]
         for c in short_cycles:
@@ -68,7 +68,7 @@ class dds_chirpsweep_seq(dds_reset):
     def __init__(self, name="dds_chirpsweep_seq"):
         super().__init__(name)
     async def body(self):
-        await super.body()
+        await super().body()
         # Array of aggressive tuning steps
         chirp_steps = [0x100, 0x5000, 0x1FFFF, 0x8FFFF]
         for step_val in chirp_steps:
@@ -86,7 +86,7 @@ class dds_reset_recovery_seq(dds_reset):
         super().__init__(name)
 
     async def body(self):
-        await super.body()
+        await super().body()
         for _ in range(5):
             # Step 1: Send a reset state to kill whatever the hardware is doing
             req_kill = dds_seq_item("req_kill")
@@ -107,7 +107,7 @@ class dds_cornercase_seq(dds_reset):
         super().__init__(name)
 
     async def body(self):
-        await super.body()
+        await super().body()
         # Test Absolute Maximums 
         req = dds_seq_item("req")
         await self.start_item(req)
@@ -126,7 +126,7 @@ class dds_fft_boundary_seq(dds_reset):
         super().__init__(name)
 
     async def body(self):
-        await super.body()
+        await super().body()
         # 4095 = 1 cycle short (Underflow)
         # 4096 = Perfect FFT Symbol
         # 4097 = 1 cycle over (Overflow/Backpressure)
