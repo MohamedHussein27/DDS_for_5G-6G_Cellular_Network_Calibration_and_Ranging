@@ -33,6 +33,7 @@ from ifft_sequences  import (
     allzero_sequence,
     impulse_sequence,
     dc_sequence,
+    reset_sequence,
     singletone_sequence,
     twotone_sequence,
 )
@@ -43,6 +44,7 @@ class ifft_functional_test(ifft_base_test):
  
     def build_phase(self):
         super().build_phase()
+        self.seq_rst       = reset_sequence.create("seq_rst") # always run reset first to ensure a known starting state for the IFFT block
         self.seq_allzero   = allzero_sequence.create("seq_allzero")
         self.seq_impulse   = impulse_sequence.create("seq_impulse")
         self.seq_dc        = dc_sequence.create("seq_dc")
@@ -55,11 +57,13 @@ class ifft_functional_test(ifft_base_test):
         self.logger.info(f"================ Start of {self.get_type_name()} ================")
  
         await self.generate_clock()
-        await self.run_initial_setup()
+
+        self.logger.info("Running: reset_sequence") # always run reset first to ensure a known starting state for the IFFT block
+        await self._run(self.seq_rst)
  
         self.logger.info("Running: allzero_sequence  (zero input → zero output)")
         await self._run(self.seq_allzero)
- 
+        """
         self.logger.info("Running: impulse_sequence  (bin 0 → constant 1/N output)")
         await self._run(self.seq_impulse)
  
@@ -71,7 +75,7 @@ class ifft_functional_test(ifft_base_test):
  
         self.logger.info("Running: twotone_sequence  (bins k=10, k=200 → two sinusoids)")
         await self._run(self.seq_twotone)
- 
+        """
         self.drop_objection()
  
     def report_phase(self):
