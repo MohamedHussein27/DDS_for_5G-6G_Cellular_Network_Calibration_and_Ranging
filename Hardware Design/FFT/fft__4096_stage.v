@@ -9,7 +9,7 @@
 
 
 
-module fft_stage #(
+module fft_stage_4096 #(
     parameter WL = 16,
     parameter DELAY_LEN = 2048,
     parameter ROM_DEPTH = 2048
@@ -56,12 +56,11 @@ module fft_stage #(
         .b_real(bf_b_re),        .b_imag(bf_b_im)
     );
 
-    twiddlerom #(.WL(WL), .DEPTH(ROM_DEPTH)) rom_inst (
-        .addr_a(addr),
-        .addr_b(0),
-        .W_real_a(twiddle_re), .W_img_a(twiddle_im),
-        .W_real_b(),           .W_img_b()
-    );
+    twiddlerom_4096 #(.WL(WL), .DEPTH(ROM_DEPTH)) rom_inst (
+        .addr(addr),
+        .W_real(twiddle_re), 
+        .W_img(twiddle_im)
+    ); 
 
     multiplier #(.WL(WL)) mult_inst (
         .re1(bf_b_re),    .im1(bf_b_im),
