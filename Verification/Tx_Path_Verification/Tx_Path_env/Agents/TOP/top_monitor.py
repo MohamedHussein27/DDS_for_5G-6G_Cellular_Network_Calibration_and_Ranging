@@ -4,7 +4,7 @@
 
 import pyuvm
 from pyuvm import *
-from top_item import *
+from seq_item import *
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import *
@@ -18,7 +18,7 @@ class top_monitor(uvm_monitor):
             await RisingEdge(self.dut_mon.clk)
             await ReadOnly()
             
-            seq_item = top_item.create("seq_item")
+            seq_item = seq_item.create("seq_item")
             # here we will read the signals from the DUT and write them to the analysis port
             seq_item.rst_n = self.dut.rst_n.value
             seq_item.dds_enable = self.dut.dds_enable.value
