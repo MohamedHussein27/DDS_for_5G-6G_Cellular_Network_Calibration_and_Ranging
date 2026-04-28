@@ -24,10 +24,10 @@
 
 import pyuvm
 from pyuvm import *
-from seq_item import *
-from driver import *
-from sequencer import sequencer
-from monitor import monitor
+from dds_seq_item import *
+from dds_driver import dds_driver
+from dds_sequencer import dds_sequencer
+from dds_monitor import dds_monitor
 from cocotb.triggers import Timer
 from cocotb.clock import Clock
 from cocotb_coverage.coverage import CoverPoint, coverage_db
@@ -49,4 +49,4 @@ class subscriber(uvm_component):
     def coverage_report(self):
         # Export the coverage data to an XML file for reporting and analysis
         
-        coverage_db.export_to_xml("alu_coverage.xml")
+        coverage_db.export_to_xml("dds_coverage.xml")

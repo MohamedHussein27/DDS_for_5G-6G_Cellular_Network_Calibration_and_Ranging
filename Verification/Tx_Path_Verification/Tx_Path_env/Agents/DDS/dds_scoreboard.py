@@ -25,14 +25,14 @@
 """
 import pyuvm
 from pyuvm import *
-from seq_item import *
-from driver import *
-from sequencer import sequencer
-from monitor import monitor
+from dds_seq_item import *
+from dds_driver import dds_driver
+from dds_monitor import dds_monitor
+from dds_sequencer import dds_sequencer
 from cocotb.triggers import Timer
 from cocotb.clock import Clock
 
-class scoreboard(uvm_scoreboard):
+class dds_scoreboard(uvm_scoreboard):
     def build_phase(self):
         # 1. Initialize counters for the += operation to work
         self.passed_test_cases = 0
