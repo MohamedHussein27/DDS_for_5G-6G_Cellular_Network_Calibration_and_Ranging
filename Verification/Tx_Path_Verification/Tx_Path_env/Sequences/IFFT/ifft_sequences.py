@@ -59,7 +59,9 @@ class reset_sequence(uvm_sequence):
                 rst_n == 0 and valid_in == 0)
             await self.finish_item(self.seq_item)
 
-
+# ─────────────────────────────────────────────────────────────────────────────
+# 2. allzero_sequence
+# ─────────────────────────────────────────────────────────────────────────────
 class allzero_sequence(uvm_sequence):
     def __init__(self, name="allzero_sequence"):
         super().__init__(name)
@@ -82,7 +84,7 @@ class allzero_sequence(uvm_sequence):
             self.seq_item = ifft_item.create("seq_item")
             await self.start_item(self.seq_item)
             self.seq_item.randomize_with(
-                lambda rst_n, valid_in: rst_n == 1 and valid_in == 1
+                lambda rst_n, valid_in: rst_n == 1 and valid_in == 0
             )
             self.seq_item.in_real = 0
             self.seq_item.in_imag = 0
@@ -98,15 +100,37 @@ class impulse_sequence(uvm_sequence):
     async def body(self):
         X = np.zeros(N, dtype=complex)
         X[0] = 1.0 + 0j
+        #X[4095] = 1.0 + 0j # to check the symmetry of the IFFT output
         pairs = _frame(X)
 
+        # ── First N cycles: drive the impulse frame ──
         for re, im in pairs:
             self.seq_item = ifft_item.create("seq_item")
             await self.start_item(self.seq_item)
+            
+            # Only use the solver for control signals
             self.seq_item.randomize_with(
-                lambda in_imag, in_real, rst_n, valid_in, _re=re, _im=im:
-                    rst_n == 1 and valid_in == 1 and in_real == _re and in_imag == _im
+                lambda rst_n, valid_in: rst_n == 1 and valid_in == 1
             )
+            
+            # Directly assign deterministic data to bypass solver overhead
+            self.seq_item.in_real = re
+            self.seq_item.in_imag = im
+            
+            await self.finish_item(self.seq_item)
+
+        # ── Second N cycles: idle while output comes out (Drain time) ──
+        for _ in range(N):
+            self.seq_item = ifft_item.create("seq_item")
+            await self.start_item(self.seq_item)
+            
+            self.seq_item.randomize_with(
+                lambda rst_n, valid_in: rst_n == 1 and valid_in == 0
+            )
+            
+            self.seq_item.in_real = 0
+            self.seq_item.in_imag = 0
+            
             await self.finish_item(self.seq_item)
 
 
