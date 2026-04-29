@@ -48,31 +48,6 @@ module TX_TOP #(
         .final_amplitude(dds_amplitude)
     );
 
-    // =======================================================
-    // NEW: 4096-Point Hardware Zero-Padding Wrapper
-    // =======================================================
-    reg [12:0] fft_frame_cnt;
-    reg        fft_active;
-
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            fft_frame_cnt <= 0;
-            fft_active    <= 0;
-        end else begin
-            // Start the 4096-cycle window exactly when the DDS outputs its first sample
-            if (dds_valid && !fft_active && fft_frame_cnt == 0) begin
-                fft_active    <= 1'b1;
-                fft_frame_cnt <= 1; // Count the first sample
-            end else if (fft_active) begin
-                if (fft_frame_cnt == 4095) begin
-                    fft_active    <= 1'b0;
-                    fft_frame_cnt <= 0;
-                end else begin
-                    fft_frame_cnt <= fft_frame_cnt + 1;
-                end
-            end
-        end
-    end
 
     // Synchronized FFT Inputs
     wire                 fft_valid_in = fft_active;
