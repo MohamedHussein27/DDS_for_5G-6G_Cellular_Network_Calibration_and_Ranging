@@ -1,16 +1,4 @@
-"""
-    Sponsor: Analog Devices, Inc. (ADI)
-    Institution: Faculty of Engineering, Ain Shams University
-    Project: DDS for 5G/6G Cellular Network Calibration and Ranging
 
-    Module: fft_scoreboard.py
-
-    Description:
-        The FFT scoreboard receives paired transactions from the monitor. 
-        It pushes valid_in samples into the bit-true Golden Model. 
-        When valid_out asserts, it pops the computed sample and verifies 
-        the raw fixed-point integer outputs against the hardware.
-"""
 import cocotb
 from cocotb.triggers import *
 from pyuvm import *
@@ -53,8 +41,6 @@ class FFTGoldenModel:
 
     def push(self, in_real_raw, in_imag_raw):
         """Accept one pair of raw RTL integer samples."""
-        # 1-Cycle Register Delay handling (if RTL still requires it!)
-        # If your RTL is perfectly aligned to valid_in now, you can remove this comment block.
         self._buf_re.append(_sign16(in_real_raw))
         self._buf_im.append(_sign16(in_imag_raw))
 
@@ -63,21 +49,25 @@ class FFTGoldenModel:
             logging.info(f"Golden model buffer full. Computing FFT Frame {self.frames}...")
             self._compute()
 
+
+
     def _compute(self):
+
         # 1. Reconstruct the complex integer array
         x_in = np.array(self._buf_re) + 1j * np.array(self._buf_im)
         
-        # 2. Call the hardware-accurate fixed-point function (Expects raw integers)
+        # 2. Call the hardware-accurate fixed-point function
         X_out_complex = radix2_dif_fft_fixed(x_in, WL=WL, is_ifft=False)
 
-        # 3. Store raw integers directly to output queue
-        self._out = []
+        # 3. Store raw integers directly to output queue (APPEND ONLY)
+        # We removed self._out = [] so we don't overwrite previous frames!
         for v in X_out_complex:
             self._out.append((int(v.real), int(v.imag)))
         
-        # 4. Clear buffer so the model is ready to absorb the next frame
+        # 4. Clear INPUT buffer so the model is ready to absorb the next frame
         self._buf_re.clear()
         self._buf_im.clear()
+
 
     def pop(self):
         """
@@ -85,6 +75,11 @@ class FFTGoldenModel:
         or None if no output is ready yet.
         """
         return self._out.pop(0) if self._out else None
+
+    # NEW: Property to easily check if the python model has data waiting
+    @property
+    def output_ready(self):
+        return len(self._out) > 0
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Scoreboard
@@ -95,6 +90,7 @@ class FFTScoreboard(uvm_scoreboard):
     """
     def __init__(self, name, parent):
         super().__init__(name, parent)
+
     def build_phase(self):
         self.sb_fifo   = uvm_tlm_analysis_fifo("sb_fifo", self)
         self.sb_export = self.sb_fifo.analysis_export
@@ -109,6 +105,9 @@ class FFTScoreboard(uvm_scoreboard):
 
         # Golden model instance
         self._golden = FFTGoldenModel(n=N)
+
+        # NEW: Elastic queue for DUT outputs
+        self.dut_q = []
 
         # ─────────────────────────────────────────────────────────
         # EXTERNAL FILE DUMP SETUP
@@ -126,48 +125,44 @@ class FFTScoreboard(uvm_scoreboard):
             self._process(item)
 
     def _process(self, item):
-        # ── Reset: flush golden model state ──────────────────────────────
+        # ── Reset: flush golden model state and queues ───────────────────
         if not item.rst_n:
             self.reset_cycles += 1
             self._golden = FFTGoldenModel(n=N)   # wipe internal state
+            self.dut_q.clear()                   # wipe DUT elastic queue
             self.output_idx = 0
-            self.logger.info("Reset detected, golden model flushed.")
+            self.logger.info("Reset detected, golden model and DUT queues flushed.")
             return
 
         # ── Feed input sample into golden model ──────────────────────────
         if item.valid_in:
             self._golden.push(item.in_real, item.in_imag)
 
-        # ── Compare DUT output with golden model output ───────────────────
+        # ── Queue the DUT output (Elastic Buffer) ────────────────────────
         if item.valid_out:
-            golden_pair = self._golden.pop()
-
-            if golden_pair is None:
-                self.logger.warning(
-                    "DUT asserted valid_out but golden model has no output ready. "
-                    "Possible frame-alignment issue – skipping comparison."
-                )
-                return
-
-            ref_real, ref_imag = golden_pair
             dut_real = _sign16(item.out_real)
             dut_imag = _sign16(item.out_imag)
+            self.dut_q.append((dut_real, dut_imag))
 
-            # Debug print for first 5 samples of every frame
-            # ─────────────────────────────────────────────────────────
-            # DUMP ALL 4096 SAMPLES TO TERMINAL
-            # ─────────────────────────────────────────────────────────
-            self.logger.info(
+        # ── Elastic Comparison (Compare only when BOTH have data) ────────
+        while self._golden.output_ready and len(self.dut_q) > 0:
+            
+            # Pop one sample from both waiting rooms
+            ref_real, ref_imag = self._golden.pop()
+            dut_real, dut_imag = self.dut_q.pop(0)
+
+            # Debug print for terminal
+            self.logger.debug(
                 f"Sample #{self.output_idx:04d} | "
                 f"REF: re={ref_real:6d}, im={ref_imag:6d} | "
                 f"DUT: re={dut_real:6d}, im={dut_imag:6d}"
             )
-            # ─────────────────────────────────────────────────────────
-            # WRITE TO EXTERNAL FILES
-            # ─────────────────────────────────────────────────────────
+
+            # Write to CSV files perfectly aligned
             self.f_rtl.write(f"{dut_real},{dut_imag}\n")
             self.f_ref.write(f"{ref_real},{ref_imag}\n")
 
+            # Check math
             self._compare_signal("out_real", dut_real, ref_real)
             self._compare_signal("out_imag", dut_imag, ref_imag)
 
@@ -199,10 +194,10 @@ class FFTScoreboard(uvm_scoreboard):
         total_imag  = self.correct_imag  + self.error_imag
         pass_real   = (self.error_real  == 0)
         pass_imag   = (self.error_imag  == 0)
-        overall     = "PASS ✓" if (pass_real and pass_imag) else "FAIL ✗"
+        overall     = "PASS " if (pass_real and pass_imag) else "FAIL "
 
         self.logger.info("")
-        self.logger.info("=== FFT SCOREBOARD REPORT ===")
+        self.logger.info("= FFT SCOREBOARD REPORT =")
         self.logger.info(f" Reset Cycles : {self.reset_cycles}")
         self.logger.info(f" Real Output  : {self.correct_real}/{total_real} Correct | {self.error_real} Errors")
         self.logger.info(f" Imag Output  : {self.correct_imag}/{total_imag} Correct | {self.error_imag} Errors")
