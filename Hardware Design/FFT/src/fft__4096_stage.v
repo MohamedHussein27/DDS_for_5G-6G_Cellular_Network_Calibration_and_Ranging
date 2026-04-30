@@ -1,12 +1,11 @@
-// Analog Devices 
-// GP Ain-shams University
-// Butterfly unit for 4096-FFT 
+// // Analog Devices 
+// // GP Ain-shams University
+// // Butterfly unit for 4096-FFT 
 
 
-/* Description ..........
-    It uses MUX logic to correctly route the data into the delay feedback buffer or directly to the next stage based on the sel signal.
-*/
-
+// /* Description ..........
+//     It uses MUX logic to correctly route the data into the delay feedback buffer or directly to the next stage based on the sel signal.
+// */
 
 
 module fft_stage_4096 #(
@@ -16,7 +15,7 @@ module fft_stage_4096 #(
 )(
     input wire clk,
     input wire rst_n,
-    input wire valid_in, // <--- NEW: Pipeline Enable
+    input wire valid_in, 
     input wire sel,
     input wire [(ROM_DEPTH == 1) ? 0 : $clog2(ROM_DEPTH)-1 : 0] addr,
     input wire signed [WL-1:0] in_real,
@@ -30,23 +29,17 @@ module fft_stage_4096 #(
     wire signed [WL-1:0] mult_out_re, mult_out_im;
     wire signed [WL-1:0] twiddle_re, twiddle_im;
 
+    // Combinational MUX and Data Path
     assign delay_in_re = sel ? mult_out_re : in_real;
     assign delay_in_im = sel ? mult_out_im : in_imag;
 
     assign out_real = sel ? bf_a_re : delay_out_re;
     assign out_imag = sel ? bf_a_im : delay_out_im;
 
-    delayfeedback #(
-        .WL(WL), 
-        .L(DELAY_LEN) 
-    ) delay_inst (
-        .clk(clk),
-        .rst_n(rst_n),
-        .en(valid_in), // <--- NEW: Pass enable to buffer
-        .data_in_real(delay_in_re),
-        .data_in_imag(delay_in_im),
-        .data_out_real(delay_out_re),
-        .data_out_imag(delay_out_im)
+    delayfeedback #(.WL(WL), .L(DELAY_LEN)) delay_inst (
+        .clk(clk), .rst_n(rst_n), .en(valid_in), 
+        .data_in_real(delay_in_re), .data_in_imag(delay_in_im),
+        .data_out_real(delay_out_re), .data_out_imag(delay_out_im)
     );
 
     butterfly #(.WL(WL)) bf_inst (
@@ -56,12 +49,13 @@ module fft_stage_4096 #(
         .b_real(bf_b_re),        .b_imag(bf_b_im)
     );
 
+    // Sequential ROM (Introduces 1 cycle delay)
     twiddlerom_4096 #(.WL(WL), .DEPTH(ROM_DEPTH)) rom_inst (
-        .addr(addr),
-        .W_real(twiddle_re), 
-        .W_img(twiddle_im)
-    ); 
+        .addr(addr), .clk(clk),
+        .W_real(twiddle_re), .W_img(twiddle_im)
+    );
 
+    // Multiplier (Combinational)
     multiplier #(.WL(WL)) mult_inst (
         .re1(bf_b_re),    .im1(bf_b_im),
         .re2(twiddle_re), .im2(twiddle_im),
