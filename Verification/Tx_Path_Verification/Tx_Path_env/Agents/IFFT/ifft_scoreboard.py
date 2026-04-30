@@ -76,8 +76,11 @@ class IFFTGoldenModel:
         """Accept one pair of raw RTL integer samples."""
         self._buf_re.append(_raw_int_to_float(in_real_raw, FL))
         self._buf_im.append(_raw_int_to_float(in_imag_raw, FL))
+        # printing counters to debug when entered here and when left
+        if (i == 0 or (i > 4090 and i < 4100)):
+            print("Golden model received sample #", i, " buffer length = ", len(self._buf_re))
 
-        if len(self._buf_re) == self._n:
+        if len(self._buf_re) == (self._n): 
             # print that buffer is full for debugging purposes
             print("Golden model buffer full. Computing IFFT and preparing output samples. i = ",  i)
             self._compute()
@@ -115,6 +118,11 @@ class IFFTGoldenModel:
         or None if no output is ready yet.
         """
         return self._out.pop(0) if self._out else None
+    
+    # to alert that the golden model has output samples ready for comparison (used for debugging purposes)
+    @property
+    def output_ready(self):
+        return len(self._out) > 0
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Scoreboard
@@ -142,6 +150,9 @@ class IFFTScoreboard(uvm_scoreboard):
 
         # Golden model instance
         self._golden = IFFTGoldenModel(n=N)
+        
+        # Elastic queue for DUT outputs
+        self.dut_q = []
 
     # ── run_phase ─────────────────────────────────────────────────────────
     async def run_phase(self):
@@ -178,8 +189,6 @@ class IFFTScoreboard(uvm_scoreboard):
                 f" | DUT output: re={_sign16(item.out_real)}, im={_sign16(item.out_imag)},vld_in={item.valid_in} vld_out={item.valid_out}"
                 )
 
-        i += 1
-
         # debug print
         if (i > 4090 and i < 4100):
             self.logger.info(
@@ -187,49 +196,44 @@ class IFFTScoreboard(uvm_scoreboard):
                 f" | DUT output: re={_sign16(item.out_real)}, im={_sign16(item.out_imag)},vld_in={item.valid_in} vld_out={item.valid_out}"
                 )
 
-        # ── Compare DUT output with golden model output ───────────────────
+        # ── 3. Queue the DUT output ──────────────────────────────────────
         if item.valid_out:
-            golden_pair = self._golden.pop()
-
-            # print first few golden model outputs against dut outputs for debugging purposes
-            """i = 0
-            if (i < 5):
-                self.logger.info(
-                    f"Golden model output sample #{i}: "
-                    f"re={golden_pair[0]}, im={golden_pair[1]}"
-                    f" | DUT output: re={_sign16(item.out_real)}, im={_sign16(item.out_imag)}"
-                )
-                i += 1"""
-            
-            
-
-            if golden_pair is None:
-                self.logger.warning(
-                    "DUT asserted valid_out but golden model has no output ready. "
-                    "Possible frame-alignment issue – skipping comparison."
-                )
-                return
-
-            ref_real_q, ref_imag_q = golden_pair
-
             dut_real = _sign16(item.out_real)
             dut_imag = _sign16(item.out_imag)
-            
-            # The ref values from _float_to_raw_int are already signed integers
-            ref_real = ref_real_q
-            ref_imag = ref_imag_q
+            self.dut_q.append((dut_real, dut_imag))
 
+              
+         # ── 4. Elastic Comparison (Compare only when BOTH have data) ─────
+        while self._golden.output_ready and len(self.dut_q) > 0:
+            
+            # Pop one sample from both sides
+            ref_real, ref_imag = self._golden.pop()
+            dut_real, dut_imag = self.dut_q.pop(0)
+
+            # Debug print
+            if (i < 4100):
+                self.logger.info(
+                    f"Comparing sample #{i}: "
+                    f"DUT(re={dut_real}, im={dut_imag}) vs "
+                    f"REF(re={ref_real}, im={ref_imag})"
+                )
+
+            # Compare Real
             self._compare_signal(
                 signal_name="out_real",
                 dut_val=dut_real,
                 ref_val=ref_real,
             )
+            
+            # Compare Imaginary
             self._compare_signal(
                 signal_name="out_imag",
                 dut_val=dut_imag,
                 ref_val=ref_imag,
             )
-
+        
+        # updating global counter i to debug when entered here and when left
+        i += 1
     # ── _compare_signal ───────────────────────────────────────────────────
     def _compare_signal(self, signal_name, dut_val, ref_val):
         """Compare one signal with ±TOLERANCE LSB window."""

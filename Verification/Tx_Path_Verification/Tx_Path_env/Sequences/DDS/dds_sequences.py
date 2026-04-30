@@ -14,30 +14,31 @@ class dds_reset(uvm_sequence):
         await self.start_item(req)
         req.randomize()
         req.rst_n = 0  # FORCE RESET ACTIVE
+        req.enable = 0 # Ensure enable is low during reset
         await self.finish_item(req)                                                  
                                     
 
-class dds_random_seq(dds_reset):
+class dds_random_seq(uvm_sequence):
     def __init__(self, name="dds_random_seq"):
         super().__init__(name)
         # Default to 10, but allow the Test to overwrite this!
         self.num_items = 10 
         
     async def body(self):
-        await super.body()  # Ensure we start with a reset transaction to initialize the hardware
         for _ in range(self.num_items):
             req = dds_seq_item("req")
             await self.start_item(req)
             req.randomize()
+            req.enable = 1  # Ensure enable is high for valid transactions
             await self.finish_item(req)
  
  
-class dds_singletone_seq(dds_reset):
+class dds_singletone_seq(uvm_sequence):
     def __init__(self, name="dds_singletone_seq"):
         super().__init__(name)
         self.num_items = 15
     async def body(self):
-        await super.body()  # Start with a reset to ensure clean state
+        
         # Generate 15 pure single tones (No chirp acceleration)
         for _ in range(self.num_items):
             req = dds_seq_item("req")
@@ -46,13 +47,13 @@ class dds_singletone_seq(dds_reset):
             req.randomize()
             req.rst_n = 1
             req.FTW_step = 0
+            req.enable = 1  # Ensure enable is high for valid transactions
             await self.finish_item(req)
             
-class dds_cyclestress_seq(dds_reset):
+class dds_cyclestress_seq(uvm_sequence):
     def __init__(self, name="dds_cyclestress_seq"):
         super().__init__(name)
     async def body(self):
-        await super.body()
         # Force the cycle counter to overflow almost instantly
         short_cycles = [1, 2, 3, 5]
         for c in short_cycles:
@@ -60,15 +61,15 @@ class dds_cyclestress_seq(dds_reset):
             await self.start_item(req)
             req.randomize()
             req.rst_n = 1
+            req.enable = 1  # Ensure enable is high for valid transactions
             req.cycles = c  # Force short cycle counts to stress the counter logic
             await self.finish_item(req)                    
 
-class dds_chirpsweep_seq(dds_reset):
+class dds_chirpsweep_seq(uvm_sequence):
     
     def __init__(self, name="dds_chirpsweep_seq"):
         super().__init__(name)
     async def body(self):
-        await super.body()
         # Array of aggressive tuning steps
         chirp_steps = [0x100, 0x5000, 0x1FFFF, 0x8FFFF]
         for step_val in chirp_steps:
@@ -77,42 +78,43 @@ class dds_chirpsweep_seq(dds_reset):
             # Fix the cycles so the wave has time to propagate, force the step
             req.randomize()
             req.rst_n = 1
+            req.enable = 1  # Ensure enable is high for valid transactions
             req.cycles = 1000  # Give enough time for the chirp to evolve
             req.FTW_step = step_val  # Force aggressive chirp steps
             await self.finish_item(req) 
             
-class dds_reset_recovery_seq(dds_reset):
+class dds_reset_recovery_seq(uvm_sequence):
     def __init__(self, name="dds_reset_recovery_seq"):
         super().__init__(name)
 
     async def body(self):
-        await super.body()
         for _ in range(5):
             # Step 1: Send a reset state to kill whatever the hardware is doing
             req_kill = dds_seq_item("req_kill")
             await self.start_item(req_kill)
             req_kill.randomize()
             req_kill.rst_n = 0  # FORCE RESET ACTIVE
+            req_kill.enable = 1  # Ensure enable is high for valid transactions 
             await self.finish_item(req_kill)
             
             # Step 2: Immediately send a valid transaction to ensure it woke up
             req_recover = dds_seq_item("req_recover")
             await self.start_item(req_recover)
             req_recover.randomize()
+            req_recover.enable = 1  # Ensure enable is high for valid transactions
             req_recover.rst_n = 1 # FORCE RESET INACTIVE
             await self.finish_item(req_recover)
                                    
-class dds_cornercase_seq(dds_reset):
+class dds_cornercase_seq(uvm_sequence):
     def __init__(self, name="dds_cornercase_seq"):
         super().__init__(name)
 
     async def body(self):
-        await super.body()
         # Test Absolute Maximums 
         req = dds_seq_item("req")
         await self.start_item(req)
         req.randomize()
-        
+        req.enable = 1  # Ensure enable is high for valid transactions
         req.rst_n = 1
         req.FTW_start = 0xFFFFFFFF  # All 1s
         req.FTW_step = 0xFFFFFFFF   # All 1s
@@ -121,12 +123,11 @@ class dds_cornercase_seq(dds_reset):
         await self.finish_item(req)
         
         
-class dds_fft_boundary_seq(dds_reset):
+class dds_fft_boundary_seq(uvm_sequence):
     def __init__(self, name="dds_fft_boundary_seq"):
         super().__init__(name)
 
     async def body(self):
-        await super.body()
         # 4095 = 1 cycle short (Underflow)
         # 4096 = Perfect FFT Symbol
         # 4097 = 1 cycle over (Overflow/Backpressure)
@@ -136,7 +137,7 @@ class dds_fft_boundary_seq(dds_reset):
             req = dds_seq_item("req")
             await self.start_item(req)
             req.randomize()
-            
+            req.enable = 1  # Ensure enable is high for valid transactions
             req.rst_n = 1
             req.cycles = c  # Force the specific FFT boundary
             

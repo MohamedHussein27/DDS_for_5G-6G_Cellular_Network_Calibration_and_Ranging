@@ -60,13 +60,13 @@ class ifft_functional_test(ifft_base_test):
 
         self.logger.info("Running: reset_sequence") # always run reset first to ensure a known starting state for the IFFT block
         await self._run(self.seq_rst)
- 
+        """
         self.logger.info("Running: allzero_sequence  (zero input → zero output)")
         await self._run(self.seq_allzero)
         """
         self.logger.info("Running: impulse_sequence  (bin 0 → constant 1/N output)")
         await self._run(self.seq_impulse)
- 
+        """
         self.logger.info("Running: dc_sequence  (all bins = 1 → spike at n=0)")
         await self._run(self.seq_dc)
  
