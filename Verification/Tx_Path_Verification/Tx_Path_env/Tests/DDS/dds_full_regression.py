@@ -10,7 +10,12 @@ import logging
 
 # Import the base test and the specific sequences
 from dds_base_test import *
-from dds_sequences import * 
+from dds_chirpsweep_sequence import * 
+from dds_cyclestress_sequence import *
+from dds_cornercase_sequence import *
+from dds_fft_boundary_sequence import *
+from dds_singletone_sequence import *
+from dds_random_sequence import *
 # ---------------------------------------------------------
 # Test 8: The Full Regression (Runs everything)
 # ---------------------------------------------------------                 

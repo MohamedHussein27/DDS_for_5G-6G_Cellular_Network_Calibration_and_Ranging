@@ -10,7 +10,7 @@ import logging
 
 # Import the base test and the specific sequences
 from dds_base_test import *
-from dds_sequences import * 
+from dds_singletone_sequence import * 
 # ---------------------------------------------------------
 # Test 5: Singletone only test (For fast debugging of single tone generation and FTW_step handling)
 # ---------------------------------------------------------        

@@ -10,7 +10,7 @@ import logging
 
 # Import the base test and the specific sequences
 from dds_base_test import *
-from dds_sequences import * 
+from dds_reset_recovery_sequence import * 
  # ---------------------------------------------------------
 # Test 6: Reset Recovery only test (For fast debugging of reset behavior and recovery)
 # ---------------------------------------------------------        

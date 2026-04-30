@@ -11,7 +11,7 @@ import logging
 
 # Import the base test and the specific sequences
 from dds_base_test import *
-from dds_sequences import * 
+from dds_random_sequence import * 
 # ---------------------------------------------------------
 # Test 2: The random test 
 # ---------------------------------------------------------

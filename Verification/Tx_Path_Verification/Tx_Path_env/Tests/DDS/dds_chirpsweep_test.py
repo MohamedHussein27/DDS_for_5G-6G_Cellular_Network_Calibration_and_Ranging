@@ -10,7 +10,7 @@ import logging
 
 # Import the base test and the specific sequences
 from dds_base_test import *
-from dds_sequences import * 
+from dds_chirpsweep_sequence import * 
 # ---------------------------------------------------------
 # Test 3: Just the ISAC Chirp Sweep (For fast debugging)
 # ---------------------------------------------------------

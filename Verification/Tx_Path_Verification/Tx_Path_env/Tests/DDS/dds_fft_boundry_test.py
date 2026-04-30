@@ -10,7 +10,7 @@ import logging
 
 # Import the base test and the specific sequences
 from dds_base_test import *
-from dds_sequences import * 
+from dds_fft_boundary_sequence import * 
 # ---------------------------------------------------------
 # Test 8: FFT boundary test (For fast debugging of FFT boundary handling)
 # ---------------------------------------------------------                
