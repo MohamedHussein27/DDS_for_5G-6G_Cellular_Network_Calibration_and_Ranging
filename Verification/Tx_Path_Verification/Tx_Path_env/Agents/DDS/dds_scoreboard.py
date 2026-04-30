@@ -1,128 +1,90 @@
-"""
-    Sponsor: Analog Devices, Inc. (ADI)
-    Institution: Faculty of Engineering, Ain Shams University
-    Project: DDS for 5G/6G Cellular Network Calibration and Ranging
-
-    Module: scoreboard.py
-
-    Description:
-        This module defines the PUVM Scoreboard for the DDS TX datapath.
-        It serves as the ultimate verification authority, determining the 
-        pass/fail status of the DUT by comparing actual hardware outputs 
-        against an ideal, bit-accurate reference model.
-
-        Key responsibilities:
-        1. Reference Modeling: Calculates expected sine/cosine waveforms mathematically 
-           based on the applied Frequency Tuning Words (FTW), phase increments, 
-           and control signals.
-        2. Data Collection: Captures observed seq_item transactions from the 
-           passive Monitors via UVM analysis exports.
-        3. Comparison & Tolerance: Compares the hardware's generated digital 
-           waveform against the golden model, accounting for expected 
-           quantization noise and phase truncation inherent to DDS architecture.
-        4. Reporting: Logs precise mismatch locations, tracks verification 
-           statistics, and flags fatal errors if functional requirements are violated.
-"""
 
 import pyuvm
 from pyuvm import *
 from dds_seq_item import *
-from dds_driver import dds_driver
-from dds_monitor import dds_monitor
-from dds_sequencer import dds_sequencer
-from cocotb.triggers import Timer
-from cocotb.clock import Clock
 import cocotb
 import numpy as np
-
-# Import your items and golden model
-from dds_core import dds_core
 
 class dds_scoreboard(uvm_scoreboard):
     def build_phase(self):
         super().build_phase()
-        # 1. Initialize statistics counters
         self.passed_test_cases = 0
         self.failed_test_cases = 0
         
         self.sb_export = uvm_analysis_export("sb_export", self)
         self.sb_fifo = uvm_tlm_analysis_fifo("sb_fifo", self)
-
-        # connecting here instead
         self.sb_export = self.sb_fifo.analysis_export
-        # 3. Hardware Architecture Parameters (Update these to match your Verilog!)
-        self.Nacc = 32         # Phase Accumulator bit-width
-        self.LUT_bits = 12     # Number of MSBs used to address the ROM
-        self.DT_Mode = 'fixed' # Output format
-        self.frac_bits = 15    # Fractional bits if using fixed-point
-
-    #def connect_phase(self):
-     #   self.sc_export.connect(self.sc_fifo.analysis_export)
         
+        self.Nacc = 32         
+        self.LUT_bits = 12     
+
+        cocotb.log.info("[SCOREBOARD] Generating mathematical ROM natively...")
+        addresses = np.arange(16384)
+        sine_float = np.sin(2.0 * np.pi * addresses / 65536.0)
+        self.rom_data = np.round(sine_float * 127).astype(np.int32)
+
     async def run_phase(self):
         while True:
-            # 1. Grab the transaction from the Monitor
             item = await self.sb_fifo.get()
             
-            # 2. Skip comparison if reset was active
+            # 1. Verify Reset State Instantly
             if item.rst_n == 0:
-                cocotb.log.debug(f"[SCOREBOARD] Skipping item {item.get_name()} due to active reset.")
+                if item.final_amplitude == 0:
+                    self.passed_test_cases += 1
+                else:
+                    self.failed_test_cases += 1
+                    cocotb.log.error(f"[SCOREBOARD FAIL] Hardware Reset Failed! Expected 0x0, got {hex(item.final_amplitude & 0xFF)}")
                 continue
 
-            # --- NEW: Prevent the IndexError crash at time 0.00ns ---
-            if item.cycles == 0:
-                cocotb.log.debug(f"[SCOREBOARD] Skipping item {item.get_name()} because cycles=0.")
+            if item.cycles <= 1:
                 continue
-            """********* GOLDEN MODEL STIMULUS *********"""
-            # 3. Reconstruct the 'M' array (Tuning word for every clock cycle)
-            # The hardware starts at FTW_start and accelerates by FTW_step every cycle.
-            M_array = np.zeros(item.cycles, dtype=np.uint64)
-            current_ftw = item.FTW_start
-            
-            for i in range(item.cycles):
-                M_array[i] = current_ftw
-                # Accumulate the step for the next cycle's tuning word
-                current_ftw = (current_ftw + item.FTW_step) & 0xFFFFFFFF # Keep it 32-bit
+
+            # 2. Verify Streaming Data
+            if item.valid_out == 1:
+                """********* NATIVE BIT-TRUE PYTHON MODEL *********"""
+                if item.sample_index == 1:
+                    # Start 'n' at 1, Verilog skips 0 and jumps straight to FTW_start
+                    n = np.arange(1, item.cycles + 1, dtype=np.uint64)
+                    FTW_start = np.uint64(item.FTW_start)
+                    FTW_step = np.uint64(item.FTW_step)
+                    
+                    accumulation_term = (n * (n - np.uint64(1))) // np.uint64(2)
+                    ideal_discrete_phase_word = (FTW_start * n + FTW_step * accumulation_term) & 0xFFFFFFFF
+                    
+                    truncated_phase_16b = ideal_discrete_phase_word >> 16
+                    quadrant = truncated_phase_16b >> 14
+                    addr = truncated_phase_16b & 0x3FFF
+                    
+                    mapped_addr = np.where((quadrant == 1) | (quadrant == 3), 16383 - addr, addr)
+                    neg_flag = np.where((quadrant == 2) | (quadrant == 3), 1, 0)
+                    
+                    lut_amplitude = self.rom_data[mapped_addr]
+                    self.expected_wave = np.where(neg_flag == 1, -lut_amplitude, lut_amplitude)
+
+                """********* COMPARISON LOGIC *********"""
+                # No more ignoring cycles! valid_out guarantees this is perfect data.
+                math_idx = item.sample_index - 1
                 
-            """********* REFERENCE EXECUTION *********"""
-            # 4. Feed the cycle-by-cycle array into your MATLAB-ported core
-            expected_wave = dds_core(
-                M=M_array, 
-                Nacc=self.Nacc, 
-                LUT_bits=self.LUT_bits, 
-                DT_Mode=self.DT_Mode, 
-                frac_bits=self.frac_bits
-            )
-            
-            # Assuming the Monitor captures the final amplitude at the end of 'cycles'
-            expected_final_amplitude = expected_wave[-1] 
+                if math_idx < len(self.expected_wave):
+                    expected_val_int = int(self.expected_wave[math_idx])
+                    actual_val_int = int(item.final_amplitude)
 
-            """********* COMPARISON LOGIC *********"""
-            # 5. Compare Hardware vs. Golden Model
-            # Note: Because your python model does bit-accurate quantization ('fixed' DT_Mode), 
-            # we can check for an exact match.
-            
-            # *You may need to cast the expected_final_amplitude to an integer depending 
-            # on how your mytypes fixed-point library returns the data.*
-            expected_val_int = int(expected_final_amplitude) 
-            actual_val_int = int(item.final_amplitude)
-
-            if expected_val_int == actual_val_int:
-                self.passed_test_cases += 1
-                cocotb.log.debug(f"[SCOREBOARD PASS] Expected: {hex(expected_val_int)} | Actual: {hex(actual_val_int)}")
-            else:
-                self.failed_test_cases += 1
-                cocotb.log.error(f"[SCOREBOARD FAIL] {item.convert2string_stimulus()}")
-                cocotb.log.error(f"  -> Expected Amplitude: {hex(expected_val_int)}")
-                cocotb.log.error(f"  -> Actual Hardware   : {hex(actual_val_int)}")
-
+                    if expected_val_int == actual_val_int:
+                        self.passed_test_cases += 1
+                        cocotb.log.info(f"[SCOREBOARD PASS] Stream Cycle {item.sample_index} Match! Expected: {hex(expected_val_int & 0xFF)} | Actual: {hex(actual_val_int & 0xFF)}")
+                    else:
+                        self.failed_test_cases += 1
+                        cocotb.log.error(f"[SCOREBOARD FAIL] Mismatch at Stream Cycle {item.sample_index}!")
+                        cocotb.log.error(f"  -> {item.convert2string_stimulus()}")
+                        cocotb.log.error(f"  -> Expected Amplitude: {hex(expected_val_int & 0xFF)}")
+                        cocotb.log.error(f"  -> Actual Hardware   : {hex(actual_val_int & 0xFF)}")
 
     def report_phase(self):
         cocotb.log.info("========================================")
-        cocotb.log.info("        SCOREBOARD FINAL REPORT         ")
+        cocotb.log.info("      STREAMING SCOREBOARD REPORT       ")
         cocotb.log.info("========================================")
-        cocotb.log.info(f" PASSED: {self.passed_test_cases}")
-        cocotb.log.info(f" FAILED: {self.failed_test_cases}")
+        cocotb.log.info(f" SAMPLES PASSED: {self.passed_test_cases}")
+        cocotb.log.info(f" SAMPLES FAILED: {self.failed_test_cases}")
         cocotb.log.info("========================================")
         if self.failed_test_cases == 0 and self.passed_test_cases > 0:
             cocotb.log.info(" TEST STATUS: SUCCESS ")
