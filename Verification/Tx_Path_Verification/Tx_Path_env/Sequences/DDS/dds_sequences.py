@@ -14,7 +14,6 @@ class dds_reset(uvm_sequence):
         await self.start_item(req)
         req.randomize()
         req.rst_n = 0  # FORCE RESET ACTIVE
-        req.enable = 0 # Ensure enable is low during reset
         await self.finish_item(req)                                                  
                                     
 
@@ -120,7 +119,28 @@ class dds_cornercase_seq(uvm_sequence):
         req.FTW_step = 0xFFFFFFFF   # All 1s
         req.cycles = 0x1FFF         # Max 13-bit value (8191)
         
-        
         await self.finish_item(req)
         
+        
+class dds_fft_boundary_seq(uvm_sequence):
+    def __init__(self, name="dds_fft_boundary_seq"):
+        super().__init__(name)
 
+    async def body(self):
+        # 4095 = 1 cycle short (Underflow)
+        # 4096 = Perfect FFT Symbol
+        # 4097 = 1 cycle over (Overflow/Backpressure)
+        boundaries = [4095, 4096, 4097]
+        
+        for c in boundaries:
+            req = dds_seq_item("req")
+            await self.start_item(req)
+            req.randomize()
+            req.enable = 1  # Ensure enable is high for valid transactions
+            req.rst_n = 1
+            req.cycles = c  # Force the specific FFT boundary
+            
+            await self.finish_item(req)        
+            
+            
+   
