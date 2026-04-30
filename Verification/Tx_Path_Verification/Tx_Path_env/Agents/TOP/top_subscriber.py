@@ -24,7 +24,7 @@ from pyuvm import *
 import pyuvm
 import logging
  
-from seq_item import top_item
+from top_seq_item import top_item
  
 # ─────────────────────────────────────────────────────────────────────────────
 # Constants that mirror the RTL parameters
