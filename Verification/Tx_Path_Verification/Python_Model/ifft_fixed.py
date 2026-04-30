@@ -1,68 +1,60 @@
+"""
+    Sponsor: Analog Devices, Inc. (ADI)
+    Institution: Faculty of Engineering, Ain Shams University
+    Project: DDS for 5G/6G Cellular Network Calibration and Ranging
+
+    Module: ifft_fixed.py
+
+    Description:
+        This module provides the top-level wrapper for the bit-true IFFT, applying 
+        twiddle conjugation to the core FFT engine. 
+        (Plotting utilities have been removed for simulation performance).
+"""
+
 import numpy as np
-from mytypes import quantize_fixed, reinterpretcast
+
+# Import from your split files
 from fft_fixed import *
 
-
-# ---------------------------------------------------------------------------
-# radix22_dif_ifft_fixed
-# ---------------------------------------------------------------------------
-
-def radix22_dif_ifft_fixed(x: np.ndarray, WL: int, FL: int):
+def radix2_dif_ifft_fixed(x_ints: np.ndarray, WL: int, FL: int) -> np.ndarray:
     """
-    Fixed-point IFFT via circular folding property.
-
-    Mirrors radix22_dif_ifft_fixed.m:
-        IFFT(X) ≡ FFT( fold(X) ) / N
-
-    The fold operation is: keep index 0, reverse indices 1..N-1.
-
-    Parameters
-    ----------
-    x   : Input array (complex). Length must be a power of 2.
-    WL  : Word length
-    FL  : Fraction length
-
-    Returns
-    -------
-    X            : IFFT output (reinterpreted bits, see MATLAB logic)
-    WL_output    : Output word length
-    FL_output    : Output fraction length
+    100% bit-true IFFT wrapper.
+    Exact Python translation of radix2_dif_ifft_fixed.m.
     """
-    N = len(x)
-    integer_part = WL - FL
-    growth_bits  = int(np.log2(N))
+    return radix2_dif_fft_fixed(x_ints, WL, FL, is_ifft=True)
 
-    # ------------------------------------------------------------------
-    # Circular folding: [x[0], x[N-1], x[N-2], ..., x[1]]
-    # ------------------------------------------------------------------
-    X_folded = x.copy()
-    if N > 1:
-        X_folded[1:] = x[N - 1:0:-1]   # reverse indices 1..N-1
+# ══════════════════════════════════════════════════════════════════════════════
+# Demo
+# ══════════════════════════════════════════════════════════════════════════════
 
-    # ------------------------------------------------------------------
-    # FFT of the folded sequence
-    # ------------------------------------------------------------------
-    X_fi = radix22_dif_fft_fixed(X_folded, WL, FL)
+if __name__ == "__main__":
+    N  = 4096
+    WL = 16
+    FL = 5 
 
-    # ------------------------------------------------------------------
-    # Reinterpret cast (matches MATLAB reinterpretcast logic)
-    # ------------------------------------------------------------------
-    if integer_part > growth_bits:
-        # out_type = numerictype(1, WL, FL + growth_bits)
-        dst_FL = FL + growth_bits
-        X = reinterpretcast(X_fi,
-                            src_WL=WL, src_FL=FL,
-                            dst_WL=WL, dst_FL=dst_FL)
-        WL_output = WL
-        FL_output = WL - 1
+    print("=" * 60)
+    print("  Bit-True IFFT Golden Model — Demo (Headless)")
+    print(f"  N={N}  WL={WL}  FL={FL}  (Q{WL-FL-1}.{FL})")
+    print("=" * 60)
 
-    else:
-        # out_type2 = numerictype(1, WL, FL + growth_bits)
-        dst_FL = FL + growth_bits
-        X = reinterpretcast(X_fi,
-                            src_WL=WL, src_FL=FL,
-                            dst_WL=WL, dst_FL=dst_FL)
-        WL_output = WL
-        FL_output = FL + growth_bits    # not explicitly set in MATLAB else branch
+    # ── Build a test input: single tone at bin k=10 ───────────────────────
+    scale    = 1 << FL           
+    X_float  = np.zeros(N, dtype=np.complex128)
+    X_float[10]   = 0.5 + 0j     
+    X_float[N-10] = 0.5 + 0j    
+    X_in = (X_float * scale).astype(np.int64)  
 
-    return X, WL_output, FL_output
+    print(f"\n── Input: single tone at k=10  (Q11.5 integers, peak={int(0.5*scale)}) ──")
+    print(f"  Input Re range : [{np.real(X_in).min()}, {np.real(X_in).max()}]")
+    print(f"  Input Im range : [{np.imag(X_in).min()}, {np.imag(X_in).max()}]")
+
+    # ── Run the bit-true IFFT ─────────────────────────────────────────────
+    print("\n── Running radix2_dif_ifft_fixed ──")
+    x_out = radix2_dif_ifft_fixed(X_in.astype(np.complex128), WL, FL)
+
+    print(f"  Input  length : {len(X_in)}")
+    print(f"  Output length : {len(x_out)}")
+    print(f"  Output Re range : [{np.real(x_out).min():.0f}, {np.real(x_out).max():.0f}]")
+    print(f"  Output Im range : [{np.imag(x_out).min():.0f}, {np.imag(x_out).max():.0f}]")
+
+    print("\n── Execution Complete. ──")
