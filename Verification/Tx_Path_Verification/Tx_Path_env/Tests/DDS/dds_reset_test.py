@@ -20,7 +20,7 @@ from dds_sequences import *
 class dds_reset_only_seq(dds_base_test):
     def build_phase(self):
         super().build_phase()
-        self.reset_seq = dds_reset.create("reset_seq")
+        self.reset_seq = dds_reset_seq.create("reset_seq")
     
         
     async def run_phase(self):
