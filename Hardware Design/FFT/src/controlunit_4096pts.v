@@ -1,12 +1,11 @@
-// Analog Devices 
-// GP Ain-shams University
-// Butterfly unit for 4096-FFT 
+// // Analog Devices 
+// // GP Ain-shams University
+// // Butterfly unit for 4096-FFT 
 
 
-/* Description ..........
-    This module now drives the addr by counting every clock cycle.
-    and controlling the valid out by delaying the valid in by N cycles.
-*/
+// /* Description ..........
+//     This module now drives the pipeline by counting every clock cycle.
+// */
 
 module controlunit_4096 #(
     parameter N = 4096 
@@ -51,9 +50,11 @@ module controlunit_4096 #(
     end
 
     // --------------------------------------------------
-    // Outputs
+    // Outputs   LOOK-AHEAD LOGIC: 
+    // addr is advanced by 1 to compensate for 1-cycle ROM latency.
+    // sel remains at 'count' to stay aligned with combinational data.
     // --------------------------------------------------
-    assign addr = count;
+    assign addr = count + 1;
     assign sel  = count;
 
     // Output valid after N-1 cycles delay
