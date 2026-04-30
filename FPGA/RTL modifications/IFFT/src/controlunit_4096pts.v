@@ -4,8 +4,7 @@
 
 
 /* Description ..........
-    This module now drives the addr by counting every clock cycle.
-    and controlling the valid out by delaying the valid in by N cycles.
+    This module now drives the pipeline by counting every clock cycle.
 */
 
 module controlunit_4096 #(
@@ -13,11 +12,11 @@ module controlunit_4096 #(
 ) (
     input  wire        clk,
     input  wire        rst_n,
-    input  wire        valid_in,     
+    input  wire        valid_in,
     output wire [11:0] addr, 
     output wire [11:0] sel,
     output wire        pipeline_en, 
-    output wire        valid_out    
+    output wire        valid_out
 );
 
     // --------------------------------------------------
@@ -53,7 +52,7 @@ module controlunit_4096 #(
     // --------------------------------------------------
     // Outputs
     // --------------------------------------------------
-    assign addr = count;
+    assign addr = count + 1;
     assign sel  = count;
 
     // Output valid after N-1 cycles delay

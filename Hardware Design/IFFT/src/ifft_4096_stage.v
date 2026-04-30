@@ -57,7 +57,6 @@ module ifft_stage_4096 #(
 
     // 3. Instantiate Forward ROM (Single Address, 2 Data Out)[cite: 20]
     twiddlerom_4096 #(.WL(WL), .DEPTH(ROM_DEPTH)) rom_inst (
-        .clk(clk),
         .addr(addr),
         .W_real(twiddle_re_rom), 
         .W_img(twiddle_im_rom)

@@ -52,7 +52,7 @@ module controlunit_4096 #(
     // --------------------------------------------------
     // Outputs
     // --------------------------------------------------
-    assign addr = count + 1;
+    assign addr = count;
     assign sel  = count;
 
     // Output valid after N-1 cycles delay
