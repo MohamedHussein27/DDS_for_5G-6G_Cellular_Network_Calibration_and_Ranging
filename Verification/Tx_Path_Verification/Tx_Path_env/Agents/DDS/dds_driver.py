@@ -18,34 +18,52 @@
            required by the 5G/6G DDS architecture are strictly met.
 """
 
-import pyuvm
-from pyuvm import *
-from dds_seq_item import *
 import cocotb
-from cocotb.triggers import Timer
-from cocotb.clock import Clock
-from cocotb.triggers import FallingEdge
+from cocotb.triggers import RisingEdge, FallingEdge
+from pyuvm import *
+from dds_seq_item import dds_seq_item
 
 class dds_driver(uvm_driver): 
-    
     def build_phase(self):
-        self.dut_drv = ConfigDB().get(self,"","DUT")
+        super().build_phase()
+        self.dut = ConfigDB().get(self,"","DUT")
           
     async def run_phase(self):
+        # 1. Initialize hardware
+        self.dut.rst_n.value = 1
+        self.dut.enable.value = 0
+        self.dut.FTW_start.value = 0
+        self.dut.FTW_step.value = 0
+        self.dut.cycles.value = 0
+        
+
+        for _ in range(5):
+            await RisingEdge(self.dut.clk)
+
+        # 2. Main Loop
         while True: 
-            # 1. Fetch the next item from the sequencer
-            seq_item = await self.seq_item_port.get_next_item()
+            req = await self.seq_item_port.get_next_item()
+            await FallingEdge(self.dut.clk) 
             
-            # 2. Wait for the falling edge to drive signals cleanly
-            await FallingEdge(self.dut_drv.clk) 
+            self.dut.rst_n.value = req.rst_n
             
-            # 3. Drive the inputs to the DUT
-            self.dut_drv.rst_n.value = seq_item.rst_n
-            self.dut_drv.FTW_start.value = seq_item.FTW_start
-            self.dut_drv.FTW_step.value = seq_item.FTW_step
-            self.dut_drv.cycles.value = seq_item.cycles
+            if req.rst_n == 0:
+                self.dut.enable.value = 0
+                await RisingEdge(self.dut.clk)
+                self.seq_item_port.item_done()
+                continue
+
+            self.dut.FTW_start.value = req.FTW_start
+            self.dut.FTW_step.value = req.FTW_step
+            self.dut.cycles.value = req.cycles
+            self.dut.rst_n.value = req.rst_n
+            self.dut.enable.value = 1  
             
-            self.logger.debug(f"Driving Item: {seq_item.convert2string_stimulus()}")
+            # 3. BLOCK SIMULATION for the chirp duration
+            for _ in range(req.cycles):
+                await RisingEdge(self.dut.clk)
+                
+            await FallingEdge(self.dut.clk)
+            self.dut.enable.value = 0
             
-            # 4. Signal completion back to the sequencer
             self.seq_item_port.item_done()

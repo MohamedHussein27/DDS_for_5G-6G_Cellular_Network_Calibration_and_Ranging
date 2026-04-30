@@ -28,7 +28,7 @@ from cocotb.triggers import *
 
 class dds_monitor(uvm_monitor):
     def build_phase(self):
-        self.mon_port = uvm_analysis_port("mon_port", self)
+        self.mon_ap = uvm_analysis_port("mon_ap", self)
         self.dut_mon = ConfigDB().get(self,"","DUT")
         
     async def run_phase(self):
@@ -41,16 +41,21 @@ class dds_monitor(uvm_monitor):
             seq_item = dds_seq_item("seq_item")
             
             # 3. Read the input signals from the DUT
-            seq_item.rst_n = self.dut_mon.rst_n.value.integer
-            seq_item.FTW_start = self.dut_mon.FTW_start.value.integer
-            seq_item.FTW_step = self.dut_mon.FTW_step.value.integer
-            seq_item.cycles = self.dut_mon.cycles.value.integer
+            seq_item.rst_n = int(self.dut_mon.rst_n.value)
+            seq_item.FTW_start = int(self.dut_mon.FTW_start.value)
+            seq_item.FTW_step = int(self.dut_mon.FTW_step.value)
+            seq_item.cycles = int(self.dut_mon.cycles.value)
+            seq_item.enable = int(self.dut_mon.enable.value)
             
             # 4. Read the output signals from the DUT
             # Note: We use .integer or .signed_integer depending on your SV logic type to cast correctly
-            seq_item.final_amplitude = self.dut_mon.final_amplitude.value.integer 
+            seq_item.final_amplitude = int(self.dut_mon.final_amplitude.value)
+            seq_item.valid_out = int(self.dut_mon.valid_out.value)
             
             self.logger.debug(f"Monitoring Item: {seq_item.convert2string_stimulus()}")
             
             # 5. Broadcast the reconstructed transaction to the scoreboard/coverage
-            self.mon_port.write(seq_item)
+            self.mon_ap.write(seq_item)
+            
+            
+            

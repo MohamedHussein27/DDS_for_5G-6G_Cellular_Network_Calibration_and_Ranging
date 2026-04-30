@@ -15,7 +15,7 @@
         1. Reference Modeling: Calculates expected sine/cosine waveforms mathematically 
            based on the applied Frequency Tuning Words (FTW), phase increments, 
            and control signals.
-        2. Data Collection: Captures observed `seq_item` transactions from the 
+        2. Data Collection: Captures observed seq_item transactions from the 
            passive Monitors via UVM analysis exports.
         3. Comparison & Tolerance: Compares the hardware's generated digital 
            waveform against the golden model, accounting for expected 
@@ -23,6 +23,7 @@
         4. Reporting: Logs precise mismatch locations, tracks verification 
            statistics, and flags fatal errors if functional requirements are violated.
 """
+
 import pyuvm
 from pyuvm import *
 from dds_seq_item import *
@@ -44,30 +45,35 @@ class dds_scoreboard(uvm_scoreboard):
         self.passed_test_cases = 0
         self.failed_test_cases = 0
         
-        # 2. UVM TLM setup
-        self.sc_export = uvm_analysis_export("sc_export", self)
-        self.sc_fifo = uvm_tlm_analysis_fifo("sc_fifo", self)
+        self.sb_export = uvm_analysis_export("sb_export", self)
+        self.sb_fifo = uvm_tlm_analysis_fifo("sb_fifo", self)
 
+        # connecting here instead
+        self.sb_export = self.sb_fifo.analysis_export
         # 3. Hardware Architecture Parameters (Update these to match your Verilog!)
         self.Nacc = 32         # Phase Accumulator bit-width
         self.LUT_bits = 12     # Number of MSBs used to address the ROM
         self.DT_Mode = 'fixed' # Output format
         self.frac_bits = 15    # Fractional bits if using fixed-point
 
-    def connect_phase(self):
-        self.sc_export.connect(self.sc_fifo.analysis_export)
+    #def connect_phase(self):
+     #   self.sc_export.connect(self.sc_fifo.analysis_export)
         
     async def run_phase(self):
         while True:
             # 1. Grab the transaction from the Monitor
-            item = await self.sc_fifo.get()
+            item = await self.sb_fifo.get()
             
             # 2. Skip comparison if reset was active
             if item.rst_n == 0:
                 cocotb.log.debug(f"[SCOREBOARD] Skipping item {item.get_name()} due to active reset.")
                 continue
 
-            """************************** GOLDEN MODEL STIMULUS **************************"""
+            # --- NEW: Prevent the IndexError crash at time 0.00ns ---
+            if item.cycles == 0:
+                cocotb.log.debug(f"[SCOREBOARD] Skipping item {item.get_name()} because cycles=0.")
+                continue
+            """********* GOLDEN MODEL STIMULUS *********"""
             # 3. Reconstruct the 'M' array (Tuning word for every clock cycle)
             # The hardware starts at FTW_start and accelerates by FTW_step every cycle.
             M_array = np.zeros(item.cycles, dtype=np.uint64)
@@ -78,7 +84,7 @@ class dds_scoreboard(uvm_scoreboard):
                 # Accumulate the step for the next cycle's tuning word
                 current_ftw = (current_ftw + item.FTW_step) & 0xFFFFFFFF # Keep it 32-bit
                 
-            """************************** REFERENCE EXECUTION **************************"""
+            """********* REFERENCE EXECUTION *********"""
             # 4. Feed the cycle-by-cycle array into your MATLAB-ported core
             expected_wave = dds_core(
                 M=M_array, 
@@ -91,7 +97,7 @@ class dds_scoreboard(uvm_scoreboard):
             # Assuming the Monitor captures the final amplitude at the end of 'cycles'
             expected_final_amplitude = expected_wave[-1] 
 
-            """************************** COMPARISON LOGIC **************************"""
+            """********* COMPARISON LOGIC *********"""
             # 5. Compare Hardware vs. Golden Model
             # Note: Because your python model does bit-accurate quantization ('fixed' DT_Mode), 
             # we can check for an exact match.
