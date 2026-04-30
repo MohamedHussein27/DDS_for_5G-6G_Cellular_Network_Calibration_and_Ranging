@@ -18,6 +18,7 @@ module twiddlerom_4096 #(
     parameter DEPTH = 2048, // N/2 for current stage
     parameter WL = 16
 ) (
+    input wire clk,
     input  wire [(DEPTH == 1) ? 0 : $clog2(DEPTH)-1 : 0] addr,
     output reg signed [WL-1:0] W_real,
     output reg signed [WL-1:0] W_img    
@@ -4134,9 +4135,9 @@ module twiddlerom_4096 #(
     end
 
     // Sub-sample the Master ROM based on the stage's stride
-    always @(*) begin
-        W_real = rom_real[addr * STRIDE];
-        W_img  = rom_imag[addr * STRIDE];
+    always @(posedge clk) begin
+        W_real <= rom_real[addr * STRIDE];
+        W_img  <= rom_imag[addr * STRIDE];
     end
 
 endmodule
