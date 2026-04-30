@@ -26,13 +26,14 @@ class dds_full_test(dds_base_test):
         self.cyclestress_seq = dds_cyclestress_seq.create("cyclestress_seq")
         self.chirpsweep_seq = dds_chirpsweep_seq.create("chirpsweep_seq")
         self.cornercase_seq= dds_cornercase_seq.create("dds_cornercase_seq")
-       
+        self.fft_boundary_seq = dds_fft_boundary_seq.create("dds_fft_boundary_seq")
         
 
     # run phase
     async def run_phase(self):
         test_sequences = [
             self.cornercase_seq,
+            self.fft_boundary_seq,
             self.singletone_seq,
             self.cyclestress_seq,
             self.chirpsweep_seq,
