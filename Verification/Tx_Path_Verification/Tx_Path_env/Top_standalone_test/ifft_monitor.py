@@ -20,7 +20,7 @@ from ifft_item import ifft_item
 
 class ifft_monitor(uvm_monitor):
     def build_phase(self):
-        self.dut = ConfigDB().get(self, "", "DUT")
+        self.dut = ConfigDB().get(self, "", "IFFT_DUT")
         # Port used to broadcast observed traffic
         self.mon_port = uvm_analysis_port("mon_port", self)
 

@@ -22,7 +22,7 @@ class fft_driver(uvm_driver):
         super().__init__(name, parent)
 
     def build_phase(self):
-        self.dut = ConfigDB().get(self, "", "DUT")
+        self.dut_drv = ConfigDB().get(self, "", "FFT_DUT")
 
     async def run_phase(self):
 
@@ -32,16 +32,16 @@ class fft_driver(uvm_driver):
             stim_seq_item = await self.seq_item_port.get_next_item()
             
             # 2. Wait for the clock edge to drive synchronous logic
-            await FallingEdge(self.dut.clk)
+            await FallingEdge(self.dut_drv.clk)
             
             # monitoring sent input values
             #self.logger.info(f"Driver sent: rst_n={stim_seq_item.rst_n}, valid_in={stim_seq_item.valid_in}, in_real={stim_seq_item.in_real}, in_imag={stim_seq_item.in_imag}")
             
             # 3. Drive the physical pins
-            self.dut.rst_n.value    = stim_seq_item.rst_n
-            self.dut.valid_in.value = stim_seq_item.valid_in
-            self.dut.in_real.value  = stim_seq_item.in_real
-            self.dut.in_imag.value  = stim_seq_item.in_imag
+            self.dut_drv.rst_n.value    = stim_seq_item.rst_n
+            self.dut_drv.valid_in.value = stim_seq_item.valid_in
+            self.dut_drv.in_real.value  = stim_seq_item.in_real
+            self.dut_drv.in_imag.value  = stim_seq_item.in_imag
 
             # 4. Notify the sequencer that the transaction is complete
             self.seq_item_port.item_done()

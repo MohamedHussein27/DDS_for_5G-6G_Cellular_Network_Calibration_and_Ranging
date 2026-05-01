@@ -46,6 +46,9 @@ class base_test(uvm_test):
     # Set the specific DDS instance handle for the dds_monitor
     # REPLACE 'dds_inst' with the actual instance name used in your TX_TOP verilog/vhdl
         ConfigDB().set(self, "*", "DDS_DUT", self.dut.u_dds)
+        ConfigDB().set(self, "*", "FFT_DUT", self.dut.u_fft_tx)
+        ConfigDB().set(self, "*", "IFFT_DUT", self.dut.u_ifft_tx)
+        
 
         #self.reset_seq = reset_sequence.create("reset_seq")
 

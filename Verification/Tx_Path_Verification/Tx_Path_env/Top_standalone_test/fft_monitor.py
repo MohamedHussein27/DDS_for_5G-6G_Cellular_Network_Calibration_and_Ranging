@@ -20,7 +20,7 @@ from fft_seq_item import fft_item
 
 class fft_monitor(uvm_monitor):
     def build_phase(self):
-        self.dut = ConfigDB().get(self, "", "DUT")
+        self.dut = ConfigDB().get(self, "", "FFT_DUT")
         # Port used to broadcast observed traffic
         self.mon_port = uvm_analysis_port("mon_port", self)
 
