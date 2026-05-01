@@ -40,17 +40,24 @@ class ifft_monitor(uvm_monitor):
             
             # Capture the physical pin values
             rsp_seq_item.valid_out     = self.dut.valid_out.value
-            rsp_seq_item.data_real_out = self.dut.out_real.value.signed_integer
-            rsp_seq_item.data_imag_out = self.dut.out_imag.value.signed_integer
+            rsp_seq_item.out_real      = self.dut.out_real.value.signed_integer
+            rsp_seq_item.out_imag      = self.dut.out_imag.value.signed_integer
+            rsp_seq_item.out_real      = 0
+            rsp_seq_item.out_imag      = 0
 
             # capture inputs as well
             rsp_seq_item.rst_n         = self.dut.rst_n.value
             rsp_seq_item.valid_in      = self.dut.valid_in.value
-            rsp_seq_item.data_real_in  = self.dut.in_real.value.signed_integer
-            rsp_seq_item.data_imag_in  = self.dut.in_imag.value.signed_integer
+            rsp_seq_item.in_real       = self.dut.in_real.value.signed_integer
+            rsp_seq_item.in_imag       = self.dut.in_imag.value.signed_integer
+
+            rsp_seq_item.in_real       = 0
+            rsp_seq_item.in_imag       = 0
 
             # monitoring captured output values
-            #self.logger.info(f"Monitor captured: valid_out={rsp_seq_item.valid_out}, out_real ={rsp_seq_item.data_real_out}, out_imag={rsp_seq_item.data_imag_out}")
-            
+            """self.logger.info(
+                f"Monitor captured inputs: valid_in={rsp_seq_item.valid_in}, in_real ={rsp_seq_item.in_real}, in_imag={rsp_seq_item.in_imag}"
+                f"Monitor captured outputs: valid_out={rsp_seq_item.valid_out}, out_real ={rsp_seq_item.out_real}, out_imag={rsp_seq_item.out_imag}"
+            )"""
             # Broadcast the captured item to the agent
             self.mon_port.write(rsp_seq_item)

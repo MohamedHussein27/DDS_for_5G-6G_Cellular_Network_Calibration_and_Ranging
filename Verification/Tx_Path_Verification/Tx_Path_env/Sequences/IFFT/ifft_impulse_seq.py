@@ -10,7 +10,7 @@ class impulse_sequence(uvm_sequence):
 
     async def body(self):
         X = np.zeros(N, dtype=complex)
-        X[0] = 1.0 + 0j
+        X[0] = 1023.0 + 0j
         pairs = _frame(X)
 
         # ── First N cycles: drive the impulse frame ──
@@ -32,6 +32,7 @@ class impulse_sequence(uvm_sequence):
                 self.seq_item = ifft_item.create("seq_item")
                 await self.start_item(self.seq_item)
                 
+                # Using the exact working constraint from dc_sequence
                 self.seq_item.randomize_with(
                     lambda rst_n, valid_in: rst_n == 1 and valid_in == 0
                 )
