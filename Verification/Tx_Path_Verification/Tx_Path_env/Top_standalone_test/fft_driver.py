@@ -22,7 +22,11 @@ class fft_driver(uvm_driver):
         super()._init_(name, parent)
 
     def build_phase(self):
+<<<<<<< HEAD
         self.dut_drv = ConfigDB().get(self, "", "DUT")
+=======
+        self.dut_drv = ConfigDB().get(self, "", "FFT_DUT")
+>>>>>>> b518115a286b2ddf9354853076fcf6b883b6929e
 
     async def run_phase(self):
 

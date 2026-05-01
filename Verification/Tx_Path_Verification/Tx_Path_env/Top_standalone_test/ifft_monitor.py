@@ -29,8 +29,13 @@ def safe_signed(val, default=0):
 
 class ifft_monitor(uvm_monitor):
     def build_phase(self):
+<<<<<<< HEAD
         super().build_phase() # Added
         self.dut = ConfigDB().get(self, "", "DUT") # Reverted to "DUT"
+=======
+        self.dut = ConfigDB().get(self, "", "IFFT_DUT")
+        # Port used to broadcast observed traffic
+>>>>>>> b518115a286b2ddf9354853076fcf6b883b6929e
         self.mon_port = uvm_analysis_port("mon_port", self)
 
     async def run_phase(self):
