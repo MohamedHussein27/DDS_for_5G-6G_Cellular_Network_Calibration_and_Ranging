@@ -14,10 +14,11 @@ class reset_before_frame_seq(uvm_sequence):
         # ---------------------------------------------------------
         # reset asserted
         # ---------------------------------------------------------
-        req_frame = top_item.create("req_frame")
-        await self.start_item(req_frame)
-        req_frame.randomize()
-        req_frame.rst_n = 0
-        await self.finish_item(req_frame)
+        for _ in range(10):
+            req_frame = top_item.create("req_frame")
+            await self.start_item(req_frame)
+            req_frame.randomize()
+            req_frame.rst_n = 0
+            await self.finish_item(req_frame)
         
      

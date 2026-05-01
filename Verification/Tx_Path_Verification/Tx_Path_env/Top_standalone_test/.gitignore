@@ -1,0 +1,3 @@
+sim_*
+__pycache__/*
+rtl_out*

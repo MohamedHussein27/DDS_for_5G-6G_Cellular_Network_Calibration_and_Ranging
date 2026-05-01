@@ -24,7 +24,7 @@ class dds_driver(uvm_driver):
             await FallingEdge(self.dut.clk) 
             
             self.dut.rst_n.value = req.rst_n
-            
+            self.logger.info(f" driver sent: rst_n={req.rst_n}, FTW_start={req.FTW_start}, FTW_step={req.FTW_step}, cycles={req.cycles}")
             if req.rst_n == 0:
                 self.dut.enable.value = 0
                 for _ in range(3):
@@ -57,3 +57,4 @@ class dds_driver(uvm_driver):
                 await RisingEdge(self.dut.clk)
             
             self.seq_item_port.item_done()
+        

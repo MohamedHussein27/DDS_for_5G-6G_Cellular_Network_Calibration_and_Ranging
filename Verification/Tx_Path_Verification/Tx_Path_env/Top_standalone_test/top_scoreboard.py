@@ -382,7 +382,7 @@ class top_scoreboard(uvm_scoreboard):
             return
 
         # ── Debug print (mirrors the IFFT scoreboard style) ──────────────────
-        if self._i == 0:
+        """if self._i == 0:
             self.logger.info(
                 f"[i=0] dds_valid={item.dds_valid} fft_valid={item.fft_valid} "
                 f"mux_valid={item.mux_valid} tx_valid={item.tx_valid}"
@@ -391,7 +391,7 @@ class top_scoreboard(uvm_scoreboard):
             self.logger.info(
                 f"[i={self._i}] TX out: re={_sign16(item.tx_out_re)} "
                 f"im={_sign16(item.tx_out_im)} tx_valid={item.tx_valid}"
-            )
+            )"""
         self._i += 1
 
         # ═══════════════════════════════════════════════════════════════════

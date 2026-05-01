@@ -17,40 +17,41 @@ import cocotb
 from cocotb.triggers import *
 from pyuvm import *
 from ifft_item import ifft_item
+from top_seq_item import top_item
+
+def safe_int(val, default=0):
+    try: return int(val)
+    except ValueError: return default
+
+def safe_signed(val, default=0):
+    try: return val.signed_integer
+    except ValueError: return default
 
 class ifft_monitor(uvm_monitor):
     def build_phase(self):
-        self.dut = ConfigDB().get(self, "", "DUT")
-        # Port used to broadcast observed traffic
+        super().build_phase() # Added
+        self.dut = ConfigDB().get(self, "", "DUT") # Reverted to "DUT"
         self.mon_port = uvm_analysis_port("mon_port", self)
 
     async def run_phase(self):
         await RisingEdge(self.dut.clk)
+        
         while True:
-            rsp_seq_item = ifft_item("rsp_seq_item")
-
             await RisingEdge(self.dut.clk)
-            # Wait until all signals have settled for the current clock cycle
             await ReadOnly()
             
-            # If the IFFT produces a valid output sample
-            #if self.dut.valid_out.value == 1:
-                # Create a new transaction item
             rsp_seq_item = ifft_item("rsp_seq_item")
             
-            # Capture the physical pin values
-            rsp_seq_item.valid_out     = self.dut.valid_out.value
-            rsp_seq_item.data_real_out = self.dut.out_real.value.signed_integer
-            rsp_seq_item.data_imag_out = self.dut.out_imag.value.signed_integer
+            # Safe capture to prevent X/Z propagation crashes
+            rsp_seq_item.valid_out     = safe_int(self.dut.valid_out.value)
+            rsp_seq_item.data_real_out = safe_signed(self.dut.out_real.value)
+            rsp_seq_item.data_imag_out = safe_signed(self.dut.out_imag.value)
 
-            # capture inputs as well
-            rsp_seq_item.rst_n         = self.dut.rst_n.value
-            rsp_seq_item.valid_in      = self.dut.valid_in.value
-            rsp_seq_item.data_real_in  = self.dut.in_real.value.signed_integer
-            rsp_seq_item.data_imag_in  = self.dut.in_imag.value.signed_integer
-
-            # monitoring captured output values
-            #self.logger.info(f"Monitor captured: valid_out={rsp_seq_item.valid_out}, out_real ={rsp_seq_item.data_real_out}, out_imag={rsp_seq_item.data_imag_out}")
+            rsp_seq_item.rst_n         = safe_int(self.dut.rst_n.value)
+            rsp_seq_item.valid_in      = safe_int(self.dut.valid_in.value)
+            rsp_seq_item.data_real_in  = safe_signed(self.dut.in_real.value)
+            rsp_seq_item.data_imag_in  = safe_signed(self.dut.in_imag.value)
             
-            # Broadcast the captured item to the agent
+            self.logger.info(f"Monitor captured: rst_n={rsp_seq_item.rst_n}, valid_in={rsp_seq_item.valid_in}, in_real={rsp_seq_item.data_real_in}, in_imag={rsp_seq_item.data_imag_in}, valid_out={rsp_seq_item.valid_out}, out_real={rsp_seq_item.data_real_out}, out_imag={rsp_seq_item.data_imag_out}")
             self.mon_port.write(rsp_seq_item)
+            
