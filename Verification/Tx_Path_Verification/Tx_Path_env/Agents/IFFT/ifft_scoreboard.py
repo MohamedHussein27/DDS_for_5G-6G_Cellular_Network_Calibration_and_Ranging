@@ -74,11 +74,11 @@ class IFFTGoldenModel:
 
     def push(self, in_real_raw, in_imag_raw):
         """Accept one pair of raw RTL integer samples."""
-        self._buf_re.append(_raw_int_to_float(in_real_raw, FL))
-        self._buf_im.append(_raw_int_to_float(in_imag_raw, FL))
+        self._buf_re.append(in_real_raw)
+        self._buf_im.append(in_imag_raw)
         # printing counters to debug when entered here and when left
         if (i == 0 or (i > 4090 and i < 4100)):
-            print("Golden model received sample #", i, " buffer length = ", len(self._buf_re))
+            print("Golden model received sample #", i, " buffer length = ", len(self._buf_re), "buffer_content = ", self._buf_re[-5:], " + j", self._buf_im[-5:]    )
 
         if len(self._buf_re) == (self._n): 
             # print that buffer is full for debugging purposes
@@ -87,6 +87,9 @@ class IFFTGoldenModel:
             
 
     def _compute(self):
+        # printing index zero and 4095 in the real and imaginary buffers to debug when entered here and when left
+        print("self._buf_re[0] = ", self._buf_re[0], "self._buf_re[4095] = ", self._buf_re[4095])
+        print("self._buf_im[0] = ", self._buf_im[0], "self._buf_im[4095] = ", self._buf_im[4095])
         # 1. Reconstruct the complex array
         x_in = np.array(self._buf_re) + 1j * np.array(self._buf_im)
         
@@ -102,12 +105,14 @@ class IFFTGoldenModel:
 
         for v in X_out_complex:
             
-            real_int = _float_to_raw_int(v.real, FL)
+            real_int = v.real
             
-            imag_int = _float_to_raw_int(v.imag, FL)
+            imag_int = v.imag
             
             self._out.append((real_int, imag_int))
-        
+        # print output first and last samples for debugging purposes
+        print("Golden model output sample #0: re = ", self._out[0][0], " im = ", self._out[0][1])
+        print("Golden model output sample #4095: re = ", self._out[4095][0], " im = ", self._out[4095][1])
         # 4. Clear buffer so the model is ready to absorb the next frame
         self._buf_re.clear()
         self._buf_im.clear()
@@ -176,25 +181,30 @@ class IFFTScoreboard(uvm_scoreboard):
         # ── Feed input sample into golden model ──────────────────────────
         if item.valid_in:
             self._golden.push(item.in_real, item.in_imag)
-            self.logger.debug(
+            self.logger.info(
                 f"Golden model received sample "
                 f"re={_sign16(item.in_real)}, im={_sign16(item.in_imag)}"
             )
 
-        
+        ######### dubugging prints to check when entered here and when left and the values of the samples #########
         # debug print for all samples
-        if (i == 0):
-            self.logger.info(
-                f"Golden model output sample #{i}: "
-                f" | DUT output: re={_sign16(item.out_real)}, im={_sign16(item.out_imag)},vld_in={item.valid_in} vld_out={item.valid_out}"
-                )
 
-        # debug print
-        if (i > 4090 and i < 4100):
+        # Print the end of the first frame (allzero) and the second frame (impulse)
+        if (i > 4090 and i < 4100) or (i > 12275 and i < 12285):
             self.logger.info(
                 f"Golden model output sample #{i}: "
-                f" | DUT output: re={_sign16(item.out_real)}, im={_sign16(item.out_imag)},vld_in={item.valid_in} vld_out={item.valid_out}"
-                )
+                f" | DUT output: re={_sign16(item.out_real)}, im={_sign16(item.out_imag)}, "
+                f"vld_in={item.valid_in} vld_out={item.valid_out}"
+            )
+
+        # Add a heartbeat so you know the simulator is still alive during the silent gaps!
+        if i % 1000 == 0:
+            self.logger.info(f"--- SIMULATION HEARTBEAT: Processing cycle {i} ---")
+
+        #if (i == 4100 and item.valid_out):
+        #    i = 0
+
+        #####################################################################################################3
 
         # ── 3. Queue the DUT output ──────────────────────────────────────
         if item.valid_out:
@@ -211,7 +221,7 @@ class IFFTScoreboard(uvm_scoreboard):
             dut_real, dut_imag = self.dut_q.pop(0)
 
             # Debug print
-            if (i < 4100):
+            if (i > 4090 and i < 4100):
                 self.logger.info(
                     f"Comparing sample #{i}: "
                     f"DUT(re={dut_real}, im={dut_imag}) vs "

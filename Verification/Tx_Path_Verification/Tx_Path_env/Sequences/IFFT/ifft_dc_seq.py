@@ -8,7 +8,7 @@ class dc_sequence(uvm_sequence):
         self.multi_frame = multi_frame
 
     async def body(self):
-        re_val = _f2q(1.0)
+        re_val = _f2q(0.46875)  # Q11.5 representation of 1.0
         im_val = 0
 
         # ── First N cycles: drive the input frame ──
