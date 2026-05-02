@@ -18,7 +18,7 @@ class dds_monitor(uvm_monitor):
         
     async def run_phase(self):
         sample_index = 1 # Start counter at 1 for a new chirp
-        await RisingEdge(self.dut_mon.clk)
+        #await RisingEdge(self.dut_mon.clk)
         while True:
             await RisingEdge(self.dut_mon.clk)
             await ReadOnly()

@@ -447,9 +447,10 @@ class top_scoreboard(uvm_scoreboard):
 
         # Sample counter (for debug prints – mirrors the IFFT scoreboard style)
         self._i = 0
-
+        self.dds_golden_model = _DdsGolden(pipeline_latency=1)
     def _flush_golden_models(self):
         """Called safely when any monitor sees a reset."""
+        
         self._dds_gold = _DdsGolden(pipeline_latency=1)
         self._fft_gold    = _FftGolden()
         self._mux_gold    = _MuxGolden()
