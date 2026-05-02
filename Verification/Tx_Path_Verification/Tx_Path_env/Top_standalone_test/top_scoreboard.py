@@ -129,48 +129,88 @@ class _DdsGolden:
     """
     Stage 1: DDS Golden Model.
     100% Bit-True model of the phase accumulator and quarter-wave ROM.
+    Encapsulated for seamless UVM integration.
     """
-    def __init__(self, rom_data_file=None, accumulator_bits=32, phase_bits=16):
-        # Load ROM data if a file is provided, otherwise generate a perfect 8-bit sine ROM
-        if rom_data_file:
-            self.rom_data = np.loadtxt(rom_data_file, dtype=np.int32)
-        else:
-            # Fallback: Generate a perfect mathematical quarter-wave ROM (8-bit amplitude -> 127)
-            # Size = 16384 for 14-bit addressing
-            n = np.arange(16384)
-            self.rom_data = np.round(127 * np.sin(0.5 * np.pi * n / 16384)).astype(np.int32)
-
-        self.acc_mask = (1 << accumulator_bits) - 1
-        self.phase_shift = accumulator_bits - phase_bits
-        self.lut_size = len(self.rom_data)
-        
+    def __init__(self):
+        # Generate the mock ROM once upon initialization and store it
+        self.rom_data = self._generate_mock_rom()
         self.expected_wave = None
+        
+    def __init__(self, pipeline_latency=1):
+        self.rom_data = self._generate_mock_rom()
+        self.expected_wave = None
+        self.latency = pipeline_latency # Store the hardware latency
+        
+    def _generate_mock_rom(self):
+        """
+        Generates a mathematical quarter-wave ROM on the fly.
+        Provides the exact 16,384 values needed for the LUT.
+        """
+        addresses = np.arange(16384)
+        # 14-bit addressing mapped to 16-bit phase for a quarter wave
+        sine_float = np.sin(2.0 * np.pi * addresses / 65536.0)
+        # Assuming 8-bit output (signed max 127)
+        return np.round(sine_float * 127).astype(np.int32)
 
     def generate_chirp(self, ftw_start, ftw_step, cycles):
-        n = np.arange(1, cycles + 1, dtype=np.uint64)
-        
-        accumulation_term = (n * (n - np.uint64(1))) // np.uint64(2)
-        phase_acc = (np.uint64(ftw_start) * n + np.uint64(ftw_step) * accumulation_term)
-        phase_word = (phase_acc & self.acc_mask).astype(np.uint32)
-        truncated_phase = phase_word >> self.phase_shift
-        
-        quadrant = truncated_phase >> 14
-        addr = truncated_phase & 0x3FFF 
-        
-        mapped_addr = np.where((quadrant == 1) | (quadrant == 3), 
-                               (self.lut_size - 1) - addr, 
-                               addr)
-        
-        neg_flag = np.where((quadrant == 2) | (quadrant == 3), 1, 0)
-        lut_amplitude = self.rom_data[mapped_addr.astype(np.int32)]
-        
-        self.expected_wave = np.where(neg_flag == 1, -lut_amplitude, lut_amplitude)
+        """
+        Bit-true Python reference model for LFM Chirp.
+        Generates the full wave and stores it internally for index fetching.
+        """
+        # ---- 1. EMULATE PHASE_ACC.v ----
+        n = np.arange(cycles, dtype=np.int64)
+        ideal_phase = (ftw_start * n) + (ftw_step * (n * (n - 1)) // 2)
+        ideal_phase = ideal_phase % (2**32) 
+        truncated_phase_16b = ideal_phase // 65536 
+
+        # ---- 2. EMULATE Quadrant Mapper & LUT ----
+        ideal_out = np.zeros(cycles, dtype=np.int32)
+
+        for k in range(cycles):
+            current_phase = truncated_phase_16b[k]
+            
+            quadrant = current_phase // 16384
+            addr = current_phase % 16384
+            
+            if quadrant == 0:     # 1st quad
+                mapped_addr = addr
+                neg_flag = 0
+            elif quadrant == 1:   # 2nd quad
+                mapped_addr = 16383 - addr
+                neg_flag = 0
+            elif quadrant == 2:   # 3rd quad
+                mapped_addr = addr
+                neg_flag = 1
+            else:                 # 4th quad
+                mapped_addr = 16383 - addr
+                neg_flag = 1
+                
+            # ---- 3. EMULATE LUT.v ----
+            lut_amplitude = self.rom_data[mapped_addr]
+            
+            # ---- 4. EMULATE negative_mux.v ----
+            if neg_flag == 1:
+                ideal_out[k] = -lut_amplitude
+            else:
+                ideal_out[k] = lut_amplitude
+                
+        # Store the generated wave in the class instance
+        self.expected_wave = ideal_out
 
     def get_expected(self, sample_index):
-        """Return the expected amplitude for a specific 1-based cycle index."""
-        if self.expected_wave is None or sample_index > len(self.expected_wave) or sample_index < 1:
+        """
+        Return the expected amplitude, automatically adjusting for hardware latency!
+        """
+        if self.expected_wave is None or sample_index < 1:
             return None
-        return self.expected_wave[sample_index - 1]
+            
+        # Apply the hardware latency shift RIGHT HERE
+        adjusted_index = (sample_index - 1) + self.latency
+        
+        if adjusted_index >= len(self.expected_wave):
+            return None
+            
+        return self.expected_wave[adjusted_index]
 
 
 class _FftGolden:
@@ -410,7 +450,7 @@ class top_scoreboard(uvm_scoreboard):
 
     def _flush_golden_models(self):
         """Called safely when any monitor sees a reset."""
-        self._dds_gold    = _DdsGolden()
+        self._dds_gold = _DdsGolden(pipeline_latency=1)
         self._fft_gold    = _FftGolden()
         self._mux_gold    = _MuxGolden()
         self._tx_gold     = _TxGolden()
