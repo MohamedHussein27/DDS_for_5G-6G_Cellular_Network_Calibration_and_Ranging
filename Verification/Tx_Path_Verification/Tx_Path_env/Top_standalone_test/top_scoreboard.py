@@ -36,6 +36,7 @@ import numpy as np
 from collections import deque
 from pyuvm import *
 
+from fft_golden_model import *
 from top_seq_item import *          # your monitor transaction class
 from dds_seq_item import *          # for the dds monitor's transaction class
 from fft_seq_item import *          # for the fft monitor's transaction class
@@ -247,10 +248,10 @@ class _FftGolden:
         # Sign-extended 8-bit → Q1.0 float → sign-extended to 16-bit Q8.8
         # RTL does:  fft_in_re = { {8{dds_amplitude[7]}}, dds_amplitude }
         # i.e. sign-extend 8-bit → 16-bit.  FL stays at 0 (integer signal).
-        dds_float = np.array(self._dds_samples, dtype=float)
+        fff_float = radix2_dif_fft_fixed(self._dds_samples, WL=WL, is_ifft=False)
 
         # FFT (numpy, equivalent to hardware radix-2 DIF)
-        spectrum = np.fft.fft(dds_float)
+        spectrum = (fff_float)
 
         # Scale by 1/N to match the hardware's non-normalized convention
         # then re-express at FL_DST and round back to FL_FFT.
@@ -447,7 +448,7 @@ class top_scoreboard(uvm_scoreboard):
 
         # Sample counter (for debug prints – mirrors the IFFT scoreboard style)
         self._i = 0
-        self.dds_golden_model = _DdsGolden(pipeline_latency=1)
+
     def _flush_golden_models(self):
         """Called safely when any monitor sees a reset."""
         

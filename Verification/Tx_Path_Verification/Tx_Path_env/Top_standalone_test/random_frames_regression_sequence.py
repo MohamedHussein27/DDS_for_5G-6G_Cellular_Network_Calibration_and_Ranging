@@ -30,7 +30,7 @@ class random_frames_regression_seq(uvm_sequence):
         for i in range(self.num_frames):
             
             # Active Data Cycles
-            for _ in range(4096):
+            for _ in range(4097):
                 req = top_item.create(f"req_frame_{i}")
                 await self.start_item(req)
                 
@@ -39,7 +39,7 @@ class random_frames_regression_seq(uvm_sequence):
                 req.dds_enable = 1
                 req.FTW_start = 0
                 req.cycles = 4096
-                req.FTW_step = 150000
+                req.FTW_step = 426666
                 
                 await self.finish_item(req)
             
