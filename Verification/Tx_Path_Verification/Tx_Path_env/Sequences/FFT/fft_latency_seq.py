@@ -4,16 +4,26 @@ from fft_seq_item import fft_item
 
 class SeqLatency(uvm_sequence):
     async def body(self):
-        # 1. Send the 4096 sample frame
-        for _ in range(4096):
-            item = fft_item("item")
-            await self.start_item(item)
+        #  OPEN A TEXT FILE FOR MATLAB
+        # "w" means write mode (it will overwrite the file each time you run)
+        with open("matlab_inputs.txt", "w") as f:
             
-            item.in_real = random.randint(-32768, 32767)
-            item.in_imag = random.randint(-32768, 32767)
-            item.rst_n = 1
-            item.valid_in = 1
-            await self.finish_item(item)
+            for _ in range(4096):
+                # 1. Generate the random numbers FIRST
+                r_val = random.randint(-7, 7)
+                i_val = random.randint(-7, 7)
+                
+                # 2. Write them to the text file (Format: "Real Imag\n")
+                f.write(f"{r_val} {i_val}\n")
+                
+                # 3. Send those exact same numbers to the RTL
+                item = fft_item("item")
+                await self.start_item(item)
+                item.in_real = r_val
+                item.in_imag = i_val
+                item.rst_n = 1
+                item.valid_in = 1
+                await self.finish_item(item)
 
         # 2.  Drop valid_in to 0 so the pipeline can drain!
         idle_item = fft_item("idle")
