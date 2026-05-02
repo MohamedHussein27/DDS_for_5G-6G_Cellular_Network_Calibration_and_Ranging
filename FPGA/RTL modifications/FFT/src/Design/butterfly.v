@@ -1,13 +1,14 @@
-// Analog Devices 
-// GP Ain-shams University
-// Butterfly unit for 4096-FFT 
+// // Analog Devices 
+// // GP Ain-shams University
+// // Butterfly unit for 4096-FFT 
 
 
-/* Description ..........
-    butterfly unit is the basic building block of the FFT algorithm, it takes 2 complex inputs and produces 2 complex outputs,
-    the first output is the sum of the 2 inputs and the second output is the difference of the 2 inputs, this is repeated 
-    for log2(N) stages till the final result.
-*/
+// /* Description ..........
+//     butterfly unit is the basic building block of the FFT algorithm, it takes 2 complex inputs and produces 2 complex outputs,
+//     the first output is the sum of the 2 inputs and the second output is the difference of the 2 inputs, this is repeated 
+//     for log2(N) stages till the final result.
+// */
+
 
 
 module butterfly #(parameter WL = 16) (
