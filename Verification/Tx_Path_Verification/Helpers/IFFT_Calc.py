@@ -76,7 +76,7 @@ def simulate_and_visualize_ifft(n_fft=64, mode="directed", directed_real=None, d
     plt.tight_layout()
     plt.show()
 
-    return time_samples
+    return (time_samples * FFT_SIZE)
 
 # ==========================================
 # EXECUTION EXAMPLE: Feeding Variable Data
@@ -93,7 +93,7 @@ custom_imag = [ 0,  1,  1, -1,  0,  0, -1,  0]
 
 
 # Directed test with a single impulse at bin 1 (index 1)
-custom_real = [1, 0, 0] + [0] * (FFT_SIZE - 3)   # index0=0, index1=1, rest zeros
+custom_real = [0,1] + [0] * (FFT_SIZE-2)   # index0=0, index1=1, rest zeros
 custom_imag = [0] * FFT_SIZE                  # all zeros
 
 

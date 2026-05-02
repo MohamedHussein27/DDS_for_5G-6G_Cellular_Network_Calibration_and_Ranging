@@ -3,10 +3,10 @@
     Institution: Faculty of Engineering, Ain Shams University
     Project: DDS for 5G/6G Cellular Network Calibration and Ranging
 
-    Module: fft_subscriber.py
+    Module: ifft_subscriber.py
 
     Description:
-        This functional coverage subscriber passively monitors the FFT boundary 
+        This functional coverage subscriber passively monitors the IFFT boundary 
         to ensure the verification environment adequately stimulates the datapath. 
         It utilizes cocotb_coverage to track control signals (valid_in, valid_out, 
         rst_n) and ensures the 16-bit signed fixed-point data extensively hits 
@@ -24,19 +24,19 @@ from cocotb_coverage.coverage import coverage_db
 from pyuvm import *
 import pyuvm
 import logging
-
-from fft_seq_item import fft_item
-
+ 
+from ifft_seq_item import *
+ 
 # ─────────────────────────────────────────────────────────────────────────────
 # Constants that mirror the RTL parameters
 # ─────────────────────────────────────────────────────────────────────────────
 WL   = 16                          # word length (signed)
-N    = 4096                        # FFT size
-MAX_VAL  =  (1 << (WL - 1)) - 1    #  32767
-MIN_VAL  = -(1 << (WL - 1))        # -32768
-MID_POS  =  MAX_VAL // 2           #  16383  (upper half of positive range)
-MID_NEG  =  MIN_VAL // 2           # -16384  (lower half of negative range)
-
+N    = 4096                        # FFT/IFFT size
+MAX_VAL  =  (1 << (WL - 1)) - 1   #  32767
+MIN_VAL  = -(1 << (WL - 1))       # -32768
+MID_POS  =  MAX_VAL // 2          #  16383  (upper half of positive range)
+MID_NEG  =  MIN_VAL // 2          # -16384  (lower half of negative range – exclusive lower bound)
+ 
 # ─────────────────────────────────────────────────────────────────────────────
 # Helper – sign-extend a raw integer read from a 16-bit RTL signal
 # ─────────────────────────────────────────────────────────────────────────────
@@ -46,12 +46,12 @@ def _sign16(v):
         return v - 0x10000
     else:
         return v
-
-
-class fft_subscriber(uvm_subscriber):
+ 
+ 
+class IFFTSubscriber(uvm_subscriber):
     """
-    Functional-coverage subscriber for the 4096-point FFT.
-
+    Functional-coverage subscriber for the 4096-point IFFT.
+ 
     Cover points
     ─────────────
     CP1  valid_in        : both de-asserted (0) and asserted (1)
@@ -62,15 +62,14 @@ class fft_subscriber(uvm_subscriber):
     CP6  out_imag range  : negative / zero / positive / max-positive / min-negative
     CP7  rst_n           : reset active (0) and inactive (1)
     CP8  in_real × in_imag quadrant cross : (pos,pos) (pos,neg) (neg,pos) (neg,neg)
-    CP9  valid_out × quadrant cross       : Ensures valid data crossed all quadrants
-
+ 
     All bins are implemented with lambda "pin" functions so the coverage
     decorator never needs to reference the class directly.
     """
-
+ 
     def __init__(self, name, parent):
         super().__init__(name, parent)
-
+ 
     # ──────────────────────────────────────────────────────────────────────
     # build_phase : create export + FIFO (mirroring the sample template)
     # ──────────────────────────────────────────────────────────────────────
@@ -79,33 +78,34 @@ class fft_subscriber(uvm_subscriber):
         self.sub_fifo   = uvm_tlm_analysis_fifo("sub_fifo", self)
         # re-point the export straight at the FIFO's analysis_export
         self.sub_export = self.sub_fifo.analysis_export
-
+ 
     # ──────────────────────────────────────────────────────────────────────
     # write : mandatory uvm_subscriber hook
     # ──────────────────────────────────────────────────────────────────────
     def write(self, item):
-        self.logger.info(f"FFTSubscriber received: {item.convert2string()}")
-        self.sample(item)  # Call the sample method to update coverage with this transaction
+        self.logger.debug(f"IFFTSubscriber received: {item.convert2string()}")
+ 
     # ══════════════════════════════════════════════════════════════════════
     # COVER POINTS  (all bins defined with lambda pin functions)
-    # ════════════════════════════════════
+    # ══════════════════════════════════════════════════════════════════════
+ 
     # ── CP1 : valid_in ────────────────────────────────────────────────────
     @CoverPoint(
-        "top.fft.valid_in",
+        "top.ifft.valid_in",
         xf   = lambda tr: int(tr.valid_in),
         bins = [0, 1],
         bins_labels = ["valid_in_deasserted", "valid_in_asserted"],
     )
     # ── CP2 : valid_out ───────────────────────────────────────────────────
     @CoverPoint(
-        "top.fft.valid_out",
+        "top.ifft.valid_out",
         xf   = lambda tr: int(tr.valid_out),
         bins = [0, 1],
         bins_labels = ["valid_out_deasserted", "valid_out_asserted"],
     )
     # ── CP3 : in_real range ───────────────────────────────────────────────
     @CoverPoint(
-        "top.fft.in_real_range",
+        "top.ifft.in_real_range",
         xf = lambda tr: (
             "min_neg"  if _sign16(tr.in_real) == MIN_VAL  else
             "negative" if _sign16(tr.in_real) <  0        else
@@ -119,7 +119,7 @@ class fft_subscriber(uvm_subscriber):
     )
     # ── CP4 : in_imag range ───────────────────────────────────────────────
     @CoverPoint(
-        "top.fft.in_imag_range",
+        "top.ifft.in_imag_range",
         xf = lambda tr: (
             "min_neg"  if _sign16(tr.in_imag) == MIN_VAL  else
             "negative" if _sign16(tr.in_imag) <  0        else
@@ -133,7 +133,7 @@ class fft_subscriber(uvm_subscriber):
     )
     # ── CP5 : out_real range ──────────────────────────────────────────────
     @CoverPoint(
-        "top.fft.out_real_range",
+        "top.ifft.out_real_range",
         xf = lambda tr: (
             "min_neg"  if _sign16(tr.out_real) == MIN_VAL  else
             "negative" if _sign16(tr.out_real) <  0        else
@@ -147,7 +147,7 @@ class fft_subscriber(uvm_subscriber):
     )
     # ── CP6 : out_imag range ──────────────────────────────────────────────
     @CoverPoint(
-        "top.fft.out_imag_range",
+        "top.ifft.out_imag_range",
         xf = lambda tr: (
             "min_neg"  if _sign16(tr.out_imag) == MIN_VAL  else
             "negative" if _sign16(tr.out_imag) <  0        else
@@ -161,45 +161,29 @@ class fft_subscriber(uvm_subscriber):
     )
     # ── CP7 : rst_n ───────────────────────────────────────────────────────
     @CoverPoint(
-        "top.fft.rst_n",
+        "top.ifft.rst_n",
         xf   = lambda tr: int(tr.rst_n),
         bins = [0, 1],
         bins_labels = ["reset_active", "reset_inactive"],
     )
     # ── CP8 : in_real × in_imag quadrant cross ───────────────────────────
     @CoverCross(
-        "top.fft.input_quadrant",
-        items = ["top.fft.in_real_range", "top.fft.in_imag_range"],
+        "top.ifft.input_quadrant",
+        items = ["top.ifft.in_real_range", "top.ifft.in_imag_range"],
     )
-    # ── CP9 : in_real × in_imag quadrant, valid out cross ────────────────
+    # ── CP9 : in_real × in_imag quadrant, valid out cross ───────────────────────────
     @CoverCross(
-        "top.fft.input_quadrant_valid_out",
-        items = ["top.fft.valid_out", "top.fft.in_real_range", "top.fft.in_imag_range"],
+        "top.ifft.input_quadrant",
+        items = ["top.ifft.valid_out","top.ifft.in_real_range", "top.ifft.in_imag_range"],
     )
 
     def sample(self, tr):
         pass
-
+ 
     # ──────────────────────────────────────────────────────────────────────
     # run_phase : drain the FIFO and sample every item
     # ──────────────────────────────────────────────────────────────────────
-    """
     async def run_phase(self):
         while True:
             seq_item_sub = await self.sub_fifo.get()
             self.sample(seq_item_sub)
-    """
-    def report_phase(self):
-        super().report_phase()
-        
-        # 1. Export functional coverage to an XML file 
-        # (XML is standard for coverage, but you can use .txt or .yml)
-        coverage_db.export_to_xml("fft_functional_coverage.xml")
-        self.logger.info("Functional coverage exported to fft_functional_coverage.xml")
-        
-        # 2. Print a formatted coverage table directly into the transcript!
-        self.logger.info("=========================================================")
-        self.logger.info("               FFT FUNCTIONAL COVERAGE REPORT            ")
-        self.logger.info("=========================================================")
-        coverage_db.report_coverage(self.logger.info, bins=True)
-        self.logger.info("=========================================================")  
