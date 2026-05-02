@@ -138,8 +138,14 @@ module TX_TOP #(
     assign bit_rev_valid_out = bit_rev_valid;
     assign bit_rev_out_re    = bit_rev_re;
     assign bit_rev_out_im    = bit_rev_im;
+
+    
+    // ========================================================
+    // ICARUS VERILOG / GTKWAVE WAVEFORM DUMPING
+    // ========================================================
+
     initial begin
-        $dumpfile("TX_TOP.vcd");
+        $dumpfile("waveform.vcd");
         $dumpvars(0, TX_TOP);
     end
 

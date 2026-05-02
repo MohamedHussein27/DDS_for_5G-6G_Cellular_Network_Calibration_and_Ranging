@@ -20,7 +20,7 @@ from fft_seq_item import fft_item
 
 class fft_monitor(uvm_monitor):
     def build_phase(self):
-        self.dut = ConfigDB().get(self, "", "FFT_DUT")
+        self.dut = ConfigDB().get(self, "", "DUT")
         # Port used to broadcast observed traffic
         self.mon_port = uvm_analysis_port("mon_port", self)
 
@@ -76,7 +76,9 @@ class fft_monitor(uvm_monitor):
 
 
             # monitoring captured output values (uncomment for debug)
-            self.logger.info(f"Monitor captured: rst_n={rsp_seq_item.rst_n}, valid_in={rsp_seq_item.valid_in}, in_real={rsp_seq_item.in_real}, in_imag={rsp_seq_item.in_imag}, valid_out={rsp_seq_item.valid_out}, out_real={rsp_seq_item.out_real}, out_imag={rsp_seq_item.out_imag}")
+            self.logger.info(f"Monitor captured: rst_n={rsp_seq_item.rst_n}, valid_in={rsp_seq_item.valid_in},"
+                              f" in_real={rsp_seq_item.in_real}, in_imag={rsp_seq_item.in_imag}, valid_out={rsp_seq_item.valid_out},"
+                               f" out_real={rsp_seq_item.out_real}, out_imag={rsp_seq_item.out_imag}")
             
             # Broadcast the captured item to the agent
             self.mon_port.write(rsp_seq_item)

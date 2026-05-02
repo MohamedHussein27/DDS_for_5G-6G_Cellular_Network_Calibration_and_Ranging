@@ -40,23 +40,15 @@ class base_test(uvm_test):
         # dut handle
         self.dut = cocotb.top
 
-<<<<<<< HEAD
+        # put dut handle to be seen by all components
+        #ConfigDB().set(None, "env.agt.driver_top", "DUT", self.dut)
         ConfigDB().set(self, "env.top_agt.*", "DUT", self.dut)
-        
-        # The Passive Agents get their specific sub-modules natively
+    # Set the specific DDS instance handle for the dds_monitor
+    # REPLACE 'dds_inst' with the actual instance name used in your TX_TOP verilog/vhdl
         ConfigDB().set(self, "env.dds_agt.*", "DUT", self.dut.u_dds)
         ConfigDB().set(self, "env.fft_agt.*", "DUT", self.dut.u_fft_tx)
         ConfigDB().set(self, "env.ifft_agt.*", "DUT", self.dut.u_ifft_tx)
-=======
-        # put dut handle to be seen by all components
-        #ConfigDB().set(None, "env.agt.driver_top", "DUT", self.dut)
-        ConfigDB().set(self, "*", "DUT", self.dut)
-    # Set the specific DDS instance handle for the dds_monitor
-    # REPLACE 'dds_inst' with the actual instance name used in your TX_TOP verilog/vhdl
-        ConfigDB().set(self, "*", "DDS_DUT", self.dut.u_dds)
-        ConfigDB().set(self, "*", "FFT_DUT", self.dut.u_fft_tx)
-        ConfigDB().set(self, "*", "IFFT_DUT", self.dut.u_ifft_tx)
->>>>>>> b518115a286b2ddf9354853076fcf6b883b6929e
+
         
 
         #self.reset_seq = reset_sequence.create("reset_seq")

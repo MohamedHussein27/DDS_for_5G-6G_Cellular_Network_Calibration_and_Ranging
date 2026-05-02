@@ -20,7 +20,7 @@ from pyuvm import *
 import logging
 import numpy as np
 
-from ifft_item import *
+from ifft_seq_item import *
 
 # Assuming your python golden model is in a file named ifft_golden.py
 from ifft_fixed import *

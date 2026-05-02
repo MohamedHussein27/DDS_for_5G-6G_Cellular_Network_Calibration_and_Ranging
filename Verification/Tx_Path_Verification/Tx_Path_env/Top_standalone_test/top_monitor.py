@@ -43,8 +43,5 @@ class top_monitor(uvm_monitor):
             
             # monitoring the top
             self.logger.info(f"Monitoring top: rst_n={seq_item.rst_n}, dds_enable={seq_item.dds_enable}, FTW_start={seq_item.TW_start}, cycles={seq_item.cycles}, FTW_step={seq_item.FTW_step},  tx_valid={seq_item.tx_valid}, tx_out_real={seq_item.tx_out_real}, tx_out_imag={seq_item.tx_out_imag}")
-            
-            
-            
             self.mon_ap.write(seq_item)
             

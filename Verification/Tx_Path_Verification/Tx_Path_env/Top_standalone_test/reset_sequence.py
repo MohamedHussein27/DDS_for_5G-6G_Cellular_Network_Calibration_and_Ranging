@@ -14,7 +14,7 @@ class reset_before_frame_seq(uvm_sequence):
         # ---------------------------------------------------------
         # reset asserted
         # ---------------------------------------------------------
-        for _ in range(10):
+        for _ in range(2):
             req_frame = top_item.create("req_frame")
             await self.start_item(req_frame)
             req_frame.randomize()

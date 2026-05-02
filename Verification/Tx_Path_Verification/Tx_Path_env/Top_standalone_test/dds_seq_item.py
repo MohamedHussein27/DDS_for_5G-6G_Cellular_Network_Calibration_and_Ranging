@@ -6,7 +6,7 @@ class dds_seq_item(uvm_sequence_item):
         super().__init__(name)
         # Hardware Inputs
         self.FTW_start = 0
-        self.cycles = 40
+        self.cycles = 4096
         self.FTW_step = 0
         self.rst_n = 1
         self.enable = 0

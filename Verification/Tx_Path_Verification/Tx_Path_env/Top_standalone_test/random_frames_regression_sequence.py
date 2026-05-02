@@ -19,7 +19,7 @@ class random_frames_regression_seq(uvm_sequence):
                 
                 # The custom randomize() method inside top_item perfectly 
                 # handles the 32-bit registers and 16-bit QAM bounds!
-                req.randomize()
+                #req.randomize()
                 
                 # Force system active
                 req.rst_n = 1

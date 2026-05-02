@@ -16,7 +16,7 @@
 import cocotb
 from cocotb.triggers import *
 from pyuvm import *
-from ifft_item import ifft_item
+from ifft_seq_item import ifft_item
 from top_seq_item import top_item
 
 def safe_int(val, default=0):
@@ -29,13 +29,9 @@ def safe_signed(val, default=0):
 
 class ifft_monitor(uvm_monitor):
     def build_phase(self):
-<<<<<<< HEAD
-        super().build_phase() # Added
-        self.dut = ConfigDB().get(self, "", "DUT") # Reverted to "DUT"
-=======
-        self.dut = ConfigDB().get(self, "", "IFFT_DUT")
-        # Port used to broadcast observed traffic
->>>>>>> b518115a286b2ddf9354853076fcf6b883b6929e
+
+
+        self.dut = ConfigDB().get(self, "", "DUT")
         self.mon_port = uvm_analysis_port("mon_port", self)
 
     async def run_phase(self):
@@ -57,6 +53,8 @@ class ifft_monitor(uvm_monitor):
             rsp_seq_item.data_real_in  = safe_signed(self.dut.in_real.value)
             rsp_seq_item.data_imag_in  = safe_signed(self.dut.in_imag.value)
             
-            self.logger.info(f"Monitor captured: rst_n={rsp_seq_item.rst_n}, valid_in={rsp_seq_item.valid_in}, in_real={rsp_seq_item.data_real_in}, in_imag={rsp_seq_item.data_imag_in}, valid_out={rsp_seq_item.valid_out}, out_real={rsp_seq_item.data_real_out}, out_imag={rsp_seq_item.data_imag_out}")
+            self.logger.info(f"Monitor captured: rst_n={rsp_seq_item.rst_n}, valid_in={rsp_seq_item.valid_in},"
+                              f" in_real={rsp_seq_item.data_real_in}, in_imag={rsp_seq_item.data_imag_in}, valid_out={rsp_seq_item.valid_out},"
+                               f" out_real={rsp_seq_item.data_real_out}, out_imag={rsp_seq_item.data_imag_out}")
             self.mon_port.write(rsp_seq_item)
             

@@ -37,6 +37,9 @@ from collections import deque
 from pyuvm import *
 
 from top_seq_item import *          # your monitor transaction class
+from dds_seq_item import *          # for the dds monitor's transaction class
+from fft_seq_item import *          # for the fft monitor's transaction class
+from ifft_seq_item import *         # for the ifft monitor's transaction class
 
 # ─────────────────────────────────────────────────────────────────────────────
 # RTL / golden-model parameters  (mirror Tx_path_fixed.py exactly)
@@ -124,14 +127,50 @@ def _quantize_q8_8(x: np.ndarray) -> np.ndarray:
 
 class _DdsGolden:
     """
-    Stage 1: DDS amplitude is a signed 8-bit sine sample.
-    We perform a range check only (no LUT rebuild here).
+    Stage 1: DDS Golden Model.
+    100% Bit-True model of the phase accumulator and quarter-wave ROM.
     """
-    @staticmethod
-    def check(raw_amplitude: int) -> bool:
-        """Return True if the 8-bit signed amplitude is in [-128, 127]."""
-        amp = _sign8(raw_amplitude)
-        return -128 <= amp <= 127
+    def __init__(self, rom_data_file=None, accumulator_bits=32, phase_bits=16):
+        # Load ROM data if a file is provided, otherwise generate a perfect 8-bit sine ROM
+        if rom_data_file:
+            self.rom_data = np.loadtxt(rom_data_file, dtype=np.int32)
+        else:
+            # Fallback: Generate a perfect mathematical quarter-wave ROM (8-bit amplitude -> 127)
+            # Size = 16384 for 14-bit addressing
+            n = np.arange(16384)
+            self.rom_data = np.round(127 * np.sin(0.5 * np.pi * n / 16384)).astype(np.int32)
+
+        self.acc_mask = (1 << accumulator_bits) - 1
+        self.phase_shift = accumulator_bits - phase_bits
+        self.lut_size = len(self.rom_data)
+        
+        self.expected_wave = None
+
+    def generate_chirp(self, ftw_start, ftw_step, cycles):
+        n = np.arange(1, cycles + 1, dtype=np.uint64)
+        
+        accumulation_term = (n * (n - np.uint64(1))) // np.uint64(2)
+        phase_acc = (np.uint64(ftw_start) * n + np.uint64(ftw_step) * accumulation_term)
+        phase_word = (phase_acc & self.acc_mask).astype(np.uint32)
+        truncated_phase = phase_word >> self.phase_shift
+        
+        quadrant = truncated_phase >> 14
+        addr = truncated_phase & 0x3FFF 
+        
+        mapped_addr = np.where((quadrant == 1) | (quadrant == 3), 
+                               (self.lut_size - 1) - addr, 
+                               addr)
+        
+        neg_flag = np.where((quadrant == 2) | (quadrant == 3), 1, 0)
+        lut_amplitude = self.rom_data[mapped_addr.astype(np.int32)]
+        
+        self.expected_wave = np.where(neg_flag == 1, -lut_amplitude, lut_amplitude)
+
+    def get_expected(self, sample_index):
+        """Return the expected amplitude for a specific 1-based cycle index."""
+        if self.expected_wave is None or sample_index > len(self.expected_wave) or sample_index < 1:
+            return None
+        return self.expected_wave[sample_index - 1]
 
 
 class _FftGolden:
@@ -320,9 +359,22 @@ class top_scoreboard(uvm_scoreboard):
 
     # ── build_phase ───────────────────────────────────────────────────────────
     def build_phase(self):
-        self.sb_export = uvm_analysis_export("sb_export", self)
-        self.sb_fifo   = uvm_tlm_analysis_fifo("sb_fifo", self)
-        self.sb_export = self.sb_fifo.analysis_export
+        # 1. Create separate exports and FIFOs for EACH monitor
+        self.top_export = uvm_analysis_export("top_export", self)
+        self.top_fifo   = uvm_tlm_analysis_fifo("top_fifo", self)
+        self.top_export = self.top_fifo.analysis_export
+
+        self.dds_export = uvm_analysis_export("dds_export", self)
+        self.dds_fifo   = uvm_tlm_analysis_fifo("dds_fifo", self)
+        self.dds_export = self.dds_fifo.analysis_export
+
+        self.fft_export = uvm_analysis_export("fft_export", self)
+        self.fft_fifo   = uvm_tlm_analysis_fifo("fft_fifo", self)
+        self.fft_export = self.fft_fifo.analysis_export
+
+        self.ifft_export = uvm_analysis_export("ifft_export", self)
+        self.ifft_fifo   = uvm_tlm_analysis_fifo("ifft_fifo", self)
+        self.ifft_export = self.ifft_fifo.analysis_export
 
         # ── Counters (one correct/error pair per stage) ───────────────────────
         self.correct = {"DDS": 0, "FFT_re": 0, "FFT_im": 0,
@@ -335,12 +387,6 @@ class top_scoreboard(uvm_scoreboard):
                         "TX_re": 0, "TX_im": 0}
         self.reset_cycles = 0
 
-        # ── Golden model instances ────────────────────────────────────────────
-        self._dds_gold    = _DdsGolden()
-        self._fft_gold    = _FftGolden()
-        self._bitrev_gold = _BitRevGolden()
-        self._mux_gold    = _MuxGolden()
-        self._tx_gold     = _TxGolden()
 
         # Internal state
         self._fft_golden_frame = []   # last computed FFT golden pairs
@@ -349,198 +395,266 @@ class top_scoreboard(uvm_scoreboard):
         self._mux_out_idx      = 0    # position within current MUX frame
         self._bitrev_frame     = []   # bit-rev output collected for MUX radar ref
 
-        # SQNR accumulators (TX output stage)
-        self._sqnr_sig_pow   = 0.0
-        self._sqnr_noise_pow = 0.0
+        # ── NEW: Initialize ALL loop counters here! ──
+        self._i = 0
+        self._j = 0
+        self._k = 0
+        self._l = 0
+
+        # ── NEW: Safely initialize all mathematical models before the run_phase starts ──
+        self._flush_golden_models()
+
 
         # Sample counter (for debug prints – mirrors the IFFT scoreboard style)
         self._i = 0
 
+    def _flush_golden_models(self):
+        """Called safely when any monitor sees a reset."""
+        self._dds_gold    = _DdsGolden()
+        self._fft_gold    = _FftGolden()
+        self._mux_gold    = _MuxGolden()
+        self._tx_gold     = _TxGolden()
+
+        self._fft_golden_frame = []
+        self._fft_out_idx      = 0
+        self._mux_out_idx      = 0
+
+        # --- RESTORED VARIABLES ---
+        self._bitrev_frame     = []
+        self._bitrev_out_idx   = 0
+        self._i                = 0  # Restored debug counter (top)
+        self._j                = 0  # Restored debug counter (DDS)
+        self._k                = 0  # Restored debug counter (FFT)
+        self._l                = 0  # Restored debug counter (IFFT)
+
+        self._sqnr_sig_pow   = 0.0
+        self._sqnr_noise_pow = 0.0
+        self.logger.info("Reset detected – all golden models flushed.")
+
     # ── run_phase ─────────────────────────────────────────────────────────────
     async def run_phase(self):
+        # Spawn concurrent independent background tasks to drain each monitor's FIFO
+        cocotb.start_soon(self.process_top())
+        cocotb.start_soon(self.process_dds())
+        cocotb.start_soon(self.process_fft())
+        cocotb.start_soon(self.process_ifft())
+
+    # ── Independent Processor Tasks ───────────────────────────────────────────
+    async def process_top(self):
         while True:
-            item = await self.sb_fifo.get()
-            self._process(item)
-
-    # ── _process ──────────────────────────────────────────────────────────────
-    def _process(self, item: top_item):
-
-        # ── Reset: flush all golden model state ──────────────────────────────
-        if not item.rst_n:
-            self.reset_cycles += 1
-            self._fft_gold        = _FftGolden()
-            self._bitrev_gold     = _BitRevGolden()
-            self._mux_gold        = _MuxGolden()
-            self._tx_gold         = _TxGolden()
-            self._fft_golden_frame.clear()
-            self._fft_out_idx     = 0
-            self._bitrev_out_idx  = 0
-            self._mux_out_idx     = 0
-            self._bitrev_frame.clear()
-            self._i               = 0
-            self.logger.info("Reset detected – all golden models flushed.")
-            return
-
-        # ── Debug print (mirrors the IFFT scoreboard style) ──────────────────
-        """if self._i == 0:
-            self.logger.info(
-                f"[i=0] dds_valid={item.dds_valid} fft_valid={item.fft_valid} "
-                f"mux_valid={item.mux_valid} tx_valid={item.tx_valid}"
-            )
-        if 4090 < self._i < 4100:
-            self.logger.info(
-                f"[i={self._i}] TX out: re={_sign16(item.tx_out_re)} "
-                f"im={_sign16(item.tx_out_im)} tx_valid={item.tx_valid}"
-            )"""
-        self._i += 1
-
-        # ═══════════════════════════════════════════════════════════════════
-        # STAGE 1 – DDS amplitude range check
-        # ═══════════════════════════════════════════════════════════════════
-        if item.dds_valid:
-            ok = self._dds_gold.check(item.dds_amplitude)
-            if ok:
-                self.correct["DDS"] += 1
-            else:
-                self.errors["DDS"] += 1
-                self.logger.error(
-                    f"MISMATCH DDS amplitude "
-                    f"(error #{self.errors['DDS']}) | "
-                    f"DUT={_sign8(item.dds_amplitude)} out of signed 8-bit range"
-                )
-
-            # Also feed the FFT golden model with the new DDS sample
-            self._fft_gold.push_dds(item.dds_amplitude)
-
-            # When the FFT model has a full frame, compute the golden spectrum
-            if self._fft_gold.ready():
-                self._fft_golden_frame = self._fft_gold.compute()
-                self._fft_out_idx      = 0
+            item = await self.top_fifo.get()
+       
+            if not item.rst_n:
+                self.reset_cycles += 1
+                self._flush_golden_models()
+                continue
+                
+            # ── Restored Debug Prints ───────────────────────────────────
+            if self._i == 0:
+                #printig all the signals from monitors 
                 self.logger.info(
-                    "FFT golden model: full chirp frame received – "
-                    "golden spectrum computed."
+                    f"Top Monitor Signals at cycle {self._i}: "
+                    f"[i=0] top_rst={item.rst_n} dds_enable={item.dds_enable} FTW_start={item.FTW_start} FTW_step = {item.FTW_step} cycles = {item.cycles}"
+                    f"top_tx_valid={item.tx_valid} top_tx_out_re={_sign16(item.tx_out_real)} top_tx_out_im={_sign16(item.tx_out_imag)}"
                 )
-
-        # ═══════════════════════════════════════════════════════════════════
-        # STAGE 2 – FFT output vs. golden spectrum
-        # ═══════════════════════════════════════════════════════════════════
-        if item.fft_valid:
-            if self._fft_out_idx < len(self._fft_golden_frame):
-                ref_re, ref_im = self._fft_golden_frame[self._fft_out_idx]
-                dut_re = _sign16(item.fft_re)
-                dut_im = _sign16(item.fft_im)
-
-                self._compare("FFT_re", dut_re, ref_re, TOLERANCE_FFT)
-                self._compare("FFT_im", dut_im, ref_im, TOLERANCE_FFT)
-                self._fft_out_idx += 1
-
-                # When we have seen a full FFT output frame, load it into
-                # the bit-reversal golden model as the reference frame.
-                if self._fft_out_idx == N:
-                    self._bitrev_gold.load_fft_frame(self._fft_golden_frame)
-                    self._bitrev_out_idx = 0
-            else:
-                self.logger.warning(
-                    f"FFT valid_out but no golden frame ready "
-                    f"(fft_out_idx={self._fft_out_idx}) – skipping comparison."
-                )
-
-        # ═══════════════════════════════════════════════════════════════════
-        # STAGE 3 – Bit-reversal output
-        # ═══════════════════════════════════════════════════════════════════
-        if item.bit_rev_valid:
-            expected = self._bitrev_gold.get_expected(self._bitrev_out_idx)
-            dut_re   = _sign16(item.bit_rev_re)
-            dut_im   = _sign16(item.bit_rev_im)
-
-            if expected is not None:
-                ref_re, ref_im = expected
-                self._compare("BITREV_re", dut_re, ref_re, TOLERANCE_BITREV)
-                self._compare("BITREV_im", dut_im, ref_im, TOLERANCE_BITREV)
-            else:
-                self.logger.warning(
-                    f"bit_rev_valid asserted but no reference ready "
-                    f"(output_idx={self._bitrev_out_idx}) – skipping."
-                )
-
-            # Collect the bit-reversal frame so the MUX radar reference
-            # can be built from the >>>7-scaled version of it.
-            self._bitrev_frame.append((dut_re, dut_im))
-            self._bitrev_out_idx += 1
-
-            # After a full bit-reversal frame, build the MUX radar reference:
-            # the RTL applies  >>>7  before writing into the radar RAM,
-            # so our reference is  bit_rev_sample >> 7  (arithmetic shift).
-            if self._bitrev_out_idx == N:
-                # First 1667 samples of the bit-rev output go into the radar RAM
-                radar_pairs = [
-                    (re >> 7, im >> 7)
-                    for (re, im) in self._bitrev_frame[:1667]
-                ]
-                self._mux_gold.load_radar(radar_pairs)
-                self._bitrev_frame.clear()
-                self._bitrev_out_idx = 0
+       
+            """
+            if 4090 < self._i < 4100:
                 self.logger.info(
-                    "Bit-reversal frame complete – radar reference loaded into MUX golden model."
-                )
+                    f"[i={self._i}] TX out: re={_sign16(item.tx_out_re)} "
+                    f"im={_sign16(item.tx_out_im)} tx_valid={item.tx_valid}"
+                )"""
+            self._i += 1
 
-        # ═══════════════════════════════════════════════════════════════════
-        # STAGE 4 – MUX output (frame structure + data)
-        # ═══════════════════════════════════════════════════════════════════
-        if item.mux_valid:
-            idx      = self._mux_out_idx
-            expected = self._mux_gold.get_expected(idx)
-            dut_re   = _sign16(item.mux_re)
-            dut_im   = _sign16(item.mux_im)
+            # ── STAGE 3 - Restored Bit Reversal Check ───────────────────
+            # (Assuming top_item has bit_rev_valid, bit_rev_re, bit_rev_im)
+            if getattr(item, 'bit_rev_valid', 0):
+                expected = self._bitrev_gold.get_expected(self._bitrev_out_idx)
+                dut_re   = _sign16(item.bit_rev_re)
+                dut_im   = _sign16(item.bit_rev_im)
 
-            if expected is not None:
-                ref_re, ref_im, seg = expected
-                self._compare("MUX_re", dut_re, ref_re, TOLERANCE_MUX,
-                              extra=f"[{seg} bin {idx}]")
-                self._compare("MUX_im", dut_im, ref_im, TOLERANCE_MUX,
-                              extra=f"[{seg} bin {idx}]")
-            else:
-                self.logger.warning(
-                    f"mux_valid asserted at sample_idx={idx} but no reference "
-                    f"ready – skipping comparison."
-                )
-
-            # Feed MUX output into the TX IFFT golden model
-            self._tx_gold.push_mux(item.mux_re, item.mux_im)
-
-            self._mux_out_idx += 1
-            if self._mux_out_idx == N:
-                self._mux_out_idx = 0   # reset for next frame
-                if self._tx_gold.ready():
-                    self._tx_gold.compute()
-                    self.logger.info(
-                        "TX golden model: full MUX frame received – "
-                        "golden TX output computed."
+                if expected is not None:
+                    ref_re, ref_im = expected
+                    self._compare("BITREV_re", dut_re, ref_re, TOLERANCE_BITREV)
+                    self._compare("BITREV_im", dut_im, ref_im, TOLERANCE_BITREV)
+                else:
+                    self.logger.warning(
+                        f"bit_rev_valid asserted at idx {self._bitrev_out_idx} "
+                        f"but no reference ready."
                     )
 
-        # ═══════════════════════════════════════════════════════════════════
-        # STAGE 5 – TX final output (tx_valid)
-        # ═══════════════════════════════════════════════════════════════════
-        if item.tx_valid:
-            golden_pair = self._tx_gold.pop()
+                self._bitrev_frame.append((dut_re, dut_im))
+                self._bitrev_out_idx += 1
 
-            if golden_pair is None:
-                self.logger.warning(
-                    "DUT asserted tx_valid but golden TX model has no output ready. "
-                    "Possible frame-alignment issue – skipping comparison."
-                )
-                return
+                if self._bitrev_out_idx == N:
+                    # First 1667 samples go to radar, shifted by 7 bits
+                    radar_pairs = [
+                        (re >> 7, im >> 7) 
+                        for (re, im) in self._bitrev_frame[:1667]
+                    ]
+                    self._mux_gold.load_radar(radar_pairs)
+                    self._bitrev_frame.clear()
+                    self._bitrev_out_idx = 0
+                    self.logger.info("Bit-reversal frame complete -> Radar reference loaded into MUX.")
 
-            ref_re, ref_im = golden_pair
-            dut_re = _sign16(item.tx_out_re)
-            dut_im = _sign16(item.tx_out_im)
+    async def process_dds(self):
+        while True:
+            item = await self.dds_fifo.get()
+                      
+            if not item.rst_n: continue
+            # ── Restored Debug Prints ───────────────────────────────────
+            if self._j < 2:
+                #printig all the signals from monitors 
+                self.logger.info(
+                    f"DDS Monitor at cycle {self._j}: "
+                    f"[i=0] dds_rst={item.rst_n} dds_enable={item.enable} FTW_start={item.FTW_start} FTW_step = {item.FTW_step} cycles = {item.cycles}"
+                    f"valid_out={item.valid_out} dds_final_amplitude={_sign8(item.final_amplitude)} "
+                )  
+             
+            """
+            if 4090 < self._j < 4100:
+                self.logger.info(
+                    f"[i={self._j}] TX out: re={_sign16(item.tx_out_re)} "
+                    f"im={_sign16(item.tx_out_im)} tx_valid={item.tx_valid}"
+                )"""
+            self._j += 1
+            if item.valid_out:
+                # 1. If this is the start of a new chirp, generate the golden array
+                if item.sample_index == 1:
+                    self._dds_gold.generate_chirp(item.FTW_start, item.FTW_step, item.cycles)
+                    self.logger.info(f"DDS Golden Model: Generated exact chirp reference (cycles={item.cycles})")
+                
+                # 2. Compare the current cycle against the golden array
+                expected = self._dds_gold.get_expected(item.sample_index)
+                dut_amp  = _sign8(item.final_amplitude)
+                
+                if expected is not None:
 
-            self._compare("TX_re", dut_re, ref_re, TOLERANCE_TX)
-            self._compare("TX_im", dut_im, ref_im, TOLERANCE_TX)
+                    # comparing in waveform ===========
+                    #cocotb.top.dbg_golden_dds.value = expected
+                    #==================================
 
-            # Accumulate SQNR statistics
-            self._sqnr_sig_pow   += ref_re**2 + ref_im**2
-            self._sqnr_noise_pow += (dut_re - ref_re)**2 + (dut_im - ref_im)**2
+                    # We can use a tolerance of 0 because it's a bit-true model!
+                    self._compare("DDS", dut_amp, expected, tolerance=0, 
+                                  extra=f"[Cycle {item.sample_index}]")
+                else:
+                    self.logger.warning(f"DDS sample index {item.sample_index} exceeded golden chirp length.")
+                
+                # 3. Push the DUT amplitude into the FFT golden model to continue the pipeline
+                self._fft_gold.push_dds(item.final_amplitude)
+                
+                if self._fft_gold.ready():
+                    self._fft_golden_frame = self._fft_gold.compute()
+                    self._fft_out_idx = 0
+                    self.logger.info("FFT golden model: full chirp frame received.")
+
+
+                    
+            
+    async def process_fft(self):
+        while True:
+            item = await self.fft_fifo.get()
+            if not item.rst_n: continue
+
+            if (self._k < 2):
+                self.logger.info(
+                        f"FFT Monitor at cycle {self._k}:  "
+                        f"[i=0] fft_rst={item.rst_n} valid_in={item.valid_in} fft_in_re={_sign16(item.in_real)} fft_in_im={_sign16(item.in_imag)} "
+                        f"fft_valid={item.valid_out} fft_out_re={_sign16(item.out_real)} fft_out_im={_sign16(item.out_imag)}"
+                    )
+
+            self._k += 1
+            if item.valid_out:
+                # STAGE 2 Check
+                if self._fft_out_idx < len(self._fft_golden_frame):
+                    ref_re, ref_im = self._fft_golden_frame[self._fft_out_idx]
+                    dut_re = _sign16(item.out_real)
+                    dut_im = _sign16(item.out_imag)
+
+                    # comparing in waveform ===========
+                    #cocotb.top.dbg_golden_fft_re.value = ref_re
+                    #cocotb.top.dbg_golden_fft_im.value = ref_im
+                    # ==================================
+
+                    self._compare("FFT_re", dut_re, ref_re, TOLERANCE_FFT)
+                    self._compare("FFT_im", dut_im, ref_im, TOLERANCE_FFT)
+                    
+                    self._fft_out_idx += 1
+
+                    # When FFT is done, mathematically calculate the Bit-Reversal
+                    # and load it straight into the MUX golden model for Stage 4
+                    if self._fft_out_idx == N:
+                        # Load the raw FFT frame into the bit-reversal golden model
+                        self._bitrev_gold.load_fft_frame(self._fft_golden_frame)
+                        self._bitrev_out_idx = 0
+                        self.logger.info("FFT output complete -> Loaded into Bit-Rev golden model.")
+                        bit_rev_frame = []
+                        for i in range(N):
+                            src_idx = _bit_reverse(i, ADDR_W)
+                            bit_rev_frame.append(self._fft_golden_frame[src_idx])
+                        
+                        # First 1667 samples go to radar, shifted by 7 bits
+                        radar_pairs = [(re >> 7, im >> 7) for (re, im) in bit_rev_frame[:1667]]
+                        self._mux_gold.load_radar(radar_pairs)
+                        self.logger.info("FFT output complete -> Radar reference loaded into MUX.")
+
+    async def process_ifft(self):
+        while True:
+            item = await self.ifft_fifo.get()
+            if not item.rst_n: continue
+
+            if self._l < 2:
+                self.logger.info(
+                        f"IFFT Monitor at cycle {self._l}:  "
+                        f"[i=0] ifft_rst={item.rst_n} valid_in={item.valid_in} ifft_in_re={_sign16(item.in_real)} ifft_in_im={_sign16(item.in_imag)} "
+                        f"ifft_valid={item.valid_out} ifft_out_re={_sign16(item.out_real)} ifft_out_im={_sign16(item.out_imag)}"
+                    )
+            self._l += 1
+            # STAGE 4 - MUX Output (Entering the IFFT)
+            if item.valid_in:
+                idx      = self._mux_out_idx
+                expected = self._mux_gold.get_expected(idx)
+                dut_re   = _sign16(item.data_real_in)
+                dut_im   = _sign16(item.data_imag_in)
+
+                if expected is not None:
+                    ref_re, ref_im, seg = expected
+
+                    # comparing in waveform ===========
+                    #cocotb.top.dbg_golden_mux_re.value = ref_re
+                    #cocotb.top.dbg_golden_mux_im.value = ref_im
+                    # ==================================
+                    self._compare("MUX_re", dut_re, ref_re, TOLERANCE_MUX, extra=f"[{seg} bin {idx}]")
+                    self._compare("MUX_im", dut_im, ref_im, TOLERANCE_MUX, extra=f"[{seg} bin {idx}]")
+                
+                # Push into TX model
+                self._tx_gold.push_mux(item.data_real_in, item.data_imag_in)
+                self._mux_out_idx += 1
+                
+                if self._mux_out_idx == N:
+                    self._mux_out_idx = 0
+                    if self._tx_gold.ready():
+                        self._tx_gold.compute()
+                        self.logger.info("TX golden model: MUX frame received, TX output computed.")
+
+            # STAGE 5 - TX Output (Leaving the IFFT)
+            if item.valid_out:
+                golden_pair = self._tx_gold.pop()
+                if golden_pair:
+                    ref_re, ref_im = golden_pair
+                    dut_re = _sign16(item.data_real_out)
+                    dut_im = _sign16(item.data_imag_out)
+
+                    # comparing in waveform ===========
+                    #cocotb.top.dbg_golden_tx_re.value = ref_re
+                    #cocotb.top.dbg_golden_tx_im.value = ref_im
+                    # ==================================
+
+                    self._compare("TX_re", dut_re, ref_re, TOLERANCE_TX)
+                    self._compare("TX_im", dut_im, ref_im, TOLERANCE_TX)
+
+                    self._sqnr_sig_pow   += ref_re**2 + ref_im**2
+                    self._sqnr_noise_pow += (dut_re - ref_re)**2 + (dut_im - ref_im)**2
 
     # ── _compare ──────────────────────────────────────────────────────────────
     def _compare(self, key: str, dut_val: int, ref_val: int,

@@ -15,18 +15,14 @@
 import cocotb
 from cocotb.triggers import *
 from pyuvm import *
-from ifft_item import *
+from ifft_seq_item import *
 
 class ifft_driver(uvm_driver):
     def _init_(self, name, parent):
         super()._init_(name, parent)
 
     def build_phase(self):
-<<<<<<< HEAD
         self.dut_drv = ConfigDB().get(self, "", "DUT")
-=======
-        self.dut_drv = ConfigDB().get(self, "", "IFFT_DUT")
->>>>>>> b518115a286b2ddf9354853076fcf6b883b6929e
 
     async def run_phase(self):
 
