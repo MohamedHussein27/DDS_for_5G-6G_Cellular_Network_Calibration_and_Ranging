@@ -35,7 +35,6 @@
 import numpy as np
 from collections import deque
 from pyuvm import *
-
 from fft_golden_model import *
 from top_seq_item import *          # your monitor transaction class
 from dds_seq_item import *          # for the dds monitor's transaction class
@@ -245,31 +244,38 @@ class _FftGolden:
         Compute the chirp FFT + reinterpret-cast.
         Returns a list of N (re_raw_int, im_raw_int) Q8.8 pairs.
         """
+        x_in = np.array(self._dds_samples) + 1j * np.zeros_like(self._dds_samples)
         # Sign-extended 8-bit → Q1.0 float → sign-extended to 16-bit Q8.8
         # RTL does:  fft_in_re = { {8{dds_amplitude[7]}}, dds_amplitude }
         # i.e. sign-extend 8-bit → 16-bit.  FL stays at 0 (integer signal).
-        fff_float = radix2_dif_fft_fixed(self._dds_samples, WL=WL, is_ifft=False)
-
+        #dds_float = np.array(self._dds_samples, dtype=float)
+        print(f"Computing FFT Golden Model for {len(self._dds_samples)} DDS samples..."
+              f" (First 5 samples: {x_in[:5]})"
+              f" (Last 5 samples: {x_in[-5:]})")
         # FFT (numpy, equivalent to hardware radix-2 DIF)
-        spectrum = (fff_float)
+        spectrum_q = radix2_dif_fft_fixed(x_in, WL=WL, is_ifft=False)
+        print (f"FFT computed. First 5 bins (Q8.8): {spectrum_q[:5]}")
 
         # Scale by 1/N to match the hardware's non-normalized convention
         # then re-express at FL_DST and round back to FL_FFT.
         # In practice the hardware just shifts bits; we replicate the
         # reinterpretcast numerically: divide by 2^(FL_DST - FL_SRC).
-        cast_scale = 2 ** (self.FL_DST - self.FL_SRC)   # 2^6 = 64
-        spectrum_cast = spectrum / cast_scale
+       # cast_scale = 2 ** (self.FL_DST - self.FL_SRC)   # 2^6 = 64
+        #spectrum_cast = spectrum / cast_scale
 
         # Quantize to Q8.8
-        spectrum_q = _quantize_q8_8(spectrum_cast)
+       # spectrum_q = _quantize_q8_8(spectrum_cast)
 
         self._dds_samples.clear()
 
-        result = []
+        self.fft_result = []
         for v in spectrum_q:
-            result.append((_float_to_raw(v.real, FL_FFT),
-                           _float_to_raw(v.imag, FL_FFT)))
-        return result
+            real_int = v.real
+            imag_int = v.imag
+            self.fft_result.append((real_int,imag_int))
+        print(f"FFT Golden Model output (Q8.8 raw ints): {self.fft_result[:5]} (First 5 bins)") 
+        self.fft_flag =1  
+        return self.fft_result
 
 
 class _BitRevGolden:
@@ -448,7 +454,7 @@ class top_scoreboard(uvm_scoreboard):
 
         # Sample counter (for debug prints – mirrors the IFFT scoreboard style)
         self._i = 0
-
+        #self.dds_golden_model = _DdsGolden(pipeline_latency=1)
     def _flush_golden_models(self):
         """Called safely when any monitor sees a reset."""
         
@@ -456,11 +462,11 @@ class top_scoreboard(uvm_scoreboard):
         self._fft_gold    = _FftGolden()
         self._mux_gold    = _MuxGolden()
         self._tx_gold     = _TxGolden()
-
+        self.fft_flag          = 0
         self._fft_golden_frame = []
         self._fft_out_idx      = 0
         self._mux_out_idx      = 0
-
+        self.dut_q             =[]
         # --- RESTORED VARIABLES ---
         self._bitrev_frame     = []
         self._bitrev_out_idx   = 0
@@ -580,7 +586,7 @@ class top_scoreboard(uvm_scoreboard):
                     self._compare("DDS", dut_amp, expected, tolerance=0, 
                                   extra=f"[Cycle {item.sample_index}]")
                 else:
-                    self.logger.warning(f"DDS sample index {item.sample_index} exceeded golden chirp length.")
+                    self.logger.warning(f"DDS sample index {self._j} exceeded golden chirp length.")
                 
                 # 3. Push the DUT amplitude into the FFT golden model to continue the pipeline
                 self._fft_gold.push_dds(item.final_amplitude)
@@ -594,6 +600,7 @@ class top_scoreboard(uvm_scoreboard):
                     
             
     async def process_fft(self):
+          
         while True:
             item = await self.fft_fifo.get()
             if not item.rst_n: continue
@@ -610,22 +617,26 @@ class top_scoreboard(uvm_scoreboard):
                 # STAGE 2 Check
                 if self._fft_out_idx < len(self._fft_golden_frame):
                     ref_re, ref_im = self._fft_golden_frame[self._fft_out_idx]
-                    dut_re = _sign16(item.out_real)
-                    dut_im = _sign16(item.out_imag)
+                    
 
                     # comparing in waveform ===========
                     #cocotb.top.dbg_golden_fft_re.value = ref_re
                     #cocotb.top.dbg_golden_fft_im.value = ref_im
                     # ==================================
-
-                    self._compare("FFT_re", dut_re, ref_re, TOLERANCE_FFT)
-                    self._compare("FFT_im", dut_im, ref_im, TOLERANCE_FFT)
+                    dut_re = _sign16(item.out_real)
+                    dut_im = _sign16(item.out_imag)
+                    self.dut_q.append((dut_re, dut_im))
+                    if len(self.dut_q) > N and self.fft_flag == 1:
+                       dut_re, dut_im = self.dut_q.pop(0)
+                       self._compare("FFT_re", dut_re, ref_re, TOLERANCE_FFT)
+                       self._compare("FFT_im", dut_im, ref_im, TOLERANCE_FFT)
                     
-                    self._fft_out_idx += 1
+                       self._fft_out_idx += 1
 
                     # When FFT is done, mathematically calculate the Bit-Reversal
                     # and load it straight into the MUX golden model for Stage 4
                     if self._fft_out_idx == N:
+                        self.fft_flag = 0
                         # Load the raw FFT frame into the bit-reversal golden model
                         self._bitrev_gold.load_fft_frame(self._fft_golden_frame)
                         self._bitrev_out_idx = 0
