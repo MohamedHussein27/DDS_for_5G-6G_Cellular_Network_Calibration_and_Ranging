@@ -178,8 +178,6 @@ module bit_reversal_pingpong #(
     // =========================
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            out_real <= 0;
-            out_imag <= 0;
             wr_ptr   <= 0;
             rd_ptr   <= 0;
             bank_sel <= 0;

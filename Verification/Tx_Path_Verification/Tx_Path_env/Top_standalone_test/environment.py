@@ -21,7 +21,7 @@ import logging
 
 # 1. Top Component Imports
 from top_agent import top_agent
-from top_scoreboard import *
+from top_scoreboard_edited import *
 from top_subscriber import top_subscriber
 
 # 2. DDS Component Imports (Added missing imports)
@@ -117,10 +117,10 @@ class Environment(uvm_env):
         
         if self.mode == "TOP":
             # Connect Top Agent to its Scoreboard and Subscriber
-            self.top_agt.mon.mon_ap.connect(self.top_sb.top_export)
-            self.dds_agt.mon.mon_ap.connect(self.top_sb.dds_export)
+            self.top_agt.mon.mon_ap.connect(self.top_sb.sb_export)
+            """self.dds_agt.mon.mon_ap.connect(self.top_sb.dds_export)
             self.fft_agt.mon.mon_port.connect(self.top_sb.fft_export)
-            self.ifft_agt.mon.mon_port.connect(self.top_sb.ifft_export)
+            self.ifft_agt.mon.mon_port.connect(self.top_sb.ifft_export)"""
             self.top_agt.agt_ap.connect(self.top_sub.analysis_export)
 
             # Connect DDS Agent to its Scoreboard and Subscriber

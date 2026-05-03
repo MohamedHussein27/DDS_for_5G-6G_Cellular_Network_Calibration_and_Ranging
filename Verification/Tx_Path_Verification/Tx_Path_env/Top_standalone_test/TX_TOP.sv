@@ -145,7 +145,7 @@ module TX_TOP #(
     // ========================================================
 
     initial begin
-        $dumpfile("waveform.vcd");
+        $dumpfile("TX_TOP.vcd");
         $dumpvars(0, TX_TOP);
     end
 
