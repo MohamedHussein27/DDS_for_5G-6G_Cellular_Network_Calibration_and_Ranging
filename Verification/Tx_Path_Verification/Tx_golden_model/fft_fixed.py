@@ -68,8 +68,9 @@ def radix2_dif_fft_fixed(x_ints: np.ndarray, WL: int, FL: int, is_ifft: bool = F
         W_im = np.clip(W_im, -(2**15), 2**15 - 1)
 
         # Twiddle Selection (FFT vs IFFT)
-        #if is_ifft:
-            #W_im = -W_im
+        if is_ifft:
+            W_im = -W_im
+            print (f"it's ifft")
 
         for k in range(0, N, m):
             # =========================================================

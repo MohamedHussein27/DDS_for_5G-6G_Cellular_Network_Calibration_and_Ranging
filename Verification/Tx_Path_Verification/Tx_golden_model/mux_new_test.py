@@ -38,8 +38,8 @@ def read_hex_file_to_signed(filename, bits=16):
     return np.array(vals)
 
 def run_mux_testbench(
-    fft_re_file="output_real.txt",
-    fft_im_file="output_imag.txt",
+    fft_re_file="out_fft_real.txt",
+    fft_im_file="out_fft_imag.txt",
     ofdm_re_file="ofdm_data_re.hex",
     ofdm_im_file="ofdm_data_im.hex",
     out_re_file="mux_out_real.txt",
@@ -75,7 +75,7 @@ def run_mux_testbench(
     # --- STREAM NEGATIVE (Radar/Chirp from FFT) ---
     # The RTL radar_ram is strictly 1667 deep. 
     # It grabs the first 1667 bins of the FFT output.
-    stream_neg = fft_complex[:1667]
+    stream_neg = fft_complex
 
     print("--- 3. RUNNING MUX ---")
     # Feed the arrays into the exact 3-state RTL emulation in mux.py

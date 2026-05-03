@@ -24,7 +24,7 @@ from fft_fixed  import radix2_dif_fft_fixed
 # =========================================================
 N  = 4096
 WL = 16
-FL = 8  # Note: I changed this to 5 to match your earlier scripts. 
+FL = 5  # Note: I changed this to 5 to match your earlier scripts. 
         # Your MATLAB prompt said FL=8, adjust if needed!
 
 def main():
@@ -79,7 +79,7 @@ def main():
     # 3. RUN YOUR BIT-TRUE FFT/IFFT
     # =========================================================
     print(f"Running radix2_dif_ifft_fixed (N={N}, WL={WL}, FL={FL})...")
-    X_out = radix2_dif_fft_fixed(x_input, WL, FL)
+    X_out = radix2_dif_ifft_fixed(x_input, WL, FL, False)
     print(f"X_out:", X_out[:100])
 
     # =========================================================
