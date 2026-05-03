@@ -1,50 +1,54 @@
-# ============================================================================
-# Full Verification Makefile (pyuvm + cocotb + Questa)
-# ============================================================================
-
-# Handle undefined signals (from your old makefile)
+# ==============================================================================
+# PyUVM Makefile for the 4096-point IFFT
+# Sponsor  : Analog Devices, Inc. (ADI)
+# Project  : DDS for 5G/6G Cellular Network Calibration and Ranging
+# ==============================================================================
 export COCOTB_RESOLVE_X = ZEROS
 
-# 1. Simulator Configuration (Using your working setup)
-GUI ?= 1
-SIM ?= questa
+# 1. Simulator Configuration (Icarus Verilog)
+SIM ?= icarus
 TOPLEVEL_LANG ?= verilog
 
-# 2. Design Under Test (DUT) Sources
-# Point to your actual SystemVerilog file (from your screenshot)
-# 2. Design Under Test (DUT) Sources
-VERILOG_SOURCES += DDS.sv \
-                   PHASE_ACC.sv \
-                   first_quad_address.sv \
-                   LUT.sv \
-                   negative_mux.sv \
-                   bit_reversal.sv \
-                   butterfly.sv \
-                   config_reg.sv \
-                   controlunit_4096.sv \
-                   delayfeedback.sv \
-                   fft_4096_stage.sv \
-                   fft_4096_top.sv \
-                   ifft_4096_stage.sv \
-                     ifft_4096_top.sv \
-                     isac_mux.sv \
-                     multiplier.sv \
-                     ofdm_rom.sv \
-                     twiddlerom_4096.sv \
-                     TX_TOP.sv 
+# Enable SystemVerilog parsing for Icarus
+COMPILE_ARGS += -g2012
 
-# 3. Top-Level Module Name
-# This MUST match the exact module name inside DUT.sv (Case-Sensitive!)
+# Enable waveform dumping (generates dump.vcd for GTKWave)
+WAVES ?= 1
+ 
+# ------------------------------------------------------------------------------
+# RTL source files
+# ------------------------------------------------------------------------------
+VERILOG_SOURCES += $(PWD)/multiplier.sv
+VERILOG_SOURCES += $(PWD)/butterfly.sv
+VERILOG_SOURCES += $(PWD)/controlunit_4096.sv
+VERILOG_SOURCES += $(PWD)/ofdm_rom.sv
+VERILOG_SOURCES += $(PWD)/delayfeedback.sv
+VERILOG_SOURCES += $(PWD)/PHASE_ACC.sv
+VERILOG_SOURCES += $(PWD)/first_quad_address.sv
+VERILOG_SOURCES += $(PWD)/negative_mux.sv
+VERILOG_SOURCES += $(PWD)/ifft_4096_stage.sv
+VERILOG_SOURCES += $(PWD)/twiddlerom_4096.sv
+VERILOG_SOURCES += $(PWD)/ifft_4096_top.sv
+VERILOG_SOURCES += $(PWD)/bit_reversal.sv
+VERILOG_SOURCES += $(PWD)/config_reg.sv
+VERILOG_SOURCES += $(PWD)/DDS.sv
+VERILOG_SOURCES += $(PWD)/fft_4096_stage.sv
+VERILOG_SOURCES += $(PWD)/fft_4096_top.sv
+VERILOG_SOURCES += $(PWD)/isac_mux.sv
+VERILOG_SOURCES += $(PWD)/LUT.sv
+VERILOG_SOURCES += $(PWD)/TX_TOP.sv
+
+# Top-level hardware module
 TOPLEVEL = TX_TOP
-
-# 4. Python Test Module
-# The name of your Python file containing the @cocotb.test() function (WITHOUT the .py)
-# NOTE: Replace "test_alu" with whatever your python file is actually named!
-MODULE = reset_test
+ 
+# ==============================================================================
+# Execution Targets
+# ==============================================================================
+MODULE = stress_test
 
 # 5. UVM Test Selection Hook
 # This allows your Python code to catch the specific test name from the terminal.
-export UVM_TESTNAME ?= reset_test_only
+export UVM_TESTNAME ?= stress_test
 
 # 6. Include standard Cocotb makefiles
 include $(shell cocotb-config --makefiles)/Makefile.sim
@@ -54,4 +58,4 @@ include $(shell cocotb-config --makefiles)/Makefile.sim
 # ============================================================================
 .PHONY: clean
 clean::
-	rm -rf __pycache__ results.xml transcript sim_build dds_coverage.xml modelsim.ini vsim.wlf
+	rm -rf sim_build results.xml __pycache__ transcript.log dump.vcd waves.vcd

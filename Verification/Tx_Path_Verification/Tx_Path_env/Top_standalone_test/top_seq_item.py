@@ -26,9 +26,6 @@ class top_item(uvm_sequence_item, Randomized):
         self.FTW_start = 0
         self.cycles = 0
         self.FTW_step = 0
-        self.ofdm_rd_en = 0
-        self.ofdm_in_real = 0
-        self.ofdm_in_imag = 0
 
         # =========================================================
         # Output variables (Not randomized, captured by monitor)
@@ -48,9 +45,8 @@ class top_item(uvm_sequence_item, Randomized):
         self.FTW_step = random.randint(0, (1 << 32) - 1)
         
         # WL=16 Signed Integer Range: [-32768 to 32767]
-        self.add_rand("ofdm_rd_en", [1, 0])
-        self.add_rand("ofdm_in_real", list(range(-32768, 32768)))  
-        self.add_rand("ofdm_in_imag", list(range(-32768, 32768)))  
+        #self.add_rand("ofdm_in_real", list(range(-32768, 32768)))  
+        #self.add_rand("ofdm_in_imag", list(range(-32768, 32768)))  
 
     # =========================================================
     # STRING FORMATTING
@@ -60,12 +56,10 @@ class top_item(uvm_sequence_item, Randomized):
         return (f"{self.get_name()} "
                 f"IN[ rst_n={self.rst_n}, dds_en={self.dds_enable}, "
                 f"FTW_start={self.FTW_start}, cycles={self.cycles}, FTW_step={self.FTW_step}, "
-                f"ofdm_rd_en={self.ofdm_rd_en}, ofdm_re={self.ofdm_in_real}, ofdm_im={self.ofdm_in_imag} ] -> "
                 f"OUT[ tx_valid={self.tx_valid}, tx_re={self.tx_out_real}, tx_im={self.tx_out_imag} ]")
 
     def convert2string_stimulus(self):
         # Input-only printout for the driver/sequencer logging
         return (f"{self.get_name()} "
                 f"STIMULUS: rst_n={self.rst_n}, dds_en={self.dds_enable}, "
-                f"FTW_start={self.FTW_start}, cycles={self.cycles}, FTW_step={self.FTW_step}, "
-                f"ofdm_rd_en={self.ofdm_rd_en}, ofdm_re={self.ofdm_in_real}, ofdm_im={self.ofdm_in_imag}")
+                f"FTW_start={self.FTW_start}, cycles={self.cycles}, FTW_step={self.FTW_step}, ")

@@ -25,7 +25,7 @@ from pyuvm import *
 import pyuvm
 import logging
  
-from ifft_item import *
+from ifft_seq_item import *
  
 # ─────────────────────────────────────────────────────────────────────────────
 # Constants that mirror the RTL parameters

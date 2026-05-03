@@ -14,55 +14,68 @@ from cocotb.triggers import RisingEdge, ReadOnly
 class dds_monitor(uvm_monitor):
     def build_phase(self):
         self.mon_ap = uvm_analysis_port("mon_ap", self)
-        self.dut_mon = ConfigDB().get(self,"","DDS_DUT")
+        self.dut_mon = ConfigDB().get(self,"","DUT")
         
     async def run_phase(self):
         sample_index = 1 # Start counter at 1 for a new chirp
-
+        #await RisingEdge(self.dut_mon.clk)
         while True:
             await RisingEdge(self.dut_mon.clk)
             await ReadOnly()
             
-            # 1. Continuous Reset Checking
-            if self.dut_mon.rst_n.value == 0:
-                seq_item = dds_seq_item.create("seq_item")
-                seq_item.rst_n = 0
+            # 1. Create a new sequence item every clock cycle
+            seq_item = dds_seq_item.create("seq_item")
+            
+            # 2. Safely capture core control signals
+            try:
+                seq_item.rst_n = int(self.dut_mon.rst_n.value)
+            except ValueError:
+                seq_item.rst_n = 0 # Assume reset if X/Z
+
+            try:
                 seq_item.enable = int(self.dut_mon.enable.value)
                 seq_item.valid_out = int(self.dut_mon.valid_out.value)
-                
-                try:
-                    seq_item.final_amplitude = int(self.dut_mon.final_amplitude.value)
-                except ValueError:
-                    seq_item.final_amplitude = 0xFF 
-                
-                self.mon_ap.write(seq_item)
-                sample_index = 1 # Reset the tracker while in reset
-                
-                while self.dut_mon.rst_n.value == 0:
-                    await RisingEdge(self.dut_mon.clk)
-                    await ReadOnly()
-                continue
-            
-            # 2. Continuous Data Streaming
-            if self.dut_mon.valid_out.value == 1:
-                seq_item = dds_seq_item.create("seq_item")
-                
-                seq_item.rst_n = 1
-                seq_item.FTW_start = int(self.dut_mon.FTW_start.value)
-                seq_item.FTW_step = int(self.dut_mon.FTW_step.value)
-                seq_item.cycles = int(self.dut_mon.cycles.value)
-                seq_item.enable = int(self.dut_mon.enable.value)
-                seq_item.valid_out = 1
-                seq_item.sample_index = sample_index # Tag the specific cycle
-                
+            except ValueError:
+                seq_item.enable = 0
+                seq_item.valid_out = 0
+
+            # 3. Capture Amplitude (handles two's complement conversion if valid)
+            try:
                 val = int(self.dut_mon.final_amplitude.value)
                 if val > 127:
                     val -= 256
                 seq_item.final_amplitude = val
-                
-                # Send the single cycle instantly!
-                self.mon_ap.write(seq_item)
-                sample_index += 1
-            else:
-                # If valid_out drops, the hardware chirp ended. Reset for the next one.
+            except ValueError:
+                seq_item.final_amplitude = 0xFF if seq_item.rst_n == 0 else 0
+
+            # 4. Handle state-specific logic (Reset vs Active)
+            if seq_item.rst_n == 0:
+                # During reset, reset the chirp tracker
                 sample_index = 1
+                seq_item.sample_index = 0 
+            else:
+                # Out of reset, safely capture streaming parameters
+                try:
+                    seq_item.FTW_start = int(self.dut_mon.FTW_start.value)
+                    seq_item.FTW_step = int(self.dut_mon.FTW_step.value)
+                    seq_item.cycles = int(self.dut_mon.cycles.value)
+                except ValueError:
+                    # Default to 0 if bus is X/Z during idle
+                    seq_item.FTW_start = 0
+                    seq_item.FTW_step = 0
+                    seq_item.cycles = 0
+
+                # Tag the sequence item with the current chirp index
+                seq_item.sample_index = sample_index
+
+                # Increment index ONLY if data is valid; otherwise reset for the next chirp
+                if seq_item.valid_out == 1:
+                    sample_index += 1
+                else:
+                    sample_index = 1
+            self.logger.info(f"Monitoring dds: rst_n={seq_item.rst_n}, enable={seq_item.enable}, FTW_start={seq_item.FTW_start}, FTW_step={seq_item.FTW_step}," 
+                             f"cycles={seq_item.cycles}, valid_out={seq_item.valid_out}, "
+                             f"final_amplitude={seq_item.final_amplitude}, sample_index={getattr(seq_item, 'sample_index', 'N/A')}"   )
+            
+            # 5. ALWAYS write to the analysis port
+            self.mon_ap.write(seq_item)

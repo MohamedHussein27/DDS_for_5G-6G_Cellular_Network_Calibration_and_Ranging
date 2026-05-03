@@ -94,17 +94,17 @@ class Environment(uvm_env):
             
             # IFFT Passive Path
             self.ifft_agt = ifft_agent.create("ifft_agt", self)
-            self.ifft_sb  = IFFTScoreboard.create("ifft_sb", self)
+            #self.ifft_sb  = IFFTScoreboard.create("ifft_sb", self)
             self.ifft_sub = IFFTSubscriber.create("ifft_sub", self)
             
             # DDS Passive Path
             self.dds_agt  = dds_agent.create("dds_agt", self)
-            self.dds_sb   = dds_scoreboard.create("dds_sb", self)
+            #self.dds_sb   = dds_scoreboard.create("dds_sb", self)
            # self.dds_sub  = dds_subscriber.create("dds_sub", self)
             
             # FFT Passive Path
             self.fft_agt  = fft_agent.create("fft_agt", self)
-            self.fft_sb   = FFTScoreboard.create("fft_sb", self)
+            #self.fft_sb   = FFTScoreboard.create("fft_sb", self)
            # self.fft_sub  = fft_subscriber.create("fft_sub", self)
             
         else:
@@ -117,20 +117,23 @@ class Environment(uvm_env):
         
         if self.mode == "TOP":
             # Connect Top Agent to its Scoreboard and Subscriber
-            self.top_agt.agt_ap.connect(self.top_sb.sb_export)
+            self.top_agt.mon.mon_ap.connect(self.top_sb.top_export)
+            self.dds_agt.mon.mon_ap.connect(self.top_sb.dds_export)
+            self.fft_agt.mon.mon_port.connect(self.top_sb.fft_export)
+            self.ifft_agt.mon.mon_port.connect(self.top_sb.ifft_export)
             self.top_agt.agt_ap.connect(self.top_sub.analysis_export)
 
             # Connect DDS Agent to its Scoreboard and Subscriber
-            self.dds_agt.agt_ap.connect(self.dds_sb.sb_export)
+            #self.dds_agt.agt_ap.connect(self.dds_sb.sb_export)
             #self.dds_agt.agt_ap.connect(self.dds_sub.analysis_export)
 
             # Connect FFT Agent to its Scoreboard and Subscriber
-            self.fft_agt.agt_ap.connect(self.fft_sb.sb_export)
+            #self.fft_agt.agt_ap.connect(self.fft_sb.sb_export)
            # self.fft_agt.agt_ap.connect(self.fft_sub.analysis_export)
 
             # Connect IFFT Agent to its Scoreboard and Subscriber
-            self.ifft_agt.agt_ap.connect(self.ifft_sb.sb_export)
-            self.ifft_agt.agt_ap.connect(self.ifft_sub.analysis_export)
+            #self.ifft_agt.agt_ap.connect(self.ifft_sb.sb_export)
+            #self.ifft_agt.agt_ap.connect(self.ifft_sub.analysis_export)
         
         elif self.mode == "DDS":
             # Connect DDS Agent to its Scoreboard and Subscriber
