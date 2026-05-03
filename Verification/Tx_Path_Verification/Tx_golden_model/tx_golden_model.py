@@ -71,7 +71,7 @@ def run_tx_top_pipeline(
     # ---------------------------------------------------------
     print(">> Stage 1: Running Bit-True DDS...")
     # chirp_time is an array of raw integers (e.g., ±127)
-    chirp_time, bandwidth = generate_dds_golden_model(FTW_start, FTW_step, N_cycles, Fs, mem_file)
+    chirp_time = generate_dds_golden_model(FTW_start, FTW_step, N_cycles)
     print(f"DDS first outputs:", chirp_time[4090:])  
 
     # =========================================================
@@ -105,6 +105,33 @@ def run_tx_top_pipeline(
     chirp_input = x_re + 1j * x_im
 
     print (f"chirp before fft:", chirp_input[:100])
+    # =========================================================
+    # 2.5 VERIFY DDS AGAINST RTL (Sanity Check)
+    # =========================================================
+    print(">> Stage 1.5: Comparing Golden DDS against RTL output...")
+    try:
+        rtl_dds = np.loadtxt("rtl_dds_out.txt", dtype=np.int64)
+        golden_dds = np.real(chirp_input).astype(np.int64)
+        
+        # Ensure lengths match before comparing (Truncate or pad RTL if necessary)
+        if len(rtl_dds) < N:
+            rtl_dds = np.pad(rtl_dds, (0, N - len(rtl_dds)), 'constant')
+        elif len(rtl_dds) > N:
+            rtl_dds = rtl_dds[:N]
+            
+        # Compare them
+        if np.array_equal(golden_dds, rtl_dds):
+            print("   [SUCCESS] VERIFICATION PASSED: Python chirp_input perfectly matches rtl_dds_out.txt!")
+        else:
+            print("   [ERROR] VERIFICATION FAILED: Mismatch detected.")
+            # Find exactly where it failed to help with debugging
+            mismatches = np.where(golden_dds != rtl_dds)[0]
+            first_mismatch = mismatches[0]
+            print(f"      -> Total mismatched samples: {len(mismatches)} out of {N}")
+            print(f"      -> First mismatch at index {first_mismatch}: Python = {golden_dds[first_mismatch]}, RTL = {rtl_dds[first_mismatch]}")
+            
+    except Exception as e:
+        print(f"   [WARNING] Could not load 'rtl_dds_out.txt' to compare. ({e})")
     # ---------------------------------------------------------
     # STAGE 2: FFT + Reinterpret Cast
     # ---------------------------------------------------------
