@@ -5,3 +5,4 @@ rtl_out*
 *.csv
 *.txt
 *.hier
+*.xml
