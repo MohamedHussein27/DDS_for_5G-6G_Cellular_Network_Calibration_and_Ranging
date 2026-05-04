@@ -44,7 +44,7 @@ class random_frames_regression_seq(uvm_sequence):
                 await self.finish_item(req)
             
             # Idle Cycles
-            for _ in range(4096 * 4):
+            for _ in range(4096 * 5):
                 req = top_item.create(f"req_idle_{i}")
                 await self.start_item(req)
                 
