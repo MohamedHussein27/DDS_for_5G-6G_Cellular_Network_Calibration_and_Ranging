@@ -8,21 +8,21 @@ from pyuvm import *
 import pyuvm
 import logging
 
-# Import the base test configuration and the specific test sequences
+# Import the base test and the specific sequences
 from dds_base_test import *
 from dds_sequences import *
 # ---------------------------------------------------------
-# Test 8: FFT boundary test (For fast debugging of FFT boundary handling)
+# Test : DC Hold Test (For verifying correct handling of DC input conditions)  
 # ---------------------------------------------------------                
 @pyuvm.test()
-class dds_fft_boundary_only_test(dds_base_test):
+class dds_dc_test(dds_base_test):
     def build_phase(self):
         super().build_phase()
-        # Instantiate the FFT boundary sequence for this specific test
-        self.fft_boundary_seq = dds_fft_boundary_seq.create("fft_boundary_seq")
+        # Instantiate the DC hold sequence for this test
+        self.dc_hold_seq = dds_dc_hold_seq.create("dc_hold_seq")
 
     async def run_phase(self):
-        # Raise objection to keep the simulation active
+        # Raise objection to prevent the simulation from ending prematurely
         self.raise_objection()
         self.logger.info(f"================ Start of {self.get_type_name()} ================")
         
@@ -30,14 +30,14 @@ class dds_fft_boundary_only_test(dds_base_test):
         await self.generate_clock()
         await self.run_initial_setup()
         
-        self.logger.info(f"Starting sequence: {self.fft_boundary_seq.get_name()}") 
+        self.logger.info(f"Starting sequence: {self.dc_hold_seq.get_name()}") 
         
-        # Execute the FFT boundary sequence on the DDS agent's sequencer
-        await self.fft_boundary_seq.start(self.env.dds_agt.sqr)
+        # Execute the DC hold sequence on the DDS agent's sequencer
+        await self.dc_hold_seq.start(self.env.dds_agt.sqr)
         
-        self.logger.info(f"finished sequence: {self.fft_boundary_seq.get_name()}")
+        self.logger.info(f"finished sequence: {self.dc_hold_seq.get_name()}")
         
-        # Drop objection to allow the simulation to end gracefully
+        # Drop objection to allow the test to finish
         self.drop_objection() 
 
     def report_phase(self):
@@ -45,4 +45,4 @@ class dds_fft_boundary_only_test(dds_base_test):
         self.logger.info("---------------------------------------------------------")
         self.logger.info(f" [TEST REPORT] : {self.get_type_name()}")
         self.logger.info(" [TARGETS]     : DDS output correctness")
-        self.logger.info("---------------------------------------------------------")
+        self.logger.info("---------------------------------------------------------")             

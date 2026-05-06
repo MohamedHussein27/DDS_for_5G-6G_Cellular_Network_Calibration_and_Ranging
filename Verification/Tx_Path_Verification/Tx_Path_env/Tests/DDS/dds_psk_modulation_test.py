@@ -1,19 +1,20 @@
 """
 ===============================================================================
-DDS Single Tone Test
+DDS PSK Modulation Test
 ===============================================================================
 
 Description :
-    Directed DDS verification test focused on single-tone waveform generation.
+    Directed verification test targeting PSK modulation functionality
+    using the DDS block.
 
     This test validates:
-        - Constant frequency generation
-        - FTW_start behavior
-        - FTW_step handling
-        - Stable DDS output generation
+        - Phase modulation behavior
+        - DDS phase transition handling
+        - Stable waveform generation during modulation
+        - Correct response to PSK sequence updates
 
-    The test runs only the single-tone sequence for easier debugging
-    and waveform inspection.
+    The test executes only the PSK modulation sequence for easier
+    debugging and waveform inspection.
 
 ===============================================================================
 """
@@ -32,27 +33,27 @@ from dds_sequences import *
 
 
 # =============================================================================
-# Test 5: Single Tone DDS Test
+# Test : DDS PSK Modulation Test
 # =============================================================================
 @pyuvm.test()
-class dds_singletone_only_test(dds_base_test):
+class dds_psk_modulation(dds_base_test):
 
     def build_phase(self):
         """
-        Create the single-tone sequence.
+        Create the PSK modulation sequence.
         """
 
         super().build_phase()
 
-        # Sequence generating constant-frequency DDS output
-        self.singletone_seq = dds_singletone_seq("singletone_seq")
+        # Sequence generating PSK-modulated DDS output
+        self.psk_seq = dds_psk_modulation_seq.create("psk_seq")
 
     async def run_phase(self):
         """
         Main execution flow:
             1. Start clock
             2. Apply reset
-            3. Run single-tone sequence
+            3. Run PSK modulation sequence
         """
 
         self.raise_objection()
@@ -67,15 +68,15 @@ class dds_singletone_only_test(dds_base_test):
         # Apply reset sequence
         await self.run_initial_setup()
 
-        # Start single-tone sequence
+        # Start PSK modulation sequence
         self.logger.info(
-            f"Starting sequence: {self.singletone_seq.get_name()}"
+            f"Starting sequence: {self.psk_seq.get_name()}"
         )
 
-        await self.singletone_seq.start(self.env.dds_agt.sqr)
+        await self.psk_seq.start(self.env.dds_agt.sqr)
 
         self.logger.info(
-            f"finished sequence: {self.singletone_seq.get_name()}"
+            f"finished sequence: {self.psk_seq.get_name()}"
         )
 
         self.drop_objection()

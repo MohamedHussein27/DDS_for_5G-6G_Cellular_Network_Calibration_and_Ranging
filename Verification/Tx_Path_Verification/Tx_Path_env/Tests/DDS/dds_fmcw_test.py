@@ -1,19 +1,18 @@
 """
 ===============================================================================
-DDS Single Tone Test
+DDS FMCW Radar Test
 ===============================================================================
 
 Description :
-    Directed DDS verification test focused on single-tone waveform generation.
+    Functional test targeting an FMCW radar use-case using the DDS block.
 
-    This test validates:
-        - Constant frequency generation
-        - FTW_start behavior
-        - FTW_step handling
-        - Stable DDS output generation
-
-    The test runs only the single-tone sequence for easier debugging
-    and waveform inspection.
+    The test executes a realistic radar chirp generation scenario with
+    varying sweep parameters to validate DDS behavior in radar-oriented
+    applications such as:
+        - Frequency sweeping
+        - Multi-chirp generation
+        - Dynamic FTW updates
+        - Continuous waveform generation
 
 ===============================================================================
 """
@@ -32,27 +31,27 @@ from dds_sequences import *
 
 
 # =============================================================================
-# Test 5: Single Tone DDS Test
+# Test : FMCW Radar Sequence Test
 # =============================================================================
 @pyuvm.test()
-class dds_singletone_only_test(dds_base_test):
+class dds_fmcw_test(dds_base_test):
 
     def build_phase(self):
         """
-        Create the single-tone sequence.
+        Create the FMCW radar sequence.
         """
 
         super().build_phase()
 
-        # Sequence generating constant-frequency DDS output
-        self.singletone_seq = dds_singletone_seq("singletone_seq")
+        # Sequence generating FMCW radar chirps
+        self.fmcw_seq = dds_fmcw_radar_seq.create("fmcw_seq")
 
     async def run_phase(self):
         """
         Main execution flow:
             1. Start clock
             2. Apply reset
-            3. Run single-tone sequence
+            3. Run FMCW radar sequence
         """
 
         self.raise_objection()
@@ -67,15 +66,15 @@ class dds_singletone_only_test(dds_base_test):
         # Apply reset sequence
         await self.run_initial_setup()
 
-        # Start single-tone sequence
+        # Start FMCW sequence
         self.logger.info(
-            f"Starting sequence: {self.singletone_seq.get_name()}"
+            f"Starting sequence: {self.fmcw_seq.get_name()}"
         )
 
-        await self.singletone_seq.start(self.env.dds_agt.sqr)
+        await self.fmcw_seq.start(self.env.dds_agt.sqr)
 
         self.logger.info(
-            f"finished sequence: {self.singletone_seq.get_name()}"
+            f"finished sequence: {self.fmcw_seq.get_name()}"
         )
 
         self.drop_objection()
