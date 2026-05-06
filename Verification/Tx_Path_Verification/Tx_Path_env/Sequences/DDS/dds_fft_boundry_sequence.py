@@ -16,11 +16,23 @@ class dds_fft_boundary_seq(uvm_sequence):
         
         for c in boundaries:
             req = dds_seq_item("req")
-            await self.start_item(req)
+            
             req.randomize()
             req.enable = 1  # Ensure enable is high for valid transactions
             req.rst_n = 1
             req.cycles = c  # Force the specific FFT boundary
+            for _ in range(req.cycles+1):
+                
+                await self.start_item(req)
+                await self.finish_item(req)
+        
+            req = dds_seq_item("req")
+            await self.start_item(req)
+            await self.finish_item(req)
             
-            await self.finish_item(req)        
-            
+        req = dds_seq_item("req")
+        await self.start_item(req)
+        await self.finish_item(req)
+        req = dds_seq_item("req")
+        await self.start_item(req)
+        await self.finish_item(req)  
