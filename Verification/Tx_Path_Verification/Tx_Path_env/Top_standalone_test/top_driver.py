@@ -5,7 +5,7 @@ import pyuvm
 from pyuvm import *
 from top_seq_item import *
 import cocotb
-from cocotb.triggers import RisingEdge
+from cocotb.triggers import *
 
 class top_driver(uvm_driver):
     def build_phase(self):

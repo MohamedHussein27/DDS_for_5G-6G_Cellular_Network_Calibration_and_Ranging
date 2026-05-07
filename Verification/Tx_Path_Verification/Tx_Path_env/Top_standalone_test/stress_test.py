@@ -23,6 +23,7 @@ import logging
 
 # Import the base test and the specific sequences
 from base_test import base_test
+from chirp_only_seq import chirp_only_seq
 from random_frames_regression_sequence import random_frames_regression_seq
 from reset_sequence import reset_before_frame_seq
 
@@ -36,6 +37,7 @@ class stress_test(base_test):
         #self.seq_long_gap     = long_gap_frames_seq.create("seq_long_gap")
         self.seq_reset_before = reset_before_frame_seq.create("seq_reset_before")
         self.seq_full_regress = random_frames_regression_seq.create("seq_full_regress")
+        self.chirp_only_seq = chirp_only_seq.create("chirp_only_seq")
         
 
     # run phase
@@ -49,16 +51,19 @@ class stress_test(base_test):
         self.logger.info("--- Executing TC-009: Reset Before Frame Start ---")
         await self.seq_reset_before.start(self.env.top_agt.sqr)
         """
+        self.logger.info("--- Executing TC-002: Chirp-Only Frames ---")
+        await self.chirp_only_seq.start(self.env.top_agt.sqr)
+        
         # 3. Explicitly execute the Group H Sequences
         self.logger.info("--- Executing TC-012: Back-to-Back 20 Frames — No Gaps ---")
         await self.seq_back_to_back.start(self.env.agt.sqr)
-
+        
         self.logger.info("--- Executing TC-013: Long Gap Between Frames ---")
         await self.seq_long_gap.start(self.env.agt.sqr)
         """
         self.logger.info("--- Executing TC-014: 100 Random Frames — Full Regression ---")
         await self.seq_full_regress.start(self.env.top_agt.sqr)
-
+        
         # 4. Drop the objection to end the simulation
         self.drop_objection()
 

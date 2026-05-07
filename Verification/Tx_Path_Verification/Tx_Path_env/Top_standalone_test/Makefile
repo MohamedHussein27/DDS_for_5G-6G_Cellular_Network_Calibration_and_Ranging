@@ -42,20 +42,33 @@ VERILOG_SOURCES += $(PWD)/TX_TOP.sv
 TOPLEVEL = TX_TOP
  
 # ==============================================================================
-# Execution Targets
+# Default Execution Targets (Fallbacks)
 # ==============================================================================
-MODULE = stress_test
-
-# 5. UVM Test Selection Hook
-# This allows your Python code to catch the specific test name from the terminal.
+# If you just run 'make sim', it will default to the stress_test
+MODULE ?= stress_test
 export UVM_TESTNAME ?= stress_test
 
 # 6. Include standard Cocotb makefiles
 include $(shell cocotb-config --makefiles)/Makefile.sim
 
+# ==============================================================================
+# Custom Test Functions (Easy Terminal Commands)
+# ==============================================================================
+.PHONY: stress chirp_only single_tone_chirp clean
+
+# Run the Stress Test
+stress:
+	$(MAKE) sim MODULE=stress_test UVM_TESTNAME=stress_test
+
+# Run the Chirp Only Test
+chirp_only:
+	$(MAKE) sim MODULE=chirp_only_test UVM_TESTNAME=chirp_only_test
+
+single_chirp_tone:
+	$(MAKE) sim MODULE=single_chirp_tone_test UVM_TESTNAME=single_chirp_tone_test
+
 # ============================================================================
 # Cleanup Target
 # ============================================================================
-.PHONY: clean
 clean::
 	rm -rf sim_build results.xml __pycache__ transcript.log dump.vcd waves.vcd
