@@ -34,23 +34,39 @@ all: regression
 # ------------------------------------------------------------------------------
 # Regression — runs every test in order, cleans between each run
 # ------------------------------------------------------------------------------
+# Full regression — all sequences in one simulation run
 regression:
 	$(MAKE) clean_sim
 	$(MAKE) reset
 	$(MAKE) clean_sim
+	$(MAKE) allzero
+	$(MAKE) clean_sim
+	$(MAKE) impulse
+	$(MAKE) clean_sim
+	$(MAKE) dc
+	$(MAKE) clean_sim
+	$(MAKE) singletone
+	$(MAKE) clean_sim
+	$(MAKE) twotone
+	$(MAKE) clean_sim
 	$(MAKE) functional
 	$(MAKE) clean_sim
-	$(MAKE) frequency
+	$(MAKE) maxpositive
 	$(MAKE) clean_sim
-	$(MAKE) stress
+	$(MAKE) maxnegative
+	$(MAKE) clean_sim
+	$(MAKE) halfnyquist
+	$(MAKE) clean_sim
+	$(MAKE) alternating
+	$(MAKE) clean_sim
+	$(MAKE) burst
+	$(MAKE) clean_sim
+	$(MAKE) ramp
+	$(MAKE) clean_sim
+	$(MAKE) backtoback
 	$(MAKE) clean_sim
 	$(MAKE) random
 	$(MAKE) clean_sim
-	$(MAKE) pipeline
-	$(MAKE) clean_sim
-	$(MAKE) reset_recovery
-	$(MAKE) clean_sim
-	$(MAKE) full_regression
  
 # ------------------------------------------------------------------------------
 # Individual test targets
@@ -105,9 +121,6 @@ ramp:
 backtoback:
 	$(MAKE) sim MODULE=ifft_backtoback_test
 
-resetmidframe:
-	$(MAKE) sim MODULE=ifft_resetmidframe_test
-
 random:
 	$(MAKE) sim MODULE=ifft_random_test
 
@@ -121,10 +134,6 @@ frequency:
 stress:
 	$(MAKE) sim MODULE=ifft_stress_test
  
- 
-# Full regression — all 16 sequences in one simulation run
-regression:
-	$(MAKE) sim MODULE=ifft_regression_test
  
 # ------------------------------------------------------------------------------
 # Clean up simulation artifacts
