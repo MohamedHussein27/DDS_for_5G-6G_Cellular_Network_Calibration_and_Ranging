@@ -5,7 +5,7 @@ import pyuvm
 from pyuvm import *
 from top_seq_item import *
 import cocotb
-from cocotb.triggers import RisingEdge
+from cocotb.triggers import *
 
 class top_driver(uvm_driver):
     def build_phase(self):
@@ -26,9 +26,14 @@ class top_driver(uvm_driver):
             self.dut_drv.FTW_start.value = seq_item.FTW_start
             self.dut_drv.cycles.value = seq_item.cycles
             self.dut_drv.FTW_step.value = seq_item.FTW_step
-            self.dut_drv.ofdm_rd_en.value = seq_item.ofdm_rd_en
-            self.dut_drv.ofdm_in_real.value = seq_item.ofdm_in_real
-            self.dut_drv.ofdm_in_imag.value = seq_item.ofdm_in_imag
+
+            #self.dut_drv.ofdm_in_re.value = seq_item.ofdm_in_real
+            #self.dut_drv.ofdm_in_im.value = seq_item.ofdm_in_imag
+
+            # printing the driven values for debugging
+            self.logger.info(
+                f"=================================================================================================================================================="
+                f"Driving: rst_n={seq_item.rst_n}, dds_enable={seq_item.dds_enable}, FTW_start={seq_item.FTW_start}, cycles={seq_item.cycles}, FTW_step={seq_item.FTW_step}")
             
             # 4. Notify the sequencer that this transaction is complete
             self.seq_item_port.item_done()

@@ -3,12 +3,14 @@ from pyuvm import *
 from top_seq_item import *  # Importing your updated randomized item
 import cocotb
 
-class random_frames_regression_seq(uvm_sequence):
+from top_seq_item import top_item # Ensure this is imported to access the set_fixed_chirp function
+
+class chirp_only_seq(uvm_sequence):
     """
-    TC-014: Run 100 frames with fully constrained-random sequences.
+    TC-002: Run 1 frame with a fixed chirp and zero OFDM symbols.
     This acts as the ultimate stress test for the TX Top Datapath.
     """
-    def __init__(self, name="random_frames_regression_seq"):
+    def __init__(self, name="chirp_only_seq"):
         super().__init__(name)
         self.num_frames = 1
         
@@ -24,17 +26,16 @@ class random_frames_regression_seq(uvm_sequence):
                 
                 # Force system active
                 if _ == 0:
-                    req.rst_n = 1
+                    req.rst_n      = 1
                     req.dds_enable = 0
-                    req.FTW_start = 0
-                    req.cycles = 4096
-                    req.FTW_step = 426666
+                    
+                    req.set_fixed_chirp(f0=30e6, B=200e6)  # Example fixed chirp for frame 1
+                    print(f"Step in sequence item", req.FTW_start, req.FTW_step)
                 else:
-                    req.rst_n = 1
+                    req.rst_n      = 1
                     req.dds_enable = 1
-                    req.FTW_start = 0
-                    req.cycles = 4096
-                    req.FTW_step = 426666
+                    req.set_fixed_chirp(f0=30e6, B=200e6)  # Example fixed chirp for subsequent frames
+                    req.cycles     = 4096
                 
                 await self.finish_item(req)
             
