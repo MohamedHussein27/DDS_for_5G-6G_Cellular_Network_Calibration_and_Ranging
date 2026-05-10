@@ -1,89 +1,36 @@
 """
-===============================================================================
-DDS Single Tone Test
-===============================================================================
-
-Description :
-    Directed DDS verification test focused on single-tone waveform generation.
-
-    This test validates:
-        - Constant frequency generation
-        - FTW_start behavior
-        - FTW_step handling
-        - Stable DDS output generation
-
-    The test runs only the single-tone sequence for easier debugging
-    and waveform inspection.
-
-===============================================================================
 """
-
 import cocotb 
 from cocotb.triggers import * 
-from cocotb.clock import Clock
+from cocotb.clock    import Clock
 from cocotb_coverage.crv import *
 from pyuvm import * 
 import pyuvm
 import logging
 
-# Base test and DDS sequences
+# Import the base test and the specific sequences
 from dds_base_test import *
 from dds_sequences import * 
-
-
-# =============================================================================
-# Test 5: Single Tone DDS Test
-# =============================================================================
+# ---------------------------------------------------------
+# Test 5: Singletone only test (For fast debugging of single tone generation and FTW_step handling)
+# ---------------------------------------------------------        
 @pyuvm.test()
-class dds_singletone_only_test(dds_base_test):
-
+class dds_single_tone_test(dds_base_test):
     def build_phase(self):
-        """
-        Create the single-tone sequence.
-        """
-
         super().build_phase()
-
-        # Sequence generating constant-frequency DDS output
         self.singletone_seq = dds_singletone_seq("singletone_seq")
-
     async def run_phase(self):
-        """
-        Main execution flow:
-            1. Start clock
-            2. Apply reset
-            3. Run single-tone sequence
-        """
-
         self.raise_objection()
-
-        self.logger.info(
-            f"================ Start of {self.get_type_name()} ================"
-        )
-
-        # Start DUT clock
+        self.logger.info(f"================ Start of {self.get_type_name()} ================")
         await self.generate_clock()
-
-        # Apply reset sequence
         await self.run_initial_setup()
-
-        # Start single-tone sequence
-        self.logger.info(
-            f"Starting sequence: {self.singletone_seq.get_name()}"
-        )
-
+        self.logger.info(f"Starting sequence: {self.singletone_seq.get_name()}")
+        # Runs ONLY the chirp sequence
         await self.singletone_seq.start(self.env.dds_agt.sqr)
-
-        self.logger.info(
-            f"finished sequence: {self.singletone_seq.get_name()}"
-        )
-
-        self.drop_objection()
-
+        self.logger.info(f"finished sequence: {self.singletone_seq.get_name()}")
+        self.drop_objection() 
     def report_phase(self):
-        """Print end-of-test summary."""
-
         self.logger.info("---------------------------------------------------------")
         self.logger.info(f" [TEST REPORT] : {self.get_type_name()}")
         self.logger.info(" [TARGETS]     : DDS output correctness")
-        self.logger.info("---------------------------------------------------------")
+        self.logger.info("---------------------------------------------------------")    

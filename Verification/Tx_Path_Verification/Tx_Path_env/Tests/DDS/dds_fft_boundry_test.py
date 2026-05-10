@@ -8,41 +8,29 @@ from pyuvm import *
 import pyuvm
 import logging
 
-# Import the base test configuration and the specific test sequences
+# Import the base test and the specific sequences
 from dds_base_test import *
-from dds_sequences import *
+from dds_sequences import * 
 # ---------------------------------------------------------
 # Test 8: FFT boundary test (For fast debugging of FFT boundary handling)
 # ---------------------------------------------------------                
 @pyuvm.test()
-class dds_fft_boundary_only_test(dds_base_test):
+class dds_fft_boundary_test(dds_base_test):
     def build_phase(self):
         super().build_phase()
-        # Instantiate the FFT boundary sequence for this specific test
         self.fft_boundary_seq = dds_fft_boundary_seq.create("fft_boundary_seq")
-
     async def run_phase(self):
-        # Raise objection to keep the simulation active
         self.raise_objection()
         self.logger.info(f"================ Start of {self.get_type_name()} ================")
-        
-        # Start the clock and execute the hardware reset routine
         await self.generate_clock()
         await self.run_initial_setup()
-        
         self.logger.info(f"Starting sequence: {self.fft_boundary_seq.get_name()}") 
-        
-        # Execute the FFT boundary sequence on the DDS agent's sequencer
+        # Runs ONLY the chirp sequence
         await self.fft_boundary_seq.start(self.env.dds_agt.sqr)
-        
         self.logger.info(f"finished sequence: {self.fft_boundary_seq.get_name()}")
-        
-        # Drop objection to allow the simulation to end gracefully
         self.drop_objection() 
-
     def report_phase(self):
-        # Print a final summary report at the end of the simulation
         self.logger.info("---------------------------------------------------------")
         self.logger.info(f" [TEST REPORT] : {self.get_type_name()}")
         self.logger.info(" [TARGETS]     : DDS output correctness")
-        self.logger.info("---------------------------------------------------------")
+        self.logger.info("---------------------------------------------------------")               
