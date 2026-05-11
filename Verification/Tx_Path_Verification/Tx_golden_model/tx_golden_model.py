@@ -155,6 +155,9 @@ def run_tx_top_pipeline(
     print(">> Stage 3: Fetching OFDM from HEX files...")
     ofdm_re_int = read_hex_file_to_signed(ofdm_re_file, bits=16)
     ofdm_im_int = read_hex_file_to_signed(ofdm_im_file, bits=16)
+
+    np.savetxt('ofdm_re_from_mem.hex', ofdm_re_int, fmt='%x')    
+    np.savetxt('ofdm_im_from_mem.hex', ofdm_im_int, fmt='%x')
     
     # Combine into complex integers
     stream_pos_int = ofdm_re_int + 1j * ofdm_im_int
