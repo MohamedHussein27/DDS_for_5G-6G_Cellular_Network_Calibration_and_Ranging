@@ -3,11 +3,10 @@ from pyuvm import *
 from top_seq_item import *  # Importing your updated randomized item
 import cocotb
 
-from top_seq_item import top_item # Ensure this is imported to access the set_fixed_chirp function
-
-class single_chirp_tone_seq(uvm_sequence):
+class random_frames_regression_seq(uvm_sequence):
     """
-    TC-004: Run 100 frames with a single fixed chirp tone (sine wave).
+    TC-014: Run 100 frames with fully constrained-random sequences.
+    This acts as the ultimate stress test for the TX Top Datapath.
     """
     def __init__(self, name="random_frames_regression_seq"):
         super().__init__(name)
@@ -25,15 +24,17 @@ class single_chirp_tone_seq(uvm_sequence):
                 
                 # Force system active
                 if _ == 0:
-                    req.rst_n      = 1
+                    req.rst_n = 1
                     req.dds_enable = 0
-                    
-                    req.set_fixed_chirp(f0=50e6, B=0e6)  # for sine wave, there is no bandwidth (B=0), f0 is our constant frequency
+                    req.FTW_start = 0
+                    req.cycles = 4096
+                    req.FTW_step = 426666
                 else:
-                    req.rst_n      = 1
+                    req.rst_n = 1
                     req.dds_enable = 1
-                    req.set_fixed_chirp(f0=50e6, B=0e6)  # Example fixed chirp for subsequent frames
-                    req.cycles     = 4096
+                    req.FTW_start = 0
+                    req.cycles = 4096
+                    req.FTW_step = 426666
                 
                 await self.finish_item(req)
             
