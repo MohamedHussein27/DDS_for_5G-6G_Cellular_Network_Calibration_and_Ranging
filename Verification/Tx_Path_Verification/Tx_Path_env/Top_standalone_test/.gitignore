@@ -6,3 +6,4 @@ rtl_out*
 *.txt
 *.hier
 *.xml
+*.hex

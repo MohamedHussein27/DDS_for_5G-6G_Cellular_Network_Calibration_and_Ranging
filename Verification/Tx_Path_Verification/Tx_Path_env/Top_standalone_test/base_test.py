@@ -42,7 +42,7 @@ class base_test(uvm_test):
 
         # put dut handle to be seen by all components
         #ConfigDB().set(None, "env.agt.driver_top", "DUT", self.dut)
-        ConfigDB().set(self, "env.top_agt.*", "DUT", self.dut)
+        ConfigDB().set(self, "env.*", "DUT", self.dut)
     # Set the specific DDS instance handle for the dds_monitor
     # REPLACE 'dds_inst' with the actual instance name used in your TX_TOP verilog/vhdl
         ConfigDB().set(self, "env.dds_agt.*", "DUT", self.dut.u_dds)

@@ -182,7 +182,7 @@ class top_subscriber(uvm_subscriber):
         items = ["top.tx_valid", "top.tx_out_real_range", "top.tx_out_imag_range"],
     )
 
-    def sample(self, tr):
+    def sample(tr):
         pass
  
     # ──────────────────────────────────────────────────────────────────────

@@ -41,9 +41,6 @@ def read_hex_file_to_signed(filename, bits=16):
             vals.append(val)
     return np.array(vals)
 
-
-
-
 # ===========================================================================
 # MASTER PIPELINE FUNCTION
 # ===========================================================================
@@ -52,9 +49,8 @@ def run_tx_top_pipeline(
     FTW_step=426666, 
     N_cycles=4096, 
     Fs=491.52e6,
-    mem_file="memfile.mem",
-    ofdm_re_file="ofdm_data_re.hex",
-    ofdm_im_file="ofdm_data_im.hex",
+    ofdm_re_array=None,  # NEW: Expecting a Python list/numpy array
+    ofdm_im_array=None,  # NEW: Expecting a Python list/numpy array
     out_re_file="tx_golden_out_re.txt",
     out_im_file="tx_golden_out_im.txt"
 ):
@@ -63,6 +59,7 @@ def run_tx_top_pipeline(
     print("==================================================")
 
     FL_FFT = 8  # Fractional bits for Q8.8
+
 
     # ---------------------------------------------------------
     # STAGE 1: DDS
@@ -148,14 +145,31 @@ def run_tx_top_pipeline(
 
     stream_neg_scaled = chirp_freq[:1667]
     # ---------------------------------------------------------
-    # STAGE 3: OFDM Memory Fetch
+    # STAGE 3: OFDM Memory Fetch (UPDATED)
     # ---------------------------------------------------------
-    print(">> Stage 3: Fetching OFDM from HEX files...")
-    ofdm_re_int = read_hex_file_to_signed(ofdm_re_file, bits=16)
-    ofdm_im_int = read_hex_file_to_signed(ofdm_im_file, bits=16)
+    print(">> Stage 3: Fetching OFDM from Scoreboard Arrays...")
+    
+    # Check if arrays were passed, else create empty ones to prevent crashing
+    if ofdm_re_array is None or ofdm_im_array is None:
+        raise ValueError("Golden model requires ofdm_re_array and ofdm_im_array!")
+
+    ofdm_re_int = np.array(ofdm_re_array, dtype=np.int64)
+    ofdm_im_int = np.array(ofdm_im_array, dtype=np.int64)
+
+    # Shift values: fill index 1 to the end with values from index 0 to second-to-last
+    ofdm_re_int[1:] = ofdm_re_int[:-1]
+    ofdm_im_int[1:] = ofdm_im_int[:-1]
+
+    np.savetxt('ofdm_re_from_mem.hex', ofdm_re_int, fmt='%x')    
+    np.savetxt('ofdm_im_from_mem.hex', ofdm_im_int, fmt='%x')
+
+    print(f"OFDM real first values =", ofdm_re_int[:100])
+    print(f"OFDM imag first values =", ofdm_im_int[:100])
     
     # Combine into complex integers
     stream_pos_int = ofdm_re_int + 1j * ofdm_im_int
+
+    print(f"OFDM combined first values =", stream_pos_int[:100])
 
 
     # ---------------------------------------------------------
@@ -166,9 +180,6 @@ def run_tx_top_pipeline(
     X_combined_int, _ = mux(stream_pos_int, stream_neg_scaled, N_cycles)
 
     # Convert back to fractional floats for the IFFT engine
-
- 
-
 
     # ---------------------------------------------------------
     # STAGE 5: IFFT
