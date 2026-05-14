@@ -1,0 +1,59 @@
+# ==============================================================================
+# Execution Shortcuts for FFT Testcases (runs.mk)
+# ==============================================================================
+
+# --- INDIVIDUAL TESTS ---
+
+run_impulse:
+	make -f Makefile MODULE=fft_impulse_test TESTCASE=test_fft_impulse
+
+run_ten:
+	make -f Makefile MODULE=fft_ten_sample_test TESTCASE=test_fft_ten_samples
+
+run_latency:
+	make -f Makefile MODULE=fft_latency_test TESTCASE=test_fft_latency
+
+run_multi_frame:
+	make -f Makefile MODULE=fft_multiframe_test TESTCASE=test_fft_multiframe
+
+run_dc:
+	make -f Makefile MODULE=fft_dc_test TESTCASE=test_fft_dc
+
+run_neg_dc:
+	make -f Makefile MODULE=fft_neg_dc_test TESTCASE=test_fft_neg_dc
+
+run_tone_sweep:
+	make -f Makefile MODULE=fft_tone_test TESTCASE=test_fft_tone_sweep	
+
+run_full_scale:
+	make -f Makefile MODULE=fft_fullscale_test TESTCASE=test_fft_full_scale
+
+run_regression:
+	make -f Makefile MODULE=fft_regression_test TESTCASE=test_fft_master_regression
+
+
+run_small_regression:
+	make -f Makefile MODULE=small_regression_test TESTCASE=test_small_regression
+
+run_cov_close:
+	make -f Makefile MODULE=test_fft_coverage_closure TESTCASE=test_fft_coverage_closure
+
+run_custom:
+	make -f Makefile MODULE=custom_data_test TESTCASE=test_fft_custom_data	
+		
+
+run_max_neg:
+	make -f Makefile MODULE=test_fft_unscaled_min TESTCASE=test_fft_unscaled_min
+
+
+
+#  REGRESSION  (Runs everything back-to-back!)
+# ==============================================================================
+run_all:
+	make -f Makefile MODULE=fft_impulse_test,fft_ten_sample_test,fft_latency_test,fft_multiframe_test,fft_dc_test,fft_neg_dc_test,fft_tone_test,fft_fullscale_test,test_fft_coverage_closure,custom_data_test,test_fft_unscaled_min
+	
+
+
+
+
+

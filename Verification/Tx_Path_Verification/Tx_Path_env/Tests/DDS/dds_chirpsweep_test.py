@@ -10,12 +10,12 @@ import logging
 
 # Import the base test and the specific sequences
 from dds_base_test import *
-from dds_chirpsweep_sequence import * 
+from dds_sequences import * 
 # ---------------------------------------------------------
 # Test 3: Just the ISAC Chirp Sweep (For fast debugging)
 # ---------------------------------------------------------
 @pyuvm.test()
-class dds_chirp_only_test(dds_base_test):
+class dds_chirpsweep_test(dds_base_test):
     def build_phase(self):
         super().build_phase()
         self.chirp_seq = dds_chirpsweep_seq("chirp_seq")

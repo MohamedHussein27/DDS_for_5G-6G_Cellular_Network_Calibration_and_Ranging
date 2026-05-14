@@ -1,0 +1,60 @@
+# ==============================================================================
+# Makefile.runs — Individual test shortcuts for the DDS SPI Master testbench
+# Included by the main Makefile.
+#
+# Usage:
+#   make run_reset
+#   make run_random
+#   make run_regression    ← runs every test back-to-back in one sim invocation
+# ==============================================================================
+
+# --- INDIVIDUAL TESTS ---------------------------------------------------------
+
+run_reset:
+	make -f Makefile MODULE=dds_reset_test TESTCASE=dds_reset_test GUI=1
+
+run_random:
+	make -f Makefile MODULE=dds_random_test TESTCASE=dds_random_test GUI=1
+
+run_chirpsweep:
+	make -f Makefile MODULE=dds_chirpsweep_test TESTCASE=dds_chirpsweep_test GUI=1
+
+run_cyclestress:
+	make -f Makefile MODULE=dds_cyclestress_test TESTCASE=dds_cyclestress_test GUI=1
+
+run_singletone:
+	make -f Makefile MODULE=dds_single_tone_test TESTCASE=dds_single_tone_test GUI=1
+
+run_fmcw:
+	make -f Makefile MODULE=dds_fmcw_test TESTCASE=dds_fmcw_test GUI=1
+
+run_cov:
+	make -f Makefile MODULE=dds_cov_test TESTCASE=dds_cov_test GUI=1
+
+run_resetrecovery:
+	make -f Makefile MODULE=dds_reset_recovery_test TESTCASE=dds_reset_recovery_test GUI=1
+
+run_psk:
+	make -f Makefile MODULE=dds_psk_modulation_test TESTCASE=dds_psk_modulation_test GUI=1
+
+run_fftboundary:
+	make -f Makefile MODULE=dds_fft_boundry_test TESTCASE=dds_fft_boundry_test GUI=1
+
+run_dchold:
+	make -f Makefile MODULE=dds_dc_hold_test TESTCASE=dds_dc_hold_test GUI=1
+
+# --- REGRESSION (all tests, single simulator invocation) ----------------------
+#     Comma-separated MODULE list — cocotb discovers every @cocotb.test()
+#     decorated function across all listed modules and runs them in order.
+
+run_all:
+	make -f Makefile \
+	  MODULE=dds_reset_test,dds_random_test,dds_chirpsweep_test,\
+dds_cyclestress_test,dds_single_tone_test,dds_fmcw_test,\
+dds_cov_test,dds_reset_recovery_test,dds_psk_modulation_test,\
+dds_fft_boundry_test,dds_dc_hold_test \
+	  GUI=1
+
+.PHONY: run_reset run_random run_chirpsweep run_cyclestress run_singletone \
+        run_fmcw run_cov run_resetrecovery run_psk run_fftboundary run_dchold \
+        run_all

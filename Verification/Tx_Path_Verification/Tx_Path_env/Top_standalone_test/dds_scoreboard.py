@@ -81,7 +81,7 @@ class dds_scoreboard(uvm_scoreboard):
 
     def report_phase(self):
         cocotb.log.info("========================================")
-        cocotb.log.info("      STREAMING SCOREBOARD REPORT       ")
+        cocotb.log.info("      DDS SCOREBOARD REPORT       ")
         cocotb.log.info("========================================")
         cocotb.log.info(f" SAMPLES PASSED: {self.passed_test_cases}")
         cocotb.log.info(f" SAMPLES FAILED: {self.failed_test_cases}")

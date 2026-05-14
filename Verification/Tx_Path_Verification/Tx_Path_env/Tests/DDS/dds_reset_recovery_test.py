@@ -10,13 +10,13 @@ import logging
 
 # Import the base test and the specific sequences
 from dds_base_test import *
-from dds_reset_recovery_sequence import * 
+from dds_sequences import * 
  # ---------------------------------------------------------
 # Test 6: Reset Recovery only test (For fast debugging of reset behavior and recovery)
 # ---------------------------------------------------------        
 
 @pyuvm.test()
-class dds_resetrecovery_only_test(dds_base_test):
+class dds_reset_recovery_only_test(dds_base_test):
     def build_phase(self):
         super().build_phase()
         self.reset_recovery_seq = dds_reset_recovery_seq.create("reset_recovery_seq")

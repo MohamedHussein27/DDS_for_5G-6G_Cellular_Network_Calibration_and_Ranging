@@ -10,17 +10,17 @@ import logging
 
 # Import the base test and the specific sequences
 from dds_base_test import *
-from dds_reset_sequence import * 
+from dds_sequences import * 
 
 
 # ---------------------------------------------------------
 # Test 1: The reset test 
 # ---------------------------------------------------------
 @pyuvm.test()
-class dds_reset_only_seq(dds_base_test):
+class dds_reset_test(dds_base_test):
     def build_phase(self):
         super().build_phase()
-        self.reset_seq = dds_reset_seq.create("reset_seq")
+        self.reset_seq = dds_reset.create("reset_seq")
     
         
     async def run_phase(self):

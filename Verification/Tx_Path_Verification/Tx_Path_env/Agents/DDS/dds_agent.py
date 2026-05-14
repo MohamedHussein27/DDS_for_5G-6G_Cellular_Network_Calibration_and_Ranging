@@ -1,45 +1,82 @@
 """
-    Sponsor: Analog Devices, Inc. (ADI)
-    Institution: Faculty of Engineering, Ain Shams University
-    Project: DDS for 5G/6G Cellular Network Calibration and Ranging
+===============================================================================
+Sponsor      : Analog Devices, Inc. (ADI)
+Institution  : Faculty of Engineering, Ain Shams University
+Project      : DDS for 5G/6G Cellular Network Calibration and Ranging
 
-    Module: agent.py
+Module       : agent.py
 
-    Description:
-        This module defines the UVM Agent for the DDS TX datapath.
-        It serves as the top-level container and configuration hub for the 
-        component triad: Sequencer, Driver, and Monitor. 
-        
-        Key responsibilities:
-        1. Configuration: Evaluates the `is_active` flag to determine if the 
-           environment requires active stimulus (Driver + Sequencer) or 
-           passive observation (Monitor only).
-        2. Instantiation: Builds the required sub-components during the build phase.
-        3. Connection: Wires the Sequencer's export to the Driver's port, and 
-           exposes the Monitor's analysis port to the broader environment/scoreboard.
+Description  :
+    This module implements the DDS UVM Agent.
+
+    The agent acts as a container for:
+        - Sequencer
+        - Driver
+        - Monitor
+
+    Responsibilities:
+        1. Build active/passive components based on configuration.
+        2. Connect driver and sequencer interfaces.
+        3. Forward monitored transactions through an analysis port.
+
+    Active Agent:
+        Includes Driver + Sequencer + Monitor
+
+    Passive Agent:
+        Includes Monitor only
+
+===============================================================================
 """
 
 import pyuvm
 from pyuvm import *
+
 from dds_sequencer import dds_sequencer
 from dds_driver import dds_driver
 from dds_monitor import dds_monitor
 
+
 class dds_agent(uvm_agent):
+
     def build_phase(self):
-        # 1. The Monitor is ALWAYS built, because we always want to observe
+        """
+        Build agent components depending on active/passive mode.
+        """
+
+        # ---------------------------------------------------------------------
+        # Monitor is always created to observe DUT activity
+        # ---------------------------------------------------------------------
         self.mon = dds_monitor.create("mon", self)
+
+        # Agent-level analysis port used to broadcast monitored transactions
         self.agt_ap = uvm_analysis_port("agt_ap", self)
-        self.is_active = ConfigDB().get(self,"","is_active")
-        # 2. The Driver and Sequencer are ONLY built if the agent is ACTIVE
+
+        # Retrieve active/passive configuration from ConfigDB
+        self.is_active = ConfigDB().get(self, "", "is_active")
+
+        # ---------------------------------------------------------------------
+        # Build Driver and Sequencer only for ACTIVE agents
+        # ---------------------------------------------------------------------
         if self.get_is_active() == uvm_active_passive_enum.UVM_ACTIVE:
+
+            # Sequencer generates transaction flow
             self.sqr = dds_sequencer.create("sqr", self)
+
+            # Driver converts transactions into DUT pin activity
             self.drv = dds_driver.create("drv", self)
 
     def connect_phase(self):
-        # 1. Broadcast the monitor's observed traffic up to the agent level
+        """
+        Connect agent internal communication ports.
+        """
+
+        # Forward monitor transactions to upper verification layers
         self.mon.mon_ap.connect(self.agt_ap)
         
-        # 2. Connect Sequencer to Driver ONLY if they were built
+        # ---------------------------------------------------------------------
+        # Connect Sequencer <-> Driver only in ACTIVE mode
+        # ---------------------------------------------------------------------
         if self.get_is_active() == uvm_active_passive_enum.UVM_ACTIVE:
+
+            # Driver pulls transactions from sequencer
             self.drv.seq_item_port.connect(self.sqr.seq_item_export)

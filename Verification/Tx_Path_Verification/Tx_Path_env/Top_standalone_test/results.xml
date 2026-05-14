@@ -1,6 +1,0 @@
-<testsuites name="results">
-  <testsuite name="all" package="all">
-    <property name="random_seed" value="1777830096" />
-    <testcase name="stress_test" classname="stress_test" file="/home/icpedia/cocotb_env/lib/python3.10/site-packages/pyuvm/extension_classes.py" lineno="29" time="543.1258420944214" sim_time_ns="49994.704" ratio_time="92.04994519724679" />
-  </testsuite>
-</testsuites>

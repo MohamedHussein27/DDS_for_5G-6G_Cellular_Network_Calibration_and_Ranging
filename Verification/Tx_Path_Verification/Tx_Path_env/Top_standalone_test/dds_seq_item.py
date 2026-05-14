@@ -6,7 +6,7 @@ class dds_seq_item(uvm_sequence_item):
         super().__init__(name)
         # Hardware Inputs
         self.FTW_start = 0
-        self.cycles = 4096
+        self.cycles = 0
         self.FTW_step = 0
         self.rst_n = 1
         self.enable = 0
@@ -22,6 +22,7 @@ class dds_seq_item(uvm_sequence_item):
         """Custom randomization mimicking SV constraints."""
         self.FTW_start = random.randint(0, (1 << 32) - 1)
         self.FTW_step = random.randint(0, (1 << 32) - 1)
+        self.cycles = random.randint(0,(1 << 13) - 1)  
         self.rst_n = random.choices([0, 1], weights=[5, 95])[0]  
     
     def convert2string(self):
