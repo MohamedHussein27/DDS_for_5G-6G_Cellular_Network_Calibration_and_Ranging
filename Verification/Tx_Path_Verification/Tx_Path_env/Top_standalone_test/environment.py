@@ -117,10 +117,9 @@ class Environment(uvm_env):
         
         if self.mode == "TOP":
             # Connect Top Agent to its Scoreboard and Subscriber
+            # connecting both DDS and top monitorss to the scoreboard
             self.top_agt.mon.mon_ap.connect(self.top_sb.sb_export)
             self.dds_agt.mon.mon_ap.connect(self.top_sb.dds_export)
-            """self.fft_agt.mon.mon_port.connect(self.top_sb.fft_export)
-            self.ifft_agt.mon.mon_port.connect(self.top_sb.ifft_export)"""
             self.top_agt.agt_ap.connect(self.top_sub.analysis_export)
 
             # Connect DDS Agent to its Scoreboard and Subscriber
