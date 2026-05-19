@@ -69,21 +69,15 @@ class IFFTSubscriber(uvm_subscriber):
  
     def __init__(self, name, parent):
         super().__init__(name, parent)
- 
-    # ──────────────────────────────────────────────────────────────────────
-    # build_phase : create export + FIFO (mirroring the sample template)
-    # ──────────────────────────────────────────────────────────────────────
-    def build_phase(self):
-        self.sub_export = uvm_analysis_export("sub_export", self)
-        self.sub_fifo   = uvm_tlm_analysis_fifo("sub_fifo", self)
-        # re-point the export straight at the FIFO's analysis_export
-        self.sub_export = self.sub_fifo.analysis_export
+
  
     # ──────────────────────────────────────────────────────────────────────
     # write : mandatory uvm_subscriber hook
     # ──────────────────────────────────────────────────────────────────────
     def write(self, item):
         self.logger.debug(f"IFFTSubscriber received: {item.convert2string()}")
+        self.sample(item)  # feed the item into the coverage database
+
  
     # ══════════════════════════════════════════════════════════════════════
     # COVER POINTS  (all bins defined with lambda pin functions)
@@ -180,10 +174,48 @@ class IFFTSubscriber(uvm_subscriber):
     def sample(self, tr):
         pass
  
+
     # ──────────────────────────────────────────────────────────────────────
-    # run_phase : drain the FIFO and sample every item
+    # report_phase : Custom Terminal Report and XML Export
     # ──────────────────────────────────────────────────────────────────────
-    async def run_phase(self):
-        while True:
-            seq_item_sub = await self.sub_fifo.get()
-            self.sample(seq_item_sub)
+    def report_phase(self):
+        # 1. Export the detailed coverage to an XML file for deeper inspection later
+        xml_file = "ifft_coverage.xml"
+        coverage_db.export_to_xml(xml_file)
+
+        # 2. Build the custom ASCII terminal report
+        self.logger.info("╔══════════════════════════════════════════════════════════════╗")
+        self.logger.info("║               IFFT FUNCTIONAL COVERAGE REPORT                ║")
+        self.logger.info("╠══════════════════════════════════════════════════════════════╣")
+
+        all_pass = True
+
+        # Loop through every coverpoint/cross defined in the coverage database
+        for name in coverage_db:
+            # Only print coverage items belonging to the IFFT block
+            if name.startswith("top.ifft"):
+                cp = coverage_db[name]
+                
+                # Retrieve the coverage percentage (0.0 to 100.0)
+                percentage = cp.cover_percentage
+                
+                # Check if it reached the 100% goal
+                if percentage >= 100.0:
+                    status = "PASS ✓"
+                else:
+                    status = "FAIL ✗"
+                    all_pass = False
+
+                # Format the line to keep columns perfectly aligned
+                # Extracts just the coverpoint name (e.g., 'valid_in' instead of 'top.ifft.valid_in')
+                short_name = name.split(".")[-1]
+                
+                self.logger.info(f"║  {short_name:<34} : {status:<8} ({percentage:>5.1f}%)  ║")
+
+        # Overall Status
+        overall_status = "PASS ✓" if all_pass else "FAIL ✗"
+        self.logger.info("║ ──────────────────────────────────────────────────────────── ║")
+        self.logger.info(f"║  OVERALL COVERAGE TARGETS           : {overall_status:<17}  ║")
+        self.logger.info("╚══════════════════════════════════════════════════════════════╝")
+        
+        self.logger.info(f"Detailed coverage data exported to {xml_file}")
