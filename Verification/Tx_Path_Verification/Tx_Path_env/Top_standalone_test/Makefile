@@ -60,9 +60,11 @@ include $(shell cocotb-config --makefiles)/Makefile.sim
 stress:
 	$(MAKE) sim MODULE=stress_test UVM_TESTNAME=stress_test
 
-# Run the Chirp Only Test
 chirp_only:
 	$(MAKE) sim MODULE=chirp_only_test UVM_TESTNAME=chirp_only_test
+
+OFDM_only:
+	$(MAKE) sim MODULE=OFDM_only_test UVM_TESTNAME=OFDM_only_test
 
 single_chirp_tone:
 	$(MAKE) sim MODULE=single_chirp_tone_test UVM_TESTNAME=single_chirp_tone_test

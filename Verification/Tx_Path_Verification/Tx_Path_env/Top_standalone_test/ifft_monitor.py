@@ -17,7 +17,7 @@ import cocotb
 from cocotb.triggers import *
 from pyuvm import *
 from ifft_seq_item import ifft_item
-from top_seq_item import top_item
+from ifft_seq_item import *
 
 def safe_int(val, default=0):
     try: return int(val)
@@ -45,16 +45,15 @@ class ifft_monitor(uvm_monitor):
             
             # Safe capture to prevent X/Z propagation crashes
             rsp_seq_item.valid_out     = safe_int(self.dut.valid_out.value)
-            rsp_seq_item.data_real_out = safe_signed(self.dut.out_real.value)
-            rsp_seq_item.data_imag_out = safe_signed(self.dut.out_imag.value)
+            rsp_seq_item.out_real = safe_signed(self.dut.out_real.value)
+            rsp_seq_item.out_imag = safe_signed(self.dut.out_imag.value)
 
             rsp_seq_item.rst_n         = safe_int(self.dut.rst_n.value)
             rsp_seq_item.valid_in      = safe_int(self.dut.valid_in.value)
-            rsp_seq_item.data_real_in  = safe_signed(self.dut.in_real.value)
-            rsp_seq_item.data_imag_in  = safe_signed(self.dut.in_imag.value)
+            rsp_seq_item.in_real  = safe_signed(self.dut.in_real.value)
+            rsp_seq_item.in_imag  = safe_signed(self.dut.in_imag.value)
             
             self.logger.info(f"Monitor captured: rst_n={rsp_seq_item.rst_n}, valid_in={rsp_seq_item.valid_in},"
-                              f" in_real={rsp_seq_item.data_real_in}, in_imag={rsp_seq_item.data_imag_in}, valid_out={rsp_seq_item.valid_out},"
-                               f" out_real={rsp_seq_item.data_real_out}, out_imag={rsp_seq_item.data_imag_out}")
+                              f" in_real={rsp_seq_item.in_real}, in_imag={rsp_seq_item.in_imag}, valid_out={rsp_seq_item.valid_out},"
+                               f" out_real={rsp_seq_item.out_real}, out_imag={rsp_seq_item.out_imag}")
             self.mon_port.write(rsp_seq_item)
-            
