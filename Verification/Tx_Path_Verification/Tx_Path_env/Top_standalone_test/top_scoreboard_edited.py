@@ -176,8 +176,8 @@ class top_scoreboard(uvm_scoreboard):
             # Pass the dynamically read lists to the golden model
             ref_real_vec, ref_imag_vec = run_tx_top_pipeline(
                 dds_item.FTW_start, dds_item.FTW_step, dds_item.cycles, Fs=491.52e6,
-                ofdm_re_array=ofdm_re_list,  # NEW
-                ofdm_im_array=ofdm_im_list,  # NEW
+                ofdm_re_array=ofdm_re_list, 
+                ofdm_im_array=ofdm_im_list,  
             )
  
             self._ref_real     = list(ref_real_vec)
