@@ -1,9 +1,10 @@
 sim_*
 __pycache__/*
-rtl_out*
+rtl_out.csv
 *.vcd
 *.csv
 *.txt
 *.hier
 *.xml
 *.hex
+*.gtkw
