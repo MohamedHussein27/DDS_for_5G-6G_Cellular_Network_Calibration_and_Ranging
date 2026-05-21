@@ -41,7 +41,7 @@ class ifft_monitor(uvm_monitor):
             await RisingEdge(self.dut.clk)
             await ReadOnly()
             
-            rsp_seq_item = ifft_item("rsp_seq_item")
+            rsp_seq_item = ifft_item.create("rsp_seq_item")
             
             # Safe capture to prevent X/Z propagation crashes
             rsp_seq_item.valid_out     = safe_int(self.dut.valid_out.value)

@@ -85,6 +85,7 @@ class fft_subscriber(uvm_subscriber):
     # ──────────────────────────────────────────────────────────────────────
     def write(self, item):
         self.logger.debug(f"FFTSubscriber received: {item.convert2string()}")
+        self.sample(item)  # feed the item into the coverage database
 
     # ══════════════════════════════════════════════════════════════════════
     # COVER POINTS  (all bins defined with lambda pin functions)
