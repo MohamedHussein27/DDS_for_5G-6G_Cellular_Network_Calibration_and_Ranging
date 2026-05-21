@@ -181,7 +181,7 @@ class IFFTScoreboard(uvm_scoreboard):
         # ── Feed input sample into golden model ──────────────────────────
         if item.valid_in:
             self._golden.push(item.in_real, item.in_imag)
-            self.logger.debug(
+            self.logger.info(
                 f"Golden model received sample "
                 f"re={_sign16(item.in_real)}, im={_sign16(item.in_imag)}"
             )

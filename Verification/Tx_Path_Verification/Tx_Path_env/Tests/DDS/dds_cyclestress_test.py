@@ -10,7 +10,7 @@ import logging
 
 # Import the base test and the specific sequences
 from dds_base_test import *
-from dds_sequences import * 
+from dds_cyclestress_sequence import * 
 # ---------------------------------------------------------
 # Test 4: cyclestress test (For fast debugging of cycle counter overflow handling)
 # ---------------------------------------------------------

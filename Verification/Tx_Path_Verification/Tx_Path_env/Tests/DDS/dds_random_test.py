@@ -8,14 +8,15 @@ from pyuvm import *
 import pyuvm
 import logging
 
+
 # Import the base test and the specific sequences
 from dds_base_test import *
-from dds_sequences import * 
+from dds_random_sequence import * 
 # ---------------------------------------------------------
 # Test 2: The random test 
 # ---------------------------------------------------------
 @pyuvm.test()
-class dds_random_test(dds_base_test):
+class dds_random(dds_base_test):
     def build_phase(self):
         super().build_phase()
         self.random_seq = dds_random_seq("random_seq")

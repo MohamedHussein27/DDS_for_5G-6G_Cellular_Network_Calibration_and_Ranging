@@ -23,18 +23,18 @@ import pyuvm
 import logging
 
 # Import the base test and the specific sequences
-from base_test import *
-from reset_sequence import *
+from base_test import base_test
+from reset_sequences import reset_before_frame_seq, reset_mid_frame_seq, multiple_resets_seq
 
 @pyuvm.test()
-class reset_test_only(base_test):
+class reset_test(base_test):
     def build_phase(self):
         super().build_phase()
 
         # our group F sequences (reset & control sequences)
         self.seq_reset_before = reset_before_frame_seq.create("seq_reset_before") 
-       # self.seq_reset_mid    = reset_mid_frame_seq.create("seq_reset_mid")
-        #self.seq_reset_multi  = multiple_resets_seq.create("seq_reset_multi")
+        self.seq_reset_mid    = reset_mid_frame_seq.create("seq_reset_mid")
+        self.seq_reset_multi  = multiple_resets_seq.create("seq_reset_multi")
 
     # run phase
     async def run_phase(self):
@@ -45,17 +45,17 @@ class reset_test_only(base_test):
         await self.generate_clock()
 
         # 2. Call the universal setup from base_test (Reset)
-       # await self.run_initial_setup() # we can ignore calling this reset task here
+        await self.run_initial_setup() # we can ignore calling this reset task here
 
         # 3. Explicitly execute the Group F Sequences
         self.logger.info("--- Executing TC-009: Reset Before Frame Start ---")
-        await self.seq_reset_before.start(self.env.top_agt.sqr)
+        await self.seq_reset_before.start(self.env.agt.sqr)
 
-        #self.logger.info("--- Executing TC-010: Reset Mid-Frame ---")
-       # await self.seq_reset_mid.start(self.env.top_agt.sqr)
+        self.logger.info("--- Executing TC-010: Reset Mid-Frame ---")
+        await self.seq_reset_mid.start(self.env.agt.sqr)
 
-       # self.logger.info("--- Executing TC-011: Multiple Consecutive Resets ---")
-        #await self.seq_reset_multi.start(self.env.top_agt.sqr)
+        self.logger.info("--- Executing TC-011: Multiple Consecutive Resets ---")
+        await self.seq_reset_multi.start(self.env.agt.sqr)
 
         # 4. Drop the objection to end the simulation
         self.drop_objection()

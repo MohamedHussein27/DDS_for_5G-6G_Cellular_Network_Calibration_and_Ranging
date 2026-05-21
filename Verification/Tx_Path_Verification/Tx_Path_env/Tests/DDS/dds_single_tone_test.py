@@ -10,12 +10,12 @@ import logging
 
 # Import the base test and the specific sequences
 from dds_base_test import *
-from dds_sequences import * 
+from dds_singletone_sequence import * 
 # ---------------------------------------------------------
 # Test 5: Singletone only test (For fast debugging of single tone generation and FTW_step handling)
 # ---------------------------------------------------------        
 @pyuvm.test()
-class dds_single_tone_test(dds_base_test):
+class dds_singletone_only_test(dds_base_test):
     def build_phase(self):
         super().build_phase()
         self.singletone_seq = dds_singletone_seq("singletone_seq")
