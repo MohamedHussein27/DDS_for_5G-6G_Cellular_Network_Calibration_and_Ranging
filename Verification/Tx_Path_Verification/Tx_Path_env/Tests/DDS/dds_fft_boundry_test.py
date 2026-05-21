@@ -10,12 +10,12 @@ import logging
 
 # Import the base test and the specific sequences
 from dds_base_test import *
-from dds_fft_boundary_sequence import * 
+from dds_sequences import * 
 # ---------------------------------------------------------
 # Test 8: FFT boundary test (For fast debugging of FFT boundary handling)
 # ---------------------------------------------------------                
 @pyuvm.test()
-class dds_fft_boundary_only_test(dds_base_test):
+class dds_fft_boundary_test(dds_base_test):
     def build_phase(self):
         super().build_phase()
         self.fft_boundary_seq = dds_fft_boundary_seq.create("fft_boundary_seq")

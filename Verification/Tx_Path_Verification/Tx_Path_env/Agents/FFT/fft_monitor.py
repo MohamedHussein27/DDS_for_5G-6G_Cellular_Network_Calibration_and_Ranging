@@ -29,7 +29,7 @@ class fft_monitor(uvm_monitor):
         await RisingEdge(self.dut.clk)
         
         while True:
-            await RisingEdge(self.dut.clk)
+            await FallingEdge(self.dut.clk)
             # Wait
             await ReadOnly()
             

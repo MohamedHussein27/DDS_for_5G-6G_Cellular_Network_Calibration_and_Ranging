@@ -10,7 +10,7 @@ import logging
 
 # Import the base test and the specific sequences
 from dds_base_test import *
-from dds_cornercase_sequence import * 
+from dds_sequences import * 
 # ---------------------------------------------------------
 # Test 7: Corner Case only test (For fast debugging of corner cases and edge conditions)
 # ---------------------------------------------------------        

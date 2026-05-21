@@ -84,12 +84,11 @@ class fft_subscriber(uvm_subscriber):
     # write : mandatory uvm_subscriber hook
     # ──────────────────────────────────────────────────────────────────────
     def write(self, item):
-        self.logger.debug(f"FFTSubscriber received: {item.convert2string()}")
-
+        self.logger.info(f"FFTSubscriber received: {item.convert2string()}")
+        self.sample(item)  # Call the sample method to update coverage with this transaction
     # ══════════════════════════════════════════════════════════════════════
     # COVER POINTS  (all bins defined with lambda pin functions)
-    # ══════════════════════════════════════════════════════════════════════
-
+    # ════════════════════════════════════
     # ── CP1 : valid_in ────────────────────────────────────────────────────
     @CoverPoint(
         "top.fft.valid_in",
@@ -184,7 +183,23 @@ class fft_subscriber(uvm_subscriber):
     # ──────────────────────────────────────────────────────────────────────
     # run_phase : drain the FIFO and sample every item
     # ──────────────────────────────────────────────────────────────────────
+    """
     async def run_phase(self):
         while True:
             seq_item_sub = await self.sub_fifo.get()
             self.sample(seq_item_sub)
+    """
+    def report_phase(self):
+        super().report_phase()
+        
+        # 1. Export functional coverage to an XML file 
+        # (XML is standard for coverage, but you can use .txt or .yml)
+        coverage_db.export_to_xml("fft_functional_coverage.xml")
+        self.logger.info("Functional coverage exported to fft_functional_coverage.xml")
+        
+        # 2. Print a formatted coverage table directly into the transcript!
+        self.logger.info("=========================================================")
+        self.logger.info("               FFT FUNCTIONAL COVERAGE REPORT            ")
+        self.logger.info("=========================================================")
+        coverage_db.report_coverage(self.logger.info, bins=True)
+        self.logger.info("=========================================================")  
