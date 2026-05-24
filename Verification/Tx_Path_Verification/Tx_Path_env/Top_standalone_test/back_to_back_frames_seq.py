@@ -102,4 +102,12 @@ class back_to_back_frames_seq(uvm_sequence):
                 req.set_bus_idle()
                 await self.finish_item(req)
 
-          
+        # ==========================================
+        # 4. IDLE / INTER-FRAME GAP just to get the output for the last frame
+        # ==========================================
+        for cycle in range(4096 * 5):
+            req = top_item.create(f"req_idle_{i}_{cycle}")
+            await self.start_item(req)
+            req.calculate_chirp(f0=f0_target, B=B_target)
+            req.set_bus_idle()
+            await self.finish_item(req)  
