@@ -27,7 +27,7 @@ class chirp_only_seq(uvm_sequence):
             
             zeros_re = [0] * 2048 
             zeros_im = [0] * 2048
-            #req.set_backdoor_rom(zeros_re, zeros_im) # <-- Late assignment
+            req.set_backdoor_rom(zeros_re, zeros_im) # <-- Late assignment
             
             await self.finish_item(req) # <-- Send to driver
 

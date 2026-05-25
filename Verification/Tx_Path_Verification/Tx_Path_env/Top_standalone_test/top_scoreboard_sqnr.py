@@ -142,7 +142,6 @@ def _build_reference(FTW_start, FTW_step, cycles,  ofdm_re_ints, ofdm_im_ints):
 
     # ── Recover physical parameters ───────────────────────────────────────────
     f0, B = _recover_f0_B(FTW_start, FTW_step)
-    B = 200e6
     print(f"[REF] FTW_start={FTW_start}  FTW_step={FTW_step}")
     print(f"[REF] Recovered f0={f0/1e6:.6f} MHz   B={B/1e6:.6f} MHz")
 
@@ -218,7 +217,7 @@ def _build_reference(FTW_start, FTW_step, cycles,  ofdm_re_ints, ofdm_im_ints):
 # ─────────────────────────────────────────────────────────────────────────────
 # Scoreboard
 # ─────────────────────────────────────────────────────────────────────────────
-class top_scoreboard(uvm_scoreboard):
+class top_scoreboard_sqnr(uvm_scoreboard):
     """
     Scoreboard for the full TX path (TX_TOP).
 
