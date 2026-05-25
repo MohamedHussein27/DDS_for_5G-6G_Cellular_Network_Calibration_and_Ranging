@@ -21,7 +21,7 @@ import logging
 
 # 1. Top Component Imports
 from top_agent import top_agent
-from top_scoreboard_edited import *
+from top_scoreboard_sqnr import *
 from top_subscriber import top_subscriber
 
 # 2. DDS Component Imports (Added missing imports)

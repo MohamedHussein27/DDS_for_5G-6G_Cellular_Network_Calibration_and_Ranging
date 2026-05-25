@@ -13,7 +13,7 @@ class chirp_only_seq(uvm_sequence):
         
     async def body(self):
         
-        f0_target = 30e6
+        f0_target = 0e6
         B_target  = 200e6
         
         # MAIN FRAME LOOP
@@ -27,7 +27,7 @@ class chirp_only_seq(uvm_sequence):
             
             zeros_re = [0] * 2048 
             zeros_im = [0] * 2048
-            req.set_backdoor_rom(zeros_re, zeros_im) # <-- Late assignment
+            #req.set_backdoor_rom(zeros_re, zeros_im) # <-- Late assignment
             
             await self.finish_item(req) # <-- Send to driver
 
