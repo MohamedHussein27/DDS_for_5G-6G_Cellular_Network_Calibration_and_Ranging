@@ -3,16 +3,16 @@
     Institution: Faculty of Engineering, Ain Shams University
     Project: DDS for 5G/6G Cellular Network Calibration and Ranging
 
-    Module: single_tone_test.py
+    Module: OFDM_Only_test.py
 
     Description:
-        This test verifies the TX datapath under TC-004: Single Tone conditions.
-        It executes 100 frames with a constant frequency to validate 
-        the phase-to-amplitude conversion and Quarter-Wave symmetry logic.
+        This test verifies the TX datapath under TC-003: OFDM-Only conditions.
+        It executes frames with zero chirp (M_dds = 0) and randomized OFDM
+        symbols to validate the datapath mapping and IFFT operations.
 """
 import cocotb 
 from cocotb.triggers import * 
-from cocotb.clock    import Clock
+from cocotb.clock import Clock
 from cocotb_coverage.crv import *
 from pyuvm import * 
 import pyuvm
@@ -20,16 +20,16 @@ import logging
 
 # Import the base test and the specific sequences
 from base_test import base_test
-from top_seq_item import *
+from OFDM_only_seq import ofdm_only_seq
 from reset_sequence import reset_before_frame_seq
-from chirp_only_seq import chirp_only_seq
+
 @pyuvm.test()
-class tc_002_chirp_only_test(base_test):
+class tc_003_ofdm_only_test(base_test):
     def build_phase(self):
         super().build_phase()
 
         # Instantiate only the sequences needed for this test
-        self.seq_single_tone = chirp_only_seq.create("seq_single_tone")
+        self.seq_ofdm_only = ofdm_only_seq.create("seq_ofdm_only")
         self.seq_reset_before = reset_before_frame_seq.create("seq_reset_before")   
 
     # run phase
@@ -43,9 +43,9 @@ class tc_002_chirp_only_test(base_test):
         self.logger.info("--- Executing TC-009: Reset Before Frame Start ---")
         await self.seq_reset_before.start(self.env.top_agt.sqr)
 
-        # 2. Execute the Single-Tone Sequence
-        self.logger.info("--- Executing TC-002: Chirp Only Zero OFDM ---")
-        await self.seq_single_tone.start(self.env.top_agt.sqr)
+        # 2. Execute the OFDM-Only Sequence
+        self.logger.info("--- Executing TC-003: OFDM-Only (Zero Chirp) Frames ---")
+        await self.seq_ofdm_only.start(self.env.top_agt.sqr)
 
         # 3. Drop the objection to end the simulation
         self.drop_objection()
@@ -53,5 +53,5 @@ class tc_002_chirp_only_test(base_test):
     def report_phase(self):
         self.logger.info("---------------------------------------------------------")
         self.logger.info(f" [TEST REPORT] : {self.get_type_name()}")
-        self.logger.info(" [TARGETS]     : Inter-frame contamination, constrained-random stress, guardband limits")
+        self.logger.info(" [TARGETS]     : OFDM random symbol mapping, datapath routing, zero-chirp math")
         self.logger.info("---------------------------------------------------------")

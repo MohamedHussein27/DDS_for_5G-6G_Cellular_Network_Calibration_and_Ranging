@@ -35,6 +35,19 @@ class top_item(uvm_sequence_item):
         self.valid_out = 0
         self.sample_index = 0 
 
+        # ==========================================
+        # NEW: Backdoor Payload Variables
+        # ==========================================
+        self.is_backdoor = False
+        self.backdoor_re = []
+        self.backdoor_im = []
+
+    def set_backdoor_rom(self, re_array, im_array):
+        """Helper to cleanly pack a backdoor transaction."""
+        self.is_backdoor = True
+        self.backdoor_re = re_array
+        self.backdoor_im = im_array
+
     def calculate_hw_registers(self):
         """Calculates generic equations based on the current f0, B, and cycles."""
         # Restored original math.floor logic
