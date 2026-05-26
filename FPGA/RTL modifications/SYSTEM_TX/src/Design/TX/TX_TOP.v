@@ -7,7 +7,15 @@ module TX_TOP #(
 )(
     input  wire                 clk,
     input  wire                 rst_n,
-    input  wire [1:0]           dds_count,
+    
+    // =======================================================
+    // NEW: Register File Bus Interface (Replaces Direct DDS Controls)
+    // =======================================================
+    input  wire [3:0]           addr,
+    input  wire                 wr_en,
+    input  wire [31:0]          wr_data,
+    input  wire                 rd_en,
+    output wire [31:0]          rd_data,
     
     // Final TX Output (Natural-Order Time Domain)
     output wire                 tx_valid,
@@ -19,17 +27,6 @@ module TX_TOP #(
     output wire signed [WL-1:0] bit_rev_out_re,
     output wire signed [WL-1:0] bit_rev_out_im
 );
-
-    reg [31:0]          FTW_start;
-    reg [12:0]          cycles;
-    reg [31:0]          FTW_step;
-    
-    // Changed to reg to fix multiple-driver error during synthesis
-    reg                 dds_enable; 
-    
-    // Added 1-cycle delay to align with ROM latency
-    reg [1:0]           dds_count_d; 
-    wire [31:0]         config_data;
 
     // -------------------------------------------------------
     // Internal Wires
@@ -45,37 +42,20 @@ module TX_TOP #(
     wire                 ifft_valid;
     wire signed [WL-1:0] ifft_out_re, ifft_out_im;
 
+    // -------------------------------------------------------
+    // Internal Wires for Regmap -> DDS Connection
+    // -------------------------------------------------------
+    wire [31:0] dds_FTW_start;
+    wire [31:0] dds_FTW_step;
+    wire [12:0] dds_cycles;
+    wire        dds_ready_flag;
+
+    // =======================================================
+    // Internal OFDM ROM & Pointer Logic
+    // =======================================================
     wire                 ofdm_rd_en;
     wire signed [WL-1:0] ofdm_in_re, ofdm_in_im;
-    reg  [10:0]          ofdm_ptr;
-
-    // Address alignment pipeline for ROM
-    always @(posedge clk or negedge rst_n) begin
-        if(!rst_n) dds_count_d <= 2'b00;
-        else       dds_count_d <= dds_count;
-    end
-
-    // Configuration FSM using aligned count
-    always @(posedge clk or negedge rst_n) begin
-        if(!rst_n) begin
-            FTW_start  <= 32'd0;
-            cycles     <= 13'd0;
-            FTW_step   <= 32'd0;
-            dds_enable <= 1'b0;
-        end else begin
-            case (dds_count_d) // Check against the delayed count
-                2'b00: FTW_start  <= config_data; 
-                2'b01: cycles     <= config_data[12:0];
-                2'b10: FTW_step   <= config_data; 
-                2'b11: dds_enable <= 1'b1; 
-                default: begin
-                    FTW_start <= 32'd0;
-                    cycles    <= 13'd0;
-                    FTW_step  <= 32'd0;
-                end
-            endcase
-        end
-    end
+    reg [10:0]           ofdm_ptr;
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
@@ -85,44 +65,46 @@ module TX_TOP #(
         end
     end
 
-    Config_reg u_config_reg (
-        .addra(dds_count), // Address goes in immediately
-        .clka(clk),
-        .douta(config_data) // Data comes out one cycle later
+    // =======================================================
+    // Configuration Register Map
+    // =======================================================
+    dds_config_regmap u_regmap (
+        .clk(clk),
+        .rst_n(rst_n),
+        .addr(addr),            // Connected to Top input
+        .wr_en(wr_en),          // Connected to Top input
+        .wr_data(wr_data),      // Connected to Top input
+        .rd_en(rd_en),          // Connected to Top input
+        .rd_data(rd_data),      // Connected to Top output
+        .FTW_start_out(dds_FTW_start),
+        .FTW_step_out(dds_FTW_step),
+        .cycles_out(dds_cycles),
+        .dds_ready_flag(dds_ready_flag) // Ready flag acts as enable
     );
 
-    OFDM_real u_ofdm_rom_real (
-        .clka(clk),
-        .addra(ofdm_ptr),
-        .douta(ofdm_in_re)
-    );
-
-    OFDM_imag u_ofdm_rom_imag (
-        .clka(clk),
-        .addra(ofdm_ptr),
-        .douta(ofdm_in_im)
+    ofdm_rom #(
+        .DEPTH(2048),
+        .WL(WL)
+    ) u_ofdm_rom (
+        .clk(clk),
+        .addr(ofdm_ptr),
+        .out_real(ofdm_in_re),
+        .out_imag(ofdm_in_im)
     );
 
     // =======================================================
     // 1. DDS Chirp Source
     // =======================================================
-    dds_top #(
-        .TUNING_WORD_WIDTH(32), 
-        .CYCLES_WIDTH(13),
-        .ADDRESS_WIDTH(16), 
-        .MEMORY_WIDTH(DDS_W)
-    ) u_dds (
-        .clk(clk), 
-        .rst_n(rst_n), 
-        .enable(dds_enable),
-        .FTW_start(FTW_start), 
-        .cycles(cycles), 
-        .FTW_step(FTW_step),
+    dds_top #(.MEMORY_WIDTH(DDS_W)) u_dds (
+        .clk(clk), .rst_n(rst_n), 
+        .enable(dds_ready_flag),        // Driven by Regmap flag
+        .FTW_start(dds_FTW_start),      // Driven by Regmap
+        .cycles(dds_cycles),            // Driven by Regmap
+        .FTW_step(dds_FTW_step),        // Driven by Regmap
         .valid_out(dds_valid),
         .final_amplitude(dds_amplitude)
     );
 
-    // Sign extend the DDS amplitude to 16 bits
     wire signed [WL-1:0] fft_in_re = (dds_valid) ? { {8{dds_amplitude[7]}}, dds_amplitude } : 16'd0;
     wire signed [WL-1:0] fft_in_im = 16'd0;
 
@@ -183,23 +165,16 @@ module TX_TOP #(
         .out_real(tx_out_re), .out_imag(tx_out_im)
     );
 
-    // =======================================================
-    // Reference Output Qualification (Capture Last 2048)
-    // =======================================================
-    reg [11:0] mux_cnt;
+    assign bit_rev_valid_out = bit_rev_valid;
+    assign bit_rev_out_re    = bit_rev_re;
+    assign bit_rev_out_im    = bit_rev_im;
 
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            mux_cnt <= 12'd0;
-        end else if (mux_valid) begin
-            mux_cnt <= mux_cnt + 1;
-        end else begin
-            mux_cnt <= 12'd0; 
-        end
+    // ========================================================
+    // ICARUS VERILOG / GTKWAVE WAVEFORM DUMPING
+    // ========================================================
+    initial begin
+        $dumpfile("TX_TOP.vcd");
+        $dumpvars(0, TX_TOP);
     end
-
-    assign bit_rev_valid_out = mux_valid && (mux_cnt >= 2048);
-    assign bit_rev_out_re    = mux_re;
-    assign bit_rev_out_im    = mux_im;
 
 endmodule

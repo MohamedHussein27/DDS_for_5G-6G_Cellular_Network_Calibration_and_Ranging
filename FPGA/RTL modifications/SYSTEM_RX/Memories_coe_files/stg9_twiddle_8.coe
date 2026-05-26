@@ -1,0 +1,20 @@
+; Combined Twiddle Factors for FFT Stage 9
+; Format: 32-bit (Upper 16 bits = Real, Lower 16 bits = Imaginary)
+memory_initialization_radix=16;
+memory_initialization_vector=
+40000000,
+3B21E782,
+2D41D2BF,
+187EC4DF,
+0000C000,
+E782C4DF,
+D2BFD2BF,
+C4DFE782,
+40000000,
+3B21E782,
+2D41D2BF,
+187EC4DF,
+0000C000,
+E782C4DF,
+D2BFD2BF,
+C4DFE782;

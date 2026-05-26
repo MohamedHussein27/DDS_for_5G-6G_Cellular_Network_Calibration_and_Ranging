@@ -22,9 +22,9 @@ import logging
 from base_test import base_test
 from top_seq_item import *
 from reset_sequence import reset_before_frame_seq
-from single_chirp_tone_seq import chirp_only_seq
+from chirp_only_seq import chirp_only_seq
 @pyuvm.test()
-class tc_004_single_tone_test(base_test):
+class tc_002_chirp_only_test(base_test):
     def build_phase(self):
         super().build_phase()
 
@@ -44,7 +44,7 @@ class tc_004_single_tone_test(base_test):
         await self.seq_reset_before.start(self.env.top_agt.sqr)
 
         # 2. Execute the Single-Tone Sequence
-        self.logger.info("--- Executing TC-004: Single Tone (Constant Sine Wave) Frames ---")
+        self.logger.info("--- Executing TC-002: Chirp Only Zero OFDM ---")
         await self.seq_single_tone.start(self.env.top_agt.sqr)
 
         # 3. Drop the objection to end the simulation

@@ -1,6 +1,3 @@
-"""
-
-"""
 import pyuvm
 from pyuvm import *
 from top_seq_item import *
@@ -17,23 +14,40 @@ class top_driver(uvm_driver):
             # 1. Get the next transaction item from the sequencer
             seq_item = await self.seq_item_port.get_next_item()
             
-            # 2. Synchronize with the clock edge before driving the signals
+            # ==========================================================
+            # INTERCEPT BACKDOOR TRANSACTIONS (Zero-Time Execution)
+            # ==========================================================
+            if seq_item.is_backdoor:
+
+                rom_re = self.dut_drv.u_ofdm_rom.rom_real
+                rom_im = self.dut_drv.u_ofdm_rom.rom_imag
+                
+                # Write the payload arrays into the simulation memory
+                for idx in range(len(seq_item.backdoor_re)):
+                    rom_re[idx].value = seq_item.backdoor_re[idx]
+                    rom_im[idx].value = seq_item.backdoor_im[idx]
+                    
+                self.logger.info(f"Driver executed ZERO-TIME backdoor ROM write ({len(seq_item.backdoor_re)} entries).")
+                self.seq_item_port.item_done()
+                continue # Skip the rest of the loop! Do not wiggle pins!
+            
+            # ==========================================================
+            # STANDARD PHYSICAL BUS WIGGLING
+            # ==========================================================
             await FallingEdge(self.dut_drv.clk)
             
-            # 3. Drive the stimulus into the dut_drv inputs
-            self.dut_drv.rst_n.value = seq_item.rst_n
-            self.dut_drv.dds_enable.value = seq_item.dds_enable
-            self.dut_drv.FTW_start.value = seq_item.FTW_start
-            self.dut_drv.cycles.value = seq_item.cycles
-            self.dut_drv.FTW_step.value = seq_item.FTW_step
-
-            #self.dut_drv.ofdm_in_re.value = seq_item.ofdm_in_real
-            #self.dut_drv.ofdm_in_im.value = seq_item.ofdm_in_imag
+            self.dut_drv.rst_n.value   = seq_item.rst_n
+            self.dut_drv.addr.value    = seq_item.addr
+            self.dut_drv.wr_en.value   = seq_item.wr_en
+            self.dut_drv.wr_data.value = seq_item.wr_data
+            self.dut_drv.rd_en.value   = seq_item.rd_en
 
             # printing the driven values for debugging
             self.logger.info(
-                f"=================================================================================================================================================="
-                f"Driving: rst_n={seq_item.rst_n}, dds_enable={seq_item.dds_enable}, FTW_start={seq_item.FTW_start}, cycles={seq_item.cycles}, FTW_step={seq_item.FTW_step}")
+                f"====================================================================================================\n"
+                f"Driving BUS: rst_n={seq_item.rst_n}, addr={hex(seq_item.addr)}, we={seq_item.wr_en}, "
+                f"wdata={hex(seq_item.wr_data)}, re={seq_item.rd_en}"
+            )
             
             # 4. Notify the sequencer that this transaction is complete
             self.seq_item_port.item_done()

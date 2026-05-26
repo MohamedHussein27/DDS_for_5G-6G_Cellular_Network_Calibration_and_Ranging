@@ -6,7 +6,7 @@
     Module: base_test.py
 
     Description:
-        The base test serves as the foundational pyuvm test class for the RX wrapper 
+        The base test serves as the foundational pyuvm test class for the TX wrapper 
         verification environment. It establishes the testbench hierarchy, instantiates 
         the environment components, generates the 491.52 MHz system clock, and defines 
         the standard execution flow (reset only and creating the clock) that all 
@@ -28,8 +28,8 @@ from environment import *
 
 class base_test(uvm_test):
 
-    def __init__(self, name, parent):
-        super().__init__(name, parent)
+    def _init_(self, name, parent):
+        super()._init_(name, parent)
 
 
     def build_phase(self):
@@ -41,12 +41,21 @@ class base_test(uvm_test):
         self.dut = cocotb.top
 
         # put dut handle to be seen by all components
+        #ConfigDB().set(None, "env.agt.driver_top", "DUT", self.dut)
         ConfigDB().set(self, "*", "DUT", self.dut)
+    # Set the specific DDS instance handle for the dds_monitor
+    # REPLACE 'dds_inst' with the actual instance name used in your TX_TOP verilog/vhdl
+        ConfigDB().set(self, "env.dds_agt.*", "DUT", self.dut.u_dds)
+        ConfigDB().set(self, "env.fft_agt.*", "DUT", self.dut.u_fft_tx)
+        ConfigDB().set(self, "env.ifft_agt.*", "DUT", self.dut.u_ifft_tx)
+
+        
 
         #self.reset_seq = reset_sequence.create("reset_seq")
 
         # assigning the which is active and which is passive
         ConfigDB().set(self, "env.top_agt", "is_active", uvm_active_passive_enum.UVM_ACTIVE) # top agent
+        ConfigDB().set(self, "env.dds_agt", "is_active", uvm_active_passive_enum.UVM_PASSIVE) # dds agent
         ConfigDB().set(self, "env.fft_agt", "is_active", uvm_active_passive_enum.UVM_PASSIVE) # fft agent
         ConfigDB().set(self, "env.ifft_agt", "is_active", uvm_active_passive_enum.UVM_PASSIVE) # ifft agent
 
@@ -56,4 +65,4 @@ class base_test(uvm_test):
         await cocotb.start(self.clk.start())
         
     def final_phase(self):
-        self.logger.info(f"********** End of {self.get_type_name()} **********")
+        self.logger.info(f"**** End of {self.get_type_name()} ****")

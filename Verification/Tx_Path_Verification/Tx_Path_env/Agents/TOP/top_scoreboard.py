@@ -27,6 +27,7 @@ import logging
 import numpy as np
  
 from top_seq_item import *
+from dds_seq_item import *
  
 # Import your TX golden model
 from tx_golden_model import *
@@ -75,7 +76,7 @@ class top_scoreboard(uvm_scoreboard):
     Scoreboard for the full TX path (TX_TOP).
  
     Inputs captured by the monitor in top_item:
-        rst_n, dds_enable, FTW_start, FTW_step, cycles
+        rst_n, dds_ready_flag, FTW_start, FTW_step, cycles
  
     Outputs captured by the monitor in top_item:
         tx_valid, tx_out_real, tx_out_imag
@@ -86,9 +87,18 @@ class top_scoreboard(uvm_scoreboard):
  
     # ── build_phase ───────────────────────────────────────────────────────────
     def build_phase(self):
+        # top analysis export and FIFO for receiving transactions from the monitor
         self.sb_export = uvm_analysis_export("sb_export", self)
         self.sb_fifo   = uvm_tlm_analysis_fifo("sb_fifo", self)
         self.sb_export = self.sb_fifo.analysis_export
+
+        # DDS analysis port (to receive FTW and cycle info for golden model)
+        self.dds_export = uvm_analysis_port("dds_export", self)
+        self.dds_fifo   = uvm_tlm_analysis_fifo("dds_fifo", self)
+        self.dds_export = self.dds_fifo.analysis_export
+
+        # Get a reference to the DUT for direct memory access in the golden model
+        self.dut = ConfigDB().get(self, "", "DUT")
  
         # Counters
         self.correct_real = 0
@@ -107,10 +117,11 @@ class top_scoreboard(uvm_scoreboard):
     async def run_phase(self):
         while True:
             item = await self.sb_fifo.get()
-            self._process(item)
+            dds_item = await self.dds_fifo.get()  # Get the latest DDS config for golden model
+            self._process(item, dds_item)
  
     # ── _process ──────────────────────────────────────────────────────────────
-    def _process(self, item):
+    def _process(self, item, dds_item):
  
         global i
  
@@ -128,17 +139,45 @@ class top_scoreboard(uvm_scoreboard):
         # ── Call golden model once on the first dds_enable pulse ──────────────
         # The golden model only needs (FTW_start, FTW_step, cycles) to produce
         # the full N-sample output vectors – no accumulation needed.
-        if item.dds_enable and not self._golden_ready:
+        if dds_item.enable and not self._golden_ready:
             self.logger.info(
                 f"Calling golden model: "
-                f"FTW_start={item.FTW_start}, FTW_step={item.FTW_step}, cycles={item.cycles}"
+                f"FTW_start={dds_item.FTW_start}, FTW_step={dds_item.FTW_step}"
             )
  
-            # tx_golden_model returns two vectors: real and imag (raw signed ints)
+
+            ofdm_re_list = [0] * 2048  # Pre-allocate list for OFDM ROM contents
+            ofdm_im_list = [0] * 2048
+            
+            # accessign the ofdm rom for passing the same values to the golden model
+            dut_ram_re = self.dut.u_ofdm_rom.rom_real 
+            dut_ram_im = self.dut.u_ofdm_rom.rom_imag 
+            
+            # Extract the memory depth (usually 4096)
+            ram_depth = len(dut_ram_re) 
+
+            print(f"Reading OFDM ROM contents for golden model (depth={ram_depth})...")
+            
+            for mem_idx in range(ram_depth):
+                # Safely read the value. If it's 'X' or 'U', treat as 0
+                try:
+                    val_re = int(dut_ram_re[mem_idx].value)
+                    val_im = int(dut_ram_im[mem_idx].value)
+                except ValueError:
+                    val_re = 0
+                    val_im = 0
+                
+                # Use your existing helper to sign-extend the 16-bit values
+                ofdm_re_list[mem_idx] = _sign16(val_re) # the plus one as this problem faced me when i was wroking with .hex files (indices problem)
+                ofdm_im_list[mem_idx] = _sign16(val_im)
+
+                
+
+            # Pass the dynamically read lists to the golden model
             ref_real_vec, ref_imag_vec = run_tx_top_pipeline(
-                item.FTW_start, item.FTW_step, item.cycles,Fs=491.52e6,
-                ofdm_re_file="ofdm_data_re.hex",
-                ofdm_im_file="ofdm_data_im.hex",
+                dds_item.FTW_start, dds_item.FTW_step, dds_item.cycles, Fs=491.52e6,
+                ofdm_re_array=ofdm_re_list, 
+                ofdm_im_array=ofdm_im_list,  
             )
  
             self._ref_real     = list(ref_real_vec)
@@ -156,7 +195,7 @@ class top_scoreboard(uvm_scoreboard):
                 f"TX scoreboard sample #{i}: "
                 f"| DUT output: re={_sign16(item.tx_out_real)}, "
                 f"im={_sign16(item.tx_out_imag)}, "
-                f"dds_enable={item.dds_enable}, tx_valid={item.tx_valid}"
+                f"dds_ready_flag={item.dds_ready_flag}, tx_valid={item.tx_valid}"
             )
  
         if i % 1000 == 0:
