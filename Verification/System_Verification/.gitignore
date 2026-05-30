@@ -8,4 +8,8 @@ rtl_out.csv
 *.xml
 *.hex
 *.gtkw
-.ini
+*.ini
+*.wlf
+*.xlsx
+*.md
+transcript
