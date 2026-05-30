@@ -1,0 +1,26 @@
+# ==============================================================================
+# Execution Shortcuts for FFT & RX Testcases
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# TX / FFT BLOCK TESTS (Legacy)
+# ------------------------------------------------------------------------------
+run_zero_ref:
+	make -f Makefile MODULE=zero_ref_chirp_test TESTCASE=zero_ref_chirp_test
+
+run_inputknowm:
+	make -f Makefile MODULE=rtl_hex_chirp_test TESTCASE=rtl_hex_chirp_test
+
+run_inputtx:
+	make -f Makefile MODULE=single_chirp_tone_test TESTCASE=tc_004_single_tone_test	
+
+
+
+
+
+
+
+
+
+
+
