@@ -1,0 +1,35 @@
+# ==============================================================================
+# Execution Shortcuts for FFT & RX Testcases
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# TX / FFT BLOCK TESTS (Legacy)
+# ------------------------------------------------------------------------------
+run_zero_ref:
+	make -f Makefile MODULE=zero_ref_chirp_test TESTCASE=zero_ref_chirp_test
+
+run_inputknowm:
+	make -f Makefile MODULE=rtl_hex_chirp_test TESTCASE=rtl_hex_chirp_test
+
+run_tc_rx_001:
+	make -f Makefile MODULE=null_input_test TESTCASE=null_input_test
+	
+
+# TC-RX-005 | Mixed OFDM+Radar — OFDM Extraction             | Feat: F-RX-01
+run_tc_rx_005:
+	make -f Makefile MODULE=mixed_ofdm_radar_test TESTCASE=mixed_ofdm_radar_test
+
+# TC-RX-007 | Radar Range Profile — Loaded Reference         | Feat: F-RX-01, F-RX-02
+run_tc_rx_007:
+	make -f Makefile MODULE=radar_range_profile_test TESTCASE=radar_range_profile_test			
+
+
+
+
+
+
+
+
+
+
+

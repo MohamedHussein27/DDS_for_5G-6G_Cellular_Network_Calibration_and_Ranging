@@ -1,0 +1,401 @@
+<top abs_name="top" size="152" coverage="24" cover_percentage="15.79">
+  <rx size="175" coverage="0" cover_percentage="0.0" abs_name="rx">
+    <rx_valid_in size="2" coverage="0" cover_percentage="0.0" abs_name="rx.rx_valid_in" weight="1" at_least="1">
+      <bin0 bin="0" hits="0" abs_name="rx.rx_valid_in.bin0" />
+      <bin1 bin="1" hits="0" abs_name="rx.rx_valid_in.bin1" />
+    </rx_valid_in>
+    <ref_wr_en size="2" coverage="0" cover_percentage="0.0" abs_name="rx.ref_wr_en" weight="1" at_least="1">
+      <bin0 bin="0" hits="0" abs_name="rx.ref_wr_en.bin0" />
+      <bin1 bin="1" hits="0" abs_name="rx.ref_wr_en.bin1" />
+    </ref_wr_en>
+    <ofdm_valid_out size="2" coverage="0" cover_percentage="0.0" abs_name="rx.ofdm_valid_out" weight="1" at_least="1">
+      <bin0 bin="0" hits="0" abs_name="rx.ofdm_valid_out.bin0" />
+      <bin1 bin="1" hits="0" abs_name="rx.ofdm_valid_out.bin1" />
+    </ofdm_valid_out>
+    <radar_valid_out size="2" coverage="0" cover_percentage="0.0" abs_name="rx.radar_valid_out" weight="1" at_least="1">
+      <bin0 bin="0" hits="0" abs_name="rx.radar_valid_out.bin0" />
+      <bin1 bin="1" hits="0" abs_name="rx.radar_valid_out.bin1" />
+    </radar_valid_out>
+    <rst_n size="2" coverage="0" cover_percentage="0.0" abs_name="rx.rst_n" weight="1" at_least="1">
+      <bin0 bin="0" hits="0" abs_name="rx.rst_n.bin0" />
+      <bin1 bin="1" hits="0" abs_name="rx.rst_n.bin1" />
+    </rst_n>
+    <rx_in_real_range size="5" coverage="0" cover_percentage="0.0" abs_name="rx.rx_in_real_range" weight="1" at_least="1">
+      <bin0 bin="min_neg" hits="0" abs_name="rx.rx_in_real_range.bin0" />
+      <bin1 bin="negative" hits="0" abs_name="rx.rx_in_real_range.bin1" />
+      <bin2 bin="zero" hits="0" abs_name="rx.rx_in_real_range.bin2" />
+      <bin3 bin="positive" hits="0" abs_name="rx.rx_in_real_range.bin3" />
+      <bin4 bin="max_pos" hits="0" abs_name="rx.rx_in_real_range.bin4" />
+    </rx_in_real_range>
+    <rx_in_imag_range size="5" coverage="0" cover_percentage="0.0" abs_name="rx.rx_in_imag_range" weight="1" at_least="1">
+      <bin0 bin="min_neg" hits="0" abs_name="rx.rx_in_imag_range.bin0" />
+      <bin1 bin="negative" hits="0" abs_name="rx.rx_in_imag_range.bin1" />
+      <bin2 bin="zero" hits="0" abs_name="rx.rx_in_imag_range.bin2" />
+      <bin3 bin="positive" hits="0" abs_name="rx.rx_in_imag_range.bin3" />
+      <bin4 bin="max_pos" hits="0" abs_name="rx.rx_in_imag_range.bin4" />
+    </rx_in_imag_range>
+    <ref_wr_real_range size="5" coverage="0" cover_percentage="0.0" abs_name="rx.ref_wr_real_range" weight="1" at_least="1">
+      <bin0 bin="min_neg" hits="0" abs_name="rx.ref_wr_real_range.bin0" />
+      <bin1 bin="negative" hits="0" abs_name="rx.ref_wr_real_range.bin1" />
+      <bin2 bin="zero" hits="0" abs_name="rx.ref_wr_real_range.bin2" />
+      <bin3 bin="positive" hits="0" abs_name="rx.ref_wr_real_range.bin3" />
+      <bin4 bin="max_pos" hits="0" abs_name="rx.ref_wr_real_range.bin4" />
+    </ref_wr_real_range>
+    <ref_wr_imag_range size="5" coverage="0" cover_percentage="0.0" abs_name="rx.ref_wr_imag_range" weight="1" at_least="1">
+      <bin0 bin="min_neg" hits="0" abs_name="rx.ref_wr_imag_range.bin0" />
+      <bin1 bin="negative" hits="0" abs_name="rx.ref_wr_imag_range.bin1" />
+      <bin2 bin="zero" hits="0" abs_name="rx.ref_wr_imag_range.bin2" />
+      <bin3 bin="positive" hits="0" abs_name="rx.ref_wr_imag_range.bin3" />
+      <bin4 bin="max_pos" hits="0" abs_name="rx.ref_wr_imag_range.bin4" />
+    </ref_wr_imag_range>
+    <ofdm_out_real_range size="5" coverage="0" cover_percentage="0.0" abs_name="rx.ofdm_out_real_range" weight="1" at_least="1">
+      <bin0 bin="min_neg" hits="0" abs_name="rx.ofdm_out_real_range.bin0" />
+      <bin1 bin="negative" hits="0" abs_name="rx.ofdm_out_real_range.bin1" />
+      <bin2 bin="zero" hits="0" abs_name="rx.ofdm_out_real_range.bin2" />
+      <bin3 bin="positive" hits="0" abs_name="rx.ofdm_out_real_range.bin3" />
+      <bin4 bin="max_pos" hits="0" abs_name="rx.ofdm_out_real_range.bin4" />
+    </ofdm_out_real_range>
+    <ofdm_out_imag_range size="5" coverage="0" cover_percentage="0.0" abs_name="rx.ofdm_out_imag_range" weight="1" at_least="1">
+      <bin0 bin="min_neg" hits="0" abs_name="rx.ofdm_out_imag_range.bin0" />
+      <bin1 bin="negative" hits="0" abs_name="rx.ofdm_out_imag_range.bin1" />
+      <bin2 bin="zero" hits="0" abs_name="rx.ofdm_out_imag_range.bin2" />
+      <bin3 bin="positive" hits="0" abs_name="rx.ofdm_out_imag_range.bin3" />
+      <bin4 bin="max_pos" hits="0" abs_name="rx.ofdm_out_imag_range.bin4" />
+    </ofdm_out_imag_range>
+    <radar_out_real_range size="5" coverage="0" cover_percentage="0.0" abs_name="rx.radar_out_real_range" weight="1" at_least="1">
+      <bin0 bin="min_neg" hits="0" abs_name="rx.radar_out_real_range.bin0" />
+      <bin1 bin="negative" hits="0" abs_name="rx.radar_out_real_range.bin1" />
+      <bin2 bin="zero" hits="0" abs_name="rx.radar_out_real_range.bin2" />
+      <bin3 bin="positive" hits="0" abs_name="rx.radar_out_real_range.bin3" />
+      <bin4 bin="max_pos" hits="0" abs_name="rx.radar_out_real_range.bin4" />
+    </radar_out_real_range>
+    <radar_out_imag_range size="5" coverage="0" cover_percentage="0.0" abs_name="rx.radar_out_imag_range" weight="1" at_least="1">
+      <bin0 bin="min_neg" hits="0" abs_name="rx.radar_out_imag_range.bin0" />
+      <bin1 bin="negative" hits="0" abs_name="rx.radar_out_imag_range.bin1" />
+      <bin2 bin="zero" hits="0" abs_name="rx.radar_out_imag_range.bin2" />
+      <bin3 bin="positive" hits="0" abs_name="rx.radar_out_imag_range.bin3" />
+      <bin4 bin="max_pos" hits="0" abs_name="rx.radar_out_imag_range.bin4" />
+    </radar_out_imag_range>
+    <channel_input_quadrant size="25" coverage="0" cover_percentage="0.0" abs_name="rx.channel_input_quadrant" weight="1" at_least="1">
+      <bin0 bin="('min_neg', 'min_neg')" hits="0" abs_name="rx.channel_input_quadrant.bin0" />
+      <bin1 bin="('min_neg', 'negative')" hits="0" abs_name="rx.channel_input_quadrant.bin1" />
+      <bin2 bin="('min_neg', 'zero')" hits="0" abs_name="rx.channel_input_quadrant.bin2" />
+      <bin3 bin="('min_neg', 'positive')" hits="0" abs_name="rx.channel_input_quadrant.bin3" />
+      <bin4 bin="('min_neg', 'max_pos')" hits="0" abs_name="rx.channel_input_quadrant.bin4" />
+      <bin5 bin="('negative', 'min_neg')" hits="0" abs_name="rx.channel_input_quadrant.bin5" />
+      <bin6 bin="('negative', 'negative')" hits="0" abs_name="rx.channel_input_quadrant.bin6" />
+      <bin7 bin="('negative', 'zero')" hits="0" abs_name="rx.channel_input_quadrant.bin7" />
+      <bin8 bin="('negative', 'positive')" hits="0" abs_name="rx.channel_input_quadrant.bin8" />
+      <bin9 bin="('negative', 'max_pos')" hits="0" abs_name="rx.channel_input_quadrant.bin9" />
+      <bin10 bin="('zero', 'min_neg')" hits="0" abs_name="rx.channel_input_quadrant.bin10" />
+      <bin11 bin="('zero', 'negative')" hits="0" abs_name="rx.channel_input_quadrant.bin11" />
+      <bin12 bin="('zero', 'zero')" hits="0" abs_name="rx.channel_input_quadrant.bin12" />
+      <bin13 bin="('zero', 'positive')" hits="0" abs_name="rx.channel_input_quadrant.bin13" />
+      <bin14 bin="('zero', 'max_pos')" hits="0" abs_name="rx.channel_input_quadrant.bin14" />
+      <bin15 bin="('positive', 'min_neg')" hits="0" abs_name="rx.channel_input_quadrant.bin15" />
+      <bin16 bin="('positive', 'negative')" hits="0" abs_name="rx.channel_input_quadrant.bin16" />
+      <bin17 bin="('positive', 'zero')" hits="0" abs_name="rx.channel_input_quadrant.bin17" />
+      <bin18 bin="('positive', 'positive')" hits="0" abs_name="rx.channel_input_quadrant.bin18" />
+      <bin19 bin="('positive', 'max_pos')" hits="0" abs_name="rx.channel_input_quadrant.bin19" />
+      <bin20 bin="('max_pos', 'min_neg')" hits="0" abs_name="rx.channel_input_quadrant.bin20" />
+      <bin21 bin="('max_pos', 'negative')" hits="0" abs_name="rx.channel_input_quadrant.bin21" />
+      <bin22 bin="('max_pos', 'zero')" hits="0" abs_name="rx.channel_input_quadrant.bin22" />
+      <bin23 bin="('max_pos', 'positive')" hits="0" abs_name="rx.channel_input_quadrant.bin23" />
+      <bin24 bin="('max_pos', 'max_pos')" hits="0" abs_name="rx.channel_input_quadrant.bin24" />
+    </channel_input_quadrant>
+    <ofdm_output_quadrant_valid size="50" coverage="0" cover_percentage="0.0" abs_name="rx.ofdm_output_quadrant_valid" weight="1" at_least="1">
+      <bin0 bin="(0, 'min_neg', 'min_neg')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin0" />
+      <bin1 bin="(0, 'min_neg', 'negative')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin1" />
+      <bin2 bin="(0, 'min_neg', 'zero')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin2" />
+      <bin3 bin="(0, 'min_neg', 'positive')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin3" />
+      <bin4 bin="(0, 'min_neg', 'max_pos')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin4" />
+      <bin5 bin="(0, 'negative', 'min_neg')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin5" />
+      <bin6 bin="(0, 'negative', 'negative')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin6" />
+      <bin7 bin="(0, 'negative', 'zero')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin7" />
+      <bin8 bin="(0, 'negative', 'positive')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin8" />
+      <bin9 bin="(0, 'negative', 'max_pos')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin9" />
+      <bin10 bin="(0, 'zero', 'min_neg')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin10" />
+      <bin11 bin="(0, 'zero', 'negative')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin11" />
+      <bin12 bin="(0, 'zero', 'zero')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin12" />
+      <bin13 bin="(0, 'zero', 'positive')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin13" />
+      <bin14 bin="(0, 'zero', 'max_pos')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin14" />
+      <bin15 bin="(0, 'positive', 'min_neg')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin15" />
+      <bin16 bin="(0, 'positive', 'negative')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin16" />
+      <bin17 bin="(0, 'positive', 'zero')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin17" />
+      <bin18 bin="(0, 'positive', 'positive')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin18" />
+      <bin19 bin="(0, 'positive', 'max_pos')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin19" />
+      <bin20 bin="(0, 'max_pos', 'min_neg')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin20" />
+      <bin21 bin="(0, 'max_pos', 'negative')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin21" />
+      <bin22 bin="(0, 'max_pos', 'zero')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin22" />
+      <bin23 bin="(0, 'max_pos', 'positive')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin23" />
+      <bin24 bin="(0, 'max_pos', 'max_pos')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin24" />
+      <bin25 bin="(1, 'min_neg', 'min_neg')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin25" />
+      <bin26 bin="(1, 'min_neg', 'negative')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin26" />
+      <bin27 bin="(1, 'min_neg', 'zero')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin27" />
+      <bin28 bin="(1, 'min_neg', 'positive')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin28" />
+      <bin29 bin="(1, 'min_neg', 'max_pos')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin29" />
+      <bin30 bin="(1, 'negative', 'min_neg')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin30" />
+      <bin31 bin="(1, 'negative', 'negative')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin31" />
+      <bin32 bin="(1, 'negative', 'zero')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin32" />
+      <bin33 bin="(1, 'negative', 'positive')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin33" />
+      <bin34 bin="(1, 'negative', 'max_pos')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin34" />
+      <bin35 bin="(1, 'zero', 'min_neg')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin35" />
+      <bin36 bin="(1, 'zero', 'negative')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin36" />
+      <bin37 bin="(1, 'zero', 'zero')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin37" />
+      <bin38 bin="(1, 'zero', 'positive')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin38" />
+      <bin39 bin="(1, 'zero', 'max_pos')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin39" />
+      <bin40 bin="(1, 'positive', 'min_neg')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin40" />
+      <bin41 bin="(1, 'positive', 'negative')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin41" />
+      <bin42 bin="(1, 'positive', 'zero')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin42" />
+      <bin43 bin="(1, 'positive', 'positive')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin43" />
+      <bin44 bin="(1, 'positive', 'max_pos')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin44" />
+      <bin45 bin="(1, 'max_pos', 'min_neg')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin45" />
+      <bin46 bin="(1, 'max_pos', 'negative')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin46" />
+      <bin47 bin="(1, 'max_pos', 'zero')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin47" />
+      <bin48 bin="(1, 'max_pos', 'positive')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin48" />
+      <bin49 bin="(1, 'max_pos', 'max_pos')" hits="0" abs_name="rx.ofdm_output_quadrant_valid.bin49" />
+    </ofdm_output_quadrant_valid>
+    <radar_output_quadrant_valid size="50" coverage="0" cover_percentage="0.0" abs_name="rx.radar_output_quadrant_valid" weight="1" at_least="1">
+      <bin0 bin="(0, 'min_neg', 'min_neg')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin0" />
+      <bin1 bin="(0, 'min_neg', 'negative')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin1" />
+      <bin2 bin="(0, 'min_neg', 'zero')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin2" />
+      <bin3 bin="(0, 'min_neg', 'positive')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin3" />
+      <bin4 bin="(0, 'min_neg', 'max_pos')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin4" />
+      <bin5 bin="(0, 'negative', 'min_neg')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin5" />
+      <bin6 bin="(0, 'negative', 'negative')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin6" />
+      <bin7 bin="(0, 'negative', 'zero')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin7" />
+      <bin8 bin="(0, 'negative', 'positive')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin8" />
+      <bin9 bin="(0, 'negative', 'max_pos')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin9" />
+      <bin10 bin="(0, 'zero', 'min_neg')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin10" />
+      <bin11 bin="(0, 'zero', 'negative')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin11" />
+      <bin12 bin="(0, 'zero', 'zero')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin12" />
+      <bin13 bin="(0, 'zero', 'positive')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin13" />
+      <bin14 bin="(0, 'zero', 'max_pos')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin14" />
+      <bin15 bin="(0, 'positive', 'min_neg')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin15" />
+      <bin16 bin="(0, 'positive', 'negative')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin16" />
+      <bin17 bin="(0, 'positive', 'zero')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin17" />
+      <bin18 bin="(0, 'positive', 'positive')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin18" />
+      <bin19 bin="(0, 'positive', 'max_pos')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin19" />
+      <bin20 bin="(0, 'max_pos', 'min_neg')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin20" />
+      <bin21 bin="(0, 'max_pos', 'negative')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin21" />
+      <bin22 bin="(0, 'max_pos', 'zero')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin22" />
+      <bin23 bin="(0, 'max_pos', 'positive')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin23" />
+      <bin24 bin="(0, 'max_pos', 'max_pos')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin24" />
+      <bin25 bin="(1, 'min_neg', 'min_neg')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin25" />
+      <bin26 bin="(1, 'min_neg', 'negative')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin26" />
+      <bin27 bin="(1, 'min_neg', 'zero')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin27" />
+      <bin28 bin="(1, 'min_neg', 'positive')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin28" />
+      <bin29 bin="(1, 'min_neg', 'max_pos')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin29" />
+      <bin30 bin="(1, 'negative', 'min_neg')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin30" />
+      <bin31 bin="(1, 'negative', 'negative')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin31" />
+      <bin32 bin="(1, 'negative', 'zero')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin32" />
+      <bin33 bin="(1, 'negative', 'positive')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin33" />
+      <bin34 bin="(1, 'negative', 'max_pos')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin34" />
+      <bin35 bin="(1, 'zero', 'min_neg')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin35" />
+      <bin36 bin="(1, 'zero', 'negative')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin36" />
+      <bin37 bin="(1, 'zero', 'zero')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin37" />
+      <bin38 bin="(1, 'zero', 'positive')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin38" />
+      <bin39 bin="(1, 'zero', 'max_pos')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin39" />
+      <bin40 bin="(1, 'positive', 'min_neg')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin40" />
+      <bin41 bin="(1, 'positive', 'negative')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin41" />
+      <bin42 bin="(1, 'positive', 'zero')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin42" />
+      <bin43 bin="(1, 'positive', 'positive')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin43" />
+      <bin44 bin="(1, 'positive', 'max_pos')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin44" />
+      <bin45 bin="(1, 'max_pos', 'min_neg')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin45" />
+      <bin46 bin="(1, 'max_pos', 'negative')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin46" />
+      <bin47 bin="(1, 'max_pos', 'zero')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin47" />
+      <bin48 bin="(1, 'max_pos', 'positive')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin48" />
+      <bin49 bin="(1, 'max_pos', 'max_pos')" hits="0" abs_name="rx.radar_output_quadrant_valid.bin49" />
+    </radar_output_quadrant_valid>
+  </rx>
+  <fft size="101" coverage="0" cover_percentage="0.0" abs_name="top.fft">
+    <valid_in size="2" coverage="0" cover_percentage="0.0" abs_name="top.fft.valid_in" weight="1" at_least="1">
+      <bin0 bin="valid_in_deasserted" hits="0" abs_name="top.fft.valid_in.bin0" />
+      <bin1 bin="valid_in_asserted" hits="0" abs_name="top.fft.valid_in.bin1" />
+    </valid_in>
+    <valid_out size="2" coverage="0" cover_percentage="0.0" abs_name="top.fft.valid_out" weight="1" at_least="1">
+      <bin0 bin="valid_out_deasserted" hits="0" abs_name="top.fft.valid_out.bin0" />
+      <bin1 bin="valid_out_asserted" hits="0" abs_name="top.fft.valid_out.bin1" />
+    </valid_out>
+    <in_real_range size="5" coverage="0" cover_percentage="0.0" abs_name="top.fft.in_real_range" weight="1" at_least="1">
+      <bin0 bin="in_real_min_neg" hits="0" abs_name="top.fft.in_real_range.bin0" />
+      <bin1 bin="in_real_neg" hits="0" abs_name="top.fft.in_real_range.bin1" />
+      <bin2 bin="in_real_zero" hits="0" abs_name="top.fft.in_real_range.bin2" />
+      <bin3 bin="in_real_pos" hits="0" abs_name="top.fft.in_real_range.bin3" />
+      <bin4 bin="in_real_max_pos" hits="0" abs_name="top.fft.in_real_range.bin4" />
+    </in_real_range>
+    <in_imag_range size="5" coverage="0" cover_percentage="0.0" abs_name="top.fft.in_imag_range" weight="1" at_least="1">
+      <bin0 bin="in_imag_min_neg" hits="0" abs_name="top.fft.in_imag_range.bin0" />
+      <bin1 bin="in_imag_neg" hits="0" abs_name="top.fft.in_imag_range.bin1" />
+      <bin2 bin="in_imag_zero" hits="0" abs_name="top.fft.in_imag_range.bin2" />
+      <bin3 bin="in_imag_pos" hits="0" abs_name="top.fft.in_imag_range.bin3" />
+      <bin4 bin="in_imag_max_pos" hits="0" abs_name="top.fft.in_imag_range.bin4" />
+    </in_imag_range>
+    <out_real_range size="5" coverage="0" cover_percentage="0.0" abs_name="top.fft.out_real_range" weight="1" at_least="1">
+      <bin0 bin="out_real_min_neg" hits="0" abs_name="top.fft.out_real_range.bin0" />
+      <bin1 bin="out_real_neg" hits="0" abs_name="top.fft.out_real_range.bin1" />
+      <bin2 bin="out_real_zero" hits="0" abs_name="top.fft.out_real_range.bin2" />
+      <bin3 bin="out_real_pos" hits="0" abs_name="top.fft.out_real_range.bin3" />
+      <bin4 bin="out_real_max_pos" hits="0" abs_name="top.fft.out_real_range.bin4" />
+    </out_real_range>
+    <out_imag_range size="5" coverage="0" cover_percentage="0.0" abs_name="top.fft.out_imag_range" weight="1" at_least="1">
+      <bin0 bin="out_imag_min_neg" hits="0" abs_name="top.fft.out_imag_range.bin0" />
+      <bin1 bin="out_imag_neg" hits="0" abs_name="top.fft.out_imag_range.bin1" />
+      <bin2 bin="out_imag_zero" hits="0" abs_name="top.fft.out_imag_range.bin2" />
+      <bin3 bin="out_imag_pos" hits="0" abs_name="top.fft.out_imag_range.bin3" />
+      <bin4 bin="out_imag_max_pos" hits="0" abs_name="top.fft.out_imag_range.bin4" />
+    </out_imag_range>
+    <rst_n size="2" coverage="0" cover_percentage="0.0" abs_name="top.fft.rst_n" weight="1" at_least="1">
+      <bin0 bin="reset_active" hits="0" abs_name="top.fft.rst_n.bin0" />
+      <bin1 bin="reset_inactive" hits="0" abs_name="top.fft.rst_n.bin1" />
+    </rst_n>
+    <input_quadrant size="25" coverage="0" cover_percentage="0.0" abs_name="top.fft.input_quadrant" weight="1" at_least="1">
+      <bin0 bin="('in_real_min_neg', 'in_imag_min_neg')" hits="0" abs_name="top.fft.input_quadrant.bin0" />
+      <bin1 bin="('in_real_min_neg', 'in_imag_neg')" hits="0" abs_name="top.fft.input_quadrant.bin1" />
+      <bin2 bin="('in_real_min_neg', 'in_imag_zero')" hits="0" abs_name="top.fft.input_quadrant.bin2" />
+      <bin3 bin="('in_real_min_neg', 'in_imag_pos')" hits="0" abs_name="top.fft.input_quadrant.bin3" />
+      <bin4 bin="('in_real_min_neg', 'in_imag_max_pos')" hits="0" abs_name="top.fft.input_quadrant.bin4" />
+      <bin5 bin="('in_real_neg', 'in_imag_min_neg')" hits="0" abs_name="top.fft.input_quadrant.bin5" />
+      <bin6 bin="('in_real_neg', 'in_imag_neg')" hits="0" abs_name="top.fft.input_quadrant.bin6" />
+      <bin7 bin="('in_real_neg', 'in_imag_zero')" hits="0" abs_name="top.fft.input_quadrant.bin7" />
+      <bin8 bin="('in_real_neg', 'in_imag_pos')" hits="0" abs_name="top.fft.input_quadrant.bin8" />
+      <bin9 bin="('in_real_neg', 'in_imag_max_pos')" hits="0" abs_name="top.fft.input_quadrant.bin9" />
+      <bin10 bin="('in_real_zero', 'in_imag_min_neg')" hits="0" abs_name="top.fft.input_quadrant.bin10" />
+      <bin11 bin="('in_real_zero', 'in_imag_neg')" hits="0" abs_name="top.fft.input_quadrant.bin11" />
+      <bin12 bin="('in_real_zero', 'in_imag_zero')" hits="0" abs_name="top.fft.input_quadrant.bin12" />
+      <bin13 bin="('in_real_zero', 'in_imag_pos')" hits="0" abs_name="top.fft.input_quadrant.bin13" />
+      <bin14 bin="('in_real_zero', 'in_imag_max_pos')" hits="0" abs_name="top.fft.input_quadrant.bin14" />
+      <bin15 bin="('in_real_pos', 'in_imag_min_neg')" hits="0" abs_name="top.fft.input_quadrant.bin15" />
+      <bin16 bin="('in_real_pos', 'in_imag_neg')" hits="0" abs_name="top.fft.input_quadrant.bin16" />
+      <bin17 bin="('in_real_pos', 'in_imag_zero')" hits="0" abs_name="top.fft.input_quadrant.bin17" />
+      <bin18 bin="('in_real_pos', 'in_imag_pos')" hits="0" abs_name="top.fft.input_quadrant.bin18" />
+      <bin19 bin="('in_real_pos', 'in_imag_max_pos')" hits="0" abs_name="top.fft.input_quadrant.bin19" />
+      <bin20 bin="('in_real_max_pos', 'in_imag_min_neg')" hits="0" abs_name="top.fft.input_quadrant.bin20" />
+      <bin21 bin="('in_real_max_pos', 'in_imag_neg')" hits="0" abs_name="top.fft.input_quadrant.bin21" />
+      <bin22 bin="('in_real_max_pos', 'in_imag_zero')" hits="0" abs_name="top.fft.input_quadrant.bin22" />
+      <bin23 bin="('in_real_max_pos', 'in_imag_pos')" hits="0" abs_name="top.fft.input_quadrant.bin23" />
+      <bin24 bin="('in_real_max_pos', 'in_imag_max_pos')" hits="0" abs_name="top.fft.input_quadrant.bin24" />
+    </input_quadrant>
+    <input_quadrant_valid_out size="50" coverage="0" cover_percentage="0.0" abs_name="top.fft.input_quadrant_valid_out" weight="1" at_least="1">
+      <bin0 bin="('valid_out_deasserted', 'in_real_min_neg', 'in_imag_min_neg')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin0" />
+      <bin1 bin="('valid_out_deasserted', 'in_real_min_neg', 'in_imag_neg')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin1" />
+      <bin2 bin="('valid_out_deasserted', 'in_real_min_neg', 'in_imag_zero')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin2" />
+      <bin3 bin="('valid_out_deasserted', 'in_real_min_neg', 'in_imag_pos')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin3" />
+      <bin4 bin="('valid_out_deasserted', 'in_real_min_neg', 'in_imag_max_pos')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin4" />
+      <bin5 bin="('valid_out_deasserted', 'in_real_neg', 'in_imag_min_neg')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin5" />
+      <bin6 bin="('valid_out_deasserted', 'in_real_neg', 'in_imag_neg')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin6" />
+      <bin7 bin="('valid_out_deasserted', 'in_real_neg', 'in_imag_zero')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin7" />
+      <bin8 bin="('valid_out_deasserted', 'in_real_neg', 'in_imag_pos')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin8" />
+      <bin9 bin="('valid_out_deasserted', 'in_real_neg', 'in_imag_max_pos')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin9" />
+      <bin10 bin="('valid_out_deasserted', 'in_real_zero', 'in_imag_min_neg')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin10" />
+      <bin11 bin="('valid_out_deasserted', 'in_real_zero', 'in_imag_neg')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin11" />
+      <bin12 bin="('valid_out_deasserted', 'in_real_zero', 'in_imag_zero')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin12" />
+      <bin13 bin="('valid_out_deasserted', 'in_real_zero', 'in_imag_pos')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin13" />
+      <bin14 bin="('valid_out_deasserted', 'in_real_zero', 'in_imag_max_pos')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin14" />
+      <bin15 bin="('valid_out_deasserted', 'in_real_pos', 'in_imag_min_neg')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin15" />
+      <bin16 bin="('valid_out_deasserted', 'in_real_pos', 'in_imag_neg')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin16" />
+      <bin17 bin="('valid_out_deasserted', 'in_real_pos', 'in_imag_zero')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin17" />
+      <bin18 bin="('valid_out_deasserted', 'in_real_pos', 'in_imag_pos')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin18" />
+      <bin19 bin="('valid_out_deasserted', 'in_real_pos', 'in_imag_max_pos')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin19" />
+      <bin20 bin="('valid_out_deasserted', 'in_real_max_pos', 'in_imag_min_neg')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin20" />
+      <bin21 bin="('valid_out_deasserted', 'in_real_max_pos', 'in_imag_neg')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin21" />
+      <bin22 bin="('valid_out_deasserted', 'in_real_max_pos', 'in_imag_zero')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin22" />
+      <bin23 bin="('valid_out_deasserted', 'in_real_max_pos', 'in_imag_pos')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin23" />
+      <bin24 bin="('valid_out_deasserted', 'in_real_max_pos', 'in_imag_max_pos')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin24" />
+      <bin25 bin="('valid_out_asserted', 'in_real_min_neg', 'in_imag_min_neg')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin25" />
+      <bin26 bin="('valid_out_asserted', 'in_real_min_neg', 'in_imag_neg')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin26" />
+      <bin27 bin="('valid_out_asserted', 'in_real_min_neg', 'in_imag_zero')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin27" />
+      <bin28 bin="('valid_out_asserted', 'in_real_min_neg', 'in_imag_pos')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin28" />
+      <bin29 bin="('valid_out_asserted', 'in_real_min_neg', 'in_imag_max_pos')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin29" />
+      <bin30 bin="('valid_out_asserted', 'in_real_neg', 'in_imag_min_neg')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin30" />
+      <bin31 bin="('valid_out_asserted', 'in_real_neg', 'in_imag_neg')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin31" />
+      <bin32 bin="('valid_out_asserted', 'in_real_neg', 'in_imag_zero')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin32" />
+      <bin33 bin="('valid_out_asserted', 'in_real_neg', 'in_imag_pos')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin33" />
+      <bin34 bin="('valid_out_asserted', 'in_real_neg', 'in_imag_max_pos')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin34" />
+      <bin35 bin="('valid_out_asserted', 'in_real_zero', 'in_imag_min_neg')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin35" />
+      <bin36 bin="('valid_out_asserted', 'in_real_zero', 'in_imag_neg')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin36" />
+      <bin37 bin="('valid_out_asserted', 'in_real_zero', 'in_imag_zero')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin37" />
+      <bin38 bin="('valid_out_asserted', 'in_real_zero', 'in_imag_pos')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin38" />
+      <bin39 bin="('valid_out_asserted', 'in_real_zero', 'in_imag_max_pos')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin39" />
+      <bin40 bin="('valid_out_asserted', 'in_real_pos', 'in_imag_min_neg')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin40" />
+      <bin41 bin="('valid_out_asserted', 'in_real_pos', 'in_imag_neg')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin41" />
+      <bin42 bin="('valid_out_asserted', 'in_real_pos', 'in_imag_zero')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin42" />
+      <bin43 bin="('valid_out_asserted', 'in_real_pos', 'in_imag_pos')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin43" />
+      <bin44 bin="('valid_out_asserted', 'in_real_pos', 'in_imag_max_pos')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin44" />
+      <bin45 bin="('valid_out_asserted', 'in_real_max_pos', 'in_imag_min_neg')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin45" />
+      <bin46 bin="('valid_out_asserted', 'in_real_max_pos', 'in_imag_neg')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin46" />
+      <bin47 bin="('valid_out_asserted', 'in_real_max_pos', 'in_imag_zero')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin47" />
+      <bin48 bin="('valid_out_asserted', 'in_real_max_pos', 'in_imag_pos')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin48" />
+      <bin49 bin="('valid_out_asserted', 'in_real_max_pos', 'in_imag_max_pos')" hits="0" abs_name="top.fft.input_quadrant_valid_out.bin49" />
+    </input_quadrant_valid_out>
+  </fft>
+  <ifft size="51" coverage="24" cover_percentage="47.06" abs_name="top.ifft">
+    <valid_in size="2" coverage="2" cover_percentage="100.0" abs_name="top.ifft.valid_in" weight="1" at_least="1">
+      <bin0 bin="valid_in_deasserted" hits="14602" abs_name="top.ifft.valid_in.bin0" />
+      <bin1 bin="valid_in_asserted" hits="2048" abs_name="top.ifft.valid_in.bin1" />
+    </valid_in>
+    <valid_out size="2" coverage="2" cover_percentage="100.0" abs_name="top.ifft.valid_out" weight="1" at_least="1">
+      <bin0 bin="valid_out_deasserted" hits="14602" abs_name="top.ifft.valid_out.bin0" />
+      <bin1 bin="valid_out_asserted" hits="2048" abs_name="top.ifft.valid_out.bin1" />
+    </valid_out>
+    <in_real_range size="5" coverage="3" cover_percentage="60.0" abs_name="top.ifft.in_real_range" weight="1" at_least="1">
+      <bin0 bin="in_real_min_neg" hits="0" abs_name="top.ifft.in_real_range.bin0" />
+      <bin1 bin="in_real_neg" hits="1025" abs_name="top.ifft.in_real_range.bin1" />
+      <bin2 bin="in_real_zero" hits="12299" abs_name="top.ifft.in_real_range.bin2" />
+      <bin3 bin="in_real_pos" hits="3326" abs_name="top.ifft.in_real_range.bin3" />
+      <bin4 bin="in_real_max_pos" hits="0" abs_name="top.ifft.in_real_range.bin4" />
+    </in_real_range>
+    <in_imag_range size="5" coverage="3" cover_percentage="60.0" abs_name="top.ifft.in_imag_range" weight="1" at_least="1">
+      <bin0 bin="in_imag_min_neg" hits="0" abs_name="top.ifft.in_imag_range.bin0" />
+      <bin1 bin="in_imag_neg" hits="1037" abs_name="top.ifft.in_imag_range.bin1" />
+      <bin2 bin="in_imag_zero" hits="12299" abs_name="top.ifft.in_imag_range.bin2" />
+      <bin3 bin="in_imag_pos" hits="3314" abs_name="top.ifft.in_imag_range.bin3" />
+      <bin4 bin="in_imag_max_pos" hits="0" abs_name="top.ifft.in_imag_range.bin4" />
+    </in_imag_range>
+    <out_real_range size="5" coverage="3" cover_percentage="60.0" abs_name="top.ifft.out_real_range" weight="1" at_least="1">
+      <bin0 bin="out_real_min_neg" hits="0" abs_name="top.ifft.out_real_range.bin0" />
+      <bin1 bin="out_real_neg" hits="1040" abs_name="top.ifft.out_real_range.bin1" />
+      <bin2 bin="out_real_zero" hits="14346" abs_name="top.ifft.out_real_range.bin2" />
+      <bin3 bin="out_real_pos" hits="1264" abs_name="top.ifft.out_real_range.bin3" />
+      <bin4 bin="out_real_max_pos" hits="0" abs_name="top.ifft.out_real_range.bin4" />
+    </out_real_range>
+    <out_imag_range size="5" coverage="4" cover_percentage="80.0" abs_name="top.ifft.out_imag_range" weight="1" at_least="1">
+      <bin0 bin="out_imag_min_neg" hits="1" abs_name="top.ifft.out_imag_range.bin0" />
+      <bin1 bin="out_imag_neg" hits="1000" abs_name="top.ifft.out_imag_range.bin1" />
+      <bin2 bin="out_imag_zero" hits="14346" abs_name="top.ifft.out_imag_range.bin2" />
+      <bin3 bin="out_imag_pos" hits="1303" abs_name="top.ifft.out_imag_range.bin3" />
+      <bin4 bin="out_imag_max_pos" hits="0" abs_name="top.ifft.out_imag_range.bin4" />
+    </out_imag_range>
+    <rst_n size="2" coverage="2" cover_percentage="100.0" abs_name="top.ifft.rst_n" weight="1" at_least="1">
+      <bin0 bin="reset_active" hits="8" abs_name="top.ifft.rst_n.bin0" />
+      <bin1 bin="reset_inactive" hits="16642" abs_name="top.ifft.rst_n.bin1" />
+    </rst_n>
+    <input_quadrant size="25" coverage="5" cover_percentage="20.0" abs_name="top.ifft.input_quadrant" weight="1" at_least="1">
+      <bin0 bin="('in_real_min_neg', 'in_imag_min_neg')" hits="0" abs_name="top.ifft.input_quadrant.bin0" />
+      <bin1 bin="('in_real_min_neg', 'in_imag_neg')" hits="0" abs_name="top.ifft.input_quadrant.bin1" />
+      <bin2 bin="('in_real_min_neg', 'in_imag_zero')" hits="0" abs_name="top.ifft.input_quadrant.bin2" />
+      <bin3 bin="('in_real_min_neg', 'in_imag_pos')" hits="0" abs_name="top.ifft.input_quadrant.bin3" />
+      <bin4 bin="('in_real_min_neg', 'in_imag_max_pos')" hits="0" abs_name="top.ifft.input_quadrant.bin4" />
+      <bin5 bin="('in_real_neg', 'in_imag_min_neg')" hits="0" abs_name="top.ifft.input_quadrant.bin5" />
+      <bin6 bin="('in_real_neg', 'in_imag_neg')" hits="1032" abs_name="top.ifft.input_quadrant.bin6" />
+      <bin7 bin="('in_real_neg', 'in_imag_zero')" hits="0" abs_name="top.ifft.input_quadrant.bin7" />
+      <bin8 bin="('in_real_neg', 'in_imag_pos')" hits="1018" abs_name="top.ifft.input_quadrant.bin8" />
+      <bin9 bin="('in_real_neg', 'in_imag_max_pos')" hits="0" abs_name="top.ifft.input_quadrant.bin9" />
+      <bin10 bin="('in_real_zero', 'in_imag_min_neg')" hits="0" abs_name="top.ifft.input_quadrant.bin10" />
+      <bin11 bin="('in_real_zero', 'in_imag_neg')" hits="0" abs_name="top.ifft.input_quadrant.bin11" />
+      <bin12 bin="('in_real_zero', 'in_imag_zero')" hits="24598" abs_name="top.ifft.input_quadrant.bin12" />
+      <bin13 bin="('in_real_zero', 'in_imag_pos')" hits="0" abs_name="top.ifft.input_quadrant.bin13" />
+      <bin14 bin="('in_real_zero', 'in_imag_max_pos')" hits="0" abs_name="top.ifft.input_quadrant.bin14" />
+      <bin15 bin="('in_real_pos', 'in_imag_min_neg')" hits="0" abs_name="top.ifft.input_quadrant.bin15" />
+      <bin16 bin="('in_real_pos', 'in_imag_neg')" hits="1042" abs_name="top.ifft.input_quadrant.bin16" />
+      <bin17 bin="('in_real_pos', 'in_imag_zero')" hits="0" abs_name="top.ifft.input_quadrant.bin17" />
+      <bin18 bin="('in_real_pos', 'in_imag_pos')" hits="5610" abs_name="top.ifft.input_quadrant.bin18" />
+      <bin19 bin="('in_real_pos', 'in_imag_max_pos')" hits="0" abs_name="top.ifft.input_quadrant.bin19" />
+      <bin20 bin="('in_real_max_pos', 'in_imag_min_neg')" hits="0" abs_name="top.ifft.input_quadrant.bin20" />
+      <bin21 bin="('in_real_max_pos', 'in_imag_neg')" hits="0" abs_name="top.ifft.input_quadrant.bin21" />
+      <bin22 bin="('in_real_max_pos', 'in_imag_zero')" hits="0" abs_name="top.ifft.input_quadrant.bin22" />
+      <bin23 bin="('in_real_max_pos', 'in_imag_pos')" hits="0" abs_name="top.ifft.input_quadrant.bin23" />
+      <bin24 bin="('in_real_max_pos', 'in_imag_max_pos')" hits="0" abs_name="top.ifft.input_quadrant.bin24" />
+    </input_quadrant>
+  </ifft>
+</top>
