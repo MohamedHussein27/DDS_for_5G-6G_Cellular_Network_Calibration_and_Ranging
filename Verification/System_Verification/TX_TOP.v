@@ -8,11 +8,14 @@ module TX_TOP #(
     input  wire                 clk,
     input  wire                 rst_n,
     
-    // DDS Controls
-    input  wire                 dds_enable,
-    input  wire [31:0]          FTW_start,
-    input  wire [12:0]          cycles,
-    input  wire [31:0]          FTW_step,
+    // =======================================================
+    // NEW: Register File Bus Interface (Replaces Direct DDS Controls)
+    // =======================================================
+    input  wire [3:0]           addr,
+    input  wire                 wr_en,
+    input  wire [31:0]          wr_data,
+    input  wire                 rd_en,
+    output wire [31:0]          rd_data,
     
     // Final TX Output (Natural-Order Time Domain)
     output wire                 tx_valid,
@@ -39,8 +42,16 @@ module TX_TOP #(
     wire                 ifft_valid;
     wire signed [WL-1:0] ifft_out_re, ifft_out_im;
 
+    // -------------------------------------------------------
+    // Internal Wires for Regmap -> DDS Connection
+    // -------------------------------------------------------
+    wire [31:0] dds_FTW_start;
+    wire [31:0] dds_FTW_step;
+    wire [12:0] dds_cycles;
+    wire        dds_ready_flag;
+
     // =======================================================
-    // NEW: Internal OFDM ROM & Pointer Logic
+    // Internal OFDM ROM & Pointer Logic
     // =======================================================
     wire                 ofdm_rd_en;
     wire signed [WL-1:0] ofdm_in_re, ofdm_in_im;
@@ -53,6 +64,23 @@ module TX_TOP #(
             ofdm_ptr <= ofdm_ptr + 1;
         end
     end
+
+    // =======================================================
+    // Configuration Register Map
+    // =======================================================
+    dds_config_regmap u_regmap (
+        .clk(clk),
+        .rst_n(rst_n),
+        .addr(addr),            // Connected to Top input
+        .wr_en(wr_en),          // Connected to Top input
+        .wr_data(wr_data),      // Connected to Top input
+        .rd_en(rd_en),          // Connected to Top input
+        .rd_data(rd_data),      // Connected to Top output
+        .FTW_start_out(dds_FTW_start),
+        .FTW_step_out(dds_FTW_step),
+        .cycles_out(dds_cycles),
+        .dds_ready_flag(dds_ready_flag) // Ready flag acts as enable
+    );
 
     ofdm_rom #(
         .DEPTH(2048),
@@ -69,8 +97,10 @@ module TX_TOP #(
     // =======================================================
     dds_top #(.MEMORY_WIDTH(DDS_W)) u_dds (
         .clk(clk), .rst_n(rst_n), 
-        .enable(dds_enable),
-        .FTW_start(FTW_start), .cycles(cycles), .FTW_step(FTW_step),
+        .enable(dds_ready_flag),        // Driven by Regmap flag
+        .FTW_start(dds_FTW_start),      // Driven by Regmap
+        .cycles(dds_cycles),            // Driven by Regmap
+        .FTW_step(dds_FTW_step),        // Driven by Regmap
         .valid_out(dds_valid),
         .final_amplitude(dds_amplitude)
     );
@@ -135,28 +165,16 @@ module TX_TOP #(
         .out_real(tx_out_re), .out_imag(tx_out_im)
     );
 
-    // assign bit_rev_valid_out = bit_rev_valid;
-    // assign bit_rev_out_re    = bit_rev_re;
-    // assign bit_rev_out_im    = bit_rev_im;
+    assign bit_rev_valid_out = bit_rev_valid;
+    assign bit_rev_out_re    = bit_rev_re;
+    assign bit_rev_out_im    = bit_rev_im;
 
-    // =======================================================
-    // Reference Output Qualification (Capture Last 2048)
-    // =======================================================
-    reg [11:0] mux_cnt;
-
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            mux_cnt <= 12'd0;
-        end else if (mux_valid) begin
-            mux_cnt <= mux_cnt + 1;
-        end else begin
-            mux_cnt <= 12'd0; // Reset counter between 4096-bin frames
-        end
+    // ========================================================
+    // ICARUS VERILOG / GTKWAVE WAVEFORM DUMPING
+    // ========================================================
+    initial begin
+        $dumpfile("TX_TOP.vcd");
+        $dumpvars(0, TX_TOP);
     end
-
-    // Only output 'valid' to the RX Reference RAM during the Radar half (2048-4095)
-    assign bit_rev_valid_out = mux_valid && (mux_cnt >= 2048);
-    assign bit_rev_out_re    = mux_re;
-    assign bit_rev_out_im    = mux_im;
 
 endmodule

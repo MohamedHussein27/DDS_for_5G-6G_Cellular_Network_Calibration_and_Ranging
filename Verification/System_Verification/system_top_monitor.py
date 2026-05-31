@@ -87,13 +87,13 @@ class system_top_monitor(uvm_monitor):
             item.rd_en    = read_1bit    (self.dut_mon.rd_en)
 
             # ── ② TX bus outputs ─────────────────────────────────────
-            item.rd_data        = read_unsigned(self.dut_mon.rd_data)
-            item.dds_ready_flag = read_1bit    (self.dut_mon.dds_ready_flag)
+            item.rd_data        = read_unsigned(self.dut_mon.u_tx.rd_data)
+            item.dds_ready_flag = read_1bit    (self.dut_mon.u_tx.dds_ready_flag)
 
             # ── ③ TX datapath outputs ────────────────────────────────
-            item.tx_valid    = read_1bit    (self.dut_mon.tx_valid)
-            item.tx_out_real = read_signed  (self.dut_mon.tx_out_re)
-            item.tx_out_imag = read_signed  (self.dut_mon.tx_out_im)
+            item.tx_valid    = read_1bit    (self.dut_mon.u_tx.tx_valid)
+            item.tx_out_real = read_signed  (self.dut_mon.u_tx.tx_out_re)
+            item.tx_out_imag = read_signed  (self.dut_mon.u_tx.tx_out_im)
 
             # ── ④ RX loopback inputs (internal wires observed passively)
             # These wires exist inside the DUT; we read them for coverage.
@@ -123,7 +123,7 @@ class system_top_monitor(uvm_monitor):
                 f"rst={item.rst_n}, addr={hex(item.addr)}, "
                 f"we={item.wr_en}, wdata={hex(item.wr_data)}, "
                 f"re={item.rd_en} | "
-                f"rdata={hex(item.rd_data)}, rdy={item.dds_ready_flag} | "
+                f"rdata={hex(item.rd_data)}, dds_out_valid={item.dds_ready_flag} | "
                 f"tx_vld={item.tx_valid} | "
                 f"ofdm_vld={item.ofdm_valid_out} | "
                 f"radar_vld={item.radar_valid_out}"

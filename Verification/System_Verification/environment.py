@@ -102,26 +102,26 @@ class Environment(uvm_env):
         
         if self.mode == "SYSTEM":
             # Connect Top Agent to its Scoreboard and Subscriber
-            self.system_agt.agt_ap.connect(self.system_sb.sb_export)
-            self.system_agt.agt_ap.connect(self.system_sub.analysis_export)
+            self.system_agt.mon.mon_ap.connect(self.system_sb.sb_export)
+            self.system_agt.mon.mon_ap.connect(self.system_sub.analysis_export)
 
             
             # Connect FFT Agent to its Scoreboard and Subscriber
-            self.tx_agt.agt_ap.connect(self.tx_sb.sb_export)
-            self.tx_agt.agt_ap.connect(self.tx_sub.analysis_export)
+            self.tx_agt.mon.mon_ap.connect(self.tx_sb.sb_export)
+            self.tx_agt.mon.mon_ap.connect(self.tx_sub.analysis_export)
 
             # Connect IFFT Agent to its Scoreboard and Subscriber
-            self.rx_agt.agt_ap.connect(self.rx_sb.sb_export)
-            self.rx_agt.agt_ap.connect(self.rx_sub.analysis_export)
+            self.rx_agt.mon.mon_ap.connect(self.rx_sb.sb_export)
+            self.rx_agt.mon.mon_ap.connect(self.rx_sub.analysis_export)
         
       
 
         elif self.mode == "TX":
             # Connect FFT Agent to its Scoreboard and Subscriber
-            self.tx_agt.agt_ap.connect(self.tx_sb.sb_export)
-            self.tx_agt.agt_ap.connect(self.tx_sub.analysis_export)
+            self.tx_agt.mon.mon_ap.connect(self.tx_sb.sb_export)
+            self.tx_agt.mon.mon_ap.connect(self.tx_sub.analysis_export)
         
         elif self.mode == "RX":
             # Connect IFFT Agent to its Scoreboard and Subscriber
-            self.rx_agt.agt_ap.connect(self.rx_sb.sb_export)
-            self.rx_agt.agt_ap.connect(self.rx_sub.analysis_export)
+            self.rx_agt.mon.mon_ap.connect(self.rx_sb.sb_export)
+            self.rx_agt.mon.mon_ap.connect(self.rx_sub.analysis_export)

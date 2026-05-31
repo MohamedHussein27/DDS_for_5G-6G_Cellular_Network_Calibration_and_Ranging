@@ -47,8 +47,8 @@ class base_test(uvm_test):
         
 
         # assigning the which is active and which is passive
-        ConfigDB().set(self, "env.system_agt", "is_active", uvm_active_passive_enum.UVM_PASSIVE) # system agent
-        ConfigDB().set(self, "env.tx_agt", "is_active", uvm_active_passive_enum.UVM_ACTIVE) # tx agent
+        ConfigDB().set(self, "env.system_agt", "is_active", uvm_active_passive_enum.UVM_ACTIVE) # system agent
+        ConfigDB().set(self, "env.tx_agt", "is_active", uvm_active_passive_enum.UVM_PASSIVE) # tx agent
         ConfigDB().set(self, "env.rx_agt", "is_active", uvm_active_passive_enum.UVM_PASSIVE) # rx agent
 
     # generate the clock

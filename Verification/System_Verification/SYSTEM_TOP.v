@@ -8,20 +8,25 @@ module SYSTEM_TOP #(
     input  wire                 clk,
     input  wire                 rst_n,
     
-    // Master System Controls
-    input  wire                 dds_enable,
-    input  wire [31:0]          FTW_start,
-    input  wire [12:0]          cycles,
-    input  wire [31:0]          FTW_step,
+    // =======================================================
+    // Register File Bus Interface (Controls TX_TOP Regmap)
+    // =======================================================
+    input  wire [3:0]           addr,
+    input  wire                 wr_en,
+    input  wire [31:0]          wr_data,
+    input  wire                 rd_en,
+    output wire [31:0]          rd_data,
     
-    // Note: OFDM Data ports removed because ROM is now inside TX_TOP
-    
+    // =======================================================
     // Receiver Output: Communication Data
+    // =======================================================
     output wire                 ofdm_valid_out,
     output wire signed [WL-1:0] ofdm_out_re,
     output wire signed [WL-1:0] ofdm_out_im,
     
+    // =======================================================
     // Receiver Output: Radar Range Profile
+    // =======================================================
     output wire                 radar_valid_out,
     output wire signed [WL-1:0] radar_out_re,
     output wire signed [WL-1:0] radar_out_im
@@ -52,8 +57,13 @@ module SYSTEM_TOP #(
         .WL(WL), .N(N), .DDS_W(DDS_W)
     ) u_tx (
         .clk(clk), .rst_n(rst_n),
-        .dds_enable(dds_enable),
-        .FTW_start(FTW_start), .cycles(cycles), .FTW_step(FTW_step),
+        
+        // Register File Bus mapped directly to TX_TOP
+        .addr(addr),
+        .wr_en(wr_en),
+        .wr_data(wr_data),
+        .rd_en(rd_en),
+        .rd_data(rd_data),
         
         // Output to RX internal reference
         .bit_rev_valid_out(ref_valid),
@@ -104,5 +114,10 @@ module SYSTEM_TOP #(
         .radar_out_re(radar_out_re),
         .radar_out_im(radar_out_im)
     );
+
+    initial begin
+        $dumpfile("SYSTEM_TOP.vcd");
+        $dumpvars(0, SYSTEM_TOP);
+    end
 
 endmodule
