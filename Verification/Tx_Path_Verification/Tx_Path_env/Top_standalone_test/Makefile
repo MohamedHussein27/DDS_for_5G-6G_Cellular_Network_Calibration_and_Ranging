@@ -69,6 +69,9 @@ OFDM_only:
 single_chirp_tone:
 	$(MAKE) sim MODULE=single_chirp_tone_test UVM_TESTNAME=single_chirp_tone_test
 
+null_frame:
+	$(MAKE) sim MODULE=null_frame_test UVM_TESTNAME=null_frame_test
+
 # ============================================================================
 # Cleanup Target
 # ============================================================================

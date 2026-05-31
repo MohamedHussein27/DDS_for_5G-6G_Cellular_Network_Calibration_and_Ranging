@@ -33,8 +33,9 @@ class ofdm_only_seq(uvm_sequence):
             # Generate 2048 random 16-bit signed integers for Real and Imaginary.
             # (Matches your active subcarrier depth. Covers the 1500 symbols 
             # mentioned in TC-003 while safely initializing the entire array).
-            rand_re = [random.randint(-32768, 32767) for _ in range(2048)]
-            rand_im = [random.randint(-32768, 32767) for _ in range(2048)]
+            # max real and max imag in conestellation: 1.1504 -> q8.8 -> 295
+            rand_re = [random.randint(-295, 295) for _ in range(2048)]
+            rand_im = [random.randint(-295, 295) for _ in range(2048)]
             
             req.set_backdoor_rom(rand_re, rand_im)
             await self.finish_item(req)

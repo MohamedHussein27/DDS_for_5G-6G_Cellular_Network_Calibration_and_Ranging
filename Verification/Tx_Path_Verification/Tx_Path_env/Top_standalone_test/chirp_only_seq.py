@@ -13,7 +13,7 @@ class chirp_only_seq(uvm_sequence):
         
     async def body(self):
         
-        f0_target = 0e6
+        f0_target = 30e6
         B_target  = 200e6
         
         # MAIN FRAME LOOP
