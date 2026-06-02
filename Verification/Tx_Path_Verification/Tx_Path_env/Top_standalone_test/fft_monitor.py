@@ -76,7 +76,7 @@ class fft_monitor(uvm_monitor):
 
 
             # monitoring captured output values (uncomment for debug)
-            self.logger.info(f"Monitor captured: rst_n={rsp_seq_item.rst_n}, valid_in={rsp_seq_item.valid_in},"
+            self.logger.debug(f"Monitor captured: rst_n={rsp_seq_item.rst_n}, valid_in={rsp_seq_item.valid_in},"
                               f" in_real={rsp_seq_item.in_real}, in_imag={rsp_seq_item.in_imag}, valid_out={rsp_seq_item.valid_out},"
                                f" out_real={rsp_seq_item.out_real}, out_imag={rsp_seq_item.out_imag}")
             

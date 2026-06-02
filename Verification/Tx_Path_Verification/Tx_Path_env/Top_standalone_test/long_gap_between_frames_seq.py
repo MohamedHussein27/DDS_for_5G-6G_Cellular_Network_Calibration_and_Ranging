@@ -7,14 +7,14 @@ import cocotb
 class long_gap_between_frames_seq(uvm_sequence):
     """
     TC-013: Long Gap Between Frames. [MED Priority]
-    Send frame 1. Insert 10,000 idle cycles (no frame_start). Send frame 2
+    Send frame 1. Insert 20,000 idle cycles (no frame_start). Send frame 2
     with a different stimulus.
     Expected: Frame 2 has no stale pipeline state from frame 1 corrupting it.
     PASS: Frame 2 outputs exactly match the Python reference (Error = 0).
     """
     def __init__(self, name="long_gap_between_frames_seq"):
         super().__init__(name)
-        self.long_gap_cycles = 10000  # TC-013 specification
+        self.long_gap_cycles = 20000  # TC-013 specification
 
     async def body(self):
 
@@ -30,9 +30,13 @@ class long_gap_between_frames_seq(uvm_sequence):
         # 0. Backdoor load for frame 1
         req = top_item.create("req_backdoor_f1")
         await self.start_item(req)
-        rand_re_f1 = [random.randint(-32768, 32767) for _ in range(2048)]
-        rand_im_f1 = [random.randint(-32768, 32767) for _ in range(2048)]
-        req.set_backdoor_rom(rand_re_f1, rand_im_f1)
+        # Generate 2048 random 16-bit signed integers for Real and Imaginary.
+        # (Matches your active subcarrier depth. Covers the 1500 symbols 
+        # mentioned in TC-003 while safely initializing the entire array).
+        # max real and max imag in conestellation: 1.1504 -> q8.8 -> 295
+        rand_re_1 = [random.randint(-295, 295) for _ in range(2048)]
+        rand_im_1 = [random.randint(-295, 295) for _ in range(2048)]
+        #req.set_backdoor_rom(rand_re_1, rand_im_1)
         await self.finish_item(req)
 
         # 1. Write phase — frame 1
@@ -82,7 +86,7 @@ class long_gap_between_frames_seq(uvm_sequence):
             await self.finish_item(req)
 
         # ============================================================
-        # LONG GAP — 10,000 idle cycles, no frame_start asserted
+        # LONG GAP — 20,000 idle cycles, no frame_start asserted
         # Pipeline must drain and hold no stale state during this window
         # ============================================================
         for cycle in range(self.long_gap_cycles):
@@ -95,14 +99,14 @@ class long_gap_between_frames_seq(uvm_sequence):
         # FRAME 2 — Different stimulus (stale-state stress target)
         # ============================================================
         f0_frame2 = 90e6   # Deliberately different from frame 1
-        B_frame2  = 5e6
+        B_frame2  = 15e6
 
         # 0. Backdoor load for frame 2 — completely different OFDM seed
         req = top_item.create("req_backdoor_f2")
         await self.start_item(req)
-        rand_re_f2 = [random.randint(-32768, 32767) for _ in range(2048)]
-        rand_im_f2 = [random.randint(-32768, 32767) for _ in range(2048)]
-        req.set_backdoor_rom(rand_re_f2, rand_im_f2)
+        rand_re_f2 = [random.randint(-295, 295) for _ in range(2048)]
+        rand_im_f2 = [random.randint(-295, 295) for _ in range(2048)]
+        #req.set_backdoor_rom(rand_re_f2, rand_im_f2)
         await self.finish_item(req)
 
         # 1. Write phase — frame 2

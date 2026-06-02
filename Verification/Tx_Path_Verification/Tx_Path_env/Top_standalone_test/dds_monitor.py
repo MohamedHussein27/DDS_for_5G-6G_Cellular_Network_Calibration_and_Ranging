@@ -73,7 +73,7 @@ class dds_monitor(uvm_monitor):
                     sample_index += 1
                 else:
                     sample_index = 1
-            self.logger.info(f"Monitoring dds: rst_n={seq_item.rst_n}, enable={seq_item.enable}, FTW_start={seq_item.FTW_start}, FTW_step={seq_item.FTW_step}," 
+            self.logger.debug(f"Monitoring dds: rst_n={seq_item.rst_n}, enable={seq_item.enable}, FTW_start={seq_item.FTW_start}, FTW_step={seq_item.FTW_step}," 
                              f"cycles={seq_item.cycles}, valid_out={seq_item.valid_out}, "
                              f"final_amplitude={seq_item.final_amplitude}, sample_index={getattr(seq_item, 'sample_index', 'N/A')}"   )
             

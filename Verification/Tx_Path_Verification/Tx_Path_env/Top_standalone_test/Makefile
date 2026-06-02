@@ -72,6 +72,20 @@ single_chirp_tone:
 null_frame:
 	$(MAKE) sim MODULE=null_frame_test UVM_TESTNAME=null_frame_test
 
+normal_chirp:
+	$(MAKE) sim MODULE=normal_chirp_test UVM_TESTNAME=normal_chirp_test
+
+overflow_saturation:
+	$(MAKE) sim MODULE=overflow_saturation_test UVM_TESTNAME=overflow_saturation_test
+
+back_to_back:
+	$(MAKE) sim MODULE=back_to_back_frames_test UVM_TESTNAME=back_to_back_frames_test
+
+long_gap:
+	$(MAKE) sim MODULE=long_gap_between_frames_test UVM_TESTNAME=long_gap_between_frames_test
+
+valid_out:
+	$(MAKE) sim MODULE=valid_out_gating_test UVM_TESTNAME=valid_out_gating_test
 # ============================================================================
 # Cleanup Target
 # ============================================================================

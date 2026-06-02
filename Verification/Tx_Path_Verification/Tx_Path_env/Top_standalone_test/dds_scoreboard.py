@@ -71,7 +71,7 @@ class dds_scoreboard(uvm_scoreboard):
 
                     if expected_val_int == actual_val_int:
                         self.passed_test_cases += 1
-                        cocotb.log.info(f"[SCOREBOARD PASS] Stream Cycle {item.sample_index} Match! Expected: {hex(expected_val_int & 0xFF)} | Actual: {hex(actual_val_int & 0xFF)}")
+                        cocotb.log.debug(f"[SCOREBOARD PASS] Stream Cycle {item.sample_index} Match! Expected: {hex(expected_val_int & 0xFF)} | Actual: {hex(actual_val_int & 0xFF)}")
                     else:
                         self.failed_test_cases += 1
                         cocotb.log.error(f"[SCOREBOARD FAIL] Mismatch at Stream Cycle {item.sample_index}!")

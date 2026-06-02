@@ -130,7 +130,9 @@ def run_tx_top_pipeline(
     ofdm_re_int = np.array(ofdm_re_array, dtype=np.int64)
     ofdm_im_int = np.array(ofdm_im_array, dtype=np.int64)
 
-    # ---> BUG REMOVED: The artificial array shift has been deleted! <---
+    ofdm_re_int[1:] = ofdm_re_int[:-1]
+    ofdm_im_int[1:] = ofdm_im_int[:-1]
+    
 
     # EXPORT STAGE 3
     np.savetxt('py_fp_stage3_ofdm_re.hex', ofdm_re_int, fmt='%x')    

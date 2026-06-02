@@ -101,7 +101,7 @@ class dds_subscriber(uvm_component):
         while True:
             # Grab the latest transaction from the Monitor's FIFO
             item = await self.sub_fifo.get()
-            self.logger.info(f"DDS Subscriber received: {item.convert2string()}")
+            self.logger.debug(f"DDS Subscriber received: {item.convert2string()}")
             # Trigger the coverage collection
             sample_dds_coverage(item)
 

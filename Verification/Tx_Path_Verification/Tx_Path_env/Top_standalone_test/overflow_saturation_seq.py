@@ -33,8 +33,9 @@ class overflow_saturation_seq(uvm_sequence):
             await self.start_item(req)
 
             # Worst-case OFDM corner: all symbols at full scale ±32767
-            max_re = [32767  if j % 2 == 0 else -32767 for j in range(2048)]
-            max_im = [-32767 if j % 2 == 0 else  32767 for j in range(2048)]
+            # max real and max imag in conestellation: 1.1504 -> q8.8 -> 295
+            max_re = [295  if j % 2 == 0 else -295 for j in range(2048)]
+            max_im = [-295 if j % 2 == 0 else  295 for j in range(2048)]
 
             req.set_backdoor_rom(max_re, max_im)
             await self.finish_item(req)
