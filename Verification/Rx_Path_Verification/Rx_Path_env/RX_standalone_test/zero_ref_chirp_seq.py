@@ -61,8 +61,8 @@ MAX_VAL      =  (1 << (WL - 1)) - 1   #  32767
 MIN_VAL      = -(1 << (WL - 1))       # -32768
 RESET_CYCLES = 8
 # Conservative drain: FFT(4096) + bit_rev + IFFT(2048) + bit_rev + margins
-DRAIN_CYCLES = N_FFT + N_HALF * 3 + 256
-
+#DRAIN_CYCLES = N_FFT + N_HALF * 3 + 256
+DRAIN_CYCLES = 16000   # generous drain to ensure all outputs are captured
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Helper — float → signed Q8.8 integer, saturated

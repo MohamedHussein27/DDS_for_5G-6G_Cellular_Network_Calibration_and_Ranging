@@ -6,10 +6,10 @@
     Module: ifft_scoreboard.py
 
     Description:
-        The IFFT scoreboard receives paired transactions from the monitor. 
-        Because the RTL pipeline latency is exactly N-1 clocks, it pushes 
-        every valid_in sample into the Golden Model. When valid_out asserts, 
-        it pops the corresponding computed sample and verifies the Q11.5 
+        The IFFT scoreboard receives paired transactions from the monitor.
+        Because the RTL pipeline latency is exactly N-1 clocks, it pushes
+        every valid_in sample into the Golden Model. When valid_out asserts,
+        it pops the corresponding computed sample and verifies the Q11.5
         fixed-point outputs against the hardware.
 """
 import cocotb
@@ -29,9 +29,17 @@ from ifft_fixed_no_reverse import *
 # RTL parameters
 # ─────────────────────────────────────────────────────────────────────────────
 WL          = 16          # word length (signed fixed-point)
-N           = 4096        # IFFT size
-FL          = 14           # fractional bits (Q11.5 format used by TX Output)
+N           = 2048        # IFFT size
+FL          = 14          # fractional bits (Q11.5 format used by TX Output)
 TOLERANCE   = 2           # ±LSBs allowed between DUT and golden model
+
+# ─────────────────────────────────────────────────────────────────────────────
+# FIX 1: Global sample counter must be initialised at module scope.
+# Without this, any reference to `i` inside push() or _process() raises
+# NameError on the very first call, which silently kills the run_phase
+# coroutine in cocotb and leaves the scoreboard reporting 0/0 forever.
+# ─────────────────────────────────────────────────────────────────────────────
+i = 0
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -57,12 +65,12 @@ def _float_to_raw_int(f, frac_bits):
     Saturates to 16-bit signed range [-32768, 32767].
     """
     raw = int(round(f * (1 << frac_bits)))
-    raw = max(-(1 << (WL - 1)), min((1 << (WL - 1)) - 1, raw)) # take min bet. (1 << (WL - 1)) - 1, raw then take the max bet. this value in the minumum value
+    raw = max(-(1 << (WL - 1)), min((1 << (WL - 1)) - 1, raw))
     return raw
 
 class IFFTGoldenModel:
     """
-    Accumulates N complex input samples, runs the custom fixed-point 
+    Accumulates N complex input samples, runs the custom fixed-point
     radix2_dif_ifft_fixed model, and yields Q11.5 output samples.
     """
 
@@ -78,23 +86,22 @@ class IFFTGoldenModel:
         self._buf_im.append(in_imag_raw)
         # printing counters to debug when entered here and when left
         if (i == 0 or (i > 4090 and i < 4100)):
-            print("Golden model received sample #", i, " buffer length = ", len(self._buf_re), "buffer_content = ", self._buf_re[-5:], " + j", self._buf_im[-5:]    )
+            print("Golden model received sample #", i, " buffer length = ", len(self._buf_re), "buffer_content = ", self._buf_re[-5:], " + j", self._buf_im[-5:])
 
-        if len(self._buf_re) == (self._n): 
+        if len(self._buf_re) == (self._n):
             # print that buffer is full for debugging purposes
-            print("Golden model buffer full. Computing IFFT and preparing output samples. i = ",  i)
+            print("Golden model buffer full. Computing IFFT and preparing output samples. i = ", i)
             self._compute()
-            
+
 
     def _compute(self):
-        # printing index zero and 4095 in the real and imaginary buffers to debug when entered here and when left
-        print("self._buf_re[0] = ", self._buf_re[0], "self._buf_re[4095] = ", self._buf_re[4095])
-        print("self._buf_im[0] = ", self._buf_im[0], "self._buf_im[4095] = ", self._buf_im[4095])
+        # printing index zero and last in the real and imaginary buffers to debug when entered here and when left
+        print("self._buf_re[0] = ", self._buf_re[0], "self._buf_re[last] = ", self._buf_re[-1])
+        print("self._buf_im[0] = ", self._buf_im[0], "self._buf_im[last] = ", self._buf_im[-1])
         # 1. Reconstruct the complex array
         x_in = np.array(self._buf_re) + 1j * np.array(self._buf_im)
-        
+
         # 2. Call your custom hardware-accurate fixed-point function
-        #X_out_complex, wl_out, fl_out = radix2_dif_ifft_fixed(x_in, WL=WL, FL=FL)
         X_out_complex = radix2_dif_ifft_fixed(x_in, WL=WL, FL=FL)
 
         # print computed
@@ -104,15 +111,13 @@ class IFFTGoldenModel:
         self._out = []
 
         for v in X_out_complex:
-            
             real_int = v.real
-            
             imag_int = v.imag
-            
             self._out.append((real_int, imag_int))
+
         # print output first and last samples for debugging purposes
         print("Golden model output sample #0: re = ", self._out[0][0], " im = ", self._out[0][1])
-        print("Golden model output sample #4095: re = ", self._out[4095][0], " im = ", self._out[4095][1])
+        print("Golden model output sample #last: re = ", self._out[-1][0], " im = ", self._out[-1][1])
         # 4. Clear buffer so the model is ready to absorb the next frame
         self._buf_re.clear()
         self._buf_im.clear()
@@ -123,7 +128,7 @@ class IFFTGoldenModel:
         or None if no output is ready yet.
         """
         return self._out.pop(0) if self._out else None
-    
+
     # to alert that the golden model has output samples ready for comparison (used for debugging purposes)
     @property
     def output_ready(self):
@@ -155,7 +160,7 @@ class IFFTScoreboard(uvm_scoreboard):
 
         # Golden model instance
         self._golden = IFFTGoldenModel(n=N)
-        
+
         # Elastic queue for DUT outputs
         self.dut_q = []
 
@@ -187,10 +192,7 @@ class IFFTScoreboard(uvm_scoreboard):
                 f"re={_sign16(item.in_real)}, im={_sign16(item.in_imag)}"
             )
 
-        ######### dubugging prints to check when entered here and when left and the values of the samples #########
-        # debug print for all samples
-
-        # Print the end of the first frame (allzero) and the second frame (impulse)
+        # Print the end of the first frame and the second frame for debugging
         if (i > 4090 and i < 4100) or (i > 12275 and i < 12285):
             self.logger.info(
                 f"Golden model output sample #{i}: "
@@ -202,21 +204,15 @@ class IFFTScoreboard(uvm_scoreboard):
         if i % 1000 == 0:
             self.logger.info(f"--- SIMULATION HEARTBEAT: Processing cycle {i} ---")
 
-        #if (i == 4100 and item.valid_out):
-        #    i = 0
-
-        #####################################################################################################3
-
         # ── 3. Queue the DUT output ──────────────────────────────────────
         if item.valid_out:
             dut_real = _sign16(item.out_real)
             dut_imag = _sign16(item.out_imag)
             self.dut_q.append((dut_real, dut_imag))
 
-              
-         # ── 4. Elastic Comparison (Compare only when BOTH have data) ─────
+        # ── 4. Elastic Comparison (Compare only when BOTH have data) ─────
         while self._golden.output_ready and len(self.dut_q) > 0:
-            
+
             # Pop one sample from both sides
             ref_real, ref_imag = self._golden.pop()
             dut_real, dut_imag = self.dut_q.pop(0)
@@ -235,16 +231,17 @@ class IFFTScoreboard(uvm_scoreboard):
                 dut_val=dut_real,
                 ref_val=ref_real,
             )
-            
+
             # Compare Imaginary
             self._compare_signal(
                 signal_name="out_imag",
                 dut_val=dut_imag,
                 ref_val=ref_imag,
             )
-        
-        # updating global counter i to debug when entered here and when left
+
+        # updating global counter i
         i += 1
+
     # ── _compare_signal ───────────────────────────────────────────────────
     def _compare_signal(self, signal_name, dut_val, ref_val):
         """Compare one signal with ±TOLERANCE LSB window."""
@@ -254,9 +251,6 @@ class IFFTScoreboard(uvm_scoreboard):
                 self.correct_real += 1
             else:
                 self.correct_imag += 1
-            #self.logger.info(
-            #    f"OK  {signal_name}: DUT={dut_val}  REF={ref_val}  diff={diff}"
-            #)
         else:
             if signal_name == "out_real":
                 self.error_real += 1
