@@ -11,17 +11,23 @@ run_zero_ref:
 run_inputknowm:
 	make -f Makefile MODULE=rtl_hex_chirp_test TESTCASE=rtl_hex_chirp_test
 
-run_tc_rx_001:
-	make -f Makefile MODULE=null_input_test TESTCASE=null_input_test
-	
+run_inputtxt:
+	make MODULE=rtl_txt_chirp_test TESTCASE=rtl_txt_chirp_test
 
-# TC-RX-005 | Mixed OFDM+Radar — OFDM Extraction             | Feat: F-RX-01
-run_tc_rx_005:
-	make -f Makefile MODULE=mixed_ofdm_radar_test TESTCASE=mixed_ofdm_radar_test
 
-# TC-RX-007 | Radar Range Profile — Loaded Reference         | Feat: F-RX-01, F-RX-02
-run_tc_rx_007:
-	make -f Makefile MODULE=radar_range_profile_test TESTCASE=radar_range_profile_test			
+run_inputmixed:
+	make -f Makefile MODULE=mixed_ofdm_radar_test TESTCASE=mixed_ofdm_radar_test	
+
+
+run_inputmixed_no_quant:
+	make -f Makefile MODULE=mixed_ofdm_radar_float_test TESTCASE=mixed_ofdm_radar_test
+
+run_inputsmall:
+	make -f Makefile MODULE=mixed_ofdm_radar_small_test TESTCASE=mixed_ofdm_radar_small_test
+
+
+run_optimal:
+	make MODULE=mixed_ofdm_radar_optimal_test TESTCASE=mixed_ofdm_radar_optimal_test
 
 
 

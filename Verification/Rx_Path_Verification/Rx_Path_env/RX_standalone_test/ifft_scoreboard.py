@@ -19,12 +19,13 @@ from cocotb_coverage.crv import *
 from pyuvm import *
 import logging
 import numpy as np
+import csv
 
 from ifft_seq_item import *
 
 # Assuming your python golden model is in a file named ifft_golden.py
 from ifft_fixed_no_reverse import *
-
+#from ifft_fixed import *
 # ─────────────────────────────────────────────────────────────────────────────
 # RTL parameters
 # ─────────────────────────────────────────────────────────────────────────────
@@ -164,6 +165,15 @@ class IFFTScoreboard(uvm_scoreboard):
         # Elastic queue for DUT outputs
         self.dut_q = []
 
+        # Open CSV files for writing
+        self.rtl_csv_file = open("ifft_rtl_out.csv", mode="w", newline="")
+        self.rtl_csv_writer = csv.writer(self.rtl_csv_file)
+        self.rtl_csv_writer.writerow(["Sample_Index", "Real", "Imag"])
+
+        self.ref_csv_file = open("ifft_python_out.csv", mode="w", newline="")
+        self.ref_csv_writer = csv.writer(self.ref_csv_file)
+        self.ref_csv_writer.writerow(["Sample_Index", "Real", "Imag"])
+
     # ── run_phase ─────────────────────────────────────────────────────────
     async def run_phase(self):
         while True:
@@ -216,6 +226,10 @@ class IFFTScoreboard(uvm_scoreboard):
             # Pop one sample from both sides
             ref_real, ref_imag = self._golden.pop()
             dut_real, dut_imag = self.dut_q.pop(0)
+
+            # ---> ADD THESE TWO LINES HERE <---
+            self.rtl_csv_writer.writerow([i, dut_real, dut_imag])
+            self.ref_csv_writer.writerow([i, ref_real, ref_imag])
 
             # Debug print
             if (i > 4090 and i < 4100):

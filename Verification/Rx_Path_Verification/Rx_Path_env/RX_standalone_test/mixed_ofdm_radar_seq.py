@@ -15,18 +15,6 @@
             Chirp : linear-phase sweep in bins 2048–4095.
         Load a valid chirp reference into the reference RAM before
         driving the frame.
-
-    EXPECTED / PASS:
-        ofdm_out independently matches the golden OFDM reference.
-        radar_out independently matches the golden radar reference.
-        Neither path contaminates the other.
-
-    Sequence structure
-    ──────────────────────────────────────────────────────────────
-    Phase 0 — Reset              (RESET_CYCLES)
-    Phase 1 — Reference RAM write (2048 cycles, chirp reference)
-    Phase 2 — Mixed rx_in frame  (4096 cycles, OFDM + chirp)
-    Phase 3 — Drain              (DRAIN_CYCLES)
 """
 
 import numpy as np
@@ -48,6 +36,17 @@ MIN_VAL      = -(1 << (WL - 1))
 RESET_CYCLES = 8
 DRAIN_CYCLES = N_FFT + N_HALF * 3 + 256
 
+# =============================================================================
+# NEW SCALING CONSTANTS
+# =============================================================================
+# The target maximum integer amplitude for the time-domain RX frame.
+# Setting this to 225 matches the exact dynamic range of your sample sequence.
+TARGET_MAX_RX_INT = 225
+
+# Safe reference amplitude for Q8.8 format.
+# FL=8 means max float value before clipping is 32767 / 256 = 127.99.
+AMP_REF_FLOAT = 120.0
+
 
 def _f2q(f: float) -> int:
     return max(MIN_VAL, min(MAX_VAL, int(round(f * (1 << FL)))))
@@ -66,34 +65,43 @@ def _build_mixed_rx_frame(seed: int = 0) -> list:
     sc_start   = (N_HALF - N_OFDM_SC) // 2
     sc_end     = sc_start + N_OFDM_SC
     qam_levels = np.array([-7, -5, -3, -1, 1, 3, 5, 7], dtype=np.float64)
-    amp_ofdm   = (MAX_VAL / 8.0) / 7.0
-    freq[sc_start:sc_end] = amp_ofdm * (
+    
+    # Base amplitude 1.0 (will be scaled later)
+    freq[sc_start:sc_end] = (1.0 / 7.0) * (
         rng.choice(qam_levels, size=N_OFDM_SC) +
         1j * rng.choice(qam_levels, size=N_OFDM_SC)
     )
 
     # Chirp in bins 2048..4095
-    amp_chirp = MAX_VAL / 8.0
     for k in range(N_HALF, N_FFT):
-        k_local    = k - N_HALF
-        phase      = np.pi * k_local * k_local / N_HALF
-        freq[k]    = amp_chirp * np.exp(1j * phase)
+        k_local = k - N_HALF
+        phase   = np.pi * k_local * k_local / N_HALF
+        freq[k] = 1.0 * np.exp(1j * phase)
 
+    # IFFT to Time Domain
     td = np.fft.ifft(freq) * N_FFT
-    return [(_f2q(float(s.real)), _f2q(float(s.imag))) for s in td]
+    
+    # ──────────────────────────────────────────────────────────────
+    # NEW NORMALIZE LOGIC:
+    # Scale the time-domain signal so that after _f2q (which multiplies
+    # by 256), the absolute maximum integer value equals TARGET_MAX_RX_INT.
+    # ──────────────────────────────────────────────────────────────
+    max_td_val = np.max(np.abs(td))
+    scale = (TARGET_MAX_RX_INT / float(1 << FL)) / max_td_val
+    td_scaled = td * scale
+
+    return [(_f2q(float(s.real)), _f2q(float(s.imag))) for s in td_scaled]
 
 
 def _build_chirp_reference(seed: int = 0) -> list:
     """
     Build 2048 reference RAM entries matching the chirp spectrum used
     in bins 2048..4095 of the rx frame.
-    Returns list of (re_int, im_int) for addresses 0..2047.
     """
-    amp = MAX_VAL / 8.0
     ref = []
     for k in range(N_HALF):
         phase = np.pi * k * k / N_HALF
-        c     = amp * np.exp(1j * phase)
+        c     = AMP_REF_FLOAT * np.exp(1j * phase)
         ref.append((_f2q(float(c.real)), _f2q(float(c.imag))))
     return ref
 
@@ -120,11 +128,6 @@ class mixed_ofdm_radar_seq(uvm_sequence):
     """
     TC-RX-005: Mixed OFDM+Radar — OFDM Extraction.
     Drives a combined OFDM+chirp frame with a loaded chirp reference.
-    Both ofdm_out and radar_out must independently match their golden models.
-
-    Attributes:
-        num_frames : int — number of frames (default 1)
-        seed       : int — RNG seed for OFDM symbol generation (default 0)
     """
 
     def __init__(self, name="mixed_ofdm_radar_seq"):
