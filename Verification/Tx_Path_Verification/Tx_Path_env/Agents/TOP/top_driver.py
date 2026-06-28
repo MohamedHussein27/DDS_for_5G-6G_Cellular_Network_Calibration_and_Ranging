@@ -43,7 +43,7 @@ class top_driver(uvm_driver):
             self.dut_drv.rd_en.value   = seq_item.rd_en
 
             # printing the driven values for debugging
-            self.logger.info(
+            self.logger.debug(
                 f"====================================================================================================\n"
                 f"Driving BUS: rst_n={seq_item.rst_n}, addr={hex(seq_item.addr)}, we={seq_item.wr_en}, "
                 f"wdata={hex(seq_item.wr_data)}, re={seq_item.rd_en}"

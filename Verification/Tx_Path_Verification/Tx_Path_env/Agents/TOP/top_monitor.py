@@ -48,7 +48,7 @@ class top_monitor(uvm_monitor):
                 seq_item.tx_out_imag = 0
             
             # 4. Log and Send to Analysis Port
-            self.logger.info(
+            self.logger.debug(
                 f"Monitoring BUS: rst={seq_item.rst_n}, addr={hex(seq_item.addr)}, we={seq_item.wr_en}, "
                 f"wdata={hex(seq_item.wr_data)}, re={seq_item.rd_en} | "
                 f"OUT: rdata={hex(seq_item.rd_data)}, ready={seq_item.dds_ready_flag}, "

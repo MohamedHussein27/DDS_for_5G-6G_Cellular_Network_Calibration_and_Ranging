@@ -71,7 +71,7 @@ def _float_to_raw_int(f, frac_bits):
 # ─────────────────────────────────────────────────────────────────────────────
 # Scoreboard
 # ─────────────────────────────────────────────────────────────────────────────
-class top_scoreboard(uvm_scoreboard):
+class top_scoreboard_fp(uvm_scoreboard):
     """
     Scoreboard for the full TX path (TX_TOP).
  
